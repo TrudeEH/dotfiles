@@ -62,10 +62,17 @@ cd Tela-circle-icon-theme && \
 cd .. && \
 rm -rf Tela-circle-icon-theme; \
 gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle'"
+read -p "Press enter to continue."
+
+# Install Cursor theme
+echo "Installing Cursor Theme..."
+kgx -e "paru -S bibata-cursor-theme-bin && gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'"
+read -p "Press enter to continue."
 
 # Install Nerd Font
 echo "Installing JetBrains font..."
 kgx -e "sudo pacman -S ttf-jetbrains-mono-nerd"
+read -p "Press enter to continue."
 
 # Enable minimize button
 echo "Enabling minimize button..."
