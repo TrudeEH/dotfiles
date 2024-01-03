@@ -13,45 +13,68 @@ function ask() {
 }
 
 # Upgrade
-sudo pacman -Syu
-sudo pacman -S git
+echo "Updating packages..."
+kgx -e "sudo pacman -Syu && sudo pacman -S git"
+read -p "Press enter to continue."
+
+# Mirrors
+if ask "Choose best mirrors (LONG TIME)?"; then
+    kgx -e "sudo pacman -S reflector && sudo reflector --sort rate -p https --save /etc/pacman.d/mirrorlist --verbose"
+    read -p "Press enter to continue."
+fi
+
+# Install paru
+if ask "Install paru (AUR)?"; then
+    paru=$(pacman -Q paru)
+    if [[ -n "$paru" ]]; then
+        echo -e "\e[32m[I] Paru is already installed.\e[0m"
+    else
+        kgx -e "sudo pacman -S --needed base-devel && \
+        git clone https://aur.archlinux.org/paru.git && \
+        cd paru && \
+        makepkg -si && \
+        cd .. && \
+        rm -rf paru"
+    fi
+fi
 
 # Enable bluetooth support
 if ask "Enable bluetooth?"; then
-    sudo pacman -S bluez bluez-utils
-    sudo systemctl start bluetooth.service
-    sudo systemctl enable bluetooth.service
+    kgx -e "sudo pacman -S bluez bluez-utils && \
+    sudo systemctl start bluetooth.service; \
+    sudo systemctl enable bluetooth.service"
 fi
 
 # Enable printer support
 if ask "Enable CUPS (printer)?"; then
-    sudo pacman -S cups
-    sudo systemctl start cups
-    sudo systemctl start cups.service
-    sudo systemctl enable cups
-    sudo systemctl enable cups.service
+    kgx -e "sudo pacman -S cups && \
+    sudo systemctl start cups; \
+    sudo systemctl start cups.service; \
+    sudo systemctl enable cups; \
+    sudo systemctl enable cups.service"
 fi
 
 # Install Tela Icons
-git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
-cd Tela-circle-icon-theme
-./install.sh
-cd ..
-rm -rf Tela-circle-icon-theme
-gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle'
+echo "Installing Tela Icon Theme..."
+kgx -e "git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git && \
+cd Tela-circle-icon-theme && \
+./install.sh ; \
+cd .. && \
+rm -rf Tela-circle-icon-theme; \
+gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle'"
 
 # Install Nerd Font
-sudo pacman -S ttf-jetbrains-mono-nerd
+echo "Installing JetBrains font..."
+kgx -e "sudo pacman -S ttf-jetbrains-mono-nerd"
 
 # Enable minimize button
+echo "Enabling minimize button..."
 gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,close"
 
 # Enable flatpak support
 if ask "Enable flatpak?"; then
-    sudo pacman -S flatpak
-    flatpak install flatseal
-
-    # Fix theme for flatpak
-    sudo flatpak override --filesystem=$HOME/.themes
-    sudo flatpak override --filesystem=$HOME/.icons
+    kgx -e "sudo pacman -S flatpak && \
+    flatpak install flatseal; \
+    sudo flatpak override --filesystem=$HOME/.themes; \
+    sudo flatpak override --filesystem=$HOME/.icons"
 fi
