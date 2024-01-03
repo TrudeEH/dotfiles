@@ -24,19 +24,18 @@ if ask "Choose best mirrors (LONG TIME)?"; then
 fi
 
 # Install paru
-if ask "Install paru (AUR)?"; then
-    paru=$(pacman -Q paru)
-    if [[ -n "$paru" ]]; then
-        echo -e "\e[32m[I] Paru is already installed.\e[0m"
-    else
-        kgx -e "sudo pacman -S --needed base-devel && \
-        git clone https://aur.archlinux.org/paru.git && \
-        cd paru && \
-        makepkg -si && \
-        cd .. && \
-        rm -rf paru"
-    fi
+paru=$(pacman -Q paru)
+if [[ -n "$paru" ]]; then
+    echo -e "\e[32m[I] Paru is already installed.\e[0m"
+else
+    kgx -e "sudo pacman -S --needed base-devel && \
+    git clone https://aur.archlinux.org/paru.git && \
+    cd paru && \
+    makepkg -si && \
+    cd .. && \
+    rm -rf paru"
 fi
+read -p "Press enter to continue."
 
 # Enable bluetooth support
 if ask "Enable bluetooth?"; then
