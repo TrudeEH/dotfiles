@@ -21,9 +21,9 @@ d() {
 m() {
 	d=$(d)
 	if [ $d == 2 ]; then
-		./arch-maintenance.sh
+		~/dotfiles/scripts/arch-maintenance.sh
 	elif [ $d == 1 ]; then
-		./debian-maintenance.sh
+		~/dotfiles/scripts/debian-maintenance.sh
 	else
 		echo "ERROR - Distro not supported."
 		return 1
