@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo -e "\e[31m[+] Upgrading Arch...\e[0m"
+echo -e "\e[31m[+] Upgrading...\e[0m"
 sudo paru -Syu
 
 echo -e "\e[31m[+] Cleaning orphaned (unneeded) packages...\e[0m"

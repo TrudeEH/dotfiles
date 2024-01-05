@@ -6,6 +6,7 @@
 # p r package -> remove package
 # p c package -> check if package is installed (0 -> installed; 1 -> not installed; 2 -> ERROR)
 # d 		  -> returns 1 -> Debian; 2 -> Arch; 0 -> Error
+# m           -> maintenance script
 
 d() {
 	if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
@@ -14,6 +15,18 @@ d() {
 		echo 2
 	else
 		echo 0
+	fi
+}
+
+m() {
+	d=$(d)
+	if [ $d == 2 ]; then
+		./arch-maintenance.sh
+	elif [ $d == 1 ]; then
+		./debian-maintenance.sh
+	else
+		echo "ERROR - Distro not supported."
+		return 1
 	fi
 }
 
