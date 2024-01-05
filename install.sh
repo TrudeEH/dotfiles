@@ -1,77 +1,96 @@
 #! /bin/bash
 
+source ./scripts/p.sh # Universal package manager
+dist=$(d)
+
+if [ $dist == 0 ]; then
+	echo "ERROR - Distro not supported."
+	return 1
+fi
+
 # Ask Y/n
 function ask() {
-    read -p "$1 (Y/n): " resp
-    if [ -z "$resp" ]; then
-        response_lc="y" # empty is Yes
-    else
-        response_lc=$(echo "$resp" | tr '[:upper:]' '[:lower:]') # case insensitive
-    fi
+	read -p "$1 (Y/n): " resp
+	if [ -z "$resp" ]; then
+		response_lc="y" # empty is Yes
+	else
+		response_lc=$(echo "$resp" | tr '[:upper:]' '[:lower:]') # case insensitive
+	fi
 
-    [ "$response_lc" = "y" ]
+	[ "$response_lc" = "y" ]
 }
 
 # Upgrade
 echo "Updating packages..."
-kgx -e "sudo pacman -Syu && sudo pacman -S git"
-read -p "Press enter to continue."
+p
+p i git
 
 # Mirrors
-if ask "Choose best mirrors (LONG TIME)?"; then
-    kgx -e "sudo pacman -S reflector && sudo reflector --sort rate -p https --save /etc/pacman.d/mirrorlist --verbose"
-    read -p "Press enter to continue."
+if [ $dist == 2 ]; then
+	if ask "Choose best mirrors (LONG TIME)?"; then
+		sudo pacman -S reflector
+		sudo reflector --sort rate -p https --save /etc/pacman.d/mirrorlist --verbose
+		read -p "Press enter to continue."
+	fi
 fi
 
 # Install paru
-paru=$(pacman -Q paru)
-if [[ -n "$paru" ]]; then
-    echo -e "\e[32m[I] Paru is already installed.\e[0m"
-else
-    kgx -e "sudo pacman -S --needed base-devel && \
-    git clone https://aur.archlinux.org/paru.git && \
-    cd paru && \
-    makepkg -si && \
-    cd .. && \
-    rm -rf paru"
+if [ $dist == 2 ]; then
+	paru=$(pacman -Q paru)
+	if [[ -n "$paru" ]]; then
+		echo -e "\e[32m[I] Paru is already installed.\e[0m"
+	else
+		sudo pacman -S --needed base-devel
+		git clone https://aur.archlinux.org/paru.git
+		cd paru
+		makepkg -si
+		cd ..
+		rm -rf paru
+	fi
+	read -p "Press enter to continue."
 fi
-read -p "Press enter to continue."
 
 # Enable bluetooth support
-if ask "Enable bluetooth?"; then
-    kgx -e "sudo pacman -S bluez bluez-utils && \
-    sudo systemctl start bluetooth.service; \
-    sudo systemctl enable bluetooth.service"
+if [ $dist == 2 ]; then
+	if ask "Enable bluetooth?"; then
+		sudo pacman -S bluez bluez-utils
+		sudo systemctl start bluetooth.service
+		sudo systemctl enable bluetooth.service
+	fi
 fi
 
 # Enable printer support
-if ask "Enable CUPS (printer)?"; then
-    kgx -e "sudo pacman -S cups && \
-    sudo systemctl start cups; \
-    sudo systemctl start cups.service; \
-    sudo systemctl enable cups; \
-    sudo systemctl enable cups.service"
+if [ $dist == 2 ]; then
+	if ask "Enable CUPS (printer)?"; then
+		sudo pacman -S cups
+		sudo systemctl start cups
+		sudo systemctl start cups.service
+		sudo systemctl enable cups
+		sudo systemctl enable cups.service
+	fi
 fi
 
 # Install Tela Icons
 echo "Installing Tela Icon Theme..."
-kgx -e "git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git && \
-cd Tela-circle-icon-theme && \
-./install.sh ; \
-cd .. && \
-rm -rf Tela-circle-icon-theme; \
-gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle'"
-read -p "Press enter to continue."
+git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
+cd Tela-circle-icon-theme
+./install.sh
+cd ..
+rm -rf Tela-circle-icon-theme
+gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle'
 
 # Install Cursor theme
 echo "Installing Cursor Theme..."
-kgx -e "paru -S bibata-cursor-theme-bin && gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'"
-read -p "Press enter to continue."
+p i bibata-cursor-theme
+gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'
 
 # Install Nerd Font
 echo "Installing JetBrains font..."
-kgx -e "sudo pacman -S ttf-jetbrains-mono-nerd"
-read -p "Press enter to continue."
+if [ $dist == 2 ]; then
+	p i ttf-jetbrains-mono-nerd
+else
+	p i fonts-jetbrains-mono
+fi
 
 # Enable minimize button
 echo "Enabling minimize button..."
@@ -79,8 +98,12 @@ gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,close"
 
 # Enable flatpak support
 if ask "Enable flatpak?"; then
-    kgx -e "sudo pacman -S flatpak && \
-    flatpak install flatseal; \
-    sudo flatpak override --filesystem=$HOME/.themes; \
-    sudo flatpak override --filesystem=$HOME/.icons"
+	p i flatpak
+	flatpak install flatseal
+	sudo flatpak override --filesystem=$HOME/.themes
+	sudo flatpak override --filesystem=$HOME/.icons
 fi
+
+# Copy configs
+echo "Copying configs..."
+cp -rf homeConfigs/.* ~
