@@ -112,5 +112,11 @@ if ask "Install Timeshift?"; then
 fi
 
 # Copy configs
-echo "Copying configs..."
+echo "Configuring system..."
 cp -rf homeConfigs/.* ~
+
+# Enable bash case insensitive completion
+cat /etc/inputrc | grep completion-ignore-case
+if [ $? == 1 ]; then
+	echo 'set completion-ignore-case On' | sudo tee -a /etc/inputrc
+fi
