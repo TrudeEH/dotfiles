@@ -104,6 +104,13 @@ if ask "Enable flatpak?"; then
 	sudo flatpak override --filesystem=$HOME/.icons
 fi
 
+# Install Timeshift
+if ask "Install Timeshift?"; then
+	p i timeshift
+	sudo systemctl enable cronie
+	sudo systemctl start cronie
+fi
+
 # Copy configs
 echo "Copying configs..."
 cp -rf homeConfigs/.* ~
