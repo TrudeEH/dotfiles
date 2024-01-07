@@ -70,14 +70,10 @@ if [ $dist == 2 ]; then
 	fi
 fi
 
-# Install Tela Icons
-echo "Installing Tela Icon Theme..."
-git clone https://github.com/vinceliuice/Tela-circle-icon-theme.git
-cd Tela-circle-icon-theme
-./install.sh
-cd ..
-rm -rf Tela-circle-icon-theme
-gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle'
+# Install Icon theme
+echo "Installing Papirus Icon Theme..."
+wget -qO- https://git.io/papirus-icon-theme-install | sh
+gsettings set org.gnome.desktop.interface icon-theme 'Papirus Dark'
 
 # Install Cursor theme
 echo "Installing Cursor Theme..."

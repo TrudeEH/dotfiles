@@ -1,7 +1,7 @@
 #! /bin/bash
 
 source ./p.sh
-if [[ $(p c ollama) == 0 ]]; then
+if p c ollama &>/dev/null; then
     kgx -e "ollama serve"
     sleep 1
     kgx -e "ollama run codellama"
