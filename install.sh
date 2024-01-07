@@ -183,4 +183,4 @@ if [ $? == 1 ]; then
 	echo 'set completion-ignore-case On' | sudo tee -a /etc/inputrc
 fi
 
-echo -e "${GREEN}[i] All done.${ENDCOLOR}"
+echo -e "${GREEN}${BOLD}[i] All done.${ENDCOLOR}"

@@ -144,15 +144,15 @@ p() {
 			echo 2
 		fi
 	else
-		echo -e "${YELLOW}"[i] Usage:"${ENDCOLOR}"
-		echo "p (u)       -> update os"
-		echo "p i package -> install package"
-		echo "p r package -> remove package"
-		echo "p c package -> check if package is installed (true/false; 2 -> ERROR)"
-		echo "d           -> returns 1 -> Debian; 2 -> Arch; 0 -> Error"
-		echo "m           -> maintenance script"
+		echo -e "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
+		echo -e "p (u)       ${FAINT}- update os${ENDCOLOR}"
+		echo -e "p i package ${FAINT}- install package${ENDCOLOR}"
+		echo -e "p r package ${FAINT}- remove package${ENDCOLOR}"
+		echo -e "p c package ${FAINT}- check if package is installed (true/false; 2 -> ERROR)${ENDCOLOR}"
+		echo -e "d           ${FAINT}- returns 1 -> Debian; 2 -> Arch; 0 -> Error${ENDCOLOR}"
+		echo -e "m           ${FAINT}- maintenance script${ENDCOLOR}"
 		echo
-		echo -e "${YELLOW}"[i] Order of operations:"${ENDCOLOR}"
+		echo -e "${YELLOW}${UNDERLINE}[i] Order of operations:${ENDCOLOR}"
 		echo "1 - Check distro repos"
 		echo "2 - Check AUR if on Arch"
 		echo "3 - Check flatpaks (only if flatpak support is enabled)"
