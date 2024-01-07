@@ -38,10 +38,17 @@ p() {
 		install="sudo apt install"
 		remove="sudo apt remove"
 	elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
-		distro="ARCH"
-		update="sudo pacman -Syu"
-		install="sudo pacman -S"
-		remove="sudo pacman -R"
+		if pacman -Qs paru >/dev/null; then
+			distro="ARCH"
+			update="paru -Syu"
+			install="paru -S"
+			remove="paru -R"
+		else
+			distro="ARCH"
+			update="sudo pacman -Syu"
+			install="sudo pacman -S"
+			remove="sudo pacman -R"
+		fi
 	else
 		echo "DISTRO NOT SUPPORTED"
 		return 1

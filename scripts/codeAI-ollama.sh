@@ -6,7 +6,7 @@ if [[ $(p c ollama) == 0 ]]; then
     sleep 1
     kgx -e "ollama run codellama"
 else
-    d i ollama
+    p i ollama
     echo
     echo 'Run the script again...'
 fi
