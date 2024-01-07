@@ -12,7 +12,7 @@ paccache -rk1
 echo -e "\e[32m[+] Removing logs older than 7d...\e[0m"
 sudo journalctl --vacuum-time=7d
 
-echo -e "\e[32m[i] Cleaning flatpak...:\e[0m"
+echo -e "\e[32m[+] Cleaning flatpak...:\e[0m"
 flatpak remove --unused
 
 echo -e "\e[32m[i] AUR Packages installed:\e[0m"
