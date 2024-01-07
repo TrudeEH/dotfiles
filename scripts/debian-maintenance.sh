@@ -9,7 +9,7 @@ sudo apt autoclean
 echo -e "\e[31m[+] Removing logs older than 7d...\e[0m"
 sudo journalctl --vacuum-time=7d
 
-echo -e "\e[31m[I] Cleaning flatpak...:\e[0m"
+echo -e "\e[31m[i] Cleaning flatpak...:\e[0m"
 flatpak remove --unused
 
 read -p "Press enter to exit."
