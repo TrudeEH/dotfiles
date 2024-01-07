@@ -3,9 +3,9 @@
 **Run `./install.sh`.**
 
 ## Dependencies
-- Gnome Console / Terminal (kgx)
-- Pacman (Arch Linux base)
+- Gnome Console / Terminal (kgx; For some scripts only.)
 - Gnome Desktop
+- Arch or Debian-based distro.
 
 ## Scripts
 ### Custom bash commands
@@ -17,8 +17,8 @@
 - `colors.sh` - To Add colors to other scripts.
 
 ### Scripts for the user
-- `codeAI-ollama.sh` - Ollama AI setup helper for code generation.
-- `generalAI-jan.sh` - Install jan, a graphical llm runner.
+- `ai-ollama-code.sh` - Ollama AI setup helper for code generation.
+- `ai-jan-general.sh` - Install jan, a graphical llm runner.
 
 ## Todo
 - [ ] Automatically install extensions
