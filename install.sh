@@ -105,7 +105,7 @@ if ls /usr/share/icons/ | grep -i Papirus &>/dev/null; then
 else
 	echo -e "${GREEN}[+] Downloading Papirus icon theme...${ENDCOLOR}"
 	wget -qO- https://git.io/papirus-icon-theme-install | sh
-	gsettings set org.gnome.desktop.interface icon-theme 'Papirus Dark'
+	gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
 	echo -e "${GREEN}[i] Theme is set.${ENDCOLOR}"
 fi
 
