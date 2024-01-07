@@ -9,4 +9,10 @@ CYAN="\e[36m"
 GRAY="\e[90m"
 ENDCOLOR="\e[0m"
 
-# Example usage: echo -e "${GRAY}Faded text${ENDCOLOR}"
+ENDCOLOR="\e[0m"
+BOLD="\e[1m"
+FAINT="\e[2m"
+ITALIC="\e[3m"
+UNDERLINE="\e[4m"
+
+# Example usage: echo -e "${GRAY}Gray text${ENDCOLOR}"
