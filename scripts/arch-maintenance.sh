@@ -1,23 +1,34 @@
 #! /bin/bash
 
-echo -e "\e[32m[+] Upgrading...\e[0m"
-sudo paru -Syu
+source ~/dotfiles/scripts/p.sh
+source ~/dotfiles/scripts/color.sh
 
-echo -e "\e[32m[+] Cleaning orphaned (unneeded) packages...\e[0m"
+echo -e "${GREEN}[+] Upgrading...${ENDCOLOR}"
+p
+
+echo -e "${GREEN}[+] Cleaning orphaned (unneeded) packages...${ENDCOLOR}"
 sudo paru -Rsn $(paru -Qdtq)
 
-echo -e "\e[32m[+] Cleaning old pacman cache...\e[0m"
-paccache -rk1
+echo -e "${GREEN}[+] Cleaning old pacman cache...${ENDCOLOR}"
+if p c pacman-contrib &>/dev/null; then
+    paccache -rk1
+else
+    p i pacman-contrib
+    paccache -rk1
+fi
 
-echo -e "\e[32m[+] Removing logs older than 7d...\e[0m"
+echo -e "${GREEN}[+] Removing logs older than 7d...${ENDCOLOR}"
 sudo journalctl --vacuum-time=7d
 
-echo -e "\e[32m[+] Cleaning flatpak...:\e[0m"
-flatpak remove --unused
+if p c flatpak &>/dev/null; then
+    echo -e "${GREEN}[+] Cleaning flatpak...:${ENDCOLOR}"
+    flatpak remove --unused
+fi
 
-echo -e "\e[32m[i] AUR Packages installed:\e[0m"
+echo -e "${GREEN}[i] AUR Packages installed:${ENDCOLOR}"
 pacman -Qim | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | sort -h
 
 # Installed packages: pacman -Qen
 
+echo
 read -p "Press enter to exit."
