@@ -68,7 +68,7 @@ p() {
 		return 0
 	elif [ $1 == "i" ]; then # If first parameter is i (install)
 		echo -e "${GREEN}"[+] Searching for $2 on the distro repos..."${ENDCOLOR}"
-		$install $2 2>/dev/null
+		$install $2
 		if [ $? == 0 ]; then
 			echo -e "${GREEN}"[i] $2 installed."${ENDCOLOR}"
 			return 0
@@ -89,7 +89,7 @@ p() {
 		fi
 	elif [ $1 == "r" ]; then # If first parameter is r (remove)
 		echo -e "${YELLOW}"[+] Removing $2..."${ENDCOLOR}"
-		$remove $2 2>/dev/null
+		$remove $2
 		if [ $? == 0 ]; then
 			echo -e "${GREEN}"[i] $2 removed."${ENDCOLOR}"
 			return 0
