@@ -100,25 +100,29 @@ if [ $dist == 2 ]; then
 fi
 
 # Install Icon theme
-if ls /usr/share/icons/ | grep -i Papirus &>/dev/null; then
-	echo -e "${GREEN}[i] Icon theme is installed.${ENDCOLOR}"
-else
-	echo -e "${GREEN}[+] Downloading Papirus icon theme...${ENDCOLOR}"
-	wget -qO- https://git.io/papirus-icon-theme-install | sh
-	wget -qO- https://git.io/papirus-folders-install | sh
-	papirus-folders -C adwaita
-	gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
-	echo -e "${GREEN}[i] Theme is set.${ENDCOLOR}"
+if [ $dist != 3 ]; then
+	if ls /usr/share/icons/ | grep -i Papirus &>/dev/null; then
+		echo -e "${GREEN}[i] Icon theme is installed.${ENDCOLOR}"
+	else
+		echo -e "${GREEN}[+] Downloading Papirus icon theme...${ENDCOLOR}"
+		wget -qO- https://git.io/papirus-icon-theme-install | sh
+		wget -qO- https://git.io/papirus-folders-install | sh
+		papirus-folders -C adwaita
+		gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
+		echo -e "${GREEN}[i] Theme is set.${ENDCOLOR}"
+	fi
 fi
 
 # Install Cursor theme
-if ls /usr/share/icons/ | grep -i bibata &>/dev/null; then
-	echo -e "${GREEN}[i] Cursor theme is installed.${ENDCOLOR}"
-else
-	echo -e "${GREEN}[+] Downloading Bibata cursor theme...${ENDCOLOR}"
-	p i bibata-cursor-theme
-	gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'
-	echo -e "${GREEN}[i] Cursor theme set.${ENDCOLOR}"
+if [ $dist != 3 ]; then
+	if ls /usr/share/icons/ | grep -i bibata &>/dev/null; then
+		echo -e "${GREEN}[i] Cursor theme is installed.${ENDCOLOR}"
+	else
+		echo -e "${GREEN}[+] Downloading Bibata cursor theme...${ENDCOLOR}"
+		p i bibata-cursor-theme
+		gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'
+		echo -e "${GREEN}[i] Cursor theme set.${ENDCOLOR}"
+	fi
 fi
 
 # Install Nerd Font
@@ -141,37 +145,43 @@ else
 fi
 
 # Enable minimize button
-echo -e "${GREEN}[+] Adding the minimize button...${ENDCOLOR}"
-gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,close"
+if [ $dist != 3 ]; then
+	echo -e "${GREEN}[+] Adding the minimize button...${ENDCOLOR}"
+	gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,close"
+fi
 
 # Enable flatpak support
-if p c flatpak &>/dev/null; then
-	echo -e "${GREEN}[i] Flatpaks are supported.${ENDCOLOR}"
-else
-	if ask "Enable flatpak?"; then
-		echo -e "${GREEN}[+] Adding flatpak support...${ENDCOLOR}"
-		p i flatpak
-		flatpak install flatseal
-		sudo flatpak override --filesystem=$HOME/.themes
-		sudo flatpak override --filesystem=$HOME/.icons
-		echo -e "${GREEN}[+] Flatpak support added.${ENDCOLOR}"
+if [ $dist != 3 ]; then
+	if p c flatpak &>/dev/null; then
+		echo -e "${GREEN}[i] Flatpaks are supported.${ENDCOLOR}"
 	else
-		echo -e "${RED}[i] Cancelled.${ENDCOLOR}"
+		if ask "Enable flatpak?"; then
+			echo -e "${GREEN}[+] Adding flatpak support...${ENDCOLOR}"
+			p i flatpak
+			flatpak install flatseal
+			sudo flatpak override --filesystem=$HOME/.themes
+			sudo flatpak override --filesystem=$HOME/.icons
+			echo -e "${GREEN}[+] Flatpak support added.${ENDCOLOR}"
+		else
+			echo -e "${RED}[i] Cancelled.${ENDCOLOR}"
+		fi
 	fi
 fi
 
 # Install Timeshift
-if p c flatpak &>/dev/null; then
-	echo -e "${GREEN}[i] Timeshift is installed.${ENDCOLOR}"
-else
-	if ask "Install Timeshift?"; then
-		echo -e "${GREEN}[+] Installing Timeshift...${ENDCOLOR}"
-		p i timeshift
-		sudo systemctl enable cronie
-		sudo systemctl start cronie
-		echo -e "${GREEN}[i] Timeshift installed.${ENDCOLOR}"
+if [ $dist != 3 ]; then
+	if p c timeshift &>/dev/null; then
+		echo -e "${GREEN}[i] Timeshift is installed.${ENDCOLOR}"
 	else
-		echo -e "${RED}[i] Cancelled.${ENDCOLOR}"
+		if ask "Install Timeshift?"; then
+			echo -e "${GREEN}[+] Installing Timeshift...${ENDCOLOR}"
+			p i timeshift
+			sudo systemctl enable cronie
+			sudo systemctl start cronie
+			echo -e "${GREEN}[i] Timeshift installed.${ENDCOLOR}"
+		else
+			echo -e "${RED}[i] Cancelled.${ENDCOLOR}"
+		fi
 	fi
 fi
 
