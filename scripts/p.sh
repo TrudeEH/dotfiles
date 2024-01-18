@@ -4,17 +4,18 @@
 source ~/dotfiles/scripts/color.sh
 
 d() {
-	if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
-		echo 1
-	elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
-		echo 2
+	if [ "$(uname -s)" = "Darwin" ]; then
+		echo 3
 	else
-		if [ "$(uname -s)" = "Darwin" ]; then
-			echo 3
+		if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
+			echo 1
+		elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
+			echo 2
 		else
 			echo 0
 		fi
 	fi
+
 }
 
 m() {
