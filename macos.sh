@@ -33,4 +33,13 @@ echo -e "${GREEN}[+] Installing homebrew...${ENDCOLOR}"
 # Enable brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# Install Nerd Font
+if p c font-jetbrains-mono-nerd-font &>/dev/null; then
+    echo -e "${GREEN}[i] JetBrains font is installed.${ENDCOLOR}"
+else
+    echo -e "${GREEN}[+] Installing JetBrains font.${ENDCOLOR}"
+    p i font-jetbrains-mono-nerd-font
+    echo -e "${GREEN}[i] JetBrains font installed.${ENDCOLOR}"
+fi
+
 echo -e "${GREEN}${BOLD}[i] All done.${ENDCOLOR}"
