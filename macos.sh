@@ -10,21 +10,16 @@ if [ $dist != 3 ]; then
     return 1
 fi
 
-# Ask Y/n
-function ask() {
-    read -p "$1 (Y/n): " resp
-    if [ -z "$resp" ]; then
-        response_lc="y" # empty is Yes
-    else
-        response_lc=$(echo "$resp" | tr '[:upper:]' '[:lower:]') # case insensitive
-    fi
-
-    [ "$response_lc" = "y" ]
-}
-
 # Copy configs
 echo -e "${GREEN}[+] Configuring system...${ENDCOLOR}"
 cp -rf homeConfigs/.* ~
+
+# Disable dock delay
+echo -e "${GREEN}[+] Disabling dock autohide delay...${ENDCOLOR}"
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock autohide -int 1
+#defaults write com.apple.dock autohide-time-modifier -int 0 #Disable animation
+killall Dock
 
 # Install brew
 echo -e "${GREEN}[+] Installing homebrew...${ENDCOLOR}"
