@@ -18,6 +18,11 @@ echo -e "${GREEN}[+] Hiding dotfiles folder from finder...${ENDCOLOR}"
 chflags hidden ~/dotfiles
 # Unhide: chflags nohidden /path/to/unhide/
 
+# Install Oh-My-ZSH
+echo -e "${GREEN}[+] Installing Oh-My-ZSH...${ENDCOLOR}"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
 # Update MacOS
 echo -e "${GREEN}[+] Updating MacOS...${ENDCOLOR}"
 sudo softwareupdate -ia
