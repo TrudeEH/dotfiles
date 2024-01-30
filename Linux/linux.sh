@@ -187,7 +187,7 @@ fi
 
 # Copy configs
 echo -e "${GREEN}[+] Configuring system...${ENDCOLOR}"
-cp -rf homeConfigs/.* ~
+cp -rf ./homeConfigs/.* ~
 
 # Enable bash case insensitive completion
 cat /etc/inputrc | grep completion-ignore-case
