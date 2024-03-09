@@ -29,7 +29,8 @@ cp ./fonts/* ~/Library/Fonts
 
 # Update MacOS
 echo -e "${GREEN}[+] Updating MacOS...${ENDCOLOR}"
-sudo softwareupdate -ia
+echo -e "${GREEN}[I] THE DEVICE WILL RESTART IF NECESSARY.${ENDCOLOR}"
+sudo softwareupdate -iaR
 
 echo -e "${GREEN}${BOLD}[i] All done.${ENDCOLOR}"
 say "All done."
