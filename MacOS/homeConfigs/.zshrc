@@ -8,6 +8,59 @@ fi
 # Open VSCode from the terminal
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
+# Shortcuts for brew and macOS update
+p () {
+  if ! command -v brew &> /dev/null; then
+    echo "Brew not found. Installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') > ~/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+
+  case $1 in
+    install|i)
+        shift
+        brew install $*
+        ;;
+    remove|uninstall|delete|r|d)
+        shift
+        brew uninstall $*
+        ;;
+    update|u)
+        brew update
+        ;;
+    list|l)
+        brew list
+        ;;
+    macOSupdate|m)
+        echo "Updating MacOS..."
+        echo "THE DEVICE WILL RESTART IF NECESSARY."
+        sudo softwareupdate -iaR
+        ;;
+    *)
+        echo "Usage: p {install(i)|remove(r/d)|update(u)|list(l)|macOSupdate(m)} <package>"
+        ;;
+  esac
+}
+
+# Shortcuts to extract files
+extract () {
+  if [[ -z $* ]]; then
+    echo "No files provided for extraction."
+    return 1
+  fi
+
+  for file in "$@"; do
+    case "${file##*.}" in
+      (zip)              unzip "$file"     ;;
+      (tar.gz|tgz|gzip)  tar -xzf "$file"  ;;
+      (tar.bz2|tbz2)     tar -xf "$file"    ;;
+      (bz2)              bunzip2 "$file"    ;;
+      (*)                echo "Unsupported file format: $file" ;;
+    esac
+  done
+}
+
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 zstyle ':omz:update' mode auto      # update automatically without asking
@@ -39,10 +92,6 @@ if [[ -n $SSH_CONNECTION ]]; then
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
