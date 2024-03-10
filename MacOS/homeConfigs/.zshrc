@@ -22,12 +22,13 @@ p () {
         shift
         brew install $*
         ;;
-    remove|uninstall|delete|r|d)
+    remove|r|)
         shift
         brew uninstall $*
         ;;
     update|u)
         brew update
+        brew autoremove
         ;;
     list|l)
         brew list
@@ -38,7 +39,7 @@ p () {
         sudo softwareupdate -iaR
         ;;
     *)
-        echo "Usage: p {install(i)|remove(r/d)|update(u)|list(l)|macOSupdate(m)} <package>"
+        echo "Usage: p {(i)nstall|(r)emove|(u)pdate|(l)ist|(m)acOSupdate} <package>"
         ;;
   esac
 }
