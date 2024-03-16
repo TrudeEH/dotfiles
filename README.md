@@ -1,4 +1,4 @@
-# Trude's Dotfiles for GNOME
+# Trude's Dotfiles for Linux and MacOS
 
 **Run `./linux.sh` or `./macos.sh`.**
 
@@ -12,28 +12,26 @@
 
 ### MacOS
 
--   None
+-   None (HomeBrew will be installed if `p` is called.)
 
 ## Scripts
 
-### Custom bash commands
+### Custom commands
 
 -   `p` - Cross-distro package manager wrapper.
+      - Written in bash for Linux, using the system's package manager.
+      - Written in ZSH script for MacOS, as a function that calls brew.
 -   `m` - Cross-distro maintenance script.
+      - Replaced by `p m` on MacOS (for updating MacOS itself).
 
 ### Custom scripts used by other programs
 
--   `p.sh` - For managing packages.
--   `colors.sh` - To Add colors to other scripts.
-
-### Scripts for the user
-
--   `ai-ollama-code.sh` - Ollama AI setup helper for code generation.
--   `ai-jan-general.sh` - Install jan, a graphical llm runner.
+-   `p.sh` - For managing packages on Linux systems.
+-   `colors.sh` - To add colors to other scripts. Also works on MacOS.
 
 ## Todo
 
--   [ ] Automatically install extensions
+-   [ ] Automatically install extensions (GNOME)
     -   Vitals
     -   Dash to Dock
     -   AppIndicator Support
