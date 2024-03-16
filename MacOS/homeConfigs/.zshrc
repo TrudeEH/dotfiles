@@ -28,6 +28,7 @@ p () {
         ;;
     update|u)
         brew update
+        brew upgrade
         brew autoremove
         ;;
     list|l)

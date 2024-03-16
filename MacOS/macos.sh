@@ -6,17 +6,12 @@ source ./scripts/color.sh
 echo -e "${GREEN}[+] Configuring system...${ENDCOLOR}"
 cp -rf ./homeConfigs/.* ~
 
-# Disable dock delay
-echo -e "${GREEN}[+] Disabling dock autohide delay...${ENDCOLOR}"
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock autohide -int 1
-#defaults write com.apple.dock autohide-time-modifier -int 0 #Disable animation
-killall Dock
-
-# Hide dotfiles folder
-echo -e "${GREEN}[+] Hiding dotfiles folder from finder...${ENDCOLOR}"
-chflags hidden ~/dotfiles
-# Unhide: chflags nohidden /path/to/unhide/
+echo "Run MacOS config script? This will overwrite the system dock."
+read runConfig
+if [[ $runConfig == 'y' ]]; then
+    echo "Running config.sh..."
+    bash ./config.sh
+fi
 
 # Install Oh-My-ZSH
 echo -e "${GREEN}[+] Installing Oh-My-ZSH...${ENDCOLOR}"
@@ -33,4 +28,3 @@ echo -e "${GREEN}[I] THE DEVICE WILL RESTART IF NECESSARY.${ENDCOLOR}"
 sudo softwareupdate -iaR
 
 echo -e "${GREEN}${BOLD}[i] All done.${ENDCOLOR}"
-say "All done."
