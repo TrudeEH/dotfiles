@@ -17,10 +17,6 @@ p () {
     eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
 
-  # Generate a new bundle in the dotfiles.
-  rm -f $HOME/dotfiles/BrewFile
-  brew bundle dump --describe --file=$HOME/dotfiles/BrewFile
-
   case $1 in
     install|i)
         shift
@@ -50,6 +46,11 @@ p () {
         echo "Usage: p {(i)nstall|(r)emove|(u)pdate|(l)ist|(b)undle|(m)acOSupdate} <package>"
         ;;
   esac
+
+  # Generate a new bundle in the dotfiles.
+  echo "Updating bundle in $HOME/dotfiles..."
+  rm -f $HOME/dotfiles/BrewFile
+  brew bundle dump --describe --file=$HOME/dotfiles/BrewFile
 }
 
 # Shortcuts to extract files

@@ -10,8 +10,6 @@ brew "mailsy"
 brew "ollama", restart_service: true
 # Safe, concurrent, practical language
 brew "rust"
-# Organize software neatly under a single directory tree (e.g. /usr/local)
-brew "stow"
 # Internet file retriever
 brew "wget"
 # Allows connection to a computer remotely
