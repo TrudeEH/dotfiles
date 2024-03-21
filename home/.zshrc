@@ -30,6 +30,7 @@ p () {
         brew update
         brew upgrade
         brew autoremove
+        brew cleanup
         ;;
     list|l)
         brew list
