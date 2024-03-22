@@ -16,8 +16,6 @@ brew "wget"
 cask "anydesk"
 # Reclaim tens of gigabytes of your storage used for various Xcode caches
 cask "devcleaner"
-# Utilities designed to make common development tasks easier
-cask "devtoys"
 # Matrix collaboration client
 cask "element"
 # Web browser
@@ -93,5 +91,4 @@ vscode "streetsidesoftware.code-spell-checker-portuguese"
 vscode "vadimcn.vscode-lldb"
 vscode "visualstudioexptteam.intellicode-api-usage-examples"
 vscode "visualstudioexptteam.vscodeintellicode"
-vscode "vscodevim.vim"
 vscode "wix.vscode-import-cost"
