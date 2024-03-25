@@ -160,8 +160,9 @@ p() (
         return 0
     elif [ $1 = "r" ]; then # If first parameter is r (remove)
         check $2
+        check_result=$?
 
-        if [[ $? == 2 ]]; then
+        if [[ $check_result == 2 ]]; then
             echo "1. Nix: $2 installed."
             echo "2. $distro: $2 installed."
 
@@ -176,9 +177,9 @@ p() (
             fi
             return 0
         fi
-        if [[ $? == 3 ]]; then
+        if [[ $check_result == 3 ]]; then
             nix-env -e $2
-        elif [[ $? == 4 ]]; then
+        elif [[ $check_result == 4 ]]; then
             $remove $2
         else
             echo "$2 is not installed."
