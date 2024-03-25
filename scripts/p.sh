@@ -63,8 +63,6 @@ p() (
         app_name=$(echo "$app_name" | tr '[:upper:]' '[:lower:]')
         app_name=$(echo "$app_name" | tr " " -)
 
-        echo "searching for $app_name"
-
         echo $nix_apps | grep -wq $app_name
         nix_success=$?
         if [[ $nix_success == 0 ]]; then
@@ -187,6 +185,7 @@ p() (
         fi
         return 0
     elif [ $1 = "c" ]; then # If first parameter is c (check)
+        echo "c: $2"
         check $2
     else
         echo -e "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
