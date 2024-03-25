@@ -12,6 +12,7 @@ elif [[ $d == "Arch" ]]; then
     sudo pacman -Sy curl
 fi
 
+echo -e "${GREEN}[+] Installing stow...${ENDCOLOR}"
 p i stow
 
 # Link dotfile home to $HOME
