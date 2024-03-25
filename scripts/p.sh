@@ -66,21 +66,21 @@ p() (
         echo $nix_apps | grep -wq $app_name
         nix_success=$?
         if [[ $nix_success == 0 ]]; then
-            echo -e "${GREEN} Nix: $(echo $nix_apps | grep -wq $app_name) ${ENDCOLOR}"
+            echo -e "${GREEN} Nix: $(echo $nix_apps | grep -w $app_name) ${ENDCOLOR}"
         fi
 
         echo $distro_apps | grep -wq $app_name
         distro_success=$?
         if [[ $distro_success == 0 ]]; then
-            echo -e "${GREEN} $distro: $(echo $distro_apps | grep -wq $app_name) ${ENDCOLOR}"
+            echo -e "${GREEN} $distro: $(echo $distro_apps | grep -w $app_name) ${ENDCOLOR}"
         fi
 
         if [[ $nix_success == 0 && $distro_success == 0 ]]; then
-            return "both"
+            return 2 #both
         elif [[ $nix_success == 0 ]]; then
-            return "nix"
+            return 3 #nix
         elif [[ $distro_success == 0 ]]; then
-            return "distro"
+            return 4 #distro
         else
             return 1
         fi
@@ -160,7 +160,7 @@ p() (
     elif [ $1 = "r" ]; then # If first parameter is r (remove)
         check $2
 
-        if [[ $? == "both" ]]; then
+        if [[ $? == 2 ]]; then
             echo "1. Nix: $2 installed."
             echo "2. $distro: $2 installed."
 
@@ -175,9 +175,9 @@ p() (
             fi
             return 0
         fi
-        if [[ $? == "nix" ]]; then
+        if [[ $? == 3 ]]; then
             nix-env -e $2
-        elif [[ $? == "distro" ]]; then
+        elif [[ $? == 4 ]]; then
             $remove $2
         else
             echo "$2 is not installed."
