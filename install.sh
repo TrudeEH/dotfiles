@@ -20,3 +20,6 @@ echo -e "${GREEN}[+] Symlinking dotfiles...${ENDCOLOR}"
 stow -v -t $HOME home --adopt
 git diff
 git reset --hard
+
+# Install font
+nix-env -iA nixpkgs.fira-code-nerdfont
