@@ -82,7 +82,7 @@ p() (
         elif [[ $distro_success == 0 ]]; then
             return 4 #distro
         else
-            echo -e "${RED}$app_name not installed.${ENDCOLOR}"
+            echo -e "${YELLOW}$app_name not installed.${ENDCOLOR}"
             return 1
         fi
 
@@ -92,7 +92,7 @@ p() (
     if [[ $distro == "Debian" ]]; then
         install="sudo apt-get install"
         remove="sudo apt-get remove"
-        search="apt-get search"
+        search="apt-cache search"
     elif [[ $distro == "Arch" ]]; then
         if pacman -Qs paru >/dev/null; then
             install="paru -S"
