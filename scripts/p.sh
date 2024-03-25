@@ -60,7 +60,7 @@ p() (
             distro_apps=""
         fi
 
-        app_name=$(echo $2 | tr '[:upper:]' '[:lower:]')
+        app_name=$(echo "$2" | tr '[:upper:]' '[:lower:]')
         app_name=$(echo "$app_name" | tr " " -)
 
         echo $nix_apps | grep -wq $app_name
