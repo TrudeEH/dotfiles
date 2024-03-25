@@ -60,7 +60,7 @@ p() (
             distro_apps=""
         fi
 
-        app_name=$(echo "$app_name" | tr '[:upper:]' '[:lower:]')
+        app_name=$(echo $2 | tr '[:upper:]' '[:lower:]')
         app_name=$(echo "$app_name" | tr " " -)
 
         echo $nix_apps | grep -wq $app_name
@@ -185,7 +185,6 @@ p() (
         fi
         return 0
     elif [ $1 = "c" ]; then # If first parameter is c (check)
-        echo "c: $2"
         check $2
     else
         echo -e "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
