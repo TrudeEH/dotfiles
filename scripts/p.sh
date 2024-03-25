@@ -65,13 +65,13 @@ p() (
         app_name=$(echo "$app_name" | tr '[:upper:]' '[:lower:]')
         app_name=$(echo "$app_name" | tr " " -)
 
-        echo $nix_apps | grep -wq $app_name
+        echo $nix_apps | grep -w $app_name
         nix_success=$?
         if [[ $nix_success == 0 ]]; then
             echo -e "${GREEN} Nix: $(echo $nix_apps | grep -wq $app_name) ${ENDCOLOR}"
         fi
 
-        echo $distro_apps | grep -wq $app_name
+        echo $distro_apps | grep -w $app_name
         distro_success=$?
         if [[ $distro_success == 0 ]]; then
             echo -e "${GREEN} $distro: $(echo $distro_apps | grep -wq $app_name) ${ENDCOLOR}"
