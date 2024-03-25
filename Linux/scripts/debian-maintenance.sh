@@ -3,10 +3,11 @@
 source ~/dotfiles/scripts/color.sh
 source ~/dotfiles/scripts/p.sh
 
-echo -e "${GREEN}[+] Upgrading...${ENDCOLOR}"
+echo -e "${GREEN}[+] Updating...${ENDCOLOR}"
 sudo apt update
 sudo apt upgrade
 sudo apt dist-upgrade
+echo -e "${GREEN}[+] Cleaning...${ENDCOLOR}"
 sudo apt autoremove
 sudo apt autoclean
 
@@ -17,5 +18,3 @@ if p c flatpak &>/dev/null; then
     echo -e "${GREEN}[+] Cleaning flatpak...:${ENDCOLOR}"
     flatpak remove --unused
 fi
-
-read -p "Press enter to exit."

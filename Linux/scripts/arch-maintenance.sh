@@ -3,8 +3,8 @@
 source ~/dotfiles/scripts/p.sh
 source ~/dotfiles/scripts/color.sh
 
-echo -e "${GREEN}[+] Upgrading...${ENDCOLOR}"
-p
+echo -e "${GREEN}[+] Updating...${ENDCOLOR}"
+sudo paru -Syu
 
 echo -e "${GREEN}[+] Cleaning orphaned (unneeded) packages...${ENDCOLOR}"
 sudo paru -Rsn $(paru -Qdtq)
@@ -29,6 +29,3 @@ echo -e "${GREEN}[i] AUR Packages installed:${ENDCOLOR}"
 pacman -Qim | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | sort -h
 
 # Installed packages: pacman -Qen
-
-echo
-read -p "Press enter to exit."
