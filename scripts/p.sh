@@ -51,7 +51,7 @@ p() (
     }
 
     check() {
-        nix_apps=$(nix-env -q | tr ' ' '\n')
+        nix_apps=$(nix-env -q)
         if [[ $distro == "Debian" ]]; then
             distro_apps=$(dpkg-query -l | grep '^ii' | awk '{print $2}')
         elif [[ $distro == "Arch" ]]; then
@@ -66,7 +66,7 @@ p() (
         echo $nix_apps | grep -wq $app_name
         nix_success=$?
         if [[ $nix_success == 0 ]]; then
-            echo -e "${GREEN} Nix: $(echo $nix_apps | grep -w $app_name) ${ENDCOLOR}"
+            echo -e "${GREEN} Nix: $(echo $nix_apps | tr ' ' '\n' | grep -w $app_name) ${ENDCOLOR}"
         fi
 
         echo $distro_apps | grep -wq $app_name
