@@ -51,7 +51,7 @@ p() (
     }
 
     check() {
-        nix_apps=($(nix-env -q))
+        nix_apps=$(nix-env -q | tr " " "\n")
         if [[ $distro == "Debian" ]]; then
             distro_apps=$(dpkg-query -l | grep '^ii' | awk '{print $2}')
         elif [[ $distro == "Arch" ]]; then
