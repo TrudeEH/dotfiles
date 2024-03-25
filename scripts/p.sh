@@ -63,7 +63,6 @@ p() (
         app_name=$(echo "$1" | tr '[:upper:]' '[:lower:]')
         app_name=$(echo "$app_name" | tr " " -)
 
-        echo "DEBUG: $app_name"
         echo $nix_apps | grep -wq $app_name
         nix_success=$?
         if [[ $nix_success == 0 ]]; then
@@ -83,6 +82,7 @@ p() (
         elif [[ $distro_success == 0 ]]; then
             return 4 #distro
         else
+            echo -e "${RED}$app_name not installed.${ENDCOLOR}"
             return 1
         fi
 
