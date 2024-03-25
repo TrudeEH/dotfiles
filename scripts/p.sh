@@ -66,13 +66,13 @@ p() (
         echo $nix_apps | grep -wq $app_name
         nix_success=$?
         if [[ $nix_success == 0 ]]; then
-            echo -e "${GREEN} Nix: $(echo $nix_apps | tr ' ' '\n' | grep -w $app_name) ${ENDCOLOR}"
+            echo -e "${GREEN}Nix: $(echo $nix_apps | tr ' ' '\n' | grep -w $app_name)${ENDCOLOR}"
         fi
 
         echo $distro_apps | grep -wq $app_name
         distro_success=$?
         if [[ $distro_success == 0 ]]; then
-            echo -e "${GREEN} $distro: $(echo $distro_apps | grep -w $app_name) ${ENDCOLOR}"
+            echo -e "${GREEN}$distro: $(echo $distro_apps | grep -w $app_name)${ENDCOLOR}"
         fi
 
         if [[ $nix_success == 0 && $distro_success == 0 ]]; then
