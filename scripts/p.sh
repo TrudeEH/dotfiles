@@ -72,7 +72,7 @@ p() (
         echo $distro_apps | grep -wq $app_name
         distro_success=$?
         if [[ $distro_success == 0 ]]; then
-            echo -e "${GREEN}$distro: $(echo $distro_apps | grep -w $app_name)${ENDCOLOR}"
+            echo -e "${GREEN}$distro: $(echo $distro_apps | tr ' ' '\n' | grep -w $app_name)${ENDCOLOR}"
         fi
 
         if [[ $nix_success == 0 && $distro_success == 0 ]]; then
