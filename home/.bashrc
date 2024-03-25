@@ -2,9 +2,6 @@
 # ~/.bashrc
 #
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
 source ~/dotfiles/scripts/p.sh
 
 alias ls='ls --color=auto'
