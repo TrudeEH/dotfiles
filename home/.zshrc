@@ -8,51 +8,7 @@ fi
 # Open VSCode from the terminal
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
-# Shortcuts for brew and macOS update
-p () {
-  if ! command -v brew &> /dev/null; then
-    echo "Brew not found. Installing..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') > ~/.zprofile
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  fi
-
-  case $1 in
-    install|i)
-        shift
-        brew install $*
-        ;;
-    remove|r|)
-        shift
-        brew uninstall $*
-        ;;
-    update|u)
-        brew update
-        brew upgrade
-        brew autoremove
-        brew cleanup
-        ;;
-    list|l)
-        brew list
-        ;;
-    bundle|b)
-        brew bundle --file $2
-        ;;
-    macOSupdate|m)
-        echo "Updating MacOS..."
-        echo "THE DEVICE WILL RESTART IF NECESSARY."
-        sudo softwareupdate -iaR
-        ;;
-    *)
-        echo "Usage: p {(i)nstall|(r)emove|(u)pdate|(l)ist|(b)undle|(m)acOSupdate} <package>"
-        ;;
-  esac
-
-  # Generate a new bundle in the dotfiles.
-  echo "Updating bundle in $HOME/dotfiles..."
-  rm -f $HOME/dotfiles/BrewFile
-  brew bundle dump --describe --file=$HOME/dotfiles/BrewFile
-}
+source $HOME/dotfiles/scripts/p.sh
 
 # Shortcuts to extract files
 extract () {
