@@ -123,6 +123,11 @@ p() (
         nix-env -u
         return 0
     elif [ $1 = "i" ]; then # If first parameter is i (install)
+        if [[ $(check $2) ]]; then
+            echo "$2 is already installed."
+            return 1
+        fi
+
         nix search nixpkgs $2 --extra-experimental-features 'nix-command flakes' &>/dev/null
         nix_found=$?
 
