@@ -26,8 +26,10 @@ detectDistro() {
             echo "Arch"
         else
             echo 1
+            return 1
         fi
     fi
+    return 0
 }
 
 oneline() {
