@@ -53,7 +53,7 @@ p() (
     check() {
         nix_apps=$(nix-env -q)
         if [[ $distro == "Debian" ]]; then
-            distro_apps=$(apt-get list --installed)
+            distro_apps=$(dpkg-query -l | grep '^ii' | awk '{print $2}')
         elif [[ $distro == "Arch" ]]; then
             distro_apps=$(pacman -Q)
         else
