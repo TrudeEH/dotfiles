@@ -53,7 +53,7 @@ p() (
     check() {
         nix_apps=$(nix-env -q)
         if [[ $distro == "Debian" ]]; then
-            distro_apps=$(apt list --installed)
+            distro_apps=$(apt-get list --installed)
         elif [[ $distro == "Arch" ]]; then
             distro_apps=$(pacman -Q)
         else
@@ -89,9 +89,9 @@ p() (
     }
 
     if [[ $distro == "Debian" ]]; then
-        install="sudo apt install"
-        remove="sudo apt remove"
-        search="apt search"
+        install="sudo apt-get install"
+        remove="sudo apt-get remove"
+        search="apt-get search"
     elif [[ $distro == "Arch" ]]; then
         if pacman -Qs paru >/dev/null; then
             install="paru -S"
