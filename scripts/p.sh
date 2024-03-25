@@ -63,16 +63,16 @@ p() (
         app_name=$(echo "$1" | tr '[:upper:]' '[:lower:]')
         app_name=$(echo "$app_name" | tr " " -)
 
-        echo $nix_apps | grep -wq $app_name
+        echo $nix_apps | grep -Eq "(^|\s)$app_name($|\s)"
         nix_success=$?
         if [[ $nix_success == 0 ]]; then
-            echo -e "${GREEN}Nix: $(echo $nix_apps | tr ' ' '\n' | grep -w $app_name)${ENDCOLOR}"
+            echo -e "${GREEN}Nix: $(echo $nix_apps | tr ' ' '\n' | grep -Eq "(^|\s)$app_name($|\s)")${ENDCOLOR}"
         fi
 
-        echo $distro_apps | grep -wq $app_name
+        echo $distro_apps | grep -Eq "(^|\s)$app_name($|\s)"
         distro_success=$?
         if [[ $distro_success == 0 ]]; then
-            echo -e "${GREEN}$distro: $(echo $distro_apps | tr ' ' '\n' | grep -w $app_name)${ENDCOLOR}"
+            echo -e "${GREEN}$distro: $(echo $distro_apps | tr ' ' '\n' | grep -Eq "(^|\s)$app_name($|\s)")${ENDCOLOR}"
         fi
 
         if [[ $nix_success == 0 && $distro_success == 0 ]]; then
