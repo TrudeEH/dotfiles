@@ -5,7 +5,7 @@ source scripts/color.sh
 
 # ============== CONFIG ==============
 
-# Install Dependency: stow
+p i curl
 p i stow
 
 # Link dotfile home to $HOME
