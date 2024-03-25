@@ -110,8 +110,8 @@ p() (
         echo -e "${YELLOW}[E] Nix not found.${ENDCOLOR}"
         echo -e "${GREEN}[+] Installing the Nix package manager...${ENDCOLOR}"
         curl -L https://nixos.org/nix/install | sh
-        echo -e "${GREEN}[I] Installed Nix. Please reboot your device.${ENDCOLOR}"
-        return 2
+        . $HOME/.nix-profile/etc/profile.d/nix.sh
+        echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
     fi
 
     # If no parameter
