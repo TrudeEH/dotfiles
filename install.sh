@@ -9,7 +9,7 @@ p i stow
 
 # Link dotfile home to $HOME
 echo -e "[+] Symlinking dotfiles..."
-stow -R -v -t $HOME home --adopt
+stow -v -t $HOME home --adopt
 
 # Install Oh-My-ZSH
 echo -e "${GREEN}[+] Installing Oh-My-ZSH...${ENDCOLOR}"
