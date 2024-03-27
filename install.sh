@@ -8,6 +8,8 @@ detectDistro() {
             echo "Debian"
         elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
             echo "Arch"
+        elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
+            echo "Fedora"
         else
             echo 1
             return 1
@@ -21,6 +23,8 @@ if [[ $d == "Debian" ]]; then
     sudo apt install -y curl
 elif [[ $d == "Arch" ]]; then
     sudo pacman -Sy curl
+elif [[ $d == "Fedora" ]]; then
+    sudo dnf install curl
 fi
 
 if ! nix --version &>/dev/null; then
