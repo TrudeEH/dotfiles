@@ -66,6 +66,11 @@
               paccache -rk1
           fi
           sudo journalctl --vacuum-time=7d
+        elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
+          echo "Updating Fedora..."
+          sudo dnf upgrade --refresh
+          sudo dnf autoremove
+          sudo journalctl --vacuum-time=7d
         else
           echo "Unknown distro, skipping system update."
         fi
