@@ -26,13 +26,13 @@ fi
 if ! nix --version &>/dev/null; then
     echo -e "${YELLOW}[E] Nix not found.${ENDCOLOR}"
     echo -e "${GREEN}[+] Installing the Nix package manager...${ENDCOLOR}"
-    curl -L https://nixos.org/nix/install | sh
+    sh <(curl -L https://nixos.org/nix/install) --daemon
     . $HOME/.nix-profile/etc/profile.d/nix.sh
     echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
 fi
 
 # Fix to add GUI nix-env apps to the GNOME launcher without having to restart
-ln -s "$HOME/.nix-profile/share/applications" "$HOME/.local/share/applications/nix-env"
+sudo ln -s "$HOME/.nix-profile/share/applications" "$HOME/.local/share/applications/nix-env"
 
 # ============== HOME MANAGER ==============
 
