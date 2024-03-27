@@ -156,6 +156,7 @@
       ls="ls --color=auto";
       grep="grep --color=auto";
     };
+    initExtra = "set completion-ignore-case On";
   };
 
   programs.vscode = {
