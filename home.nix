@@ -10,7 +10,7 @@
 
   home.packages = with pkgs; [
     # Packages to install:
-    vscode
+    vscodium
     obsidian
     signal-desktop
 
@@ -95,7 +95,7 @@
   };
 
   home.sessionVariables = {
-    EDITOR = "code";
+    EDITOR = "codium";
     PS1 = ''\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ '';
   };
 
@@ -128,18 +128,36 @@
       # `gnome-extensions list` for a list
       enabled-extensions = [
         "Vitals@CoreCoding.com"
+        "blur-my-shell@aunetx"
+        "appindicatorsupport@rgcjonas.gmail.com"
       ];
 
       favorite-apps = [
         "firefox.desktop"
-        "code.desktop"
-        "org.gnome.Terminal.desktop"
         "org.gnome.Nautilus.desktop"
+        "codium.desktop"
+        "org.gnome.Terminal.desktop"
+        "obsidian.desktop"
+        "signal-desktop.desktop"
       ];
     };
+
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       enable-hot-corners = false;
+    };
+
+    "org/gnome/desktop/background" = {
+      picture-uri = "file:///usr/share/backgrounds/gnome/blobs-l.svg";
+      picture-uri-dark = "file:///usr/share/backgrounds/gnome/blobs-d.svg";
+    };
+
+    "org/gnome/shell/extensions/vitals" = {
+      hot-sensors = [
+        "_memory_usage_"
+        "__temperature_max__"
+        "_processor_usage_"
+      ];
     };
   };
 
@@ -153,14 +171,20 @@
     enable = true;
     enableCompletion = true;
     shellAliases = {
-      ls="ls --color=auto";
-      grep="grep --color=auto";
+      ls = "ls --color=auto";
+      grep = "grep --color=auto";
+      code = "codium";
     };
     initExtra = "set completion-ignore-case On";
+    bashrcExtra = ''
+      export EDITOR="codium";
+      export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
+    '';
   };
 
   programs.vscode = {
     enable = true;
+    package = pkgs.vscodium;
     enableUpdateCheck = false;
     enableExtensionUpdateCheck = false;
     mutableExtensionsDir = false;
@@ -180,11 +204,11 @@
     # Settings
     userSettings = {
       # General
-      "editor.fontSize" = 12;
+      "editor.fontSize" = 14;
       "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace', monospace";
-      "terminal.integrated.fontSize" = 10;
+      "terminal.integrated.fontSize" = 12;
       "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace', monospace";
-      "window.zoomLevel" = 1;
+      "window.zoomLevel" = 0.1;
       "editor.multiCursorModifier" = "ctrlCmd";
       "workbench.startupEditor" = "none";
       "explorer.compactFolders" = false;
@@ -206,6 +230,7 @@
       # Other
       "telemetry.telemetryLevel" = "off";
       "update.showReleaseNotes" = false;
+      "window.titleBarStyle" = "custom";
     };
   };
 }
