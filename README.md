@@ -7,4 +7,5 @@
 
 ## Custom commands
 
--   `p` "Universal" package manager written in bash
+-   `extract` Extract compressed files
+-   `update` Update Nix and the OS.
