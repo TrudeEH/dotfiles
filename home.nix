@@ -224,6 +224,7 @@
       # Git
       "git.enableCommitSigning" = false;
       "git.enableSmartCommit" = true;
+      "git.confirmSync" = false;
       # Styling
       "window.autoDetectColorScheme" = true;
       "workbench.preferredDarkColorTheme" = "Default Dark Modern";
