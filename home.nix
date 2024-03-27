@@ -219,6 +219,7 @@
       "diffEditor.ignoreTrimWhitespace" = false;
       # Git
       "git.enableCommitSigning" = false;
+      "git.enableSmartCommit" = true;
       # Styling
       "window.autoDetectColorScheme" = true;
       "workbench.preferredDarkColorTheme" = "Default Dark Modern";
