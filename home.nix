@@ -13,8 +13,11 @@
     vscodium
     obsidian
     signal-desktop
+    lunar-client
 
     gnomeExtensions.vitals
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.appindicator
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -130,6 +133,7 @@
         "Vitals@CoreCoding.com"
         "blur-my-shell@aunetx"
         "appindicatorsupport@rgcjonas.gmail.com"
+        # Add new extensions to the packages too!
       ];
 
       favorite-apps = [
