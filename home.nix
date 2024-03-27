@@ -4,15 +4,15 @@
 
 {
   home.username = "trude";
-  home.homeDirectory = "/Users/trude"; #macOS
-  # home.homeDirectory = "/home/trude"; #Linux
+  # home.homeDirectory = "/Users/trude"; #macOS
+  home.homeDirectory = "/home/trude"; #Linux
   home.stateVersion = "23.11"; # Do NOT change. This value stays the same when updating.
 
   home.packages = with pkgs; [
     # Packages to install:
     vscode
     obsidian
-    #signal-desktop
+    signal-desktop
 
     gnomeExtensions.vitals
 
@@ -151,9 +151,6 @@
       ls="ls --color=auto";
       grep="grep --color=auto";
     };
-    shellOptions = [
-      "completion-ignore-case on"
-    ];
   };
 
   programs.vscode = {
