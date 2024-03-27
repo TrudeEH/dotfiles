@@ -21,5 +21,9 @@ stow -v -t $HOME home --adopt
 git diff
 git reset --hard
 
+# Fix to add GUI nix-env apps to the GNOME launcher without having to restart
+ln -s "$HOME/.nix-profile/share/applications" "$HOME/.local/share/applications/nix-env"
+
+
 # Install font
 nix-env -iA nixpkgs.fira-code-nerdfont
