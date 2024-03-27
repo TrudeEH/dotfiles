@@ -1,4 +1,4 @@
-# Trude's Dotfiles for MacOS
+# Trude's Dotfiles
 
 **Run `./install.sh`.**
 
