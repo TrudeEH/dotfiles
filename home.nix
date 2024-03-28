@@ -3,6 +3,10 @@
 { config, pkgs, ... }:
 
 {
+  # =======================================================================
+  # ----------------------- HOME & INSTALLED PACKAGES ---------------------
+  # =======================================================================
+
   home.username = "trude";
   # home.homeDirectory = "/Users/trude"; #macOS
   home.homeDirectory = "/home/trude"; #Linux
@@ -84,11 +88,11 @@
   ];
 
   home.file = {
-    # ".screenrc".source = dotfiles/screenrc;
-
     ".config/nixpkgs/config.nix".text = ''
       { allowUnfree = true; }
     '';
+
+    # ".screenrc".source = dotfiles/screenrc;
 
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
@@ -101,7 +105,10 @@
     PS1 = ''\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ '';
   };
 
-  # Let Home Manager install and manage itself.
+  # =======================================================================
+  # ----------------------- PROGRAM CONFIGURATION -------------------------
+  # =======================================================================
+
   programs.home-manager.enable = true;
 
   programs.firefox = {
@@ -146,35 +153,22 @@
     };
   };
 
-
   gtk = {
     enable = true;
     cursorTheme = {
       name = "Bibata-Modern-Classic";
       package = pkgs.bibata-cursors;
+      size = 20;
     };
 
     iconTheme = {
       name = "Tela-circle";
       package = pkgs.tela-circle-icon-theme;
     };
-
-    gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
-
-    gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
   };
 
-  # GNOME Settings
-  # Help: https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
   dconf.settings = {
+    # GNOME settings
     # Use `dconf watch /` to track stateful changes you are doing, then set them here.
     "org/gnome/shell" = {
       disable-user-extensions = false;
@@ -184,7 +178,7 @@
         "Vitals@CoreCoding.com"
         "blur-my-shell@aunetx"
         "appindicatorsupport@rgcjonas.gmail.com"
-        # Add new extensions to the packages too!
+        # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
 
       favorite-apps = [
