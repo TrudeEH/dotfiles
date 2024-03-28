@@ -10,10 +10,8 @@
 
   home.packages = with pkgs; [
     # Packages to install:
-    vscodium
     obsidian
     signal-desktop
-    lunar-client
 
     gnomeExtensions.vitals
     gnomeExtensions.blur-my-shell
@@ -74,6 +72,7 @@
           sudo dnf upgrade --refresh
           sudo dnf autoremove
           sudo journalctl --vacuum-time=7d
+          flatpak update
         else
           echo "Unknown distro, skipping system update."
         fi
@@ -105,8 +104,60 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      id = 0;
+      name = "Trude";
+      isDefault = true;
+      settings = {
+        "browser.startup.homepage" = "https://google.com";
+        "browser.search.defaultenginename" = "Google";
+        "browser.search.order.1" = "Google";
+        "general.smoothScroll" = true;
+      };
+      search = {
+        force = true;
+        default = "Google";
+        order = [ "Google" "DuckDuckGo" ];
+        engines = {
+          "Nix Packages" = {
+            urls = [{
+              template = "https://search.nixos.org/packages";
+              params = [
+                { name = "type"; value = "packages"; }
+                { name = "query"; value = "{searchTerms}"; }
+              ];
+            }];
+            icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = [ "@np" ];
+          };
+          "NixOS Wiki" = {
+            urls = [{ template = "https://nixos.wiki/index.php?search={searchTerms}"; }];
+            iconUpdateURL = "https://nixos.wiki/favicon.png";
+            updateInterval = 24 * 60 * 60 * 1000; # every day
+            definedAliases = [ "@nw" ];
+          };
+          "Bing".metaData.hidden = true;
+          "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+        };
+      };
+      bookmarks = { };
+    };
+  };
+
+
   gtk = {
     enable = true;
+    cursorTheme = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+    };
+
+    iconTheme = {
+      name = "Tela-circle";
+      package = pkgs.tela-circle-icon-theme;
+    };
 
     gtk3.extraConfig = {
       Settings = ''
