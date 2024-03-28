@@ -34,6 +34,7 @@ if ! nix --version &>/dev/null; then
     echo -e "${GREEN}[+] Installing the Nix package manager...${ENDCOLOR}"
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
     . $HOME/.nix-profile/etc/profile.d/nix.sh
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
 fi
 

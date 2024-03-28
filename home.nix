@@ -16,6 +16,9 @@
     # Packages to install:
     obsidian
     signal-desktop
+    fragments
+
+    # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
     gnomeExtensions.vitals
     gnomeExtensions.blur-my-shell
@@ -158,7 +161,7 @@
     cursorTheme = {
       name = "Bibata-Modern-Classic";
       package = pkgs.bibata-cursors;
-      size = 20;
+      size = 22;
     };
 
     iconTheme = {
