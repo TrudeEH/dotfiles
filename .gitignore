@@ -2,3 +2,4 @@
 */*.DS_Store
 .Trash
 BrewFile.lock.json
+switch.log
