@@ -55,6 +55,7 @@
       nix-channel --update
       echo "rebuilding home.nix..."
       home-manager switch &> switch.log || (cat switch.log | grep --color error && false)
+      rm switch.log
     '')
 
     (writeShellScriptBin "update" ''
@@ -107,6 +108,11 @@
 
     # Cursor theme fix
     ".icons/default".source = "${pkgs.bibata-cursors}/share/icons/Bibata-Modern-Classic"; # Set file content as another file
+
+    # Add new file option to nautilus
+    "Templates/Text".text = "";
+    "Templates/Markdown.md".text = "";
+    "Templates/Script.sh".text = "#! /bin/bash";
   };
 
   home.sessionVariables = {
@@ -232,6 +238,10 @@
         "obsidian.desktop"
         "signal-desktop.desktop"
       ];
+    };
+
+    "org/gnome/mutter" = {
+      draggable-border-width = 20;
     };
 
     "org/gnome/desktop/interface" = {
