@@ -17,12 +17,15 @@
     obsidian
     signal-desktop
     fragments
+    ollama
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
     gnomeExtensions.vitals
     gnomeExtensions.blur-my-shell
     gnomeExtensions.appindicator
+    gnomeExtensions.caffeine
+    gnomeExtensions.clipboard-indicator
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -51,7 +54,7 @@
 
     (writeShellScriptBin "reload" ''
       nix-channel --update
-      home-manager switch
+      home-manager switch &> switch.log || (cat switch.log | grep --color error && false)
     '')
 
     (writeShellScriptBin "update" ''
@@ -91,7 +94,7 @@
       fi
 
       nix-channel --update
-      home-manager switch -b backup
+      home-manager switch
     '')
   ];
 
@@ -215,6 +218,8 @@
         "Vitals@CoreCoding.com"
         "blur-my-shell@aunetx"
         "appindicatorsupport@rgcjonas.gmail.com"
+        "caffeine@patapon.info"
+        "clipboard-indicator@tudmotu.com"
         # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
 
