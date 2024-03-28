@@ -17,7 +17,6 @@
     obsidian
     signal-desktop
     fragments
-    ollama
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
@@ -54,6 +53,7 @@
 
     (writeShellScriptBin "reload" ''
       nix-channel --update
+      echo "rebuilding home.nix..."
       home-manager switch &> switch.log || (cat switch.log | grep --color error && false)
     '')
 
@@ -94,6 +94,7 @@
       fi
 
       nix-channel --update
+      nix-collect-garbage --delete-older-than 7d
       home-manager switch
     '')
   ];
