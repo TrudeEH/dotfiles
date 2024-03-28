@@ -49,6 +49,11 @@
     fi
     '')
 
+    (writeShellScriptBin "reload" ''
+      nix-channel --update
+      home-manager switch
+    '')
+
     (writeShellScriptBin "update" ''
       if [ "$(uname -s)" = "Darwin" ]; then
         echo "Updating macOS..."
@@ -91,16 +96,13 @@
   ];
 
   home.file = {
+    # Allow unfree nix packages
     ".config/nixpkgs/config.nix".text = ''
       { allowUnfree = true; }
-    '';
+    ''; # Set file content as a string of text
 
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+    # Cursor theme fix
+    ".icons/default".source = "${pkgs.bibata-cursors}/share/icons/Bibata-Modern-Classic"; # Set file content as another file
   };
 
   home.sessionVariables = {
@@ -121,10 +123,20 @@
       name = "Trude";
       isDefault = true;
       settings = {
-        "browser.startup.homepage" = "https://google.com";
+        "browser.startup.homepage" = "about:newtab";
         "browser.search.defaultenginename" = "Google";
         "browser.search.order.1" = "Google";
         "general.smoothScroll" = true;
+        "browser.disableResetPrompt" = true;
+        "browser.download.panel.shown" = true;
+        "browser.download.useDownloadDir" = false;
+        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+        "browser.shell.checkDefaultBrowser" = false;
+        "browser.shell.defaultBrowserCheckCount" = 1;
+        "dom.security.https_only_mode" = true;
+        "identity.fxaccounts.enabled" = false;
+        "privacy.trackingprotection.enabled" = true;
+        "signon.rememberSignons" = false;
       };
       search = {
         force = true;
@@ -152,7 +164,29 @@
           "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
         };
       };
-      bookmarks = { };
+      bookmarks = [
+        {
+          name = "Toolbar";
+          toolbar = true;
+          bookmarks = [
+            {
+              name = "Gmail";
+              tags = [ "gmail" ];
+              keyword = "gmail";
+              url = "https://mail.google.com/mail";
+            }
+            {
+              name = "YouTube";
+              url = "https://www.youtube.com/";
+            }
+            {
+              name = "NixOS Wiki";
+              tags = [ "wiki" "nix" ];
+              url = "https://nixos.wiki/";
+            }
+          ];
+        }
+      ];
     };
   };
 
