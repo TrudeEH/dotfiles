@@ -17,6 +17,8 @@
     obsidian
     signal-desktop
     fragments
+    neofetch
+    unzip
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
@@ -88,10 +90,15 @@
           sudo dnf upgrade --refresh
           sudo dnf autoremove
           sudo journalctl --vacuum-time=7d
-          flatpak update
         else
           echo "Unknown distro, skipping system update."
         fi
+      fi
+
+      # Check if Flatpak is installed
+      if [ "$(command -v flatpak)" ]; then
+          flatpak update
+          flatpak uninstall --unused --delete-data
       fi
 
       nix-channel --update
@@ -250,8 +257,8 @@
     };
 
     "org/gnome/desktop/background" = {
-      picture-uri = "file:///usr/share/backgrounds/gnome/blobs-l.svg";
-      picture-uri-dark = "file:///usr/share/backgrounds/gnome/blobs-d.svg";
+      picture-uri = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-l.svg";
+      picture-uri-dark = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-d.svg";
     };
 
     "org/gnome/shell/extensions/vitals" = {
