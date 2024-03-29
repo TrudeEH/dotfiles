@@ -17,8 +17,12 @@
     obsidian
     signal-desktop
     fragments
+    pitivi
+    pika-backup
+
     neofetch
     unzip
+    eza
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
@@ -207,6 +211,11 @@
     };
   };
 
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [ batdiff batman batgrep ];
+  };
+
   gtk = {
     enable = true;
     cursorTheme = {
@@ -280,9 +289,14 @@
     enable = true;
     enableCompletion = true;
     shellAliases = {
-      ls = "ls --color=auto";
-      grep = "grep --color=auto";
+      l = "eza -alhM --git --total-size --icons";
+      ls = "eza --icons";
+      ll = "eza -lhiM --git --total-size --icons --tree";
+      tree = "eza --tree";
+      grep = "batgrep";
       code = "codium";
+      cat = "bat";
+      man = "batman";
     };
     initExtra = "set completion-ignore-case On";
     bashrcExtra = ''
