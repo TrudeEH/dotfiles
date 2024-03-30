@@ -8,8 +8,6 @@ If you would like to use this repository, I recommend forking it and editing hom
 
 Install: `sh <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)`
 
-Run `home-manager switch` to rebuild the config after changing it.
-
 ## Dependencies
 -   Nix (installed automatically)
 
