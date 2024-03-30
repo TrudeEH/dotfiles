@@ -46,9 +46,6 @@ if ! nix --version &>/dev/null; then
     echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
 fi
 
-# Fix to add GUI nix-env apps to the GNOME launcher without having to restart
-sudo ln -s "$HOME/.nix-profile/share/applications" "$HOME/.local/share/applications/nix-env"
-
 # ============== HOME MANAGER ==============
 
 # Install
