@@ -356,6 +356,7 @@
       "telemetry.telemetryLevel" = "off";
       "update.showReleaseNotes" = false;
       "window.titleBarStyle" = "custom";
+      "explorer.confirmDelete" = false;
     };
   };
 }
