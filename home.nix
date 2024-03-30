@@ -19,6 +19,8 @@
     fragments
     pitivi
     pika-backup
+    element-desktop
+    openrgb
 
     neofetch
     unzip
@@ -322,6 +324,9 @@
       jnoortheen.nix-ide
       ritwickdey.liveserver
       github.vscode-pull-request-github
+      ms-toolsai.jupyter
+      ms-python.python
+      arrterian.nix-env-selector
     ]);
 
     # Settings
