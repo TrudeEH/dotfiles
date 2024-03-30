@@ -34,6 +34,7 @@ if [ $(pwd) != "$HOME/dotfiles" ]; then
     git clone https://github.com/TrudeEH/dotfiles
     cd dotfiles
     bash install.sh
+    return
 fi
 
 if ! nix --version &>/dev/null; then
