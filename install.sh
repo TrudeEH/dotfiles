@@ -17,7 +17,6 @@ detectDistro() {
             return 1
         fi
     fi
-    return 0
 }
 
 d=$(detectDistro)
@@ -33,8 +32,6 @@ if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
     git clone https://github.com/TrudeEH/dotfiles
     cd dotfiles
-    bash install.sh
-    return
 fi
 
 if ! nix --version &>/dev/null; then
