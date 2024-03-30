@@ -17,10 +17,7 @@
     obsidian
     signal-desktop
     fragments
-    pitivi
-    pika-backup
     element-desktop
-    openrgb
 
     neofetch
     unzip
