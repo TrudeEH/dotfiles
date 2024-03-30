@@ -22,11 +22,18 @@ detectDistro() {
 
 d=$(detectDistro)
 if [[ $d == "Debian" ]]; then
-    sudo apt install -y curl
+    sudo apt install -y curl git
 elif [[ $d == "Arch" ]]; then
-    sudo pacman -Sy curl
+    sudo pacman -Sy curl git
 elif [[ $d == "Fedora" ]]; then
-    sudo dnf install curl
+    sudo dnf install curl git
+fi
+
+if [ $(pwd) != "$HOME/dotfiles" ]; then
+    cd $HOME
+    git clone https://github.com/TrudeEH/dotfiles
+    cd dotfiles
+    bash install.sh
 fi
 
 if ! nix --version &>/dev/null; then
