@@ -40,6 +40,11 @@ if ! nix --version &>/dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
+    echo
+    echo -e "${YELLOW}[I] A reboot is required for Nix to work correctly.${ENDCOLOR}"
+    echo -e "${GREEN}[I] Press ENTER to reboot.${ENDCOLOR}"
+    read
+    systemctl reboot
 fi
 
 # ============== HOME MANAGER ==============
@@ -55,3 +60,8 @@ rm $HOME/.config/home-manager/home.nix
 ln -s $HOME/dotfiles/home.nix $HOME/.config/home-manager/home.nix
 
 home-manager -b backup switch
+echo
+echo -e "${GREEN}[I] Done. Press ENTER to reboot.${ENDCOLOR}"
+read
+
+systemctl reboot
