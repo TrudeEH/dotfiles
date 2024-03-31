@@ -6,7 +6,7 @@ The install script works on Linux and macOS.
 The configuration is done through home-manager.
 If you would like to use this repository, I recommend forking it and editing home.nix to your liking.
 
-Install: `sh <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)`
+Install: `curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh | bash`
 
 ## Dependencies
 -   Nix (installed automatically)
