@@ -54,4 +54,4 @@ mkdir -p $HOME/.config/home-manager
 rm $HOME/.config/home-manager/home.nix
 ln -s $HOME/dotfiles/home.nix $HOME/.config/home-manager/home.nix
 
-# home-manager -b backup switch
+home-manager -b backup switch
