@@ -61,7 +61,7 @@ ln -s $HOME/dotfiles/home.nix $HOME/.config/home-manager/home.nix
 
 home-manager -b backup switch
 echo
-echo -e "${GREEN}[I] Done. Press ENTER to reboot.${ENDCOLOR}"
-read
+echo -e "${GREEN}[I] Done. Rebooting in 5 seconds...${ENDCOLOR}"
+sleep 5
 
 systemctl reboot
