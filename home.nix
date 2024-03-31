@@ -259,6 +259,10 @@
       draggable-border-width = 20;
     };
 
+    "org/gnome/settings-daemon/plugins/color" = {
+      night-light-enabled = true;
+    };
+
     "org/gnome/nautilus" = {
       "icon-view/default-zoom-level" = "small";
     };
@@ -276,6 +280,17 @@
         "__temperature_max__"
         "_processor_usage_"
       ];
+    };
+  };
+
+  programs.gnome-terminal = {
+    enable = true;
+    profile."42ed2781-9a2b-4572-80a1-356a25f70b0c" = {
+      default = true;
+      visibleName = "trude";
+      audibleBell = false;
+      showScrollbar = true;
+      font = "JetBrainsMono Nerd Font 10";
     };
   };
 
