@@ -259,18 +259,19 @@
       draggable-border-width = 20;
     };
 
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-      enable-hot-corners = false;
+    "org/gnome/nautilus" = {
+      "icon-view/default-zoom-level" = "small";
     };
 
-    "org/gnome/desktop/background" = {
-      picture-uri = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-l.svg";
-      picture-uri-dark = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-d.svg";
+    "org/gnome/desktop" = {
+      "interface/color-scheme" = "prefer-dark";
+      "interface/enable-hot-corners" = false;
+      "background/picture-uri" = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-l.svg";
+      "background/picture-uri-dark" = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-d.svg";
     };
 
-    "org/gnome/shell/extensions/vitals" = {
-      hot-sensors = [
+    "org/gnome/shell/extensions" = {
+      "vitals/hot-sensors" = [
         "_memory_usage_"
         "__temperature_max__"
         "_processor_usage_"
