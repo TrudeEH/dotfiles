@@ -34,9 +34,6 @@
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
     gnomeExtensions.vitals
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.appindicator
-    gnomeExtensions.caffeine
     gnomeExtensions.clipboard-indicator
 
     # Override nerdfont to install JetBrains only.
@@ -87,13 +84,15 @@
           sudo journalctl --vacuum-time=7d
         elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
           echo "Updating Arch..."
+          sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
           sudo pacman -Syu
           sudo pacman -Rsn $(pacman -Qdtq)
           echo "Selecting the fastest mirrors..."
           if [ ! "$(command -v reflector)" ]; then
-            sudo pacman -Syu --noconfirm  reflector
+            sudo pacman -Syu --noconfirm reflector rsync curl
           fi
-          reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
+          iso=$(curl -4 ifconfig.co/country-iso)
+          sudo reflector -c $iso -a 48 -f 5 -l 30 --verbose --sort rate --save /etc/pacman.d/mirrorlist
           echo "Cleaning pacman cache..."
           if [ ! "$(command -v paccache)" ]; then
             sudo pacman -Syu --noconfirm pacman-contrib
@@ -251,9 +250,6 @@
       # `gnome-extensions list` for a list
       enabled-extensions = [
         "Vitals@CoreCoding.com"
-        "blur-my-shell@aunetx"
-        "appindicatorsupport@rgcjonas.gmail.com"
-        "caffeine@patapon.info"
         "clipboard-indicator@tudmotu.com"
         # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
