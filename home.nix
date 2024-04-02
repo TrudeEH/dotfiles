@@ -89,12 +89,17 @@
           echo "Updating Arch..."
           sudo pacman -Syu
           sudo pacman -Rsn $(pacman -Qdtq)
-          if p c pacman-contrib &>/dev/null; then
-              paccache -rk1
-          else
-              sudo pacman -S pacman-contrib
-              paccache -rk1
+          echo "Selecting the fastest mirrors..."
+          if [ ! "$(command -v reflector)" ]; then
+            sudo pacman -Syu --noconfirm  reflector
           fi
+          reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
+          echo "Cleaning pacman cache..."
+          if [ ! "$(command -v paccache)" ]; then
+            sudo pacman -Syu --noconfirm pacman-contrib
+          fi
+          paccache -rk1
+          echo "Cleaning old logs..."
           sudo journalctl --vacuum-time=7d
         elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
           echo "Updating Fedora..."
