@@ -262,7 +262,7 @@
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
         "codium.desktop"
-        "org.gnome.Terminal.desktop"
+        "org.gnome.Console.desktop"
         "obsidian.desktop"
         "org.gnome.World.Secrets.desktop"
         "signal-desktop.desktop"
@@ -282,6 +282,13 @@
       "icon-view/default-zoom-level" = "small";
     };
 
+    "org/gnome/Console" = {
+      "theme" = "auto";
+      "audible-bell" = false;
+      "use-system-font" = false;
+      "custom-font" = "JetBrainsMono Nerd Font 10"
+    };
+
     "org/gnome/desktop" = {
       "interface/color-scheme" = "prefer-dark";
       "interface/enable-hot-corners" = false;
@@ -295,17 +302,6 @@
         "__temperature_max__"
         "_processor_usage_"
       ];
-    };
-  };
-
-  programs.gnome-terminal = {
-    enable = true;
-    profile."42ed2781-9a2b-4572-80a1-356a25f70b0c" = {
-      default = true;
-      visibleName = "trude";
-      audibleBell = false;
-      showScrollbar = true;
-      font = "JetBrainsMono Nerd Font 10";
     };
   };
 
