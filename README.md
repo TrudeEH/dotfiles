@@ -12,12 +12,18 @@ curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh | bas
 ```
 
 ## Dependencies
--   Nix (installed automatically)
+- Nix (installed automatically)
 
 ## Custom commands
--   `extract` Extract compressed files
--   `update` Update Nix and the OS.
--   `reload` Rebuild the config after changing it.
+- `extract` Extract compressed files
+- `update` Update Nix and the OS.
+- `reload` Rebuild the config after changing it.
+
+## Scripts
+- `archinstall` Install Arch Linux from the liveCD.
+```sh
+curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/scripts/archinstall.sh | bash
+```
 
 ## Supported distros
 - Debian
