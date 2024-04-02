@@ -172,8 +172,8 @@
       };
       search = {
         force = true;
-        default = "Google";
-        order = [ "Google" "DuckDuckGo" ];
+        default = "DuckDuckGo";
+        order = [ "DuckDuckGo" "Google" ];
         engines = {
           "Nix Packages" = {
             urls = [{
@@ -212,9 +212,13 @@
               url = "https://www.youtube.com/";
             }
             {
-              name = "NixOS Wiki";
-              tags = [ "wiki" "nix" ];
-              url = "https://nixos.wiki/";
+              name = "Arch Linux";
+              tags = [ "news" "wiki" "arch" ];
+              url = "https://archlinux.org/";
+            }
+            {
+              name = "GitHub";
+              url = "https://github.com/";
             }
           ];
         }
