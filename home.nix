@@ -1,3 +1,5 @@
+# Home-Manager configuration
+
 # man home-configuration.nix
 
 { config, pkgs, ... }:
@@ -14,11 +16,17 @@
 
   home.packages = with pkgs; [
     # Packages to install:
+
+    # GUI Apps
     obsidian
     signal-desktop
     fragments
     element-desktop
+    gnome-secrets
 
+    # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
+
+    # CLI Apps
     neofetch
     unzip
     eza
@@ -80,7 +88,7 @@
         elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
           echo "Updating Arch..."
           sudo pacman -Syu
-          sudo pacman -Rsn $(paru -Qdtq)
+          sudo pacman -Rsn $(pacman -Qdtq)
           if p c pacman-contrib &>/dev/null; then
               paccache -rk1
           else
@@ -251,7 +259,9 @@
         "codium.desktop"
         "org.gnome.Terminal.desktop"
         "obsidian.desktop"
+        "org.gnome.World.Secrets.desktop"
         "signal-desktop.desktop"
+        "element-desktop.desktop"
       ];
     };
 
