@@ -286,7 +286,7 @@
       "theme" = "auto";
       "audible-bell" = false;
       "use-system-font" = false;
-      "custom-font" = "JetBrainsMono Nerd Font 10"
+      "custom-font" = "JetBrainsMono Nerd Font 10";
     };
 
     "org/gnome/desktop" = {
@@ -373,6 +373,7 @@
       "git.enableCommitSigning" = false;
       "git.enableSmartCommit" = true;
       "git.confirmSync" = false;
+      "git.autofetch" = true;
       # Styling
       "window.autoDetectColorScheme" = true;
       "workbench.preferredDarkColorTheme" = "Default Dark Modern";
