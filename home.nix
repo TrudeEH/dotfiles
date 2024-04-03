@@ -23,6 +23,7 @@
     fragments
     element-desktop
     gnome-secrets
+    newsflash
 
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
@@ -265,6 +266,7 @@
         "codium.desktop"
         "org.gnome.Console.desktop"
         "obsidian.desktop"
+        "io.gitlab.news_flash.NewsFlash.desktop"
         "org.gnome.World.Secrets.desktop"
         "signal-desktop.desktop"
         "element-desktop.desktop"
