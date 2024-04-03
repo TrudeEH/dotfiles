@@ -152,14 +152,42 @@
 
   programs.firefox = {
     enable = true;
+    policies = {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      DontCheckDefaultBrowser = true;
+      DisablePocket = true;
+      SearchBar = "unified";
+
+      Preferences = {
+        # Privacy settings
+        "extensions.pocket.enabled" = false;
+        "browser.topsites.contile.enabled" = false;
+        "browser.newtabpage.activity-stream.showSponsored" = false;
+        "browser.newtabpage.activity-stream.system.showSponsored" = false;
+        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+      };
+
+      ExtensionSettings = {
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        "jid1-MnnxcxisBPnSXQ@jetpack" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
+          installation_mode = "force_installed";
+        };
+      };
+    };
+
     profiles.default = {
       id = 0;
       name = "Trude";
       isDefault = true;
       settings = {
         "browser.startup.homepage" = "about:newtab";
-        "browser.search.defaultenginename" = "Google";
-        "browser.search.order.1" = "Google";
+        "browser.search.defaultenginename" = "DuckDuckGo";
+        "browser.search.order.1" = "DuckDuckGo";
         "general.smoothScroll" = true;
         "browser.disableResetPrompt" = true;
         "browser.download.panel.shown" = true;
