@@ -92,7 +92,8 @@
             sudo pacman -Syu --noconfirm reflector rsync curl
           fi
           iso=$(curl -4 ifconfig.co/country-iso)
-          sudo reflector -c $iso -a 48 -f 5 -l 30 --verbose --sort rate --save /etc/pacman.d/mirrorlist
+          extra="FR"
+          sudo reflector -a 48 -c $iso -c $extra -f 5 -l 30 --verbose --sort rate --save /etc/pacman.d/mirrorlist
           echo "Cleaning pacman cache..."
           if [ ! "$(command -v paccache)" ]; then
             sudo pacman -Syu --noconfirm pacman-contrib
