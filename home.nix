@@ -222,6 +222,10 @@
               name = "GitHub";
               url = "https://github.com/";
             }
+            {
+              name = "WOL";
+              url = "https://wol.jw.org/pt-PT/";
+            }
           ];
         }
       ];
@@ -297,6 +301,10 @@
       "interface/enable-hot-corners" = false;
       "background/picture-uri" = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-l.svg";
       "background/picture-uri-dark" = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-d.svg";
+    };
+
+    "org/gnome/desktop/interface" = {
+      "show-battery-percentage" = true;
     };
 
     "org/gnome/shell/extensions" = {

@@ -8,7 +8,7 @@ If you would like to use this repository, I recommend forking it and editing hom
 
 ## Install
 ```sh
-curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh | bash
+bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
 ```
 
 ## Dependencies
