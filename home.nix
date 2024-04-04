@@ -343,9 +343,9 @@
 
     "org/gnome/desktop/interface" = {
       show-battery-percentage = true;
-      font-name = "unset";
+      #font-name = "";
       monospace-font-name = "JetBrainsMono Nerd Font Mono 10";
-      document-font-name = "unset";
+      #document-font-name = "";
       color-scheme = "prefer-dark";
       enable-hot-corners = false;
       cursor-theme = "Bibata-Modern-Classic";
