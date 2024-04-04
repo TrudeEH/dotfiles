@@ -31,6 +31,7 @@
     neofetch
     unzip
     eza
+    rustup
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
@@ -65,7 +66,7 @@
     (writeShellScriptBin "reload" ''
       nix-channel --update
       echo "rebuilding home.nix..."
-      home-manager switch &> switch.log || (cat switch.log | grep --color error && false)
+      home-manager switch
       rm switch.log
     '')
 
@@ -254,6 +255,18 @@
               name = "WOL";
               url = "https://wol.jw.org/pt-PT/";
             }
+            {
+              name = "Rust Book";
+              url = "https://doc.rust-lang.org/stable/book/";
+            }
+            {
+              name = "Rust by example";
+              url = "https://doc.rust-lang.org/stable/rust-by-example/";
+            }
+            {
+              name = "Rustlings";
+              url = "https://github.com/rust-lang/rustlings/";
+            }
           ];
         }
       ];
@@ -274,8 +287,8 @@
     };
 
     iconTheme = {
-      name = "Tela-circle";
-      package = pkgs.tela-circle-icon-theme;
+      name = "Tela";
+      package = pkgs.tela-icon-theme;
     };
   };
 
@@ -318,29 +331,36 @@
     };
 
     "org/gnome/Console" = {
-      "theme" = "auto";
-      "audible-bell" = false;
-      "use-system-font" = false;
-      "custom-font" = "JetBrainsMono Nerd Font 10";
+      theme = "auto";
+      audible-bell = false;
+      use-system-font = false;
+      custom-font = "JetBrainsMono Nerd Font 10";
     };
 
-    "org/gnome/desktop" = {
-      "interface/color-scheme" = "prefer-dark";
-      "interface/enable-hot-corners" = false;
-      "background/picture-uri" = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-l.svg";
-      "background/picture-uri-dark" = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-d.svg";
+    "org/gnome/desktop/background" = {
+      picture-uri = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-l.svg";
+      picture-uri-dark = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-d.svg";
     };
 
     "org/gnome/desktop/interface" = {
-      "show-battery-percentage" = true;
+      show-battery-percentage = true;
+      font-name = "unset";
+      monospace-font-name = "JetBrainsMono Nerd Font Mono 10";
+      document-font-name = "unset";
+      color-scheme = "prefer-dark";
+      enable-hot-corners = false;
+      cursor-theme = "Bibata-Modern-Classic";
+      icon-theme = "Tela";
     };
 
-    "org/gnome/shell/extensions" = {
-      "vitals/hot-sensors" = [
+    "org/gnome/shell/extensions/vitals" = {
+      hot-sensors = [
         "_memory_usage_"
         "__temperature_max__"
         "_processor_usage_"
       ];
+      fixed-widths = false;
+      update-time = 1;
     };
   };
 
