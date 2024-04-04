@@ -66,8 +66,7 @@
     (writeShellScriptBin "reload" ''
       nix-channel --update
       echo "rebuilding home.nix..."
-      home-manager switch
-      rm switch.log
+      home-manager switch -b backup
     '')
 
     (writeShellScriptBin "update" ''
@@ -287,8 +286,8 @@
     };
 
     iconTheme = {
-      name = "Tela";
-      package = pkgs.tela-icon-theme;
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
     };
   };
 
@@ -350,7 +349,7 @@
       color-scheme = "prefer-dark";
       enable-hot-corners = false;
       cursor-theme = "Bibata-Modern-Classic";
-      icon-theme = "Tela";
+      icon-theme = "Papirus";
     };
 
     "org/gnome/shell/extensions/vitals" = {
