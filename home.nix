@@ -24,6 +24,7 @@
     element-desktop
     gnome-secrets
     newsflash
+    timeshift
 
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
@@ -76,6 +77,7 @@
       else
         if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
           echo "Updating Debian..."
+          sudo timeshift --create
           sudo apt update
           sudo apt upgrade
           sudo apt dist-upgrade
@@ -84,6 +86,7 @@
           sudo journalctl --vacuum-time=7d
         elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
           echo "Updating Arch..."
+          sudo timeshift --create
           sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
           sudo pacman -Syu
           sudo pacman -Rsn $(pacman -Qdtq)
@@ -103,6 +106,7 @@
           sudo journalctl --vacuum-time=7d
         elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
           echo "Updating Fedora..."
+          sudo timeshift --create
           sudo dnf upgrade --refresh
           sudo dnf autoremove
           sudo journalctl --vacuum-time=7d
