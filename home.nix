@@ -31,7 +31,6 @@
     neofetch
     unzip
     eza
-    rustup
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
