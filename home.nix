@@ -25,6 +25,7 @@
     gnome-secrets
     newsflash
     timeshift
+    eyedropper
 
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
