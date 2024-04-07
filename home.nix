@@ -26,10 +26,12 @@
     newsflash
     timeshift
     eyedropper
+    gnome-obfuscate
 
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
     # CLI Apps
+    torsocks
     neofetch
     unzip
     eza
