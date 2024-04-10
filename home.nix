@@ -18,7 +18,7 @@
     # Packages to install:
 
     # GUI Apps
-    obsidian
+    logseq
     signal-desktop
     fragments
     element-desktop
@@ -27,6 +27,7 @@
     timeshift
     eyedropper
     gnome-obfuscate
+    gnome-podcasts
 
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 

@@ -40,7 +40,7 @@ fi
 if ! nix --version &>/dev/null; then
     echo -e "${YELLOW}[E] Nix not found.${ENDCOLOR}"
     echo -e "${GREEN}[+] Installing the Nix package manager...${ENDCOLOR}"
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+    sh <(curl -L https://nixos.org/nix/install) --daemon
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
 fi
@@ -48,7 +48,7 @@ fi
 # ============== HOME MANAGER ==============
 
 # Install
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
 nix-channel --update
 nix-shell '<home-manager>' -A install
 
