@@ -327,10 +327,11 @@
       favorite-apps = [
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
+        "com.logseq.Logseq.desktop"
         "codium.desktop"
         "org.gnome.Console.desktop"
-        "obsidian.desktop"
         "io.gitlab.news_flash.NewsFlash.desktop"
+        "org.gnome.Podcasts.desktop"
         "org.gnome.World.Secrets.desktop"
         "signal-desktop.desktop"
         "element-desktop.desktop"
