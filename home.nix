@@ -18,7 +18,7 @@
     # Packages to install:
 
     # GUI Apps
-    # logseq # Broken as of now
+    # obsidian # Broken as of now
     signal-desktop
     fragments
     element-desktop
@@ -327,7 +327,7 @@
       favorite-apps = [
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
-        "com.logseq.Logseq.desktop"
+        "md.obsidian.Obsidian.desktop"
         "codium.desktop"
         "org.gnome.Console.desktop"
         "io.gitlab.news_flash.NewsFlash.desktop"
