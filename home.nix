@@ -18,7 +18,7 @@
     # Packages to install:
 
     # GUI Apps
-    logseq
+    # logseq # Broken as of now
     signal-desktop
     fragments
     element-desktop
