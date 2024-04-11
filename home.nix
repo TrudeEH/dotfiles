@@ -42,7 +42,6 @@
 
     gnomeExtensions.vitals
     gnomeExtensions.clipboard-indicator
-    gnomeExtensions.syncthing-indicator
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -333,7 +332,6 @@
       enabled-extensions = [
         "Vitals@CoreCoding.com"
         "clipboard-indicator@tudmotu.com"
-        "syncthing@gnome.2nv2u.com"
         # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
 
