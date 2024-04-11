@@ -32,6 +32,7 @@
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
     # CLI Apps
+    syncthing
     torsocks
     neofetch
     unzip
@@ -154,6 +155,11 @@
   # =======================================================================
   # ----------------------- PROGRAM CONFIGURATION -------------------------
   # =======================================================================
+
+  # Autostart Syncthing on boot
+  services.syncthing = {
+    enable = true;
+  };
 
   programs.home-manager.enable = true;
 
