@@ -42,6 +42,7 @@
 
     gnomeExtensions.vitals
     gnomeExtensions.clipboard-indicator
+    gnomeExtensions.syncthing-indicator
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -292,6 +293,10 @@
               name = "Rustlings";
               url = "https://github.com/rust-lang/rustlings/";
             }
+            {
+              name = "Syncthing";
+              url = "http://127.0.0.1:8384/#";
+            }
           ];
         }
       ];
@@ -322,11 +327,13 @@
     # Use `dconf watch /` to track stateful changes you are doing, then set them here.
     "org/gnome/shell" = {
       disable-user-extensions = false;
+      disable-extension-version-validation = false;
 
       # `gnome-extensions list` for a list
       enabled-extensions = [
         "Vitals@CoreCoding.com"
         "clipboard-indicator@tudmotu.com"
+        "syncthing@gnome.2nv2u.com"
         # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
 
