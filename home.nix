@@ -440,6 +440,7 @@
       ms-toolsai.jupyter
       ms-python.python
       arrterian.nix-env-selector
+      piousdeer.adwaita-theme
     ]);
 
     # Settings
@@ -465,8 +466,8 @@
       "git.autofetch" = true;
       # Styling
       "window.autoDetectColorScheme" = true;
-      "workbench.preferredDarkColorTheme" = "Default Dark Modern";
-      "workbench.preferredLightColorTheme" = "Default Light Modern";
+      "workbench.preferredDarkColorTheme" = "Adwaita Dark";
+      "workbench.preferredLightColorTheme" = "Adwaita Light";
       "workbench.iconTheme" = "material-icon-theme";
       "material-icon-theme.activeIconPack" = "none";
       "material-icon-theme.folders.theme" = "classic";
