@@ -33,7 +33,6 @@
 
     # CLI Apps
     syncthing
-    torsocks
     neofetch
     unzip
     eza
@@ -157,16 +156,12 @@
   # =======================================================================
 
   # Autostart Syncthing on boot
-  services.syncthing = {
-    enable = true;
-  };
-
+  services.syncthing.enable = true;
   programs.home-manager.enable = true;
 
   # Default browser
   xdg.mimeApps = {
     enable = true;
-
     defaultApplications = {
       "text/html" = "firefox.desktop";
       "x-scheme-handler/http" = "firefox.desktop";
