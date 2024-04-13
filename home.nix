@@ -384,6 +384,48 @@
       icon-theme = "Papirus";
     };
 
+    "org/gnome/epiphany" = { # GNOME Web
+      web = {
+        enable-adblock = true;
+        enable-popups = false;
+        ask-on-download = true;
+        enable-spell-checking = true;
+        show-developer-actions = true;
+        enable-itp = true;
+        enable-website-data-storage = true;
+        remember-passwords = false;
+        use-gnome-fonts = false;
+        monospace-font = "JetBrainsMono Nerd Font Mono 12";
+      };
+
+      homepage-url = "about:newtab";
+      start-in-incognito-mode = false;
+      restore-session-policy = "always";
+      use-google-search-suggestions = false;
+      search-engine-providers = [
+        {
+          url = "https://duckduckgo.com/?q=%s&t=epiphany";
+          bang = "!d";
+          name = "DuckDuckGo";
+        }
+        {
+          url = "https://www.google.com/search?q=%s";
+          bang = "!g";
+          name = "Google";
+        }
+        {
+          url = "https://search.nixos.org/packages?channel=23.11&from=0&size=50&sort=relevance&type=packages&query=%s";
+          bang = "!np";
+          name = "Nix Packages";
+        }
+      ];
+
+      content-filters = [
+        "https://easylist-downloads.adblockplus.org/easylist_min_content_blocker.json"
+        "https://better.fyi/blockerList.json"
+      ];
+    };
+
     "org/gnome/shell/extensions/vitals" = {
       hot-sensors = [
         "_memory_usage_"
