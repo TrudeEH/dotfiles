@@ -68,19 +68,18 @@
     '')
 
     (writeShellScriptBin "reload" ''
+      set -x
       nix-channel --update
-      echo "rebuilding home.nix..."
       home-manager switch -b backup
+      set +x
     '')
 
     (writeShellScriptBin "update" ''
+      set -x
       if [ "$(uname -s)" = "Darwin" ]; then
-        echo "Updating macOS..."
-        echo "THE DEVICE WILL RESTART IF NECESSARY."
         sudo softwareupdate -iaR
       else
         if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
-          echo "Updating Debian..."
           sudo timeshift --create
           sudo apt update
           sudo apt upgrade
@@ -89,7 +88,6 @@
           sudo apt autoclean
           sudo journalctl --vacuum-time=7d
         elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
-          echo "Updating Arch..."
           sudo timeshift --create
           sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
           sudo pacman -Syu
@@ -109,7 +107,6 @@
           echo "Cleaning old logs..."
           sudo journalctl --vacuum-time=7d
         elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
-          echo "Updating Fedora..."
           sudo timeshift --create
           sudo dnf upgrade --refresh
           sudo dnf autoremove
@@ -131,6 +128,7 @@
       nix-channel --update
       nix-collect-garbage --delete-older-than 7d
       home-manager switch
+      set +x
     '')
   ];
 
