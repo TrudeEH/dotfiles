@@ -125,6 +125,9 @@
           flatpak uninstall --unused --delete-data
       fi
 
+      cd ~/dotfiles
+      git pull
+
       nix-channel --update
       nix-collect-garbage --delete-older-than 7d
       home-manager switch
