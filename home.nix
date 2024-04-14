@@ -81,7 +81,7 @@
       set -x
       nix-channel --update
       home-manager switch -b backup
-      set +x
+      { set +x; } 2>/dev/null
     '')
 
     (writeShellScriptBin "update" ''
@@ -138,7 +138,7 @@
       nix-channel --update
       nix-collect-garbage --delete-older-than 7d
       home-manager switch
-      set +x
+      { set +x; } 2>/dev/null
     '')
   ];
 
