@@ -269,6 +269,11 @@
               url = "https://archlinux.org/";
             }
             {
+              name = "NixOS Discourse";
+              tags = [ "wiki" "nix" ];
+              url = "https://discourse.nixos.org/";
+            }
+            {
               name = "GitHub";
               url = "https://github.com/";
             }
@@ -332,6 +337,7 @@
       ];
 
       favorite-apps = [
+        "org.gnome.Epiphany.desktop"
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
         "md.obsidian.Obsidian.desktop"
@@ -385,40 +391,39 @@
     };
 
     "org/gnome/epiphany" = { # GNOME Web
-      web = {
-        enable-adblock = true;
-        enable-popups = false;
-        ask-on-download = true;
-        enable-spell-checking = true;
-        show-developer-actions = true;
-        enable-itp = true;
-        enable-website-data-storage = true;
-        remember-passwords = false;
-        use-gnome-fonts = false;
-        monospace-font = "JetBrainsMono Nerd Font Mono 12";
-      };
+      "web/enable-adblock" = true;
+      "web/enable-popups" = false;
+      "web/ask-on-download" = true;
+      "web/enable-spell-checking" = true;
+      "web/show-developer-actions" = true;
+      "web/enable-itp" = true;
+      "web/enable-website-data-storage" = true;
+      "web/remember-passwords" = false;
+      "web/use-gnome-fonts" = false;
+      "web/monospace-font" = "JetBrainsMono Nerd Font Mono 12";
 
       homepage-url = "about:newtab";
       start-in-incognito-mode = false;
       restore-session-policy = "always";
       use-google-search-suggestions = false;
-      search-engine-providers = [
-        {
-          url = "https://duckduckgo.com/?q=%s&t=epiphany";
-          bang = "!d";
-          name = "DuckDuckGo";
-        }
-        {
-          url = "https://www.google.com/search?q=%s";
-          bang = "!g";
-          name = "Google";
-        }
-        {
-          url = "https://search.nixos.org/packages?channel=23.11&from=0&size=50&sort=relevance&type=packages&query=%s";
-          bang = "!np";
-          name = "Nix Packages";
-        }
-      ];
+      # TODO: Fix search-engine-providers broken code.
+      # search-engine-providers = [
+      #   {
+      #     url = "https://duckduckgo.com/?q=%s&t=epiphany";
+      #     bang = "!d";
+      #     name = "DuckDuckGo";
+      #   }
+      #   # [
+      #   #   url: "https://www.google.com/search?q=%s"
+      #   #   bang: "!g"
+      #   #   name: "Google"
+      #   # ]
+      #   # [
+      #   #   url: "https://search.nixos.org/packages?channel=23.11&from=0&size=50&sort=relevance&type=packages&query=%s"
+      #   #   bang: "!np"
+      #   #   name: "Nix Packages"
+      #   # ]
+      # ];
 
       content-filters = [
         "https://easylist-downloads.adblockplus.org/easylist_min_content_blocker.json"
