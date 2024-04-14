@@ -32,7 +32,7 @@
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
     # CLI Apps
-    syncthing
+    nextcloud-client
     neofetch
     unzip
     eza
@@ -65,6 +65,16 @@
     else
         echo "'$1' is not a valid file"
     fi
+    '')
+
+    (writeShellScriptBin "ncs" ''
+      echo "+ Syncing Nextcloud @ ~/Nextcloud"
+      mkdir ~/Nextcloud &> /dev/null
+      if [[ -z "$1" ]]; then
+        echo "USAGE: ncs <server_url>"
+        exit 1
+      fi
+      nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud "$1"
     '')
 
     (writeShellScriptBin "reload" ''
@@ -156,8 +166,9 @@
   # ----------------------- PROGRAM CONFIGURATION -------------------------
   # =======================================================================
 
-  # Autostart Syncthing on boot
-  services.syncthing.enable = true;
+  # Autostart services on boot
+  # services.syncthing.enable = true;
+
   programs.home-manager.enable = true;
 
   # Default browser
