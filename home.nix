@@ -515,6 +515,7 @@
       "git.autofetch" = true;
       # Styling
       "window.autoDetectColorScheme" = true;
+      "workbench.colorTheme" = "Adwaita Dark";
       "workbench.preferredDarkColorTheme" = "Adwaita Dark";
       "workbench.preferredLightColorTheme" = "Adwaita Light";
       "workbench.iconTheme" = "material-icon-theme";
