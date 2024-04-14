@@ -2,7 +2,7 @@
 
 # man home-configuration.nix
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # =======================================================================
@@ -390,40 +390,47 @@
       icon-theme = "Papirus";
     };
 
-    "org/gnome/epiphany" = { # GNOME Web
-      "web/enable-adblock" = true;
-      "web/enable-popups" = false;
-      "web/ask-on-download" = true;
-      "web/enable-spell-checking" = true;
-      "web/show-developer-actions" = true;
-      "web/enable-itp" = true;
-      "web/enable-website-data-storage" = true;
-      "web/remember-passwords" = false;
-      "web/use-gnome-fonts" = false;
-      "web/monospace-font" = "JetBrainsMono Nerd Font Mono 12";
+    "org/gnome/epiphany/web" = {
+      enable-adblock = true;
+      enable-popups = false;
+      ask-on-download = true;
+      enable-spell-checking = true;
+      show-developer-actions = true;
+      enable-itp = true;
+      enable-website-data-storage = true;
+      remember-passwords = false;
+      use-gnome-fonts = false;
+      monospace-font = "JetBrainsMono Nerd Font Mono 12";
+    };
 
+    "org/gnome/epiphany" = { # GNOME Web
       homepage-url = "about:newtab";
       start-in-incognito-mode = false;
       restore-session-policy = "always";
       use-google-search-suggestions = false;
-      # TODO: Fix search-engine-providers broken code.
-      # search-engine-providers = [
-      #   {
-      #     url = "https://duckduckgo.com/?q=%s&t=epiphany";
-      #     bang = "!d";
-      #     name = "DuckDuckGo";
-      #   }
-      #   # [
-      #   #   url: "https://www.google.com/search?q=%s"
-      #   #   bang: "!g"
-      #   #   name: "Google"
-      #   # ]
-      #   # [
-      #   #   url: "https://search.nixos.org/packages?channel=23.11&from=0&size=50&sort=relevance&type=packages&query=%s"
-      #   #   bang: "!np"
-      #   #   name: "Nix Packages"
-      #   # ]
-      # ];
+
+      search-engine-providers = with lib.hm.gvariant; [
+        [
+          (mkDictionaryEntry["url" (mkVariant "https://duckduckgo.com/?q=%s&t=epiphany")])
+          (mkDictionaryEntry["bang" (mkVariant "!d")])
+          (mkDictionaryEntry["name" (mkVariant "DuckDuckGo")])
+        ]
+        [
+          (mkDictionaryEntry["url" (mkVariant "https://www.google.com/search?q=%s")])
+          (mkDictionaryEntry["bang" (mkVariant "!g")])
+          (mkDictionaryEntry["name" (mkVariant "Google")])
+        ]
+        [
+          (mkDictionaryEntry["url" (mkVariant "https://search.nixos.org/packages?channel=23.11&from=0&size=50&sort=relevance&type=packages&query=%s")])
+          (mkDictionaryEntry["bang" (mkVariant "!np")])
+          (mkDictionaryEntry["name" (mkVariant "Nix Packages")])
+        ]
+        [
+          (mkDictionaryEntry["url" (mkVariant "https://www.startpage.com/search?q=%s")])
+          (mkDictionaryEntry["bang" (mkVariant "!s")])
+          (mkDictionaryEntry["name" (mkVariant "StartPage")])
+        ]
+      ];
 
       content-filters = [
         "https://easylist-downloads.adblockplus.org/easylist_min_content_blocker.json"
