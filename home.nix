@@ -408,6 +408,7 @@
       start-in-incognito-mode = false;
       restore-session-policy = "always";
       use-google-search-suggestions = false;
+      default-search-engine = "StartPage";
 
       search-engine-providers = with lib.hm.gvariant; [
         [
