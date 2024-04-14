@@ -428,6 +428,7 @@
       content-filters = [
         "https://easylist-downloads.adblockplus.org/easylist_min_content_blocker.json"
         "https://better.fyi/blockerList.json"
+        "https://github.com/AdguardTeam/BlockYouTubeAdsShortcut/blob/master/index.js"
       ];
     };
 
