@@ -267,12 +267,6 @@
           toolbar = true;
           bookmarks = [
             {
-              name = "Gmail";
-              tags = [ "gmail" ];
-              keyword = "gmail";
-              url = "https://mail.google.com/mail";
-            }
-            {
               name = "YouTube";
               url = "https://www.youtube.com/";
             }
