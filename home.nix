@@ -38,6 +38,7 @@
     unzip            # 'extract' Dependency
     eza              # 'ls' Alias Dependency
     dconf2nix        # Dconf to Nix format.
+    adw-gtk3         # 'gtk2/3' Dependency
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
@@ -323,12 +324,6 @@
       name = "Papirus";
       package = pkgs.papirus-icon-theme;
     };
-
-    # Theme legacy apps (GTK 2/3) to look like GTK 4 apps.
-    theme = {
-      name = "adw-gtk3-dark";
-      package = pkgs.adw-gtk3;
-    };
   };
 
   dconf.settings = {
@@ -398,6 +393,7 @@
       enable-hot-corners = false;
       cursor-theme = "Bibata-Modern-Classic";
       icon-theme = "Papirus";
+      gtk-theme = "adw-gtk3-dark";
     };
 
     "org/gnome/epiphany/web" = {
