@@ -29,6 +29,7 @@
     gnome-obfuscate # Image Editor
     gnome-podcasts  # Podcast Client
     gnome.geary     # Email Client [GNOME Online Accounts]
+    bottles         # Windows Compatibility Layer
 
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
