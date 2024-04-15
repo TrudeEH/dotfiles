@@ -241,9 +241,15 @@
       };
       search = {
         force = true;
-        default = "DuckDuckGo";
-        order = [ "DuckDuckGo" "Google" ];
+        default = "Startpage";
+        order = [ "Startpage" "DuckDuckGo" "Google" ];
         engines = {
+          "Startpage" = {
+            urls = [{
+              template = "https://www.startpage.com/do/search?query={searchTerms}";
+            }];
+            definedAliases = [ "@s" ];
+          };
           "Nix Packages" = {
             urls = [{
               template = "https://search.nixos.org/packages";
