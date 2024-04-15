@@ -347,7 +347,7 @@
         "org.gnome.Epiphany.desktop"
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
-        "md.obsidian.Obsidian.desktop"
+        "obsidian.desktop"
         "codium.desktop"
         "org.gnome.Console.desktop"
         "io.gitlab.news_flash.NewsFlash.desktop"
