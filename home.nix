@@ -19,23 +19,25 @@
 
     # GUI Apps
     # obsidian # Broken as of now
-    signal-desktop
-    fragments
-    element-desktop
-    gnome-secrets
-    newsflash
-    timeshift
-    eyedropper
-    gnome-obfuscate
-    gnome-podcasts
+    signal-desktop  # Signal Messages
+    fragments       # Torrent Client
+    element-desktop # Matrix Messages
+    gnome-secrets   # Password Manager
+    newsflash       # RSS Reader [Nextcloud]
+    timeshift       # Backup
+    eyedropper      # Color Picker
+    gnome-obfuscate # Image Editor
+    gnome-podcasts  # Podcast Client
+    gnome.geary     # Email Client [GNOME Online Accounts]
 
     # Note: Game packages like Steam and Prism should be installed through flatpak, or at system level.
 
     # CLI Apps
-    nextcloud-client
-    neofetch
-    unzip
-    eza
+    nextcloud-client # 'ncs' Dependency [Nextcloud]
+    neofetch         # System Info
+    unzip            # 'extract' Dependency
+    eza              # 'ls' Alias Dependency
+    dconf2nix        # Dconf to Nix format.
 
     # Note to self: This config does not include games/benchmarks. I'm using flatpak for those.
 
@@ -331,6 +333,12 @@
       name = "Papirus";
       package = pkgs.papirus-icon-theme;
     };
+
+    # Theme legacy apps (GTK 2/3) to look like GTK 4 apps.
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
   };
 
   dconf.settings = {
@@ -357,6 +365,7 @@
         "io.gitlab.news_flash.NewsFlash.desktop"
         "org.gnome.Podcasts.desktop"
         "org.gnome.World.Secrets.desktop"
+        "org.gnome.Geary.desktop"
         "signal-desktop.desktop"
         "element-desktop.desktop"
       ];
@@ -449,6 +458,14 @@
         "https://better.fyi/blockerList.json"
         "https://github.com/AdguardTeam/BlockYouTubeAdsShortcut/blob/master/index.js"
       ];
+    };
+
+    "org/gnome/Geary" = {
+      compose-as-html = true;
+      formatting-toolbar-visible = true;
+      migrated-config = true;
+      optional-plugins = [];
+      run-in-background = true;
     };
 
     "org/gnome/shell/extensions/vitals" = {
