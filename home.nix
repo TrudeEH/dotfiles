@@ -300,10 +300,6 @@
               name = "Rustlings";
               url = "https://github.com/rust-lang/rustlings/";
             }
-            {
-              name = "Syncthing";
-              url = "http://127.0.0.1:8384/#";
-            }
           ];
         }
       ];
