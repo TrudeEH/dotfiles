@@ -18,7 +18,7 @@
     # Packages to install:
 
     # GUI Apps
-    # obsidian # Broken as of now
+    obsidian        # Markdown Knowledge Base
     signal-desktop  # Signal Messages
     fragments       # Torrent Client
     element-desktop # Matrix Messages
@@ -83,6 +83,7 @@
 
     (writeShellScriptBin "reload" ''
       set -x
+      sudo nix-channel --update
       nix-channel --update
       home-manager switch -b backup
       { set +x; } 2>/dev/null
@@ -140,6 +141,7 @@
       git pull
 
       nix-channel --update
+      sudo nix-channel --update
       nix-collect-garbage --delete-older-than 7d
       home-manager switch
       { set +x; } 2>/dev/null
