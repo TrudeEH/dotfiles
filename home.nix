@@ -492,6 +492,7 @@
       code = "codium";
       cat = "bat";
       man = "batman";
+      diff = "batdiff"
     };
     initExtra = "set completion-ignore-case On";
     bashrcExtra = ''
