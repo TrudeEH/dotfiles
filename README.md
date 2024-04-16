@@ -11,13 +11,11 @@ If you would like to use this repository, I recommend forking it and editing hom
 bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
 ```
 
-## Dependencies
-- Nix (installed automatically)
-
 ## Custom commands
 - `extract` Extract compressed files
 - `update` Update Nix and the OS.
 - `reload` Rebuild the config after changing it.
+- `ncs` Sync with Nextcloud
 
 ## Supported distros
 - Debian
