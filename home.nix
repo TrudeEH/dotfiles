@@ -78,7 +78,7 @@
         echo "USAGE: ncs <server_url>"
         exit 1
       fi
-      nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud "$1"
+      nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud "https://$1"
     '')
 
     (writeShellScriptBin "reload" ''
