@@ -32,16 +32,19 @@
     bottles         # Windows Compatibility Layer
 
     # CLI Apps
-    nextcloud-client # 'ncs' Dependency [Nextcloud]
-    neofetch         # System Info
+    neofetch  # System Info
+    dconf2nix # Dconf to Nix format.
+
+    # Dependencies
+    adw-gtk3         # 'gtk2/3' Dependency
     unzip            # 'extract' Dependency
     eza              # 'ls' Alias Dependency
-    dconf2nix        # Dconf to Nix format.
-    adw-gtk3         # 'gtk2/3' Dependency
+    nextcloud-client # 'ncs' Dependency [Nextcloud]
 
     # GNOME Extensions
     gnomeExtensions.vitals
     gnomeExtensions.clipboard-indicator
+    gnomeExtensions.rounded-window-corners
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -193,6 +196,7 @@
       enabled-extensions = [
         "Vitals@CoreCoding.com"
         "clipboard-indicator@tudmotu.com"
+        "rounded-window-corners@yilozt"
         # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
 
@@ -535,6 +539,7 @@
       "editor.multiCursorModifier" = "ctrlCmd";
       "workbench.startupEditor" = "none";
       "explorer.compactFolders" = false;
+      "workbench.tree.indent" = 12;
       # Whitespace
       "files.trimTrailingWhitespace" = true;
       "files.trimFinalNewlines" = true;
@@ -554,6 +559,9 @@
       "material-icon-theme.activeIconPack" = "none";
       "material-icon-theme.folders.theme" = "classic";
       "editor.fontLigatures" = true;
+      "window.commandCenter" = true;
+      "workbench.productIconTheme" = "adwaita";
+      "editor.renderLineHighlight" = "none";
       # Other
       "telemetry.telemetryLevel" = "off";
       "update.showReleaseNotes" = false;
