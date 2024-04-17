@@ -18,17 +18,19 @@
     # Packages to install:
 
     # GUI Apps
-    obsidian        # Markdown Knowledge Base
-    signal-desktop  # Signal Messages
-    fragments       # Torrent Client
-    element-desktop # Matrix Messages
-    gnome-secrets   # Password Manager
-    newsflash       # RSS Reader [Nextcloud]
-    eyedropper      # Color Picker
-    gnome-obfuscate # Image Editor
-    gnome-podcasts  # Podcast Client
-    gnome.geary     # Email Client [GNOME Online Accounts]
-    impression      # Usb Flash Tool
+    obsidian              # Markdown Knowledge Base
+    signal-desktop        # Signal Messages
+    fragments             # Torrent Client
+    element-desktop       # Matrix Messages
+    gnome-secrets         # Password Manager
+    newsflash             # RSS Reader [Nextcloud]
+    eyedropper            # Color Picker
+    gnome-obfuscate       # Image Editor
+    gnome-podcasts        # Podcast Client
+    gnome.geary           # Email Client [GNOME Online Accounts]
+    impression            # Usb Flash Tool
+    gnome.gnome-calendar  # Calendar [Nextcloud]
+    gnome.nautilus        # File Manager
 
     # CLI Apps
     dconf2nix # Dconf to Nix format.
@@ -493,6 +495,7 @@
       man = "batman";
       diff = "batdiff";
       neofetch = "fastfetch";
+      sudo = "sudo -i";
     };
     initExtra = "set completion-ignore-case On";
     bashrcExtra = ''
