@@ -31,13 +31,13 @@
     impression      # Usb Flash Tool
 
     # CLI Apps
-    fastfetch # System Info
     dconf2nix # Dconf to Nix format.
 
     # Dependencies
     adw-gtk3         # 'gtk2/3' Dependency
     unzip            # 'extract' Dependency
-    eza              # 'ls' Alias Dependency
+    eza              # 'ls' Alias
+    fastfetch        # 'neofetch' Alias - System Info
     nextcloud-client # 'ncs' Dependency [Nextcloud]
 
     # GNOME Extensions
