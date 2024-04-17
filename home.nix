@@ -29,7 +29,7 @@
     gnome-obfuscate # Image Editor
     gnome-podcasts  # Podcast Client
     gnome.geary     # Email Client [GNOME Online Accounts]
-    bottles         # Windows Compatibility Layer
+    impression      # Usb Flash Tool
 
     # CLI Apps
     neofetch  # System Info
