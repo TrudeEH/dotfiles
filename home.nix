@@ -41,8 +41,7 @@
     nextcloud-client # 'ncs' Dependency [Nextcloud]
 
     # GNOME Extensions
-    gnomeExtensions.vitals
-    gnomeExtensions.clipboard-indicator
+    # gnomeExtensions.vitals
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -186,13 +185,12 @@
     # GNOME settings
     # Use `dconf watch /` to track stateful changes you are doing, then set them here.
     "org/gnome/shell" = {
-      disable-user-extensions = false;
+      disable-user-extensions = true;
       disable-extension-version-validation = false;
 
       # `gnome-extensions list` for a list
       enabled-extensions = [
-        "Vitals@CoreCoding.com"
-        "clipboard-indicator@tudmotu.com"
+        # "Vitals@CoreCoding.com"
         # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
 
@@ -203,6 +201,7 @@
         "obsidian.desktop"
         "codium.desktop"
         "org.gnome.Console.desktop"
+        "org.gnome.Terminal.desktop"
         "io.gitlab.news_flash.NewsFlash.desktop"
         "org.gnome.Podcasts.desktop"
         "org.gnome.World.Secrets.desktop"
