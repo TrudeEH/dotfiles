@@ -44,7 +44,6 @@
     # GNOME Extensions
     gnomeExtensions.vitals
     gnomeExtensions.clipboard-indicator
-    gnomeExtensions.rounded-window-corners
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -83,7 +82,7 @@
 
     (writeShellScriptBin "reload" ''
       set -x
-      sudo nix-channel --update
+      sudo -i nix-channel --update
       nix-channel --update
       home-manager switch -b backup
       { set +x; } 2>/dev/null
@@ -100,7 +99,9 @@
       if [ "$(uname -s)" = "Darwin" ]; then
         sudo softwareupdate -iaR
       else
-        sudo timeshift --create
+        if [ "$(command -v timeshift)" ]; then
+          sudo timeshift --create
+        fi
         sudo journalctl --vacuum-time=7d
         # Flatpak
         if [ "$(command -v flatpak)" ]; then
@@ -196,7 +197,6 @@
       enabled-extensions = [
         "Vitals@CoreCoding.com"
         "clipboard-indicator@tudmotu.com"
-        "rounded-window-corners@yilozt"
         # Add new extensions to the packages too! This section only enables extensions, not install them.
       ];
 
