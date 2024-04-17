@@ -31,7 +31,7 @@
     impression      # Usb Flash Tool
 
     # CLI Apps
-    neofetch  # System Info
+    fastfetch # System Info
     dconf2nix # Dconf to Nix format.
 
     # Dependencies
@@ -492,6 +492,7 @@
       cat = "bat";
       man = "batman";
       diff = "batdiff";
+      neofetch = "fastfetch";
     };
     initExtra = "set completion-ignore-case On";
     bashrcExtra = ''
