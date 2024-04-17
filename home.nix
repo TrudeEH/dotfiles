@@ -24,7 +24,6 @@
     element-desktop # Matrix Messages
     gnome-secrets   # Password Manager
     newsflash       # RSS Reader [Nextcloud]
-    timeshift       # Backup
     eyedropper      # Color Picker
     gnome-obfuscate # Image Editor
     gnome-podcasts  # Podcast Client
@@ -99,9 +98,6 @@
       if [ "$(uname -s)" = "Darwin" ]; then
         sudo softwareupdate -iaR
       else
-        if [ "$(command -v timeshift)" ]; then
-          sudo timeshift --create
-        fi
         sudo journalctl --vacuum-time=7d
         # Flatpak
         if [ "$(command -v flatpak)" ]; then
