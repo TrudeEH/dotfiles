@@ -1,5 +1,9 @@
 # Trude's Dotfiles
 
+<p align="center">
+  <img height=100px src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nix-snowflake-colours.svg" />
+</p>
+
 This repository hosts my personal dotfiles.
 The install script works on Linux and macOS.
 
