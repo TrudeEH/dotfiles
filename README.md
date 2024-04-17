@@ -18,10 +18,10 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 ![Desktop](./screenshots/desktop.png)
 
 ## Custom commands
-- `extract` Extract compressed files
+- `extract` Extract compressed files. 
 - `update` Update Nix and the OS.
 - `reload` Rebuild the config after changing it.
-- `ncs` Sync with Nextcloud
+- `ncs` Sync with Nextcloud. 
 
 ## Supported distros
 - Debian
@@ -30,7 +30,7 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 
 ## Tested on
 - macOS 14
-- Debian Bookworm
+- Debian Bookworm / Trixie
 - Fedora Worstation 39
 - Ubuntu 23.10
 - Arch Linux (as of last commit)
