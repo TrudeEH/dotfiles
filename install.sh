@@ -2,32 +2,14 @@
 
 export NIXPKGS_ALLOW_UNFREE=1
 
-detectDistro() {
-    if [ "$(uname -s)" = "Darwin" ]; then
-        echo "macOS"
-    else
-        if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
-            echo "Debian"
-        elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
-            echo "Arch"
-        elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
-            echo "Fedora"
-        else
-            echo 1
-            return 1
-        fi
-    fi
-}
-
-d=$(detectDistro)
-if [[ $d == "Debian" ]]; then
+if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
     sudo apt install -y curl git
-elif [[ $d == "Arch" ]]; then
+elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
     sudo pacman -Sy curl git
     sudo pacman -Sy gnome power-profiles-daemon fwupd gst-plugin-pipewire # Gnome and optional dependencies.
     sudo systemctl enable power-profiles-daemon
     sudo systemctl start power-profiles-daemon
-elif [[ $d == "Fedora" ]]; then
+elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
     sudo dnf install curl git
 fi
 
