@@ -325,7 +325,7 @@
   # =======================================================================
 
   # Autostart services on boot
-  # services.syncthing.enable = true;
+  services.gnome-keyring.enable = true;
 
   programs.home-manager.enable = true;
 
