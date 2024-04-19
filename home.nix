@@ -34,6 +34,7 @@
 
     # CLI Apps
     dconf2nix # Dconf to Nix format.
+    ollama    # Local LLMs
 
     # Dependencies
     adw-gtk3         # 'gtk2/3' Dependency
@@ -328,6 +329,19 @@
 
   # Autostart services on boot
   services.gnome-keyring.enable = true;
+
+  systemd.user.services.ollama = {
+    Unit = {
+      Description = "Ollama Serve.";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      ExecStart = "/home/trude/.nix-profile/bin/ollama serve";
+    };
+  };
+
 
   programs.home-manager.enable = true;
 
