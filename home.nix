@@ -10,8 +10,7 @@
   # =======================================================================
 
   home.username = "trude";
-  # home.homeDirectory = "/Users/trude"; #macOS
-  home.homeDirectory = "/home/trude"; #Linux
+  home.homeDirectory = "/home/trude";
   home.stateVersion = "23.11"; # Do NOT change. This value stays the same when updating.
 
   home.packages = with pkgs; [
@@ -31,7 +30,9 @@
     impression            # Usb Flash Tool
     gnome.gnome-calendar  # Calendar [Nextcloud]
     gnome.nautilus        # File Manager
+    gnome-console         # Terminal App
     gnome-builder         # Code Editor
+    gnome.epiphany        # Web Browser
 
     # CLI Apps
     dconf2nix # Dconf to Nix format.
@@ -189,7 +190,7 @@
 
   dconf.settings = {
     # GNOME settings
-    # Use `dconf watch /` to track stateful changes you are doing, then set them here.
+    # Use `dconf watch /` to track stateful changes you are doing, or use dconf dump and dconf2nix.
     "org/gnome/shell" = {
       disable-user-extensions = true;
       disable-extension-version-validation = false;
@@ -207,7 +208,6 @@
         "obsidian.desktop"
         "codium.desktop"
         "org.gnome.Console.desktop"
-        "org.gnome.Terminal.desktop"
         "io.gitlab.news_flash.NewsFlash.desktop"
         "org.gnome.Podcasts.desktop"
         "org.gnome.World.Secrets.desktop"
@@ -215,10 +215,6 @@
         "org.gnome.Fractal.desktop"
         "signal-desktop.desktop"
       ];
-    };
-
-    "org/gnome/mutter" = {
-      draggable-border-width = 20;
     };
 
     "org/gnome/settings-daemon/plugins/color" = {
@@ -247,9 +243,7 @@
 
     "org/gnome/desktop/interface" = {
       show-battery-percentage = true;
-      #font-name = "";
       monospace-font-name = "JetBrainsMono Nerd Font Mono 10";
-      #document-font-name = "";
       color-scheme = "prefer-dark";
       enable-hot-corners = false;
       cursor-theme = "Bibata-Modern-Classic";
@@ -342,9 +336,9 @@
     };
     Service = {
       ExecStart = "/home/trude/.nix-profile/bin/ollama serve";
+      ExecStop = "killall ollama";
     };
   };
-
 
   programs.home-manager.enable = true;
 
@@ -352,11 +346,11 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "text/html" = "firefox.desktop";
-      "x-scheme-handler/http" = "firefox.desktop";
-      "x-scheme-handler/https" = "firefox.desktop";
-      "x-scheme-handler/about" = "firefox.desktop";
-      "x-scheme-handler/unknown" = "firefox.desktop";
+      "text/html" = "org.gnome.Epiphany.desktop";
+      "x-scheme-handler/http" = "org.gnome.Epiphany.desktop";
+      "x-scheme-handler/https" = "org.gnome.Epiphany.desktop";
+      "x-scheme-handler/about" = "org.gnome.Epiphany.desktop";
+      "x-scheme-handler/unknown" = "org.gnome.Epiphany.desktop";
     };
   };
 
