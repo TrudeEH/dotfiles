@@ -31,6 +31,7 @@
     impression            # Usb Flash Tool
     gnome.gnome-calendar  # Calendar [Nextcloud]
     gnome.nautilus        # File Manager
+    gnome-builder         # Code Editor
 
     # CLI Apps
     dconf2nix # Dconf to Nix format.
@@ -43,6 +44,7 @@
     eza              # 'ls' Alias
     fastfetch        # 'neofetch' Alias - System Info
     nextcloud-client # 'ncs' Dependency [Nextcloud]
+    flatpak-builder  # gnome-builder Dependency
 
     # GNOME Extensions
     # gnomeExtensions.vitals
