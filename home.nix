@@ -181,10 +181,10 @@
       size = 22;
     };
 
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.papirus-icon-theme;
-    };
+    # iconTheme = {
+    #   name = "Papirus";
+    #   package = pkgs.papirus-icon-theme;
+    # };
   };
 
   dconf.settings = {
@@ -253,7 +253,7 @@
       color-scheme = "prefer-dark";
       enable-hot-corners = false;
       cursor-theme = "Bibata-Modern-Classic";
-      icon-theme = "Papirus";
+      # icon-theme = "Papirus";
       gtk-theme = "adw-gtk3-dark";
     };
 
