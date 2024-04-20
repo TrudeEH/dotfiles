@@ -6,9 +6,9 @@ if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
     sudo apt install -y curl git
 elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
     sudo pacman -Sy curl git
-    sudo pacman -Sy gnome power-profiles-daemon fwupd gst-plugin-pipewire # Gnome and optional dependencies.
+    sudo pacman -Sy gnome cups power-profiles-daemon fwupd gst-plugin-pipewire # Gnome and optional dependencies.
     sudo systemctl enable power-profiles-daemon
-    sudo systemctl start power-profiles-daemon
+    sudo systemctl enable cups
 elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
     sudo dnf install curl git
 fi
@@ -45,3 +45,4 @@ echo -e "${GREEN}[I] Done. Rebooting in 5 seconds...${ENDCOLOR}"
 sleep 5
 
 systemctl reboot
+reboot
