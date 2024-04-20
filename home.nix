@@ -225,6 +225,12 @@
       "icon-view/default-zoom-level" = "small";
     };
 
+    "org/gnome/TextEditor" = {
+      indent-style = "space";
+      show-line-numbers = true;
+      show-right-margin = false;
+    };
+
     "org/gnome/Console" = {
       theme = "auto";
       audible-bell = false;
