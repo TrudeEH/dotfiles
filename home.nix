@@ -35,6 +35,7 @@
     # CLI Apps
     dconf2nix # Dconf to Nix format.
     ollama    # Local LLMs
+    nmap      # Network Tool
 
     # Dependencies
     adw-gtk3         # 'gtk2/3' Dependency
@@ -209,8 +210,8 @@
         "org.gnome.Podcasts.desktop"
         "org.gnome.World.Secrets.desktop"
         "org.gnome.Geary.desktop"
+        "org.gnome.Fractal.desktop"
         "signal-desktop.desktop"
-        "element-desktop.desktop"
       ];
     };
 
