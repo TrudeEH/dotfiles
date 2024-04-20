@@ -513,6 +513,7 @@
       diff = "batdiff";
       neofetch = "fastfetch";
       sudo = "sudo -i";
+      ns = "nix-shell";
     };
     initExtra = "set completion-ignore-case On";
     bashrcExtra = ''
