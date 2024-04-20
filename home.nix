@@ -21,7 +21,7 @@
     obsidian              # Markdown Knowledge Base
     signal-desktop        # Signal Messages
     fragments             # Torrent Client
-    element-desktop       # Matrix Messages
+    fractal               # Matrix Messages
     gnome-secrets         # Password Manager
     newsflash             # RSS Reader [Nextcloud]
     eyedropper            # Color Picker
