@@ -38,6 +38,7 @@
     dconf2nix # Dconf to Nix format.
     ollama    # Local LLMs
     nmap      # Network Tool
+    fzf       # Fuzzy Finder
 
     # Dependencies
     adw-gtk3         # 'gtk2/3' Dependency
@@ -45,6 +46,7 @@
     eza              # 'ls' Alias
     fastfetch        # 'neofetch' Alias - System Info
     nextcloud-client # 'ncs' Dependency [Nextcloud]
+    zoxide           # 'cd' Alias
     flatpak-builder  # gnome-builder Dependency
 
     # GNOME Extensions
@@ -514,11 +516,14 @@
       neofetch = "fastfetch";
       sudo = "sudo -i";
       ns = "nix-shell";
+      cd = "z";
+      ci = "zi";
     };
     initExtra = "set completion-ignore-case On";
     bashrcExtra = ''
       export EDITOR="codium";
       export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
+      eval "$(zoxide init bash)"
     '';
   };
 
