@@ -206,16 +206,19 @@
       favorite-apps = [
         "org.gnome.Epiphany.desktop"
         "firefox.desktop"
-        "org.gnome.Nautilus.desktop"
-        "obsidian.desktop"
-        "codium.desktop"
-        "org.gnome.Console.desktop"
+        "org.gnome.Calendar.desktop"
+        "org.gnome.Geary.desktop"
         "io.gitlab.news_flash.NewsFlash.desktop"
         "org.gnome.Podcasts.desktop"
-        "org.gnome.World.Secrets.desktop"
-        "org.gnome.Geary.desktop"
         "org.gnome.Fractal.desktop"
         "signal-desktop.desktop"
+        "org.gnome.World.Secrets.desktop"
+        "org.gnome.Nautilus.desktop"
+        "org.gnome.Console.desktop"
+        "obsidian.desktop"
+        "codium.desktop"
+        "org.gnome.Builder.desktop"
+        "org.gnome.Boxes.desktop"
       ];
     };
 
@@ -246,7 +249,7 @@
     };
 
     "org/gnome/desktop/wm/preferences" = {
-      button-layout = ":minimize,maximize,close";
+      button-layout = ":minimize,close";
     };
 
     "org/gnome/desktop/interface" = {
