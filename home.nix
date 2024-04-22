@@ -248,10 +248,6 @@
       picture-uri-dark = "file:///${config.home.homeDirectory}/dotfiles/wallpapers/blobs-d.svg";
     };
 
-    "org/gnome/desktop/wm/preferences" = {
-      button-layout = ":minimize,close";
-    };
-
     "org/gnome/desktop/interface" = {
       show-battery-percentage = true;
       monospace-font-name = "JetBrainsMono Nerd Font Mono 10";
