@@ -15,6 +15,10 @@ pkgs.mkShellNoCC {
     strace
     wget
     curl
+
+    # Libraries and Dependencies
+    libadwaita
+    gtk4
   ];
 
   shellHook = ''
