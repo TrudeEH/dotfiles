@@ -5,6 +5,10 @@ source scripts/p.sh
 # Install script dependencies
 p i curl git stow bat fzf eza zoxide less
 
+if [ ! $(command -v brew) ]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
     git clone https://github.com/TrudeEH/dotfiles
