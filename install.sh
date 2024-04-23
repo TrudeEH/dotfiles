@@ -3,7 +3,7 @@
 source scripts/p.sh
 
 # Install script dependencies
-p i curl git stow bat fzf eza zoxide
+p i curl git stow bat fzf eza zoxide less
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
