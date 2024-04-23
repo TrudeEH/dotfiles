@@ -3,7 +3,7 @@
 source scripts/p.sh
 
 # Install script dependencies
-p i curl git rcm bat batdiff batman fzf eza zoxide
+p i curl git stow bat batdiff batman fzf eza zoxide
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
@@ -11,7 +11,11 @@ if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd dotfiles
 fi
 
-rcup -d dotfiles
+echo -e "${GREEN}[+] Symlinking dotfiles...${ENDCOLOR}"
+stow -v -t $HOME dotfiles --adopt
+git diff
+git reset --hard
+
 dconf reset -f /
 dconf load / < dconf-settings
 
