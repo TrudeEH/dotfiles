@@ -12,7 +12,8 @@ fi
 # Install script dependencies
 paru -Sy curl git stow bat fzf eza zoxide less
 
-paru -Sy vscodium-bin
+# Install Apps
+paru -Sy vscodium-bin ollama obsidian signal-desktop fragments fractal secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary gnome-builder epiphany
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
