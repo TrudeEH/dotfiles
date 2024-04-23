@@ -104,7 +104,8 @@ night-light-enabled=true
 disable-extension-version-validation=false
 disable-user-extensions=true
 enabled-extensions=@as []
-favorite-apps=['org.gnome.Epiphany.desktop', 'firefox.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Geary.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'org.gnome.Podcasts.desktop', 'org.gnome.Fractal.desktop', 'signal-desktop.desktop', 'org.gnome.World.Secrets.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Console.desktop', 'obsidian.desktop', 'codium.desktop', 'org.gnome.Builder.desktop', 'org.gnome.Boxes.desktop']
+app-picker-layout=[{'2aef6451-c6b1-46dc-945a-d13b9ad7a3b6': <{'position': <0>}>, '9dc6ec83-1b85-40bd-a4da-12d2c5b170eb': <{'position': <1>}>, 'io.gitlab.adhami3310.Impression.desktop': <{'position': <2>}>, 'codium-wayland.desktop': <{'position': <3>}>, 'de.haeckerfelix.Fragments.desktop': <{'position': <4>}>, 'com.github.finefindus.eyedropper.desktop': <{'position': <5>}>}]
+favorite-apps=['org.gnome.Epiphany.desktop', 'org.gnome.Geary.desktop', 'org.gnome.Fractal.desktop', 'signal-desktop.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'org.gnome.Podcasts.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'obsidian.desktop', 'org.gnome.World.Secrets.desktop', 'org.gnome.Console.desktop', 'codium.desktop', 'org.gnome.Builder.desktop']
 last-selected-power-profile='performance'
 
 [org/gnome/shell/extensions/vitals]
