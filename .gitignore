@@ -4,3 +4,6 @@
 BrewFile.lock.json
 switch.log
 .vscode
+
+dotfiles/.config/VSCodium/*
+!dotfiles/.config/VSCodium/User/settings.json

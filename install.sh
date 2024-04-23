@@ -25,14 +25,10 @@ stow -v -t $HOME dotfiles --adopt
 git diff
 git reset --hard
 
-dconf reset -f /
+# dconf reset -f /
 dconf load / < dconf-settings
 
 xdg-settings set default-web-browser org.gnome.Epiphany.desktop
 
 echo
-echo -e "${GREEN}[I] Done. Rebooting in 5 seconds...${ENDCOLOR}"
-sleep 5
-
-systemctl reboot
-reboot
+echo -e "${GREEN}[I] Done.${ENDCOLOR}"
