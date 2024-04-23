@@ -1,13 +1,18 @@
 #! /bin/bash
 
-source scripts/p.sh
+if [ ! $(command -v paru) ]; then
+    sudo pacman -S --needed base-devel
+    git clone https://aur.archlinux.org/paru.git
+    cd paru
+    makepkg -si
+    cd ..
+    rm -rf paru
+fi
 
 # Install script dependencies
-p i curl git stow bat fzf eza zoxide less
+paru -Sy curl git stow bat fzf eza zoxide less
 
-if [ ! $(command -v brew) ]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+paru -Sy vscodium-bin
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
