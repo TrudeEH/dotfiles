@@ -16,198 +16,230 @@ UNDERLINE="\e[4m"
 
 ENDCOLOR="\e[0m"
 
-detectDistro() {
-    if [ "$(uname -s)" = "Darwin" ]; then
-        echo "macOS"
-    else
-        if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
-            echo "Debian"
-        elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
-            echo "Arch"
-        else
-            echo 1
-            return 1
-        fi
-    fi
-}
-
-oneline() {
-    # Print a command's output as a single line only.
-    # Example usage: for f in 'first line' 'second line' '3rd line'; do echo "$f"; sleep 1; done | oneline
-    local ws
-    while IFS= read -r line; do
-        if ((${#line} >= $COLUMNS)); then
-            # Moving cursor back to the front of the line so user input doesn't force wrapping
-            printf '\r%s\r' "${line:0:$COLUMNS}"
-        else
-            ws=$(($COLUMNS - ${#line}))
-            # by writing each line twice, we move the cursor back to position
-            # thus: LF, content, whitespace, LF, content
-            printf '\r%s%*s\r%s' "$line" "$ws" " " "$line"
-        fi
-    done
-    echo
-}
-
 p() (
-    distro=$(detectDistro)
-    update() {
-        if [[ $distro == "Arch" ]]; then
-            ~/dotfiles/Linux/scripts/arch-maintenance.sh
-        elif [[ $distro == "Debian" ]]; then
-            ~/dotfiles/Linux/scripts/debian-maintenance.sh
-        elif [[ $distro == "macOS" ]]; then
-            ~/dotfiles/macOS/scripts/macos-maintenance.sh
-        else
-            echo -e "${RED}[E] System not supported.${ENDCOLOR}"
-            return 1
+    packageManagers=()
+    if [ "$(command -v flatpak)" ]; then
+        packageManagers+=("flatpak")
+    fi
+    if [ "$(command -v nix)" ]; then
+        packageManagers+=("nix")
+    fi
+    if [ "$(command -v brew)" ]; then
+        packageManagers+=("brew")
+    fi
+    if [ "$(command -v apt)" ]; then
+        packageManagers+=("apt")
+    elif [ "$(command -v pacman)" ]; then
+        packageManagers+=("pacman")
+    elif [ "$(command -v dnf)" ]; then
+        packageManagers+=("dnf")
+    fi
+
+    updateP() {
+        if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
+            flatpak update
+            flatpak uninstall --unused --delete-data
+        fi
+        if [[ ${packageManagers[@]} =~ "nix" ]]; then
+            nix-channel --update
+            sudo nix-channel --update
+            nix-collect-garbage --delete-older-than 7d
+        fi
+        if [[ ${packageManagers[@]} =~ "brew" ]]; then
+            brew update
+            brew doctor
+            brew upgrade
+        fi
+        if [[ ${packageManagers[@]} =~ "apt" ]]; then
+            sudo apt update
+            sudo apt upgrade
+            sudo apt dist-upgrade
+            sudo apt autoremove
+            sudo apt autoclean
+        elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
+            sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+            sudo pacman -Syu
+            sudo pacman -Rsn $(pacman -Qdtq)
+            if [ ! "$(command -v reflector)" ]; then
+            sudo pacman -Sy --noconfirm reflector rsync curl
+            fi
+            iso=$(curl -4 ifconfig.co/country-iso)
+            extra="FR"
+            sudo reflector -a 48 -c $iso -c $extra -f 5 -l 30 --verbose --sort rate --save /etc/pacman.d/mirrorlist
+            if [ ! "$(command -v paccache)" ]; then
+            sudo pacman -Sy --noconfirm pacman-contrib
+            fi
+            paccache -rk1
+        elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
+            sudo dnf upgrade --refresh
+            sudo dnf autoremove
         fi
     }
 
-    check() {
-        nix_apps=$(nix-env -q)
-        if [[ $distro == "Debian" ]]; then
-            distro_apps=$(dpkg-query -l | grep '^ii' | awk '{print $2}')
-        elif [[ $distro == "Arch" ]]; then
-            distro_apps=$(pacman -Q)
-        else
-            distro_apps=""
-        fi
-
+    checkP() {
         app_name=$(echo "$1" | tr '[:upper:]' '[:lower:]')
         app_name=$(echo "$app_name" | tr " " -)
 
-        echo $nix_apps | grep -wq $app_name
-        nix_success=$?
-        if [[ $nix_success == 0 ]]; then
-            echo -e "${GREEN}Nix: $(echo $nix_apps | tr ' ' '\n' | grep -w $app_name)${ENDCOLOR}"
+        if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
+            flatpak_apps=$(flatpak list --columns=application)
+            echo $flatpak_apps | grep -iq $app_name
+            flatpak_success=$?
+            if [[ $flatpak_success == 0 ]]; then
+                echo -e "${GREEN}${BOLD}Flatpak:${ENDCOLOR}${GREEN} $(echo $flatpak_apps | tr ' ' '\n' | grep -i $app_name)${ENDCOLOR}"
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "nix" ]]; then
+            nix_apps=$(nix-env -q)
+            echo $nix_apps | grep -iq $app_name
+            nix_success=$?
+            if [[ $nix_success == 0 ]]; then
+                echo -e "${GREEN}${BOLD}Nix:${ENDCOLOR}${GREEN} $(echo $nix_apps | tr ' ' '\n' | grep -i $app_name)${ENDCOLOR}"
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "brew" ]]; then
+            brew_apps=$(brew list)
+            echo $brew_apps | grep -iq $app_name
+            brew_success=$?
+            if [[ $brew_success == 0 ]]; then
+                echo -e "${GREEN}${BOLD}Brew:${ENDCOLOR}${GREEN} $(echo $brew_apps | tr ' ' '\n' | grep -i $app_name)${ENDCOLOR}"
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "apt" ]]; then
+            distro_apps=$(dpkg-query -l | grep '^ii' | awk '{print $2}')
+        elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
+            distro_apps=$(pacman -Q)
+        elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
+            distro_apps=$(dnf list)
         fi
 
-        echo $distro_apps | grep -Eq "(^|\s)$app_name($|\s)"
+        echo $distro_apps | grep -Eiq "(^|\s)$app_name($|\s)"
         distro_success=$?
         if [[ $distro_success == 0 ]]; then
-            echo -e "${GREEN}$distro: $(echo $distro_apps | tr ' ' '\n' | grep -E "(^|\s)$app_name($|\s)")${ENDCOLOR}"
+            echo -e "${GREEN}${BOLD}Distro:${ENDCOLOR}${GREEN} $(echo $distro_apps | tr ' ' '\n' | grep -Ei "(^|\s)$app_name($|\s)")${ENDCOLOR}"
         fi
 
-        if [[ $nix_success == 0 && $distro_success == 0 ]]; then
-            return 2 #both
-        elif [[ $nix_success == 0 ]]; then
-            return 3 #nix
-        elif [[ $distro_success == 0 ]]; then
-            return 4 #distro
-        else
+        if [[ $flatpak_success != 0 && $nix_success != 0 && $brew_success != 0 && $distro_success != 0 ]]; then
             echo -e "${YELLOW}$app_name not installed.${ENDCOLOR}"
             return 1
         fi
-
-        # Get a list of all apps -> see if it's installed and print what installed it, and version.
     }
 
-    if [[ $distro == "Debian" ]]; then
-        install="sudo apt-get install"
-        remove="sudo apt-get remove"
-        search="apt-cache search"
-    elif [[ $distro == "Arch" ]]; then
-        if pacman -Qs paru >/dev/null; then
-            install="paru -S"
-            remove="paru -R"
-            search="paru -Si"
-        else
-            install="sudo pacman -S"
-            remove="sudo pacman -R"
-            search="pacman -Ss"
+    installP() {
+        checkP $1
+        if [[ $? != 1 ]]; then
+            echo "$1 is already installed."
+            return 0
         fi
-    fi
+        if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
+            echo "Attempting flatpak install..."
+            flatpak install $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "nix" ]]; then
+            echo "Attempting nix install..."
+            nix-env -iA nixpkgs.$1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "brew" ]]; then
+            echo "Attempting brew install..."
+            brew install $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "apt" ]]; then
+            echo "Attempting apt install..."
+            sudo apt install $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
+            echo "Attempting pacman install..."
+            sudo pacman -Sy $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
+            echo "Attempting dnf install..."
+            sudo dnf install $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        echo "ERROR - $1 not found."
+        return 1
+    }
 
-    # Install Nix.
-    if ! nix --version &>/dev/null; then
-        echo -e "${YELLOW}[E] Nix not found.${ENDCOLOR}"
-        echo -e "${GREEN}[+] Installing the Nix package manager...${ENDCOLOR}"
-        curl -L https://nixos.org/nix/install | sh
-        . $HOME/.nix-profile/etc/profile.d/nix.sh
-        echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
-    fi
+    removeP() {
+        checkP $1
+        if [[ $? != 0 ]]; then
+            echo "$1 is not installed."
+            return 0
+        fi
+        if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
+            echo "Attempting flatpak uninstall..."
+            flatpak uninstall $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "nix" ]]; then
+            echo "Attempting nix uninstall..."
+            nix-env --uninstall $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "brew" ]]; then
+            echo "Attempting brew uninstall..."
+            brew uninstall $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        if [[ ${packageManagers[@]} =~ "apt" ]]; then
+            echo "Attempting apt uninstall..."
+            sudo apt remove $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
+            echo "Attempting pacman uninstall..."
+            sudo pacman -Rs $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
+            echo "Attempting dnf uninstall..."
+            sudo dnf remove $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
+        echo "ERROR - $1 not found."
+        return 1
+    }
 
-    # If no parameter
+    # If no parameter or u
     if [ -z $1 ] || [ $1 = "u" ]; then
-        echo -e "${GREEN}[+] Running update script...${ENDCOLOR}"
-        update
-        echo -e "${GREEN}[+] Updating Nix...${ENDCOLOR}"
-        nix-env -u
+        updateP
         return 0
     elif [ $1 = "i" ]; then # If first parameter is i (install)
-        check $2
-        if [[ $? != 1 ]]; then
-            echo "$2 is already installed."
-            return 1
-        fi
-
-        nix search nixpkgs $2 --extra-experimental-features 'nix-command flakes' &>/dev/null
-        nix_found=$?
-
-        $search $2 &>/dev/null
-        distro_found=$?
-
-        if [[ $nix_found == 0 && $distro_found == 0 ]]; then
-            echo "1. Nix: $2 found."
-            echo "2. $distro: $2 found."
-
-            echo -n "Choose a package manager: "
-            read p_choice
-            if [[ $p_choice == 1 ]]; then
-                nix-env -iA nixpkgs.$2
-            elif [[ $p_choice == 2 ]]; then
-                $install $2
-            else
-                return 1
-            fi
-            return 0
-        fi
-        if [[ $nix_found == 0 ]]; then
-            nix-env -iA nixpkgs.$2
-        elif [[ $distro_found == 0 ]]; then
-            $install $2
-        else
-            echo "$2 not found."
-            return 1
-        fi
-        return 0
+        installP $2
     elif [ $1 = "r" ]; then # If first parameter is r (remove)
-        check $2
-        check_result=$?
-
-        if [[ $check_result == 2 ]]; then
-            echo "1. Nix: $2 installed."
-            echo "2. $distro: $2 installed."
-
-            echo -n "Choose a package manager: "
-            read p_choice
-            if [[ $p_choice == 1 ]]; then
-                nix-env -e $2
-            elif [[ $p_choice == 2 ]]; then
-                $remove $2
-            else
-                return 1
-            fi
-            return 0
-        fi
-        if [[ $check_result == 3 ]]; then
-            nix-env -e $2
-        elif [[ $check_result == 4 ]]; then
-            $remove $2
-        else
-            echo "$2 is not installed."
-            return 1
-        fi
-        return 0
+        removeP $2
     elif [ $1 = "c" ]; then # If first parameter is c (check)
-        check $2
+        checkP $2
     else
         echo -e "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
         echo -e "p (u)       ${FAINT}- update os${ENDCOLOR}"
         echo -e "p i package ${FAINT}- install package${ENDCOLOR}"
         echo -e "p r package ${FAINT}- remove package${ENDCOLOR}"
-        echo -e "p c package ${FAINT}- check if package is installed (true/false; 2 -> ERROR)${ENDCOLOR}"
+        echo -e "p c package ${FAINT}- check if package is installed${ENDCOLOR}"
         return 1
     fi
 )

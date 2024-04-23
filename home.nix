@@ -490,7 +490,7 @@
 
   programs.bat = {
     enable = true;
-    extraPackages = with pkgs.bat-extras; [ batdiff batman batgrep ];
+    extraPackages = with pkgs.bat-extras; [ batdiff batman ];
   };
 
   programs.git = {
@@ -507,7 +507,6 @@
       ls = "eza --icons";
       ll = "eza -lhiM --git --total-size --icons --tree";
       tree = "eza --tree";
-      grep = "batgrep";
       code = "codium";
       cat = "bat";
       man = "batman";
