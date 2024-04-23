@@ -10,7 +10,7 @@ if [ ! $(command -v paru) ]; then
 fi
 
 # Install script dependencies
-paru -Sy curl git stow bat fzf eza zoxide less
+paru -Sy curl git stow bat fzf eza zoxide less nextcloud-client
 
 # Install Apps
 paru -Sy vscodium-bin ollama obsidian signal-desktop fragments fractal secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary gnome-builder epiphany
