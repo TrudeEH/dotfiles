@@ -1,10 +1,9 @@
 #! /bin/bash
 
 source scripts/p.sh
-p i cargo
 
 # Install script dependencies
-p i curl git rcm bat batdiff batman fzf eza fastfetch nextcloud-client zoxide
+p i curl git rcm bat batdiff batman fzf eza nextcloud-client zoxide
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
