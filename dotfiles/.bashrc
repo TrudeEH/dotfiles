@@ -18,11 +18,9 @@ alias cat='bat'
 alias cd='z'
 alias ci='zi'
 alias code='codium'
-alias diff='batdiff'
 alias l='eza -alhM --git --total-size --icons'
 alias ll='eza -lhiM --git --total-size --icons --tree'
 alias ls='eza --icons'
-alias man='batman'
 alias tree='eza --tree'
 
 extract() {
