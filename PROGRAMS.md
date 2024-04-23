@@ -11,7 +11,6 @@ gnome-podcasts
 geary
 impression
 gnome-calendar
-nautilus
 gnome-console
 gnome-builder
 epiphany
