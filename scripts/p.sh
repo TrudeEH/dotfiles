@@ -222,6 +222,7 @@ p() (
     }
 
     # If no parameter or u
+    echo "Available package managers: ${packageManagers[@]}"
     if [ -z $1 ] || [ $1 = "u" ]; then
         updateP
         return 0

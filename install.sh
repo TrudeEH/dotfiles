@@ -3,7 +3,7 @@
 source scripts/p.sh
 
 # Install script dependencies
-p i curl git rcm bat batdiff batman fzf eza nextcloud-client zoxide
+p i curl git rcm bat batdiff batman fzf eza zoxide
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
