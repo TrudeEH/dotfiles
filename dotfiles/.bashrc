@@ -23,9 +23,6 @@ alias l='eza -alhM --git --total-size --icons'
 alias ll='eza -lhiM --git --total-size --icons --tree'
 alias ls='eza --icons'
 alias man='batman'
-alias neofetch='fastfetch'
-alias ns='nix-shell'
-alias sudo='sudo -i'
 alias tree='eza --tree'
 
 extract() {
