@@ -1,9 +1,5 @@
 # Trude's Dotfiles
 
-<p align="center">
-  <img height=100px src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nix-snowflake-colours.svg" />
-</p>
-
 This repository hosts my personal dotfiles.
 The install script works on Linux and macOS.
 
@@ -18,14 +14,11 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 ![Desktop](./screenshots/desktop.png)
 
 ## Custom commands
-- `extract` Extract compressed files. 
-- `update` Update Nix and the OS.
+- `p` Cross-distro package manager.
 - `reload` Rebuild the config after changing it.
-- `ncs` Sync with Nextcloud. 
+- `ncs` Sync with Nextcloud.
 
 ## Supported distros
-- Debian
-- Fedora Workstation
 - Arch Linux
 
 ## Tested on
