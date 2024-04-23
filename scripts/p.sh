@@ -130,13 +130,6 @@ p() (
             echo "$1 is already installed."
             return 0
         fi
-        if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-            echo "Attempting flatpak install..."
-            flatpak install $1
-            if [[ $? == 0 ]]; then
-                return 0
-            fi
-        fi
         if [[ ${packageManagers[@]} =~ "nix" ]]; then
             echo "Attempting nix install..."
             nix-env -iA nixpkgs.$1
@@ -170,6 +163,13 @@ p() (
                 return 0
             fi
         fi
+        if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
+            echo "Attempting flatpak install..."
+            flatpak install $1
+            if [[ $? == 0 ]]; then
+                return 0
+            fi
+        fi
         echo "ERROR - $1 not found."
         return 1
     }
@@ -190,9 +190,6 @@ p() (
         if [[ ${packageManagers[@]} =~ "nix" ]]; then
             echo "Attempting nix uninstall..."
             nix-env --uninstall $1
-            if [[ $? == 0 ]]; then
-                return 0
-            fi
         fi
         if [[ ${packageManagers[@]} =~ "brew" ]]; then
             echo "Attempting brew uninstall..."
@@ -220,7 +217,7 @@ p() (
                 return 0
             fi
         fi
-        echo "ERROR - $1 not found."
+        echo "ERROR - Failed to uninstall $1."
         return 1
     }
 
@@ -229,11 +226,23 @@ p() (
         updateP
         return 0
     elif [ $1 = "i" ]; then # If first parameter is i (install)
-        installP $2
+        shift
+        for package in "$@"
+        do
+            installP $package
+        done
     elif [ $1 = "r" ]; then # If first parameter is r (remove)
-        removeP $2
+        shift
+        for package in "$@"
+        do
+            removeP $package
+        done
     elif [ $1 = "c" ]; then # If first parameter is c (check)
-        checkP $2
+        shift
+        for package in "$@"
+        do
+            checkP $package
+        done
     else
         echo -e "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
         echo -e "p (u)       ${FAINT}- update os${ENDCOLOR}"

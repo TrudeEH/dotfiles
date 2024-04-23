@@ -1,17 +1,10 @@
 #! /bin/bash
 
-export NIXPKGS_ALLOW_UNFREE=1
+source scripts/p.sh
+p i cargo
 
-if [ "$(grep -Ei 'debian|buntu|mint' /etc/*release)" ]; then
-    sudo apt install -y curl git
-elif [ "$(grep -Ei 'arch|manjaro|artix' /etc/*release)" ]; then
-    sudo pacman -Sy curl git
-    sudo pacman -Sy gnome cups power-profiles-daemon fwupd gst-plugin-pipewire # Gnome and optional dependencies.
-    sudo systemctl enable power-profiles-daemon
-    sudo systemctl enable cups
-elif [ "$(grep -Ei 'fedora' /etc/*release)" ]; then
-    sudo dnf install curl git
-fi
+# Install script dependencies
+p i curl git rcm bat batdiff batman fzf eza fastfetch nextcloud-client zoxide
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
@@ -19,27 +12,12 @@ if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd dotfiles
 fi
 
-if ! nix --version &>/dev/null; then
-    echo -e "${YELLOW}[E] Nix not found.${ENDCOLOR}"
-    echo -e "${GREEN}[+] Installing the Nix package manager...${ENDCOLOR}"
-    sh <(curl -L https://nixos.org/nix/install) --daemon
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    echo -e "${GREEN}[I] Installed Nix.${ENDCOLOR}"
-fi
+rcup -d dotfiles
+dconf reset -f /
+dconf load / < dconf-settings
 
-# ============== HOME MANAGER ==============
+xdg-settings set default-web-browser org.gnome.Epiphany.desktop
 
-# Install
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-nix-channel --update
-nix-shell '<home-manager>' -A install
-
-# Apply config
-mkdir -p $HOME/.config/home-manager
-rm $HOME/.config/home-manager/home.nix
-ln -s $HOME/dotfiles/home.nix $HOME/.config/home-manager/home.nix
-
-home-manager -b backup switch
 echo
 echo -e "${GREEN}[I] Done. Rebooting in 5 seconds...${ENDCOLOR}"
 sleep 5

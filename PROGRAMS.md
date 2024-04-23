@@ -1,0 +1,17 @@
+ollama
+obsidian
+signal-desktop
+fragments
+fractal
+gnome-secrets
+newsflash
+eyedropper
+gnome-obfuscate
+gnome-podcasts
+geary
+impression
+gnome-calendar
+nautilus
+gnome-console
+gnome-builder
+epiphany
