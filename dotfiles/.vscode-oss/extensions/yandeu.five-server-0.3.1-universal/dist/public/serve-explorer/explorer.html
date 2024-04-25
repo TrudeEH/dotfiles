@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>listing directory {directory}</title>
+    <link rel="stylesheet" href="/fiveserver/scripts/directory.css" />
+    <style>
+      {style}
+    </style>
+
+    <script
+      async
+      data-id="five-server"
+      data-file="{filePath}"
+      type="application/javascript"
+      src="/fiveserver.js"
+    ></script>
+
+    <script src="/fiveserver/scripts/query.js"></script>
+    <script>
+      function search() {
+        var str = $("search").value.toLowerCase();
+        // var links = $("files").all("a"); // for highlight
+        var list = $("files").all("li");
+
+        list.each(function (li) {
+          var link = $(li.firstChild);
+          var text = link.textContent.toLowerCase();
+
+          if (".." == text) return;
+
+          const match = str.length && ~text.indexOf(str);
+
+          // highlight
+          // if (match) {
+          //   link.addClass("highlight");
+          // } else {
+          //   link.removeClass("highlight");
+          // }
+
+          // hide
+          if (match) {
+            li.removeClass("hidden");
+          } else {
+            li.addClass("hidden");
+          }
+
+          if (str.length === 0) li.removeClass("hidden");
+        });
+      }
+
+      $(window).on("content loaded", function () {
+        $("search").on("keyup", search);
+      });
+    </script>
+  </head>
+  <body>
+    <input id="search" type="text" placeholder="Search" autocomplete="off" />
+
+    <div id="wrapper">
+      <div class="directory">
+        <h1><a href="/">~</a>{linked-path}</h1>
+        {files}
+      </div>
+
+      <div class="footer">
+        <p>Explorer Developed by <a href="https://github.com/yandeu">@yandeu</a></p>
+      </div>
+    </div>
+  </body>
+</html>

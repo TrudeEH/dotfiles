@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+		<Metadata>
+			<Identity Language="en-US" Id="five-server" Version="0.3.1" Publisher="yandeu" />
+			<DisplayName>Live Server (Five Server)</DisplayName>
+			<Description xml:space="preserve">A better Live Server with instant updates, highlights and some PHP support.</Description>
+			<Tags>remote,browser,development,tool,html,php,http,live,instant,server,cli,preview,reload,refresh,update,highlight,live-server,live server,keybindings,__sponsor_extension</Tags>
+			<Categories>Other</Categories>
+			<GalleryFlags>Public</GalleryFlags>
+			<Badges><Badge Link="https://github.com/sponsors/yandeu" ImgUri="https://img.shields.io/badge/Sponsor-%E2%9D%A4-lightgrey?style=social&amp;logo=GitHub" Description="GitHub Sponsors" />
+<Badge Link="https://github.com/sponsors/yandeu?frequency=one-time&amp;sponsor=yandeu#sponsors:~:text=%241%20one%20time" ImgUri="https://img.shields.io/badge/One--Time%20Donation-$1-lightgrey?style=social&amp;logo=GitHub" Description="One-Time Donation" /></Badges>
+			<Properties>
+				<Property Id="Microsoft.VisualStudio.Code.Engine" Value="^1.66.2" />
+				<Property Id="Microsoft.VisualStudio.Code.ExtensionDependencies" Value="" />
+				<Property Id="Microsoft.VisualStudio.Code.ExtensionPack" Value="" />
+				<Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="workspace" />
+				<Property Id="Microsoft.VisualStudio.Code.LocalizedLanguages" Value="" />
+				
+				<Property Id="Microsoft.VisualStudio.Code.SponsorLink" Value="https://github.com/sponsors/yandeu?frequency=recurring#:~:text=a%20month" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/yandeu/five-server-vscode.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Getstarted" Value="https://github.com/yandeu/five-server-vscode.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.GitHub" Value="https://github.com/yandeu/five-server-vscode.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/yandeu/five-server/discussions" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/yandeu/five-server-vscode#readme" />
+				<Property Id="Microsoft.VisualStudio.Services.Branding.Color" Value="#41205f" />
+				<Property Id="Microsoft.VisualStudio.Services.Branding.Theme" Value="dark" />
+				<Property Id="Microsoft.VisualStudio.Services.GitHubFlavoredMarkdown" Value="true" />
+				<Property Id="Microsoft.VisualStudio.Services.Content.Pricing" Value="Free"/>
+
+				
+				<Property Id="Microsoft.VisualStudio.Services.CustomerQnALink" Value="https://github.com/yandeu/five-server/discussions" />
+			</Properties>
+			<License>extension/LICENSE.txt</License>
+			<Icon>extension/img/icon-star.png</Icon>
+		</Metadata>
+		<Installation>
+			<InstallationTarget Id="Microsoft.VisualStudio.Code"/>
+		</Installation>
+		<Dependencies/>
+		<Assets>
+			<Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true" />
+			<Asset Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/README.md" Addressable="true" />
+<Asset Type="Microsoft.VisualStudio.Services.Content.Changelog" Path="extension/CHANGELOG.md" Addressable="true" />
+<Asset Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE.txt" Addressable="true" />
+<Asset Type="Microsoft.VisualStudio.Services.Icons.Default" Path="extension/img/icon-star.png" Addressable="true" />
+		</Assets>
+	</PackageManifest>
