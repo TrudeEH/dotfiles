@@ -14,7 +14,7 @@ fi
 paru -Sy curl git stow bat fzf eza zoxide less nextcloud-client
 
 # Install Apps
-paru -Sy gitg vscodium-bin ollama obsidian signal-desktop fragments fractal secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary gnome-builder epiphany ungoogled-chromium
+paru -Sy gitg vscodium-bin ollama obsidian signal-desktop fragments fractal secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary gnome-builder epiphany ungoogled-chromium-bin
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
