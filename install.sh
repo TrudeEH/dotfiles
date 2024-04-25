@@ -32,8 +32,5 @@ dconf load / < dconf-settings
 
 xdg-settings set default-web-browser org.gnome.Epiphany.desktop
 
-# Services
-sudo systemctl enable ollama
-
 echo
 echo -e "${GREEN}[I] Done.${ENDCOLOR}"
