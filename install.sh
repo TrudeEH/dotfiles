@@ -30,7 +30,7 @@ git reset --hard
 # dconf reset -f /
 dconf load / < dconf-settings
 
-xdg-settings set default-web-browser org.gnome.Epiphany.desktop
+xdg-settings set default-web-browser brave-browser.desktop
 
 echo
 echo -e "${GREEN}[I] Done.${ENDCOLOR}"
