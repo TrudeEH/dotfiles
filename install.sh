@@ -14,7 +14,7 @@ fi
 paru -Sy curl git stow bat fzf less nextcloud-client
 
 # Install Apps
-paru -Sy gitg obsidian signal-desktop fragments secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary brave-bin
+paru -Sy obsidian signal-desktop fragments secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary brave-bin
 
 # Install CLI Apps
 paru -Sy iamb tmux ollama vim
