@@ -14,10 +14,10 @@ fi
 paru -Sy curl git stow bat fzf less nextcloud-client
 
 # Install Apps
-paru -Sy gitg vscodium-bin ollama obsidian signal-desktop fragments secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary gnome-builder epiphany brave-bin
+paru -Sy gitg obsidian signal-desktop fragments secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary brave-bin
 
 # Install CLI Apps
-paru -Sy iamb tmux
+paru -Sy iamb tmux ollama vim
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
