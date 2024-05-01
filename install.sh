@@ -18,7 +18,7 @@ paru -Sy gitg vscodium-bin ollama obsidian signal-desktop fragments fractal secr
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
-    git clone https://github.com/TrudeEH/dotfiles
+    git clone https://github.com/TrudeEH/dotfiles --depth=1
     cd dotfiles
 fi
 
