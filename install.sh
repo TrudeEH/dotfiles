@@ -11,10 +11,13 @@ if [ ! $(command -v paru) ]; then
 fi
 
 # Install script dependencies
-paru -Sy curl git stow bat fzf eza zoxide less nextcloud-client
+paru -Sy curl git stow bat fzf less nextcloud-client
 
 # Install Apps
-paru -Sy gitg vscodium-bin ollama obsidian signal-desktop fragments fractal secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary gnome-builder epiphany brave-bin
+paru -Sy gitg vscodium-bin ollama obsidian signal-desktop fragments secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary gnome-builder epiphany brave-bin
+
+# Install CLI Apps
+paru -Sy iamb tmux
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
