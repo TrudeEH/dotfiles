@@ -15,13 +15,10 @@ shopt -s globstar
 shopt -s checkjobs
 
 alias cat='bat'
-alias cd='z'
-alias ci='zi'
 alias code='codium'
-alias l='eza -alhM --git --total-size --icons'
-alias ll='eza -lhiM --git --total-size --icons --tree'
-alias ls='eza --icons'
-alias tree='eza --tree'
+alias l='ls -alh'
+alias ls='ls --color=auto'
+alias ll='ls -lhi'
 
 extract() {
   if [ -f $1 ]; then
