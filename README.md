@@ -10,8 +10,6 @@ If you would like to use this repository, I recommend forking it and editing hom
 ```sh
 bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
 ```
-## Screenshots
-![Desktop](./screenshots/desktop.png)
 
 ## Custom commands
 - `p` Cross-distro package manager.
