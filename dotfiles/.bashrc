@@ -1,4 +1,4 @@
-export EDITOR="codium";
+export EDITOR="vim";
 export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
 eval "$(zoxide init bash)"
 
@@ -15,7 +15,6 @@ shopt -s globstar
 shopt -s checkjobs
 
 alias cat='bat'
-alias code='codium'
 alias l='ls -alh'
 alias ls='ls --color=auto'
 alias ll='ls -lhi'
