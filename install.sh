@@ -18,7 +18,7 @@ paru -Sy curl git stow bat fzf less nextcloud-client
 paru -Sy foot signal-desktop gnome-calendar gnome-podcasts brave-bin
 
 # Install CLI Apps
-paru -Sy dd w3m newsboat iamb tmux ollama vim transmission-cli mutt gpg pass
+paru -Sy toipe bottom dd w3m newsboat iamb tmux ollama vim transmission-cli mutt gpg pass
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
