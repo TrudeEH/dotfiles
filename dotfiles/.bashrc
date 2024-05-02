@@ -52,4 +52,10 @@ ncs() {
   nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud/SYNC "https://$server"
 }
 
+pushall() {
+  git add -A
+  git commit -m "$@"
+  git push
+}
+
 set completion-ignore-case On
