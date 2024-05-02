@@ -1,4 +1,5 @@
 #! /bin/bash
+source dotfiles/.bashrc
 
 # Install Paru
 if [ ! $(command -v paru) ]; then
@@ -14,10 +15,10 @@ fi
 paru -Sy curl git stow bat fzf less nextcloud-client
 
 # Install Apps
-paru -Sy obsidian signal-desktop fragments secrets newsflash eyedropper obfuscate gnome-console gnome-calendar impression gnome-podcasts geary brave-bin
+paru -Sy obsidian signal-desktop newsflash eyedropper gnome-console gnome-calendar impression gnome-podcasts brave-bin
 
 # Install CLI Apps
-paru -Sy iamb tmux ollama vim
+paru -Sy iamb tmux ollama vim transmission-cli mutt gpg pass
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
@@ -34,6 +35,13 @@ git reset --hard
 dconf load / < dconf-settings
 
 xdg-settings set default-web-browser brave-browser.desktop
+
+# Import Files, Passwords and Keys
+ncs
+gpg --import-ownertrust ~/Nextcloud/SYNC/exported-keys/private.pgp
+gpg --import-ownertrust ~/Nextcloud/SYNC/exported-keys/public.pgp
+gpg --import-ownertrust < ~/Nextcloud/SYNC/exported-keys/trustlevel.txt
+ln -s ~/Nextcloud/SYNC/password-store/ ~/.password-store
 
 echo
 echo -e "${GREEN}[I] Done.${ENDCOLOR}"
