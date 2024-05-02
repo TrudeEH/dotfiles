@@ -42,13 +42,17 @@ extract() {
 }
 
 ncs() {
-  echo "+ Syncing Nextcloud @ ~/Nextcloud"
-  mkdir ~/Nextcloud &> /dev/null
   if [[ -z "$1" ]]; then
-    echo "USAGE: ncs <server_url>"
-    exit 1
+    server="trude.store"
+  else
+    server=$1
   fi
-  nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud "https://$1"
+  echo "+ Syncing ~/Nextcloud/SYNC @ $server"
+  mkdir ~/Nextcloud &> /dev/null
+  nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud/SYNC "https://$server"
 }
 
 set completion-ignore-case On
+
+# Passwords
+export GITHUB_TOKEN=$(pass show github/token)

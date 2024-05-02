@@ -7,3 +7,5 @@ switch.log
 
 dotfiles/.config/VSCodium/*
 !dotfiles/.config/VSCodium/User/settings.json
+
+*cache*
