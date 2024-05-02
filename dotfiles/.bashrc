@@ -53,9 +53,13 @@ ncs() {
 }
 
 pushall() {
-  git add -A
-  git commit -m "$@"
-  git push
+  if [[ -z "$1" ]]; then
+    echo "Usage: pushall \"commit message\""
+  else
+    git add -A
+    git commit -m "$@"
+    git push
+  fi
 }
 
 set completion-ignore-case On
