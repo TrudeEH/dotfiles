@@ -53,6 +53,3 @@ ncs() {
 }
 
 set completion-ignore-case On
-
-# Passwords
-export GITHUB_TOKEN=$(pass show github/token)

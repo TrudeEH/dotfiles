@@ -1,4 +1,4 @@
 [user]
 email = "ehtrude@gmail.com"
 name = "TrudeEH"
-password = $GITHUB_TOKEN
+password = $(pass show github/token)
