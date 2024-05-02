@@ -63,5 +63,3 @@ pushall() {
 }
 
 set completion-ignore-case On
-
-export GITHUB_TOKEN="$(pass show github/token)"
