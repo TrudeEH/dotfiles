@@ -1,4 +1,8 @@
 [user]
 email = "ehtrude@gmail.com"
 name = "TrudeEH"
-password = $(pass show github/token)
+password = $GITHUB_TOKEN
+
+
+[credential]
+	helper = cache
