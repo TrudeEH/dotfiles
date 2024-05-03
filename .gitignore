@@ -9,3 +9,5 @@ dotfiles/.config/VSCodium/*
 !dotfiles/.config/VSCodium/User/settings.json
 
 *cache*
+
+dotfiles/.local/share/icons/hicolor
