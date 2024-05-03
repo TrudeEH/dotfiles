@@ -18,6 +18,8 @@ alias cat='bat'
 alias l='ls -alh'
 alias ls='ls --color=auto'
 alias ll='ls -lhi'
+alias ta='tmux attach'
+alias t='tmux'
 
 extract() {
   if [ -f $1 ]; then
