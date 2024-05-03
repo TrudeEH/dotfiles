@@ -20,6 +20,7 @@ alias ls='ls --color=auto'
 alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
+alias v='vim'
 
 extract() {
   if [ -f $1 ]; then
@@ -57,6 +58,8 @@ pushall() {
   if [[ -z "$1" ]]; then
     echo "Usage: pushall \"commit message\""
   else
+    git diff
+    read -p "Press ENTER to continue..." 
     git add -A
     git commit -m "$@"
     git push
