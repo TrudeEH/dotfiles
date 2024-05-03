@@ -216,9 +216,9 @@ default_floating_border pixel 3
 smart_borders on
 
 # Border colors
-client.focused          #fab387 #fab387 #1e1e2e	
+client.focused          #d75f5f #d75f5f #1e1e2e	
 client.unfocused        #1e1e2e #1e1e2e	#cdd6f4		
-client.focused_inactive #fab387 #fab387 #1e1e2e 
+client.focused_inactive #1e1e2e #1e1e2e #1e1e2e 
 client.placeholder      #f9e2af	#f9e2af	#1e1e2e
 client.urgent           #f38ba8	#f38ba8	#1e1e2e	
 client.background       #1e1e2e
