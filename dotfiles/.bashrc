@@ -1,6 +1,5 @@
 export EDITOR="vim";
 export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
-eval "$(zoxide init bash)"
 
 # Commands that should be applied only for interactive shells.
 [[ $- == *i* ]] || return
