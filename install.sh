@@ -14,8 +14,11 @@ fi
 # Install script dependencies
 paru -Sy curl git stow bat fzf less nextcloud-client
 
+# Install DE
+paru -Sy sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard
+
 # Install GUI Apps
-paru -Sy foot signal-desktop gnome-calendar gnome-podcasts brave-bin
+paru -Sy signal-desktop gnome-calendar gnome-podcasts brave-bin
 
 # Install CLI Apps
 paru -Sy toipe bottom w3m newsboat iamb tmux ollama vim transmission-cli mutt pass
@@ -30,6 +33,13 @@ echo -e "${GREEN}[+] Symlinking dotfiles...${ENDCOLOR}"
 stow -v -t $HOME dotfiles --adopt
 git diff
 git reset --hard
+
+# Reload fonts
+fc-cache -fv
+
+# link wallpaper
+mkdir -p "/usr/share/backgrounds"
+sudo cp -f ~/dotfiles/bg.jpg /usr/share/backgrounds/bg.jpg
 
 # dconf reset -f /
 dconf load / < dconf-settings
