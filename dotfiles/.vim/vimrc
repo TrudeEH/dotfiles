@@ -254,7 +254,7 @@ function! StatuslineGit()
     return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Cursor:\ %l/%c\ \ \ Lines:\ %L%=%{StatuslineGit()}
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ Cursor:\ %l/%c\ \ \ Lines:\ %L%=%{StatuslineGit()}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

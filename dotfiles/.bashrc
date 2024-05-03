@@ -17,6 +17,7 @@ shopt -s checkjobs
 alias cat='bat'
 alias l='ls -alh'
 alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
