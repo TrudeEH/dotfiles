@@ -49,8 +49,8 @@ xdg-settings set default-web-browser brave-browser.desktop
 
 # Import Files, Passwords and Keys
 ncs
-gpg --import-ownertrust ~/Nextcloud/SYNC/exported-keys/private.pgp
-gpg --import-ownertrust ~/Nextcloud/SYNC/exported-keys/public.pgp
+gpg --import-secret-key ~/Nextcloud/SYNC/exported-keys/private.pgp
+gpg --import ~/Nextcloud/SYNC/exported-keys/public.pgp
 gpg --import-ownertrust < ~/Nextcloud/SYNC/exported-keys/trustlevel.txt
 ln -s ~/Nextcloud/SYNC/password-store/ ~/.password-store
 
