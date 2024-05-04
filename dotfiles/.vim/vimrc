@@ -254,7 +254,8 @@ function! StatuslineGit()
     return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ Cursor:\ %l/%c\ \ \ Lines:\ %L%=%{StatuslineGit()}
+" StatusLine is currently broken. Using the vim default.
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ Cursor:\ %l/%c\ \ \ Lines:\ %L%=%{StatuslineGit()}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -371,3 +372,15 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
+
+set nocompatible
+" VIM-PLUG PLUGINS
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+
+Plug 'vimwiki/vimwiki'
+
+call plug#end()

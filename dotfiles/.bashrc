@@ -100,3 +100,5 @@ color2hex(){
 }
 
 set completion-ignore-case On
+
+export OFLAGS="--ozone-platform-hint=auto"
