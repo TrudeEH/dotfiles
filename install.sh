@@ -21,7 +21,7 @@ paru -Sy dunst xorg-xwayland xdg-desktop-portal sway swaybg swaylock waybar wofi
 paru -Sy gnome-podcasts brave-bin
 
 # Install CLI Apps
-paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama vim transmission-cli mutt pass
+paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass
 
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
