@@ -197,6 +197,13 @@ input type:keyboard {
   xkb_options grp:rctrl_toggle
 }
 
+input type:touchpad {
+  dwt enabled
+  tap enabled
+  middle_emulation enabled
+  natural_scroll enabled
+}
+
 # Input names: swaymsg -t get_inputs
 
 #------------#
