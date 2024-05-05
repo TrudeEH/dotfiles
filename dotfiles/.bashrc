@@ -20,7 +20,7 @@ alias grep='grep --color=auto'
 alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
-alias v='vim'
+alias v='nvim'
 
 extract() {
   if [ -f $1 ]; then
