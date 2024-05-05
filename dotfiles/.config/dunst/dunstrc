@@ -33,7 +33,7 @@
     origin = top-center
 
     # Offset from the origin
-    offset = 10x10
+    offset = 5x5
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
