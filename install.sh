@@ -18,7 +18,7 @@ paru -Sy curl git stow bat fzf less nextcloud-client
 paru -Sy dunst xorg-xwayland xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard
 
 # Install GUI Apps
-paru -Sy signal-desktop gnome-podcasts brave-bin
+paru -Sy gnome-podcasts brave-bin
 
 # Install CLI Apps
 paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama vim transmission-cli mutt pass
