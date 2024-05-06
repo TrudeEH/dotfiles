@@ -1,15 +1,12 @@
-@define-color base-darker rgba(30, 31, 41, 230);
-@define-color base #282a36;
-@define-color selection #44475a;
-@define-color foreground #f8f8f2;
-@define-color comment #6272a4;
-@define-color cyan #8be9fd;
-@define-color green #50fa7b;
-@define-color orange #ffb86c;
-@define-color pink #ff79c6;
-@define-color purple #bd93f9;
-@define-color red #ff5555;
-@define-color yellow #f1fa8c;
+@define-color base #282828;
+@define-color foreground #ebdbb2;
+@define-color cyan #83a598;
+@define-color green #8ec07c;
+@define-color orange #fe8019;
+@define-color pink #d3869b;
+@define-color purple #b16286;
+@define-color red #fb4934;
+@define-color yellow #fabd2f;
 
 * {
   /* `otf-font-awesome` is required to be installed for icons */
@@ -257,6 +254,10 @@ label:focus {
 #tray>.needs-attention {
   -gtk-icon-effect: highlight;
   background-color: @base;
+}
+
+#tray * {
+  background: @base;
 }
 
 #idle_inhibitor {

@@ -124,11 +124,14 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 try
-    colorscheme codedark
+    colorscheme gruvbox 
 catch
 endtry
 
 set background=dark
+
+" Set background to transparent
+hi Normal guibg=NONE ctermbg=NONE
 
 " Set extra options when running in GUI mode
 if has("gui_running")
