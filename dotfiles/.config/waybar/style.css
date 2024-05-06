@@ -80,21 +80,14 @@ button:hover {
   color: @orange;
   background: @base;
   transition: 0.2s;
-  box-shadow: none;
-  text-shadow: none;
 }
 
 #workspaces button.focused {
   background: @base;
-  box-shadow: none;
-  text-shadow: none;
 }
 
 #workspaces button.urgent {
-  background: @red;
-  box-shadow: inset 0px 0px 0px 3px @base;
-  text-shadow: none;
-  color: @base;
+  color: @red;
 }
 
 #mode {

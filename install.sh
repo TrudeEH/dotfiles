@@ -40,7 +40,7 @@ fc-cache -fv
 
 # link wallpaper
 mkdir -p "/usr/share/backgrounds"
-sudo cp -f ~/dotfiles/bg.jpg /usr/share/backgrounds/bg.jpg
+sudo cp -f ~/dotfiles/bg.png /usr/share/backgrounds/bg.png
 
 xdg-settings set default-web-browser brave-browser.desktop
 
