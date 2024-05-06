@@ -173,7 +173,7 @@ bindsym $mod+r mode "resize"
 #--------#
 
 # Background
-output * bg /usr/share/backgrounds/bg.jpg fill
+output * bg /usr/share/backgrounds/bg.png fill
  
 # Monitors
 # output HDMI-A-3 mode 1920x1080@74.973Hz 
