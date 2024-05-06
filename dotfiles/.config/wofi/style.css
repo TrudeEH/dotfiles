@@ -11,9 +11,9 @@
 
 window {
     margin: 0px;
-    border: 3px solid @orange;
+    border: 3px solid @foreground;
     background-color: @base;
-  border-radius: 10px;
+  border-radius: 8px;
   outline-style: none;
 }
     
