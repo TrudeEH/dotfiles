@@ -50,7 +50,7 @@ xdg-settings set default-web-browser brave-browser.desktop
 gpg --import ~/Nextcloud/SYNC/exported-keys/private.pgp
 gpg --import ~/Nextcloud/SYNC/exported-keys/public.pgp
 gpg --import-ownertrust < ~/Nextcloud/SYNC/exported-keys/trustlevel.txt
-ln -s ~/Nextcloud/SYNC/password-store/ ~/.password-store
+ln -s ~/Nextcloud/SYNC/password-store ~/.password-store
 
 echo
 echo -e "${GREEN}[I] Done.${ENDCOLOR}"

@@ -62,6 +62,7 @@ pushall() {
     read -p "Press ENTER to continue..." 
     git add -A
     git commit -m "$@"
+    pass show github/token &> /dev/null
     git push
   fi
 }
