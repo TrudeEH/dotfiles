@@ -30,8 +30,8 @@ bind-key ^H toggle-show-read-feeds
 color background         default   default
 color listnormal         default   default
 color listnormal_unread  default   default
-color listfocus          black     color167
-color listfocus_unread   black     color167
+color listfocus          black     color223 # !
+color listfocus_unread   black     color223 # !
 color info               default   black
 color article            default   default
 
