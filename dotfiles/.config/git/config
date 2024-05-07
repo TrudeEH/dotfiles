@@ -4,4 +4,4 @@ name = "TrudeEH"
 
 
 [credential]
-	helper = cache
+	helper = !pass-git-helper $@

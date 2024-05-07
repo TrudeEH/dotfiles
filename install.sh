@@ -15,14 +15,16 @@ fi
 paru -Sy curl git stow bat fzf less nextcloud-client
 
 # Install DE
-paru -Sy dunst xorg-xwayland xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard
+paru -Sy dunst xorg-xwayland xdg-desktop-portal-wlr xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard
 
 # Install GUI Apps
-paru -Sy gnome-podcasts brave-bin
+paru -Sy gnome-podcasts
 
 # Install CLI Apps
-paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass
+paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass pass-git-helper
 
+# Browser and browser tools
+paru -Sy browserpass brave-bin
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
