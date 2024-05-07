@@ -1,5 +1,6 @@
 #! /bin/bash
 source dotfiles/.bashrc
+sudo timedatectl set-timezone Europe/Lisbon
 
 # Install Paru
 if [ ! $(command -v paru) ]; then
