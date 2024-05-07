@@ -236,6 +236,7 @@ focus_follows_mouse no
 # Autostart #
 #-----------#
 exec_always --no-startup-id nextcloud --background &
+exec_always --no-startup-id browserpass &
 exec --no-startup-id /usr/libexec/xdg-desktop-portal -r
 
 xwayland enable
