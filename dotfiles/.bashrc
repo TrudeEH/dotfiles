@@ -29,7 +29,7 @@ ncs() {
     server=$1
   fi
   echo "+ Syncing ~/Nextcloud/SYNC @ $server"
-  mkdir ~/Nextcloud &> /dev/null
+  mkdir -p ~/Nextcloud/SYNC &> /dev/null
   nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud/SYNC "https://$server"
 }
 
