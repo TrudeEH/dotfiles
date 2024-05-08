@@ -24,7 +24,7 @@ paru -Sy gnome-podcasts
 paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass pass-git-helper
 
 # Browser and browser tools
-paru -Sy browserpass brave-bin
+paru -Sy brave-bin
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
