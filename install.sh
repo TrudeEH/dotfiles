@@ -1,5 +1,4 @@
 #! /bin/bash
-source dotfiles/.bashrc
 sudo timedatectl set-timezone Europe/Lisbon
 
 # Install Paru
@@ -48,6 +47,8 @@ sudo cp -f ~/dotfiles/bg.png /usr/share/backgrounds/bg.png
 xdg-settings set default-web-browser brave-browser.desktop
 
 # Import Files, Passwords and Keys
+source dotfiles/.bashrc
+ncs
 gpg --import ~/Nextcloud/SYNC/exported-keys/private.pgp
 gpg --import ~/Nextcloud/SYNC/exported-keys/public.pgp
 gpg --import-ownertrust < ~/Nextcloud/SYNC/exported-keys/trustlevel.txt
