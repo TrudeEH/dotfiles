@@ -22,11 +22,11 @@ paru -Sy curl git stow bat nextcloud-client
 
 # Install DE
 paru -Sy dunst scrot freetype2 libx11 libxft libxinerama
-compile("dwm")
-compile("st")
-compile("dmenu")
-compile("slock")
-compile("slstatus")
+compile dwm
+compile st
+compile dmenu
+compile slock
+compile slstatus
 
 # Install CLI Apps
 paru -Sy mpv gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass pass-git-helper fzf
