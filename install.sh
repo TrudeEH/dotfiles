@@ -1,6 +1,12 @@
 #! /bin/bash
 sudo timedatectl set-timezone Europe/Lisbon
 
+compile() {
+  cd $1
+  sudo make clean install
+  cd ..
+}
+
 # Install Paru
 if [ ! $(command -v paru) ]; then
     sudo pacman -S --needed base-devel
@@ -12,16 +18,18 @@ if [ ! $(command -v paru) ]; then
 fi
 
 # Install script dependencies
-paru -Sy curl git stow bat fzf less nextcloud-client
+paru -Sy curl git stow bat nextcloud-client
 
 # Install DE
-paru -Sy dunst xorg-xwayland xdg-desktop-portal-wlr xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard
-
-# Install GUI Apps
-paru -Sy gnome-podcasts
+paru -Sy dunst scrot freetype2 libx11 libxft libxinerama
+compile("dwm")
+compile("st")
+compile("dmenu")
+compile("slock")
+compile("slstatus")
 
 # Install CLI Apps
-paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass pass-git-helper
+paru -Sy mpv gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass pass-git-helper fzf
 
 # Browser and browser tools
 paru -Sy brave-bin
