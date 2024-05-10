@@ -9,7 +9,7 @@
     "margin-left": 5,
     "margin-bottom": 0,
     // Choose the order of the modules
-    "modules-left": ["clock", "backlight", "battery", "tray"],
+    "modules-left": ["clock", "backlight", "battery", "sway/scratchpad", "mpd", "tray"],
     "modules-center": ["sway/workspaces"],
     "modules-right": ["wireplumber", "network", "cpu", "memory", "temperature"],
     // Modules configuration
@@ -48,7 +48,7 @@
     "mpd": {
         "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
         "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} Stopped ",
         "unknown-tag": "N/A",
         "interval": 2,
         "consume-icons": {
@@ -126,7 +126,7 @@
         // "thermal-zone": 2,
         "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
         "critical-threshold": 80,
-        "format-critical": "  {temperatureC}°C 󰈸",
+        "format-critical": "{temperatureC}°C 󰈸",
         "format": "{temperatureC}°C {icon}",
         "format-icons": ["󱃃", "󰔏"],
         "interval": 1

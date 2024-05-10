@@ -186,11 +186,11 @@ label:focus {
 }
 
 #backlight {
-  color: @pink;
+  color: @yellow;
 }
 
 #network {
-  color: @cyan;
+  color: @pink;
 }
 
 #network.disconnected {
@@ -198,7 +198,7 @@ label:focus {
 }
 
 #pulseaudio {
-  color: @green;
+  color: @cyan;
 }
 
 #pulseaudio.muted {
@@ -206,7 +206,7 @@ label:focus {
 }
 
 #wireplumber {
-  color: @pink;
+  color: @cyan;
 }
 
 #wireplumber.muted {
@@ -264,20 +264,21 @@ label:focus {
 }
 
 #mpd {
-  background-color: #66cc99;
   color: @purple;
 }
 
 #mpd.disconnected {
-  background-color: #f53c3c;
+  background-color: @red;
+  color: @base;
+  box-shadow: inset 0px 0px 0px 3px @base;
 }
 
 #mpd.stopped {
-  background-color: #90b1b1;
+  color: @red;
 }
 
 #mpd.paused {
-  background-color: #51a37a;
+  color: @yellow;
 }
 
 #language {
@@ -299,9 +300,9 @@ label:focus {
 }
 
 #scratchpad {
-  background: rgba(0, 0, 0, 0.2);
+  color: @yellow;
 }
 
 #scratchpad.empty {
-  background-color: transparent;
+  color: @cyan;
 }
