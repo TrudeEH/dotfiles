@@ -21,7 +21,7 @@ fi
 paru -Sy curl git stow bat nextcloud-client
 
 # Install DE
-paru -Sy dunst scrot freetype2 libx11 libxft libxinerama
+paru -Sy picom dunst scrot freetype2 libx11 libxft libxinerama xorg-xinit
 compile dwm
 compile st
 compile dmenu
