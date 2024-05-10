@@ -15,7 +15,8 @@ fi
 paru -Sy curl git stow bat fzf less nextcloud-client
 
 # Install DE
-paru -Sy dunst xdg-desktop-portal-wlr xdg-desktop-portal swaybg swaylock waybar wofi foot grim slurp wl-clipboard wlroots wayland-protocols xorg-xwayland
+paru -Sy mpd ncmpcpp dunst xdg-desktop-portal-wlr xdg-desktop-portal swaybg swaylock waybar wofi foot grim slurp wl-clipboard wlroots wayland-protocols xorg-xwayland
+sudo systemctl enable mpd
 cd dwl
 sudo make clean install
 cd ..
