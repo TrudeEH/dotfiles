@@ -3,9 +3,6 @@
 This repository hosts my personal dotfiles.
 The install script works on Arch Linux.
 
-The configuration is done through home-manager.
-If you would like to use this repository, I recommend forking it and editing home.nix to your liking.
-
 ## Install
 ```sh
 bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
