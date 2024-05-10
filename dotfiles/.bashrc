@@ -99,6 +99,7 @@ alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
 alias v='nvim'
+alias mp='ncmpcpp' #Music Player
 
 set completion-ignore-case On
 
