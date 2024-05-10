@@ -15,7 +15,8 @@ fi
 paru -Sy curl git stow bat fzf less nextcloud-client
 
 # Install DE
-paru -Sy dunst xorg-xwayland xdg-desktop-portal-wlr xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard
+paru -Sy mpd ncmpcpp dunst xdg-desktop-portal-wlr xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard xorg-xwayland
+sudo systemctl enable mpd
 
 # Install GUI Apps
 paru -Sy gnome-podcasts
