@@ -25,7 +25,11 @@ static int log_level = WLR_ERROR;
 
 /* Autostart */
 static const char *const autostart[] = {
-        "wbg", "/path/to/your/image", NULL,
+        "swaybg", NULL,
+        "nextcloud", "--background", NULL,
+        "/usr/libexec/xdg-desktop-portal", "-r", NULL,
+        "waybar", NULL,
+        "dunst", NULL,
         NULL /* terminate */
 };
 
@@ -126,12 +130,14 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "wofi", "--show", "run", NULL };
+static const char *lockcmd[] = { "swaylock", "-f", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     spawn,          {.v = termcmd} },
+  { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,          spawn,          {.v = lockcmd} },
 	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
