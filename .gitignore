@@ -13,3 +13,7 @@ dotfiles/.config/VSCodium/*
 temp/
 
 dotfiles/.local/share/icons/hicolor
+
+dwl/*.o
+dwl/dwl
+dwl/config.h
