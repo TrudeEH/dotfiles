@@ -10,4 +10,6 @@ dotfiles/.config/VSCodium/*
 
 *cache*
 
+temp/
+
 dotfiles/.local/share/icons/hicolor
