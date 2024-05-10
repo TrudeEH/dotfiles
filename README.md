@@ -11,15 +11,11 @@ If you would like to use this repository, I recommend forking it and editing hom
 bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
 ```
 
-## Custom commands
-- `p` Cross-distro package manager.
-- `reload` Rebuild the config after changing it.
-- `ncs` Sync with Nextcloud.
-
 ## Supported distros
 - Arch Linux
 
 ## Tested on
+Note: The install script will only run on Arch.
 - macOS 14
 - Debian Bookworm / Trixie
 - Fedora Worstation 39
