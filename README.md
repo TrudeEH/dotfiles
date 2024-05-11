@@ -1,4 +1,8 @@
 # Trude's Dotfiles
+## Screenshots
+![image](https://github.com/TrudeEH/dotfiles/assets/48379395/ac3aadd1-bdc6-4607-91e8-877a765917f2)
+![image](https://github.com/TrudeEH/dotfiles/assets/48379395/6965cbf3-49d7-4ea8-bcc8-95cc04bc5612)
+![image](https://github.com/TrudeEH/dotfiles/assets/48379395/af38a3e8-7eb6-4157-8b80-098de013f685)
 
 ## Install
 ### Arch Linux
