@@ -13,8 +13,6 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 - Arch Linux
 
 ## Tested on
-- macOS 14
 - Debian Bookworm / Trixie
 - Fedora Worstation 39
 - Ubuntu 23.10
-- Arch Linux (as of last commit)
