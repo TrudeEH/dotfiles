@@ -15,7 +15,6 @@ window {
   background-color: @base;
   border-radius: 8px;
   outline-style: none;
-  width: 30rem;
 }
     
 #input {
