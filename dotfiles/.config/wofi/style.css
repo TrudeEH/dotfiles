@@ -10,74 +10,75 @@
 @define-color yellow #fabd2f;
 
 window {
-    margin: 0px;
-    border: 3px solid @foreground;
-    background-color: @base;
+  margin: 0px;
+  border: 3px solid @foreground;
+  background-color: @base;
+  border-radius: 8px;
+  outline-style: none;
+  width: 30rem;
+}
+    
+#input {
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  color: @foreground;
+  background-color: @darkbase;
+  outline-style: none;
+}
+    
+#inner-box {
+  margin: 5px;
+  border: none;
+  background-color: @base;
+  outline-style: none;
+}
+    
+#outer-box {
+  margin: 5px;
+  border: none;
+  background-color: @base;
+  outline-style: none;
+}
+   
+#scroll {
+  margin: 0px;
+  border: none;
+  outline-style: none;
+}
+    
+#text {
+  margin: 5px;
+  border: none;
+  color: @foreground;
+} 
+    
+#entry {
+  border-radius: 50px;
+  outline-style: none;
+}
+    
+#entry.activatable #text {
+  color: @darkbase;
+}
+    
+#entry > * {
+  color: @base;
+}
+    
+#entry:selected {
+  background-color: @darkbase;
+  border: none;
   border-radius: 8px;
   outline-style: none;
 }
     
-    #input {
-    margin: 5px;
-    border: none;
-    border-radius: 8px;
-    color: @foreground;
-    background-color: @darkbase;
-    outline-style: none;
-    }
+#entry:selected #text {
+  font-weight: bold;
+  color: @foreground;
+  background-color: @darkbase;
+}
     
-    #inner-box {
-    margin: 5px;
-    border: none;
-    background-color: @base;
-    outline-style: none;
-    }
-    
-    #outer-box {
-    margin: 5px;
-    border: none;
-    background-color: @base;
-    outline-style: none;
-    }
-    
-    #scroll {
-    margin: 0px;
-    border: none;
-    outline-style: none;
-    }
-    
-    #text {
-    margin: 5px;
-    border: none;
-    color: @foreground;
-    } 
-    
-    #entry {
-        border-radius: 50px;
-        outline-style: none;
-    }
-    
-    #entry.activatable #text {
-    color: @darkbase;
-    }
-    
-    #entry > * {
-    color: @base;
-    }
-    
-    #entry:selected {
-    background-color: @darkbase;
-    border: none;
-    border-radius: 8px;
-    outline-style: none;
-    }
-    
-    #entry:selected #text {
-    font-weight: bold;
-    color: @foreground;
-    background-color: @darkbase;
-    }
-    
-    #img:selected {
-    background: none;
-    }
+#img:selected {
+  background: none;
+}
