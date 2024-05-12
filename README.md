@@ -16,13 +16,5 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 ![image](images/screenshot2.png)
 ![image](images/screenshot3.png)
 
-## Supported distros
-- Arch Linux
-
-## Tested on
-- Debian Bookworm / Trixie
-- Fedora Worstation 39
-- Ubuntu 23.10
-
 ## Gruvbox theme used
 ![colors](images/gruvbox.png)
