@@ -23,3 +23,6 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 - Debian Bookworm / Trixie
 - Fedora Worstation 39
 - Ubuntu 23.10
+
+## Gruvbox theme used
+![colors](images/gruvbox.png)
