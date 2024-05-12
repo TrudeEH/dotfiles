@@ -37,6 +37,7 @@ pushall() {
   if [[ -z "$1" ]]; then
     echo "Usage: pushall \"commit message\""
   else
+    git pull
     git diff
     read -p "Press ENTER to continue..." 
     git add -A
@@ -100,6 +101,7 @@ alias ta='tmux attach'
 alias t='tmux'
 alias v='nvim'
 alias mp='ncmpcpp' #Music Player
+alias vim='nvim'
 
 set completion-ignore-case On
 
