@@ -2,11 +2,6 @@
 
 ![banner](images/banner.png)
 
-## Screenshots
-![image](images/screenshot1.png)
-![image](images/screenshot2.png)
-![image](images/screenshot3.png)
-
 ## Install
 ### Arch Linux
 ```sh
@@ -15,6 +10,11 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 ### MacOS / Other Distros
 - Replace `paru` with the correct package manager for your distro.
 - Note: Some dependencies might be packaged under a different name.
+
+## Screenshots
+![image](images/screenshot1.png)
+![image](images/screenshot2.png)
+![image](images/screenshot3.png)
 
 ## Supported distros
 - Arch Linux
