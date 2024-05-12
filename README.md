@@ -1,8 +1,6 @@
 # Trude's Dotfiles
 
-![banner](https://github.com/JCionx/dotfiles/assets/92257741/8bc65470-cd72-48ae-8e17-aba2fe045e5d)
-
-
+![banner](https://github.com/JCionx/dotfiles/assets/92257741/381e55a3-96cb-40d9-a663-56271b33b013)
 
 ## Screenshots
 ![image](https://github.com/TrudeEH/dotfiles/assets/48379395/ac3aadd1-bdc6-4607-91e8-877a765917f2)
