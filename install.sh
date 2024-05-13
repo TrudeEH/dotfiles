@@ -18,13 +18,10 @@ paru -Sy curl git stow bat fzf less nextcloud-client
 paru -Sy mpd ncmpcpp dunst xdg-desktop-portal-wlr xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard xorg-xwayland polkit-gnome
 
 # Install GUI Apps
-paru -Sy gnome-podcasts
+paru -Sy brave gnome-podcasts r-quick-share
 
 # Install CLI Apps
 paru -Sy gdu toipe bottom w3m newsboat iamb tmux ollama neovim transmission-cli mutt pass pass-git-helper
-
-# Browser and browser tools
-paru -Sy brave-bin
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
