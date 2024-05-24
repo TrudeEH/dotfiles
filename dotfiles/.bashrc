@@ -22,17 +22,6 @@ extract() {
   fi
 }
 
-ncs() {
-  if [[ -z "$1" ]]; then
-    server="trude.store"
-  else
-    server=$1
-  fi
-  echo "+ Syncing ~/Nextcloud/SYNC @ $server"
-  mkdir -p ~/Nextcloud/SYNC &> /dev/null
-  nextcloudcmd -u $USER --path "/SYNC" ~/Nextcloud/SYNC "https://$server"
-}
-
 pushall() {
   if [[ -z "$1" ]]; then
     echo "Usage: pushall \"commit message\""
@@ -42,7 +31,6 @@ pushall() {
     read -p "Press ENTER to continue..." 
     git add -A
     git commit -m "$@"
-    pass show github/token &> /dev/null
     git push
   fi
 }
@@ -92,17 +80,19 @@ shopt -s extglob
 shopt -s globstar
 shopt -s checkjobs
 
-alias cat='bat'
 alias l='ls -alh'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
-alias v='nvim'
+alias v='vim'
 alias mp='ncmpcpp' #Music Player
-alias vim='nvim'
 
 set completion-ignore-case On
 
 export OFLAGS="--ozone-platform-hint=auto"
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
