@@ -10,7 +10,7 @@ sudo nala install htop fzf tmux git stow vim wget
 # Clone repo if needed
 if [ $(pwd) != "$HOME/cros" ]; then
     cd $HOME
-    git clone https://github.com/TrudeEH/cros --depth=1
+    git clone https://github.com/TrudeEH/dotfiles --depth=1
     cd cros
 fi
 
