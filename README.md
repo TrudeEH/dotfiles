@@ -9,5 +9,5 @@ bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.s
 ```
 ## Screenshots
 
-## Gruvbox theme used
+## Gruvbox vim theme used
 ![colors](images/gruvbox.png)
