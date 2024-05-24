@@ -5,7 +5,7 @@ sudo apt install nala -y
 sudo nala update
 sudo nala upgrade
 
-sudo nala install htop fzf tmux git stow vim
+sudo nala install htop fzf tmux git stow vim wget
 
 # Clone repo if needed
 if [ $(pwd) != "$HOME/cros" ]; then
@@ -30,3 +30,12 @@ git reset --hard
 
 # Fonts
 fc-cache -fv
+
+# Desktop
+sudo nala install gnome-core
+sudo rm -rf /etc/network/interfaces #Fix Wifi settings bug
+
+# Google Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo nala install ./google-chrome-stable_current_amd64.deb
+rm ./google-chrome-stable_current_amd64.deb
