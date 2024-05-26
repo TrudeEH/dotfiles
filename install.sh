@@ -8,9 +8,9 @@ sudo apt install nala -y
 sudo nala update
 sudo nala upgrade
 echo
-echo "------------------------------"
-echo "--- Trude's Debian Toolkit ---"
-echo "------------------------------"
+echo "-------------------------------------"
+echo "--- Trude's Dotfiles Install Tool ---"
+echo "-------------------------------------"
 if [ $? == 0 ]; then
   show_success "System updated."
 else
