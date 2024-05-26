@@ -1,8 +1,35 @@
+[org/gnome/control-center]
+last-panel='online-accounts'
+window-state=(980, 640, false)
+
+[org/gnome/desktop/a11y/applications]
+screen-keyboard-enabled=false
+
+[org/gnome/desktop/a11y/interface]
+high-contrast=false
+
+[org/gnome/desktop/app-folders]
+folder-children=['Utilities', 'YaST', '075d70ab-1fa5-46ff-87be-0f12580019b4', 'f8b5e7dc-f7ec-4420-956e-6f7d437bf848']
+
+[org/gnome/desktop/app-folders/folders/075d70ab-1fa5-46ff-87be-0f12580019b4]
+apps=['multimc.desktop', 'steam.desktop', 'mcpelauncher-ui-qt.desktop', 'Terraria.desktop', 'Lethal Company.desktop']
+name='Games'
+
 [org/gnome/desktop/app-folders/folders/Utilities]
 apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Connections.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.eog.desktop', 'org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'vinagre.desktop']
 categories=['X-GNOME-Utilities']
 name='X-GNOME-Utilities.directory'
 translate=true
+
+[org/gnome/desktop/app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/f8b5e7dc-f7ec-4420-956e-6f7d437bf848]
+apps=['winetricks.desktop', 'protontricks.desktop', 'Steam Linux Runtime 3.0 (sniper).desktop', 'Proton Experimental.desktop']
+name='Game Utils'
+translate=false
 
 [org/gnome/desktop/background]
 color-shading-type='solid'
@@ -17,7 +44,24 @@ sources=[('xkb', 'pt')]
 xkb-options=@as []
 
 [org/gnome/desktop/interface]
+clock-format='12h'
 color-scheme='prefer-dark'
+toolkit-accessibility=false
+
+[org/gnome/desktop/notifications]
+application-children=['firefox-esr', 'gnome-power-panel', 'google-chrome', 'org-gnome-software']
+
+[org/gnome/desktop/notifications/application/firefox-esr]
+application-id='firefox-esr.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-power-panel]
+application-id='gnome-power-panel.desktop'
+
+[org/gnome/desktop/notifications/application/google-chrome]
+application-id='google-chrome.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-software]
+application-id='org.gnome.Software.desktop'
 
 [org/gnome/desktop/peripherals/touchpad]
 two-finger-scrolling-enabled=true
@@ -32,24 +76,63 @@ secondary-color='#000000000000'
 [org/gnome/desktop/search-providers]
 sort-order=['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
 
+[org/gnome/desktop/session]
+idle-delay=uint32 300
+
+[org/gnome/desktop/sound]
+event-sounds=true
+theme-name='__custom'
+
+[org/gnome/evolution-data-server]
+migrated=true
+
+[org/gnome/gnome-system-monitor]
+cpu-colors=[(uint32 0, '#e6194B'), (1, '#f58231'), (2, '#ffe119'), (3, '#bfef45'), (4, '#3cb44b'), (5, '#42d4f4'), (6, '#4363d8'), (7, '#911eb4'), (8, '#f032e6'), (9, '#fabebe'), (10, '#ffd8b1'), (11, '#fffac8'), (12, '#aaffc3'), (13, '#469990'), (14, '#000075'), (15, '#e6beff'), (16, '#7999f3329f8c'), (17, '#f3327c107999'), (18, '#79999a9cf332'), (19, '#be17f3327999')]
+current-tab='processes'
+maximized=false
+network-total-in-bits=false
+show-dependencies=false
+show-whose-processes='user'
+window-state=(771, 733, 26, 23)
+
+[org/gnome/gnome-system-monitor/disktreenew]
+col-6-visible=true
+col-6-width=0
+
+[org/gnome/mutter]
+experimental-features=['scale-monitor-framebuffer']
+
+[org/gnome/nautilus/icon-view]
+default-zoom-level='small'
+
 [org/gnome/nautilus/preferences]
 default-folder-viewer='icon-view'
 migrated-gtk-settings=true
 search-filter-time-type='last_modified'
+
+[org/gnome/nautilus/window-state]
+initial-size=(890, 550)
 
 [org/gnome/settings-daemon/plugins/color]
 night-light-enabled=true
 night-light-temperature=uint32 2085
 
 [org/gnome/shell]
-app-picker-layout=[{'org.gnome.Extensions.desktop': <{'position': <0>}>, 'org.gnome.Contacts.desktop': <{'position': <1>}>, 'htop.desktop': <{'position': <2>}>, 'im-config.desktop': <{'position': <3>}>, 'software-properties-gtk.desktop': <{'position': <4>}>, 'org.gnome.TextEditor.desktop': <{'position': <5>}>, 'org.gnome.Totem.desktop': <{'position': <6>}>, 'org.gnome.Calculator.desktop': <{'position': <7>}>, 'org.gnome.Settings.desktop': <{'position': <8>}>, 'gnome-system-monitor.desktop': <{'position': <9>}>, 'Utilities': <{'position': <10>}>, 'yelp.desktop': <{'position': <11>}>, 'firefox-esr.desktop': <{'position': <12>}>, 'org.gnome.Software.desktop': <{'position': <13>}>, 'mcpelauncher-ui-qt.desktop': <{'position': <14>}>}]
-favorite-apps=['google-chrome.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']
+app-picker-layout=[{'org.gnome.Extensions.desktop': <{'position': <0>}>, 'org.gnome.Contacts.desktop': <{'position': <1>}>, 'htop.desktop': <{'position': <2>}>, 'im-config.desktop': <{'position': <3>}>, 'software-properties-gtk.desktop': <{'position': <4>}>, 'org.gnome.TextEditor.desktop': <{'position': <5>}>, 'org.gnome.Totem.desktop': <{'position': <6>}>, 'org.gnome.Calculator.desktop': <{'position': <7>}>, 'org.gnome.Settings.desktop': <{'position': <8>}>, 'gnome-system-monitor.desktop': <{'position': <9>}>, 'Utilities': <{'position': <10>}>, 'yelp.desktop': <{'position': <11>}>, 'firefox-esr.desktop': <{'position': <12>}>, 'org.gnome.Software.desktop': <{'position': <13>}>, '075d70ab-1fa5-46ff-87be-0f12580019b4': <{'position': <14>}>, 'f8b5e7dc-f7ec-4420-956e-6f7d437bf848': <{'position': <15>}>, '4kchrome.desktop': <{'position': <16>}>, 'google-chrome.desktop': <{'position': <17>}>}]
+favorite-apps=['4kchrome.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']
 last-selected-power-profile='performance'
+welcome-dialog-last-shown-version='43.9'
+
+[org/gnome/software]
+check-timestamp=int64 1716718433
+first-run=false
+update-notification-timestamp=int64 1716632445
 
 [org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
-background-color='rgb(23,20,33)'
+background-color='rgb(46,52,54)'
 font='JetBrainsMono Nerd Font Mono 12'
-foreground-color='rgb(208,207,204)'
+foreground-color='rgb(211,215,207)'
+palette=['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']
 use-system-font=false
 use-theme-colors=true
 
@@ -64,5 +147,22 @@ sort-column='name'
 sort-directories-first=false
 sort-order='ascending'
 type-format='category'
-window-size=(859, 327)
+window-size=(859, 374)
 
+[org/gtk/settings/file-chooser]
+clock-format='12h'
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=157
+sort-column='name'
+sort-directories-first=false
+sort-order='ascending'
+type-format='category'
+window-position=(26, 23)
+window-size=(1203, 902)
+
+[system/proxy]
+mode='none'

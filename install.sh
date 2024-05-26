@@ -1,7 +1,7 @@
 #! /bin/bash
 
 source scripts/bash-tui-toolkit.bash
-export LOG_LEVEL="$LOG_DEBUG"
+# export LOG_LEVEL="$LOG_DEBUG"
 
 echo "Updating Debian..."
 sudo apt install nala -y
@@ -18,7 +18,9 @@ else
   exit 1
 fi
 echo
-main_menu_opts=("Install Trude's Dotfiles" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome")
+
+main_menu_opts=("Install Trude's Dotfiles" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome" "Install Ollama" "Install VSCode")
+
 main_menu=$(checkbox "Press SPACE to select and ENTER to continue." "${main_menu_opts[@]}")
 
 log "$LOG_DEBUG" "Menu opts: $main_menu"
@@ -67,5 +69,18 @@ if [[ ${main_menu[@]} =~ 3 ]]; then # Chrome
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   sudo nala install ./google-chrome-stable_current_amd64.deb
   rm ./google-chrome-stable_current_amd64.deb
+fi
+
+if [[ ${main_menu[@]} =~ 4 ]]; then # Ollama
+  curl -fsSL https://ollama.com/install.sh | sh
+fi
+
+if [[ ${main_menu[@]} =~ 5 ]]; then # VSCode
+  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+  sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/keyrings/microsoft-archive-keyring.gpg
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+  sudo rm microsoft.gpg
+  sudo nala update
+  sudo nala install code
 fi
 
