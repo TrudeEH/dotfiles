@@ -71,10 +71,10 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
   sudo nala install htop fzf tmux git stow vim wget
 
   # Clone repo if needed
-  if [ $(pwd) != "$HOME/cros" ]; then
+  if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
     git clone https://github.com/TrudeEH/dotfiles --depth=1
-    cd cros
+    cd dotfiles
   fi
 
   # Link dotfiles
