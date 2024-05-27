@@ -2,7 +2,7 @@
 #
 # Basic demo of features
 #
-source scripts/bash-tui-toolkit.bash
+source scripts/TUI.bash
 
 #
 # Platform
@@ -35,7 +35,7 @@ ranged="$(range "foo bar" "-5" 0 5)"
 options=("one" "two" "three" "four" "a" "b" "c" "d" "e")
 
 validate_password() {
-    if [ ${#1} -lt 10 ];then
+    if [ ${#1} -lt 10 ]; then
         echo "Password needs to be at least 10 characters"
         exit 1
     fi
