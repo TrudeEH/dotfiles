@@ -383,7 +383,7 @@ else
 fi
 echo
 
-main_menu_opts=("Install Trude's Dotfiles" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome" "Install Ollama" "Install VSCode" "Install Tailscale" "+Install Games")
+main_menu_opts=("Install Trude's Dotfiles" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome" "Install AI" "Install VSCode" "Install Tailscale" "+Install Games")
 main_menu=$(checkbox "Press SPACE to select and ENTER to continue." "${main_menu_opts[@]}")
 
 log "$LOG_DEBUG" "Menu opts: $main_menu"
@@ -442,9 +442,7 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
   fi
 
   # Link dotfiles
-  stow -v -t $HOME dotfiles --adopt
-  git diff
-  git reset --hard
+  stow -R -t $HOME dotfiles
 
   # Reload Fonts
   fc-cache -fv
@@ -477,8 +475,19 @@ if [[ ${main_menu[@]} =~ 3 ]]; then # Chrome
   rm ./google-chrome-stable_current_amd64.deb
 fi
 
-if [[ ${main_menu[@]} =~ 4 ]]; then # Ollama
+if [[ ${main_menu[@]} =~ 4 ]]; then # AI
+  # Ollama - LLM Server
   curl -fsSL https://ollama.com/install.sh | sh
+
+  # Fabric - LLM Client w/ prompts
+  cd ~
+  git clone https://github.com/danielmiessler/fabric.git
+  sudo nala install pipx ffmpeg
+  cd fabric
+  pipx install .
+  fabric --setup
+  cd ..
+  rm -rf fabric
 fi
 
 if [[ ${main_menu[@]} =~ 5 ]]; then # VSCode

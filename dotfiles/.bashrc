@@ -87,11 +87,12 @@ alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
 alias v='vim'
-alias mp='ncmpcpp' #Music Player
 
 set completion-ignore-case On
 
 export OFLAGS="--ozone-platform-hint=auto"
+
+export PATH=$PATH:/home/trude/.local/bin
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
