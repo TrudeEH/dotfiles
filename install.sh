@@ -442,10 +442,10 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
   fi
 
   # Link dotfiles
-  stow -R -t $HOME dotfiles
+  stow -vt $HOME dotfiles
 
   # Reload Fonts
-  fc-cache -fv
+  fc-cache -f
 fi
 
 if [[ ${main_menu[@]} =~ 1 ]]; then # GNOME
