@@ -451,7 +451,11 @@ fi
 if [[ ${main_menu[@]} =~ 1 ]]; then # GNOME
   sudo nala install gnome-core
   sudo rm -rf /etc/network/interfaces #Fix Wifi settings bug
-  dconf load / <./settings.dconf
+  
+  # Load settings
+  if test -f ~/dotfiles/settings.dconf; then
+    dconf load / < ~/dotfiles/settings.dconf
+  fi
 fi
 
 if [[ ${main_menu[@]} =~ 2 ]]; then # Github CLI
