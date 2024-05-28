@@ -2,7 +2,7 @@
 #
 # Basic demo of features
 #
-source scripts/TUI.bash
+source TUI.bash
 
 #
 # Platform
