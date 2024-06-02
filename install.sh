@@ -383,13 +383,13 @@ else
 fi
 echo
 
-main_menu_opts=("Install Trude's Dotfiles" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome" "Install AI" "Install VSCode" "Install Tailscale" "+Install Games")
+main_menu_opts=("Install Trude's Dotfiles" "Install DWM (desktop)" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome" "Install AI" "Install VSCode" "Install Tailscale" "+Install Games")
 main_menu=$(checkbox "Press SPACE to select and ENTER to continue." "${main_menu_opts[@]}")
 
 log "$LOG_DEBUG" "Menu opts: $main_menu"
 
 # Submenus
-if [[ ${main_menu[@]} =~ 7 ]]; then # +Games
+if [[ ${main_menu[@]} =~ 8 ]]; then # +Games
   echo "Select games to install"
   game_menu_opts=("Install MultiMC and Java 8,17,21." "Install Minecraft Bedrock" "Install Steam")
   game_menu=$(checkbox "Press SPACE to select and ENTER to continue." "${game_menu_opts[@]}")
@@ -448,7 +448,23 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
   fc-cache -f
 fi
 
-if [[ ${main_menu[@]} =~ 1 ]]; then # GNOME
+if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
+  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential
+
+  compile() {
+    cd suckless/$1
+    sudo make clean install
+    cd ../..
+  }
+
+  compile dwm
+  compile dmenu
+  compile slock
+  compile slstatus
+  compile st
+fi
+
+if [[ ${main_menu[@]} =~ 2 ]]; then # GNOME
   sudo nala install gnome-core
   sudo rm -rf /etc/network/interfaces #Fix Wifi settings bug
   
@@ -458,7 +474,7 @@ if [[ ${main_menu[@]} =~ 1 ]]; then # GNOME
   fi
 fi
 
-if [[ ${main_menu[@]} =~ 2 ]]; then # Github CLI
+if [[ ${main_menu[@]} =~ 3 ]]; then # Github CLI
   (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) &&
     sudo mkdir -p -m 755 /etc/apt/keyrings &&
     wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg >/dev/null &&
@@ -473,13 +489,13 @@ if [[ ${main_menu[@]} =~ 2 ]]; then # Github CLI
   fi
 fi
 
-if [[ ${main_menu[@]} =~ 3 ]]; then # Chrome
+if [[ ${main_menu[@]} =~ 4 ]]; then # Chrome
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   sudo nala install ./google-chrome-stable_current_amd64.deb
   rm ./google-chrome-stable_current_amd64.deb
 fi
 
-if [[ ${main_menu[@]} =~ 4 ]]; then # AI
+if [[ ${main_menu[@]} =~ 5 ]]; then # AI
   # Ollama - LLM Server
   curl -fsSL https://ollama.com/install.sh | sh
 
@@ -494,7 +510,7 @@ if [[ ${main_menu[@]} =~ 4 ]]; then # AI
   rm -rf fabric
 fi
 
-if [[ ${main_menu[@]} =~ 5 ]]; then # VSCode
+if [[ ${main_menu[@]} =~ 6 ]]; then # VSCode
   curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >microsoft.gpg
   sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/keyrings/microsoft-archive-keyring.gpg
   sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
@@ -503,7 +519,7 @@ if [[ ${main_menu[@]} =~ 5 ]]; then # VSCode
   sudo nala install code
 fi
 
-if [[ ${main_menu[@]} =~ 6 ]]; then # Tailscale
+if [[ ${main_menu[@]} =~ 7 ]]; then # Tailscale
   curl -fsSL https://tailscale.com/install.sh | sh
   sudo systemctl enable tailscaled
   sudo tailscale up
