@@ -453,7 +453,7 @@ if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
 
   compile() {
     cd suckless/$1
-    rmm -rf config.h
+    sudo rm -rf config.h
     sudo make clean install
     cd ../..
   }
