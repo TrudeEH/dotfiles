@@ -14,3 +14,27 @@ temp/
 
 dotfiles/.local/share/icons/hicolor
 
+*~*
+*.tar.*
+*.tgz
+*.o
+*.out
+*.bak
+*.bk
+*.tmp
+*.temp
+*.rej
+*.orig
+*\:w
+
+suckless/blind/blind
+suckless/dmenu/dmenu
+suckless/dmenu/stest
+suckless/dmenu/dmenu/stest
+suckless/dwm/dwm
+suckless/quark/quark
+suckless/sent/sent
+suckless/slock/slock
+suckless/st/st
+suckless/tabbed/tabbed
+suckless/slstatus/slstatus
