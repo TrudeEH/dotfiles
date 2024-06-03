@@ -14,3 +14,6 @@ static const int failonclear = 1;
 
 /* size of square in px */
 static const int squaresize = 50;
+
+/* time in seconds before the monitor shuts down */
+static const int monitortime = 5;
