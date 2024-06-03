@@ -4,7 +4,7 @@
 const unsigned int interval = 1000;
 
 /* text to show if no value can be retrieved */
-static const char unknown_str[] = "n/a";
+static const char unknown_str[] = "??";
 
 /* maximum output string length */
 #define MAXLEN 2048
@@ -65,8 +65,10 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-  { cpu_perc,             " %s%% ",      NULL },
-  { ram_used,             " %s",         NULL },
-  { ram_perc,             "(%s%%) ",      NULL },
-  { datetime,             " %s",         "%a %F %T" },
+  { battery_perc,         "󰂉 %s%%  ",     "BAT0"              },
+  { vol_perc,             " %s%%  ",    NULL                },
+  { cpu_perc,             " %s%%  ",     NULL                },
+  { ram_used,             " %s",         NULL                },
+  { ram_perc,             "(%s%%)  ",     NULL                },
+  { datetime,             " %s",         "%d/%m/%y %l:%M %p" },
 };
