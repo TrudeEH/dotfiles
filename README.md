@@ -11,7 +11,6 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 ## Structure
 - `install.sh` Install the dotfiles and set up a new Debian machine with popular applications and tools.
 - `scripts/` Scripts directory. You may find some useful snippets here. These are never used as dependencies.
-- `desktop-files` Some packages (mostly web and electron apps) do not run under Wayland by default. This issue causes the app to not scale properly on Wayland sessions. The desktop files here can be moved to `/usr/share/applications` to generate "4K" entries for the affected apps.
 
 **Note:** The `settings.dconf` file is applied when the entry *Install GNOME* is selected.
 
@@ -31,7 +30,14 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 3. Make it your own! Tweak the install script, change some settings and add in your own.
 
 ## Screenshots
-![screenshot](images/screenshot.png)
+
+**The install script allows selecting which DE to install.**
+
+### GNOME (Wayland)
+![screenshot gnome](images/screenshot-gnome.png)
+
+### DWM (X11)
+![screenshot dwm](images(screenshot-dwm.png)
 
 ## Tested on
 - ChromeOS Crostini (Debian Container)
