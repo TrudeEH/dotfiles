@@ -15,8 +15,8 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "JetBrainsMono NF:size=20" };
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { "ebdbb2", "282828", "1d2021" },
-	[SchemeSel]  = { "282828", "ebdbb2", "ebdbb2" },
+	[SchemeNorm] = { "#ebdbb2", "#282828", "#1d2021" },
+	[SchemeSel]  = { "#282828", "#ebdbb2", "#ebdbb2" },
 };
 
 /* tagging */
