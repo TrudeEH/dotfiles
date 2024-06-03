@@ -449,7 +449,7 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
 fi
 
 if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
-  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential
+  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev
 
   compile() {
     cd suckless/$1
@@ -468,7 +468,7 @@ fi
 if [[ ${main_menu[@]} =~ 2 ]]; then # GNOME
   sudo nala install gnome-core
   sudo rm -rf /etc/network/interfaces #Fix Wifi settings bug
-  
+
   # Load settings
   if test -f ~/dotfiles/settings.dconf; then
     dconf load / < ~/dotfiles/settings.dconf
