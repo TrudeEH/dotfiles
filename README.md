@@ -37,7 +37,7 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 ![screenshot gnome](images/screenshot-gnome.png)
 
 ### DWM (X11)
-![screenshot dwm](images(screenshot-dwm.png)
+![screenshot dwm](images/screenshot-dwm.png)
 
 ## Tested on
 - ChromeOS Crostini (Debian Container)
