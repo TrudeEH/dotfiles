@@ -1,5 +1,4 @@
 slstatus &
-picom &
 dunst &
 feh --bg-scale "/home/trude/dotfiles/bg2.png" &
 

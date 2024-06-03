@@ -66,7 +66,7 @@ static const char unknown_str[] = "??";
 static const struct arg args[] = {
 	/* function format          argument */
   { battery_perc,         "󰂉 %s%%  ",     "BAT0"              },
-  { vol_perc,             " %s%%  ",    NULL                },
+  { vol_perc,             " %s%%  ",    NULL                 },
   { cpu_perc,             " %s%%  ",     NULL                },
   { ram_used,             " %s",         NULL                },
   { ram_perc,             "(%s%%)  ",     NULL                },
