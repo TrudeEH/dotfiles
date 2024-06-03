@@ -1,0 +1,3 @@
+#! /bin/sh
+
+google-chrome --force-device-scale-factor=1.6
