@@ -449,7 +449,7 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
 fi
 
 if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
-  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev dunst feh xorg
+  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev feh xorg
   compile() {
     cd suckless/$1
     sudo rm -rf config.h
