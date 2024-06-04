@@ -66,7 +66,7 @@ static const char unknown_str[] = "??";
 static const struct arg args[] = {
 	/* function format          argument */
   { battery_perc,         "󰂉 %s%%  ",     "BAT0"              },
-  { vol_perc,             " %s%%  ",    NULL                 },
+  { run_command,          " %s%%  ",     "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-" },
   { cpu_perc,             " %s%%  ",     NULL                },
   { ram_used,             " %s",         NULL                },
   { ram_perc,             "(%s%%)  ",     NULL                },
