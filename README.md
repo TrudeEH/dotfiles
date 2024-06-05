@@ -4,7 +4,7 @@
 
 Welcome to Trude's dotfiles. Here you will find my personal configurations, tools and scripts.
 Some of these only apply to the `trude` user, and assume the repository is always placed at `$HOME/dotfiles`. I highly recommend anyone interested to fork the repository and modify the configurations to your liking. 
-This repo can be used as a base for you own dotfiles.
+This repo can be used as a base for your own dotfiles.
 
 Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfiles/tree/arch-sway)
 
