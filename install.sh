@@ -382,13 +382,13 @@ else
 fi
 echo
 
-main_menu_opts=("Install Trude's Dotfiles" "Install DWM (desktop)" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome" "Install AI" "Install VSCode" "Install Tailscale" "+Install Games")
+main_menu_opts=("Install Trude's Dotfiles" "Install DWM (desktop)" "Install GNOME (desktop)" "Install GitHub CLI" "Install Google Chrome" "Install AI" "Install Tailscale" "+Install Games")
 main_menu=$(checkbox "Press SPACE to select and ENTER to continue." "${main_menu_opts[@]}")
 
 log "$LOG_DEBUG" "Menu opts: $main_menu"
 
 # Submenus
-if [[ ${main_menu[@]} =~ 8 ]]; then # +Games
+if [[ ${main_menu[@]} =~ 7 ]]; then # +Games
   echo "Select games to install"
   game_menu_opts=("Install MultiMC and Java 8,17,21." "Install Minecraft Bedrock" "Install Steam")
   game_menu=$(checkbox "Press SPACE to select and ENTER to continue." "${game_menu_opts[@]}")
@@ -509,16 +509,7 @@ if [[ ${main_menu[@]} =~ 5 ]]; then # AI
   rm -rf fabric
 fi
 
-if [[ ${main_menu[@]} =~ 6 ]]; then # VSCode
-  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >microsoft.gpg
-  sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/keyrings/microsoft-archive-keyring.gpg
-  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-  sudo rm microsoft.gpg
-  sudo nala update
-  sudo nala install code
-fi
-
-if [[ ${main_menu[@]} =~ 7 ]]; then # Tailscale
+if [[ ${main_menu[@]} =~ 6 ]]; then # Tailscale
   curl -fsSL https://tailscale.com/install.sh | sh
   sudo systemctl enable tailscaled
   sudo tailscale up
