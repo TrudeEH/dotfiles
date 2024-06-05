@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+prompt="-p Manual:"
+
+# terminal to open manual
+terminal="st"
+
+# list all manuals
+manual="$(man -k . | dmenu $prompt | awk '{print $1}')"
+
+# open selected manual with terminal
+if [[ ! -z "$manual" ]]; then
+    eval "$($terminal -e man $manual)"
+fi
+
+exit 0
+
+
