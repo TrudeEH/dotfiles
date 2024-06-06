@@ -449,10 +449,10 @@ fi
 
 if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
   # DWM + ST + DMENU deps
-  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev
+  sudo nala install xorg libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev
 
   # Desktop tools
-  sudo nala install feh xorg iwd
+  sudo nala install feh iwd
   sudo cp -f iwd.conf /etc/iwd/main.conf
   sudo systemctl enable iwd
   sudo systemctl start iwd
