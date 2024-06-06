@@ -11,8 +11,7 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 ## Structure
 - `install.sh` Install the dotfiles and set up a new Debian machine with popular applications and tools.
 - `scripts/` Scripts directory. You may find some useful snippets here. These are never used as dependencies.
-
-**Note:** The `settings.dconf` file is applied when the entry *Install GNOME* is selected.
+- `dotfiles/.local/bin` Dmenu scripts and scripts used by other programs.
 
 ## Getting Started
 1. Fork the repository to be able to customize it and make it your own.
