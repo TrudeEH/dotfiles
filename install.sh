@@ -431,7 +431,7 @@ fi
 
 # Main menu items
 if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
-  sudo nala install htop fzf tmux git stow vim wget
+  sudo nala install htop fzf tmux git vim wget
 
   # Clone repo if needed
   if [ $(pwd) != "$HOME/dotfiles" ]; then
@@ -440,8 +440,8 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
     cd dotfiles
   fi
 
-  # Link dotfiles
-  stow -vt $HOME dotfiles
+  # Copy dotfiles
+  cp -vrf dotfiles/.* $HOME
 
   # Reload Fonts
   fc-cache -f
