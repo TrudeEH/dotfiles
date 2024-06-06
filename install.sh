@@ -461,7 +461,7 @@ if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
   sudo nala install libgcr-3-dev libglib2.0-0 libgtk-3-0 libwebkit2gtk-4.0-dev
 
   compile() {
-    cd suckless/$1
+    cd programs/$1
     sudo rm -rf config.h
     sudo make clean install
     cd ../..
