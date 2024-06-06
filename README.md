@@ -33,9 +33,6 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 
 **The install script allows selecting which DE to install.**
 
-### GNOME (Wayland)
-![screenshot gnome](images/screenshot-gnome.png)
-
 ### DWM (X11)
 ![screenshot dwm](images/screenshot-dwm.png)
 
