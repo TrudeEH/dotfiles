@@ -448,33 +448,34 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
 fi
 
 if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
-  # DWM + ST + DMENU deps
-  sudo nala install xorg libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev
+  if [ -d $HOME/dotfiles ]; then
+    # DWM + ST + DMENU deps
+    sudo nala install xorg libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev
 
-  # Desktop tools
-  sudo nala install feh iwd
-  sudo cp -f iwd.conf /etc/iwd/main.conf
-  sudo systemctl enable iwd
-  sudo systemctl start iwd
+    # Desktop tools
+    sudo nala install feh iwd
+    sudo cp -f iwd.conf /etc/iwd/main.conf
+    sudo systemctl enable iwd
+    sudo systemctl start iwd
 
-  # SURF deps
-  sudo nala install libgcr-3-dev libglib2.0-0 libgtk-3-0 libwebkit2gtk-4.0-dev
+    # SURF deps
+    sudo nala install libgcr-3-dev libglib2.0-0 libgtk-3-0 libwebkit2gtk-4.0-dev
 
-  compile() {
-    cd programs/$1
-    sudo rm -rf config.h
-    sudo make clean install
-    cd ../..
-  }
+    compile() {
+      cd programs/$1
+      sudo rm -rf config.h
+      sudo make clean install
+      cd ../..
+    }
 
-  compile dwm
-  compile dmenu
-  compile slock
-  compile slstatus
-  compile st
-  compile tabbed
-  compile surf
-  compile herbe
+    # Compile programs
+    for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf" "herbe"; do
+      compile $program
+    done
+    show_success "DWM Desktop compiled."
+  else
+    show_error "Dotfiles not installed yet!"
+  fi
 fi
 
 if [[ ${main_menu[@]} =~ 2 ]]; then # Github CLI
