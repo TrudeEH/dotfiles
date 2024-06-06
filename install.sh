@@ -474,6 +474,7 @@ if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
   compile st
   compile tabbed
   compile surf
+  compile herbe
 fi
 
 if [[ ${main_menu[@]} =~ 2 ]]; then # GNOME
