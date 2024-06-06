@@ -1,0 +1,16 @@
+#!/bin/bash
+
+iwctl device list
+echo
+read -p "Wifi interface: " interface
+echo
+iwctl station $interface scan
+sleep 2
+iwctl station $interface get-networks
+echo
+read -p "SSID: " ssid
+read -sp "PSK: " psk
+iwctl --passphrase $psk station $interface connect $ssid
+sleep 1
+iwctl station $interface show
+
