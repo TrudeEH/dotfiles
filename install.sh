@@ -452,13 +452,14 @@ if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
   sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev
 
   # Desktop tools
-  sudo nala install feh xorg network-manager
+  sudo nala install feh xorg iwd
+  sudo cp -f iwd.conf /etc/iwd/main.conf
+  sudo systemctl enable iwd
+  sudo systemctl start iwd
 
   # SURF deps
-  sudo nala install libgcr-3-dev libglib2.0-0 libgtk-3-0 libwebkit2gtk-4.1-0
+  sudo nala install libgcr-3-dev libglib2.0-0 libgtk-3-0 libwebkit2gtk-4.0-dev
 
-  sudo systemctl start NetworkManager.service
-  sudo systemctl enable NetworkManager.service
   compile() {
     cd suckless/$1
     sudo rm -rf config.h
