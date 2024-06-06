@@ -448,7 +448,15 @@ if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
 fi
 
 if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
-  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev feh xorg network-manager libgcr-3-dev
+  # DWM + ST + DMENU deps
+  sudo nala install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev
+
+  # Desktop tools
+  sudo nala install feh xorg network-manager
+
+  # SURF deps
+  sudo nala install libgcr-3-dev libglib2.0-0 libgtk-3-0 libwebkit2gtk-4.1-0
+
   sudo systemctl start NetworkManager.service
   sudo systemctl enable NetworkManager.service
   compile() {
