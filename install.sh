@@ -431,7 +431,7 @@ fi
 
 # Main menu items
 if [[ ${main_menu[@]} =~ 0 ]]; then # Install Dotfiles
-  sudo nala install htop fzf tmux git vim wget
+  sudo nala install htop fzf tmux git vim wget curl
 
   # Clone repo if needed
   if [ $(pwd) != "$HOME/dotfiles" ]; then
