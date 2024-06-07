@@ -458,6 +458,10 @@ if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
     sudo systemctl enable iwd
     sudo systemctl start iwd
 
+    # Sound
+    sudo nala install pipewire-audio wireplumber pipewire-pulse pipewire-alsa
+    systemctl --user --now enable wireplumber.service
+
     # SURF deps
     sudo nala install libgcr-3-dev libglib2.0-0 libgtk-3-0 libwebkit2gtk-4.0-dev
 
