@@ -130,6 +130,11 @@ typedef struct {
 } Button;
 
 typedef struct {
+	char *token;
+	char *uri;
+} SearchEngine;
+
+typedef struct {
 	const char *uri;
 	Parameter config[ParameterLast];
 	regex_t re;
@@ -207,15 +212,12 @@ static void decidenewwindow(WebKitPolicyDecision *d, Client *c);
 static void decideresource(WebKitPolicyDecision *d, Client *c);
 static void insecurecontent(WebKitWebView *v, WebKitInsecureContentEvent e,
                             Client *c);
-static void downloadstarted(WebKitWebContext *wc, WebKitDownload *d,
-                            Client *c);
-static void responsereceived(WebKitDownload *d, GParamSpec *ps, Client *c);
-static void download(Client *c, WebKitURIResponse *r);
 static void webprocessterminated(WebKitWebView *v,
                                  WebKitWebProcessTerminationReason r,
                                  Client *c);
 static void closeview(WebKitWebView *v, Client *c);
 static void destroywin(GtkWidget* w, Client *c);
+static gchar *parseuri(const gchar *uri);
 
 /* Hotkeys */
 static void pasteuri(GtkClipboard *clipboard, const char *text, gpointer d);
@@ -238,6 +240,17 @@ static void find(Client *c, const Arg *a);
 static void clicknavigate(Client *c, const Arg *a, WebKitHitTestResult *h);
 static void clicknewwindow(Client *c, const Arg *a, WebKitHitTestResult *h);
 static void clickexternplayer(Client *c, const Arg *a, WebKitHitTestResult *h);
+
+/* download-console */
+static void downloadstarted(WebKitWebContext *wc, WebKitDownload *d,
+                            Client *c);
+static void downloadfailed(WebKitDownload *d, GParamSpec *ps, void *arg);
+static void downloadfinished(WebKitDownload *d, GParamSpec *ps, void *arg);
+static gboolean decidedestination(WebKitDownload *d,
+                                  gchar *suggested_filename, void *arg);
+static void printprogress(WebKitDownload *d, GParamSpec *ps, void *arg);
+static void logdownload(WebKitDownload *d, gchar *tail);
+static void spawndls(Client *c, const Arg *a);
 
 static char winid[64];
 static char togglestats[12];
@@ -350,7 +363,10 @@ setup(void)
 	cookiefile = buildfile(cookiefile);
 	scriptfile = buildfile(scriptfile);
 	certdir    = buildpath(certdir);
-	if (curconfig[Ephemeral].val.i)
+	dlstatus   = buildpath(dlstatus);
+  dldir      = buildpath(dldir);
+
+  if (curconfig[Ephemeral].val.i)
 		cachedir = NULL;
 	else
 		cachedir   = buildpath(cachedir);
@@ -576,7 +592,7 @@ loaduri(Client *c, const Arg *a)
 			url = g_strdup_printf("file://%s", path);
 			free(path);
 		} else {
-			url = g_strdup_printf("http://%s", uri);
+			url = parseuri(uri);
 		}
 		if (apath != uri)
 			free(apath);
@@ -1088,6 +1104,8 @@ cleanup(void)
 	g_free(scriptfile);
 	g_free(stylefile);
 	g_free(cachedir);
+	g_free(dldir);
+	g_free(dlstatus);
 	XCloseDisplay(dpy);
 }
 
@@ -1721,8 +1739,7 @@ decideresource(WebKitPolicyDecision *d, Client *c)
 	if (webkit_response_policy_decision_is_mime_type_supported(r)) {
 		webkit_policy_decision_use(d);
 	} else {
-		webkit_policy_decision_ignore(d);
-		download(c, res);
+		webkit_policy_decision_download(d);
 	}
 }
 
@@ -1730,27 +1747,6 @@ void
 insecurecontent(WebKitWebView *v, WebKitInsecureContentEvent e, Client *c)
 {
 	c->insecure = 1;
-}
-
-void
-downloadstarted(WebKitWebContext *wc, WebKitDownload *d, Client *c)
-{
-	g_signal_connect(G_OBJECT(d), "notify::response",
-	                 G_CALLBACK(responsereceived), c);
-}
-
-void
-responsereceived(WebKitDownload *d, GParamSpec *ps, Client *c)
-{
-	download(c, webkit_download_get_response(d));
-	webkit_download_cancel(d);
-}
-
-void
-download(Client *c, WebKitURIResponse *r)
-{
-	Arg a = (Arg)DOWNLOAD(webkit_uri_response_get_uri(r), geturi(c));
-	spawn(c, &a);
 }
 
 void
@@ -1774,6 +1770,20 @@ destroywin(GtkWidget* w, Client *c)
 	destroyclient(c);
 	if (!clients)
 		gtk_main_quit();
+}
+
+gchar *
+parseuri(const gchar *uri)
+{
+	guint i;
+
+	for (i = 0; i < LENGTH(searchengines); i++) {
+		if (g_str_has_prefix(uri, searchengines[i].token))
+			return g_strdup_printf(searchengines[i].uri,
+					       uri + strlen(searchengines[i].token));
+	}
+
+	return g_strdup_printf("http://%s", uri);
 }
 
 void
@@ -1982,6 +1992,81 @@ clickexternplayer(Client *c, const Arg *a, WebKitHitTestResult *h)
 	Arg arg;
 
 	arg = (Arg)VIDEOPLAY(webkit_hit_test_result_get_media_uri(h));
+	spawn(c, &arg);
+}
+
+/* download-console */
+
+void
+downloadstarted(WebKitWebContext *wc, WebKitDownload *d, Client *c)
+{
+	webkit_download_set_allow_overwrite(d, TRUE);
+	g_signal_connect(G_OBJECT(d), "decide-destination",
+	                 G_CALLBACK(decidedestination), NULL);
+	g_signal_connect(G_OBJECT(d), "notify::estimated-progress",
+	                 G_CALLBACK(printprogress), NULL);
+	g_signal_connect(G_OBJECT(d), "failed",
+	                 G_CALLBACK(downloadfailed), NULL);
+	g_signal_connect(G_OBJECT(d), "finished",
+	                 G_CALLBACK(downloadfinished), NULL);
+}
+
+void
+downloadfailed(WebKitDownload *d, GParamSpec *ps, void *arg)
+{
+	logdownload(d, " -- FAILED");
+}
+
+void
+downloadfinished(WebKitDownload *d, GParamSpec *ps, void *arg)
+{
+	logdownload(d, " -- COMPLETED");
+}
+
+gboolean
+decidedestination(WebKitDownload *d, gchar *suggested_filename, void *arg)
+{
+	gchar *dest;
+	dest = g_strdup_printf("file://%s/%s", dldir, suggested_filename);
+	webkit_download_set_destination(d, dest);
+	return TRUE;
+}
+
+void
+printprogress(WebKitDownload *d, GParamSpec *ps, void *arg)
+{
+	logdownload(d, "");
+}
+
+void
+logdownload(WebKitDownload *d, gchar *tail)
+{
+	gchar *filename, *statfile;
+	FILE *stat;
+
+	filename = g_path_get_basename(webkit_download_get_destination(d));
+	statfile = g_strdup_printf("%s/%s", dlstatus, filename);
+
+	if ((stat = fopen(statfile, "w")) == NULL) {
+		perror("dlstatus");
+	} else {
+		fprintf(stat, "%s: %d%% (%d.%ds)%s\n",
+		        filename,
+		        (int)(webkit_download_get_estimated_progress(d) * 100),
+		        (int) webkit_download_get_elapsed_time(d),
+		        (int)(webkit_download_get_elapsed_time(d) * 100),
+		        tail);
+		fclose(stat);
+	}
+
+	g_free(statfile);
+	g_free(filename);
+}
+
+void
+spawndls(Client *c, const Arg *a)
+{
+	Arg arg = (Arg)DLSTATUS;
 	spawn(c, &arg);
 }
 
