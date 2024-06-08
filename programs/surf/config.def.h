@@ -7,7 +7,7 @@ static char *certdir        = "~/.surf/certificates/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
 static char *dldir          = "~/dl/";
-static char *dlstatus       = "~/.surf/dlstatus/";
+static char *dlstatus       = "~/dl/history/";
 
 static SearchEngine searchengines[] = {
 	{ " ", "https://duckduckgo.com/?q=%s" },
