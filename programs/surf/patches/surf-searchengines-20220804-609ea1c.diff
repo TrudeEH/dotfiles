@@ -1,0 +1,94 @@
+From 2f64431f15777d93d146707dccdb6ad063c7a316 Mon Sep 17 00:00:00 2001
+From: Justinas Grigas <jstn_as@protonmail.com>
+Date: Thu, 4 Aug 2022 23:18:40 +0300
+Subject: [PATCH] searchengines: allows simple use of search engines
+
+The previous patches had some issues:
+* don't apply cleanly to the latest version.
+* a space between the token and query is implied, so having " " as a
+  token means you actually have to use "  ". Or if your token is "e",
+  searching for "example.com" would trigger it. Now you specify the exact
+  token to look for.
+* has checks to skip badly configured search engines. The correct
+  solution is to configure them right.
+
+Now it works like a better version of the spacesearch patch, as it
+allows you to specify " " as a token
+---
+ config.def.h |  5 +++++
+ surf.c       | 22 +++++++++++++++++++++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/config.def.h b/config.def.h
+index 075f7d0..7bb9c46 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -8,6 +8,11 @@ static char *cachedir       = "~/.local/share/surf/cache/";
+ static char *cookiefile     = "~/.local/share/surf/cookies.txt";
+ static char *historyfile    = "~/.local/share/surf/history.txt";
+ 
++static SearchEngine searchengines[] = {
++	{ " ", "https://duckduckgo.com/?q=%s" },
++	{ "osrs ", "https://oldschool.runescape.wiki/?search=%s" },
++};
++
+ /* Webkit default features */
+ /* Highest priority value will be used.
+  * Default parameters are priority 0
+diff --git a/surf.c b/surf.c
+index a2b507c..7e85952 100644
+--- a/surf.c
++++ b/surf.c
+@@ -133,6 +133,11 @@ typedef struct {
+ 	unsigned int stopevent;
+ } Button;
+ 
++typedef struct {
++	char *token;
++	char *uri;
++} SearchEngine;
++
+ typedef struct {
+ 	const char *uri;
+ 	Parameter config[ParameterLast];
+@@ -220,6 +225,7 @@ static void webprocessterminated(WebKitWebView *v,
+                                  Client *c);
+ static void closeview(WebKitWebView *v, Client *c);
+ static void destroywin(GtkWidget* w, Client *c);
++static gchar *parseuri(const gchar *uri);
+ 
+ /* Hotkeys */
+ static void pasteuri(GtkClipboard *clipboard, const char *text, gpointer d);
+@@ -584,7 +590,7 @@ loaduri(Client *c, const Arg *a)
+ 			url = g_strdup_printf("file://%s", path);
+ 			free(path);
+ 		} else {
+-			url = g_strdup_printf("http://%s", uri);
++			url = parseuri(uri);
+ 		}
+ 		if (apath != uri)
+ 			free(apath);
+@@ -1811,6 +1817,20 @@ destroywin(GtkWidget* w, Client *c)
+ 		gtk_main_quit();
+ }
+ 
++gchar *
++parseuri(const gchar *uri)
++{
++	guint i;
++
++	for (i = 0; i < LENGTH(searchengines); i++) {
++		if (g_str_has_prefix(uri, searchengines[i].token))
++			return g_strdup_printf(searchengines[i].uri,
++					       uri + strlen(searchengines[i].token));
++	}
++
++	return g_strdup_printf("http://%s", uri);
++}
++
+ void
+ pasteuri(GtkClipboard *clipboard, const char *text, gpointer d)
+ {
+-- 
+2.37.1
+
