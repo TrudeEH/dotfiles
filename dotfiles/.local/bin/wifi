@@ -11,6 +11,6 @@ echo
 read -p "SSID: " ssid
 read -sp "PSK: " psk
 iwctl --passphrase $psk station $interface connect $ssid
-sleep 1
+sleep 2
 iwctl station $interface show
 
