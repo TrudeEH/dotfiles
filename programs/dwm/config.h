@@ -67,7 +67,7 @@ static const char *mutevol[]    = { "/usr/bin/wpctl",   "set-mute",   "@DEFAULT_
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]      = { "dmenu_run", "-m", dmenumon, NULL };
-static const char *termcmd[]       = { "tabbed", "-r", "2", "st", "-w", "''", NULL };
+static const char *termcmd[]       = { "tabbed", "-c", "-r", "2", "st", "-w", "''", NULL };
 static const char *slockcmd[]      = { "slock", NULL };
 static const char *screenshotcmd[] = { "scrot", "--select", "--line", "mode=edge", NULL };
 static const char *surfcmd[]       = { "tabbed", "-c", "-r", "2", "surf", "-e", "ID", ".homepage.html" };
