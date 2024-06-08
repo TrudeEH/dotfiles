@@ -36,5 +36,9 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 ![screenshot dwm](images/screenshot-dwm.png)
 
 ## Tested on
-- ChromeOS Crostini (Debian Container)
+- ChromeOS Crostini (Debian 12 Container)
 - Debian 12
+- Linux Mint 21.3
+
+## Gruvbox theme
+![theme](images/gruvbox.png)
