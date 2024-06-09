@@ -30,10 +30,8 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 
 ## Screenshots
 
-**The install script allows selecting which DE to install.**
-
-### DWM (X11)
-![screenshot dwm](images/screenshot-dwm.png)
+![screenshot 1](images/sc1.png)
+![screenshot 2](images/sc2.png)
 
 ## Tested on
 - ChromeOS Crostini (Debian 12 Container)
