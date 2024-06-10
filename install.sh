@@ -3,7 +3,7 @@
 # export LOG_LEVEL="$LOG_DEBUG"
 
 admin() {
-  su - root -c "$*"
+  su - root -c "${@}"
 }
 
 echo "Updating user packages..."
