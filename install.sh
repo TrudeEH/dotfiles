@@ -24,7 +24,9 @@ for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf" "herbe"; do
   compile $program
 done
 
+doas sysrc dbus_enable=YES #Enable DBUS, needed for Xorg
+
 
 # Copy dotfiles to $HOME
-cp -vrf dotfiles/.* $HOME
+cp -vrf $HOME/dotfiles/dotfiles/.* $HOME
 
