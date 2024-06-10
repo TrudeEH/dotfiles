@@ -14,7 +14,7 @@ TABBED_LDFLAGS = -L/usr/local/lib -lX11 -lfontconfig -lXft ${LDFLAGS}
 TABBED_CPPFLAGS = -DVERSION=\"${VERSION}\" -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=700L
 
 # OpenBSD (uncomment)
-#TABBED_CFLAGS = -I/usr/X11R6/include -I/usr/X11R6/include/freetype2 ${CFLAGS}
+TABBED_CFLAGS = -I/usr/local/include -I/usr/local/include/freetype2 ${CFLAGS}
 
 SRC = tabbed.c xembed.c
 OBJ = ${SRC:.c=.o}
