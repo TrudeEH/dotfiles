@@ -31,7 +31,7 @@ compile() {
 }
 
 # Compile programs
-for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf" "herbe"; do
+for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf"; do
   compile $program
 done
 
