@@ -81,7 +81,7 @@ for selection in $main_menu; do
       echo " --- Compiling $1 ---" >> logs/dotfiles.log
       cd $HOME/dotfiles/programs/$1
       doas rm -rf config.h >> logs/dotfiles.log
-      doas make clean install >> logs/dotfiles.log
+      doas make clean install >> logs/dotfiles.log 2> logs/dotfiles.compile.err
       cd $HOME/dotfiles
     }
 
@@ -90,7 +90,7 @@ for selection in $main_menu; do
     done
     showDotfiles 98 5 5 5 5 5 7
 
-    cp -vrf $HOME/dotfiles/dotfiles/* $HOME >> logs/dotfiles.log
+    cp -vrf $HOME/dotfiles/dotfiles/.[!.]* $HOME >> logs/dotfiles.log
     showDotfiles 100 5 5 5 5 5 5
 
   fi
