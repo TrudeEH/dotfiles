@@ -78,6 +78,7 @@ for selection in $main_menu; do
     showDotfiles 90 5 5 5 5 7 4
 
     compile() {
+      echo " --- Compiling $1 ---" >> logs/dotfiles.log
       cd programs/$1
       doas rm -rf config.h >> logs/dotfiles.log
       doas make clean install >> logs/dotfiles.log
