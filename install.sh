@@ -58,23 +58,23 @@ for selection in $main_menu; do
 
     showDotfiles 0 7 4 4 4 4 4
 
-    doas pkg install xorg -y > logs/dotfiles.log
+    doas pkg install -y xorg > logs/dotfiles.log
     doas sysrc dbus_enable=YES #Enable DBUS, needed for Xorg
     showDotfiles 30 5 7 4 4 4 4
 
     # TODO: Menu to allow the user to choose AMD, NVIDIA or INTEL driver. Defaults to Intel.
-    doas pkg install drm-kmod -y >> logs/dotfiles.log
+    doas pkg install -y drm-kmod >> logs/dotfiles.log
     doas pw groupmod video -m $USER
     doas sysrc kld_list+=i915kms
     showDotfiles 50 5 5 7 4 4 4
 
     # ST DMENU DWM...
-    doas pkg install x11/libX11 x11-fonts/libXft x11/libXinerama x11/libXext devel/pkgconf print/freetype2 x11-fonts/fontconfig -y >> logs/dotfiles.log
+    doas pkg install -y x11/libX11 x11-fonts/libXft x11/libXinerama x11/libXext devel/pkgconf print/freetype2 x11-fonts/fontconfig >> logs/dotfiles.log
     # SURF
-    doas pkg install ftp/curl www/webkit2-gtk3 devel/libsoup security/gcr accessibility/at-spi2-core graphics/cairo graphics/gdk-pixbuf2 devel/glib20 devel/gettext-runtime x11-toolkits/gtk30 x11-toolkits/pango -y >> logs/dotfiles.log
+    doas pkg install -y ftp/curl www/webkit2-gtk3 devel/libsoup security/gcr accessibility/at-spi2-core graphics/cairo graphics/gdk-pixbuf2 devel/glib20 devel/gettext-runtime x11-toolkits/gtk30 x11-toolkits/pango >> logs/dotfiles.log
     showDotfiles 80 5 5 5 7 4 4
 
-    doas pkg install feh scrot -y >> logs/dotfiles.log
+    doas pkg install -y feh scrot >> logs/dotfiles.log
     showDotfiles 90 5 5 5 5 7 4
 
     compile() {
