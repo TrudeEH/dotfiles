@@ -79,10 +79,10 @@ for selection in $main_menu; do
 
     compile() {
       echo " --- Compiling $1 ---" >> logs/dotfiles.log
-      cd programs/$1
+      cd $HOME/dotfiles/programs/$1
       doas rm -rf config.h >> logs/dotfiles.log
       doas make clean install >> logs/dotfiles.log
-      cd ../..
+      cd $HOME/dotfiles
     }
 
     for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf"; do
@@ -90,7 +90,7 @@ for selection in $main_menu; do
     done
     showDotfiles 98 5 5 5 5 5 7
 
-    cp -vrf $HOME/dotfiles/dotfiles/.* $HOME >> logs/dotfiles.log
+    cp -vrf $HOME/dotfiles/dotfiles/* $HOME >> logs/dotfiles.log
     showDotfiles 100 5 5 5 5 5 5
 
   fi
