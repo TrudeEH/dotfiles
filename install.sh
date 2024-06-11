@@ -9,14 +9,15 @@ dialog --erase-on-exit \
         "3" "Add Programs" "off" 2> main.tmp
 main_menu=$( cat main.tmp )
 rm main.tmp
+mkdir logs
 
 for selection in $main_menu; do
   if [ "$selection" = "1" ]; then
-  # --- UPDATE FREEBSD ---
+    # --- UPDATE FREEBSD ---
 
-  showUpdate() {
-    # showUpdate global_per s1 s2 s3 s4
-    dialog --backtitle "$BACKTITLE" --title "Updating FreeBSD and Packages" \
+    showUpdate() {
+      # showUpdate global_per s1 s2 s3 s4
+      dialog --backtitle "$BACKTITLE" --title "Update FreeBSD and Packages" \
 	       --mixedgauge "Updating..." \
 	       0 0 $1 \
          "Fetch FreeBSD updates" "$2" \
@@ -25,60 +26,75 @@ for selection in $main_menu; do
          "Update packages" "$5"
     }
 
-    showUpdate 0 7 0 0 0
+    showUpdate 0 7 4 4 4
 
-    doas freebsd-update fetch > install.log
-    showUpdate 20 5 7 0 0
+    doas freebsd-update fetch > logs/update.log
+    showUpdate 20 5 7 4 4
 
-    doas freebsd-update install >> install.log
-    showUpdate 50 5 5 7 0
+    doas freebsd-update install >> logs/update.log
+    showUpdate 50 5 5 7 4
 
-    doas pkg update >> install.log
+    doas pkg update >> logs/update.log
     showUpdate 70 5 5 5 7
 
-    doas pkg upgrade -y >> install.log
+    doas pkg upgrade -y >> logs/update.log
     showUpdate 100 5 5 5 5
+  fi
+
+  if [ "$selection" = "2" ]; then
+    # --- INSTALL DOTFILES ---
+
+    showDotfiles() {
+      dialog --backtitle "$BACKTITLE" --title "Install Trude's Dotfiles" \
+        --mixedgauge "Installing dotfiles..." \
+        0 0 $1 \
+        "Install Xorg" "$2" \
+        "Install GPU Drivers" "$3" \
+        "Install Dependencies" "$4" \
+        "Install Utilities" "$5" \
+        "Compile Programs" "$6" \
+        "Copy Dotfiles to \$HOME" "$7"
+    }
+
+    showDotfiles 0 7 4 4 4 4 4
+
+    doas pkg install xorg -y > logs/dotfiles.log
+    doas sysrc dbus_enable=YES #Enable DBUS, needed for Xorg
+    showDotfiles 30 5 7 4 4 4 4
+
+    # TODO: Menu to allow the user to choose AMD, NVIDIA or INTEL driver. Defaults to Intel.
+    doas pkg install drm-kmod -y >> logs/dotfiles.log
+    doas pw groupmod video -m $USER
+    doas sysrc kld_list+=i915kms
+    showDotfiles 50 5 5 7 4 4 4
+
+    # ST DMENU DWM...
+    doas pkg install x11/libX11 x11-fonts/libXft x11/libXinerama x11/libXext devel/pkgconf print/freetype2 x11-fonts/fontconfig -y >> logs/dotfiles.log
+    # SURF
+    doas pkg install ftp/curl www/webkit2-gtk3 devel/libsoup security/gcr accessibility/at-spi2-core graphics/cairo graphics/gdk-pixbuf2 devel/glib20 devel/gettext-runtime x11-toolkits/gtk30 x11-toolkits/pango -y >> logs/dotfiles.log
+    showDotfiles 80 5 5 5 7 4 4
+
+    doas pkg install feh scrot -y >> logs/dotfiles.log
+    showDotfiles 90 5 5 5 5 7 4
+
+    compile() {
+      cd programs/$1
+      doas rm -rf config.h >> logs/dotfiles.log
+      doas make clean install >> logs/dotfiles.log
+      cd ../..
+    }
+
+    for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf"; do
+      compile $program
+    done
+    showDotfiles 98 5 5 5 5 5 7
+
+    cp -vrf $HOME/dotfiles/dotfiles/.* $HOME >> logs/dotfiles.log
+    showDotfiles 100 5 5 5 5 5 5
+
   fi
 done
 
-#if [[ ${main_menu[@]} =~ 2 ]]; then
-  #--- INSTALL DOTFILES ---
 
-#fi
-
-# XORG on Intel GPU
-
-#doas pkg install xorg drm-kmod
-#doas pw groupmod video -m trude
-#doas sysrc kld_list+=i915kms
-
-# pkg install libva-intel-driver mesa-libs mesa-dri # IF NEEDED ONLY
-
-
-# ST / DWM / DMENU ...
-#doas pkg install x11/libX11 x11-fonts/libXft x11/libXinerama x11/libXext devel/pkgconf print/freetype2 x11-fonts/fontconfig
-
-# SURF
-#doas pkg install ftp/curl www/webkit2-gtk3 devel/libsoup security/gcr accessibility/at-spi2-core graphics/cairo graphics/gdk-pixbuf2 devel/glib20 devel/gettext-runtime x11-toolkits/gtk30 x11-toolkits/pango
-
-# Utilities
-#doas pkg install feh scrot
-
-#compile() {
-#  cd programs/$1
-#  doas rm -rf config.h
-#  doas make clean install
-#  cd ../..
-#}
-
-# Compile programs
-#for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf"; do
- # compile $program
-#done
-
-#doas sysrc dbus_enable=YES #Enable DBUS, needed for Xorg
-
-
-# Copy dotfiles to $HOME
-#cp -vrf $HOME/dotfiles/dotfiles/.* $HOME
+# pkg install libva-intel-driver mesa-libs mesa-dri # IF NEEDED ONLY (stutter and tearing for intel)
 
