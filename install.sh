@@ -15,8 +15,8 @@ rm logs/compile.log
 rm logs/compile.err.log
 compile() {
   cd programs/$1
-  sudo rm -rf config.h
-  sudo make clean install >> $HOME/dotfiles/logs/compile.log 2>> $HOME/dotfiles/logs/compile.err.log
+  doas rm -rf config.h
+  doas make clean install >> $HOME/dotfiles/logs/compile.log 2>> $HOME/dotfiles/logs/compile.err.log
   cd ../..
 }
 
