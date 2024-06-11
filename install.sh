@@ -1,8 +1,48 @@
 #! /bin/sh
 
-echo "Updating user packages..."
-doas pkg update
-doas pkg upgrade
+while true; do
+  CHOICE=$(dialog --backtitle "Trude's FreeBSD Toolkit" \
+    --title "Main Menu" \
+    --menu "Select your action:" 15 50 5 \
+      "1" "Update FreeBSD" \
+      "2" "Disk Usage" \
+      "3" "Network Status" \
+      "4" "Exit")
+
+  case "$CHOICE" in
+    1)
+      # --- UPDATE FREEBSD ---
+      dialog --gauge "Updating FreeBSD..." 10 50 0  # Initial gauge
+
+      { # Subshell to capture output without displaying it
+        doas freebsd-update fetch install
+        doas pkg update
+        doas pkg upgrade -y
+      } 2>&1 | while read -r line; do
+        # Roughly estimate progress based on keywords
+        case "$line" in
+          *fetch*) PERCENTAGE=20 ;;
+          *install*) PERCENTAGE=50 ;;
+          *upgrad*) PERCENTAGE=80 ;;
+          *complete*) PERCENTAGE=100 ;;
+          *) PERCENTAGE=$((PERCENTAGE + 1)) ;; # Small increments otherwise
+        esac
+        dialog --gauge "$line" 10 50 $PERCENTAGE
+      done
+
+      dialog --msgbox "Update complete!" 5 30
+      ;;
+    2)
+      dialog --textbox /proc/mounts 20 60
+      ;;
+    3)
+      dialog --msgbox "$(ip addr | grep 'state UP')" 15 50
+      ;;
+    4)
+      break
+      ;;
+  esac
+done
 
 echo "Installing Desktop..."
 
