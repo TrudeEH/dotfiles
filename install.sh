@@ -11,6 +11,15 @@ main_menu=$( cat main.tmp )
 rm main.tmp
 mkdir logs
 
+rm logs/compile.log
+rm logs/compile.err.log
+compile() {
+  cd programs/$1
+  sudo rm -rf config.h
+  sudo make clean install >> $HOME/dotfiles/logs/compile.log 2>> $HOME/dotfiles/logs/compile.err.log
+  cd ../..
+}
+
 for selection in $main_menu; do
   if [ "$selection" = "1" ]; then
     # --- UPDATE FREEBSD ---
@@ -76,15 +85,6 @@ for selection in $main_menu; do
 
     doas pkg install -y feh scrot >> logs/dotfiles.log
     showDotfiles 90 5 5 5 5 7 4
-
-    compile() {
-      echo " --- Compiling $1 ---" >> logs/dotfiles.log
-      cd $HOME/dotfiles/programs/"$1"
-      echo "Path: $(pwd)" >> logs/dotfiles.log
-      doas rm -rf config.h >> logs/dotfiles.log
-      doas make clean install >> logs/dotfiles.log 2> logs/dotfiles.compile.err
-      cd $HOME/dotfiles
-    }
 
     for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf"; do
       compile $program
