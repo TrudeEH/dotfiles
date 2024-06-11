@@ -79,10 +79,9 @@ for selection in $main_menu; do
 
     compile() {
       echo " --- Compiling $1 ---" >> logs/dotfiles.log
-      cd $HOME/dotfiles/programs/$1 2> logs/dotfiles.compile.err
+      cd $HOME/dotfiles/programs/"$1"
       echo "Path: $(pwd)" >> logs/dotfiles.log
       doas rm -rf config.h >> logs/dotfiles.log
-      echo "Removed config.h" >> logs/dotfiles.log
       doas make clean install >> logs/dotfiles.log 2> logs/dotfiles.compile.err
       cd $HOME/dotfiles
     }
