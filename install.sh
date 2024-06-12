@@ -92,6 +92,7 @@ for selection in $main_menu; do
     showDotfiles 98 5 5 5 5 5 7
 
     cp -vrf $HOME/dotfiles/dotfiles/.[!.]* $HOME >> logs/dotfiles.log
+    doas chsh -s /bin/tcsh $USER
     showDotfiles 100 5 5 5 5 5 5
 
   fi
