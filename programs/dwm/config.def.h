@@ -31,8 +31,6 @@ static const Rule rules[] = {
 	 */
 	/* class      	     instance    title    tags mask     isfloating   CenterThisWindow?     monitor */
 	{ "st",              NULL,       NULL,    0,            0,     	     1,		           -1 },
-	{ "Gimp",            NULL,       NULL,    0,            1,           0,                    -1 },
-	{ "Firefox",         NULL,       NULL,    1 << 8,       0,           0,                    -1 },
 };
 
 /* layout(s) */
@@ -70,7 +68,7 @@ static const char *dmenucmd[]      = { "dmenu_run", "-m", dmenumon, NULL };
 static const char *termcmd[]       = { "tabbed", "-c", "-r", "2", "st", "-w", "''", NULL };
 static const char *slockcmd[]      = { "slock", NULL };
 static const char *screenshotcmd[] = { "scrot", "--select", "--line", "mode=edge", NULL };
-static const char *surfcmd[]       = { "tabbed", "-c", "-r", "2", "surf", "-e", "ID", ".homepage/index.html" };
+static const char *webcmd[]        = { "firefox", "--new-window", "/home/trude/.homepage/index.html" };
 
 static const Key keys[] = {
   /* Volume keys support */
@@ -83,7 +81,7 @@ static const Key keys[] = {
 	{ MODKEY,             			    XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = slockcmd } },
   { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = screenshotcmd } },
-  { MODKEY,                       XK_w,      spawn,          {.v = surfcmd } },
+  { MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
