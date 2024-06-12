@@ -456,7 +456,6 @@ if [[ ${main_menu[@]} =~ 1 ]]; then # DWM
     sudo nala install feh iwd systemd-resolved scrot
     sudo cp -f iwd.conf /etc/iwd/main.conf
     sudo systemctl enable iwd systemd-resolved
-    sudo systemctl restart iwd systemd-resolved
 
     # Sound
     sudo nala install pipewire-audio wireplumber pipewire-pulse pipewire-alsa
