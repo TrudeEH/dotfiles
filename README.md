@@ -26,6 +26,11 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 
 ## Screenshots
 
+### Installer
+![screenshot 1](images/dialog.png)
+
+### Desktop
+
 ![screenshot 1](images/sc1.png)
 ![screenshot 2](images/sc2.png)
 
