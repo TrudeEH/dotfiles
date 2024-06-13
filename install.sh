@@ -1,15 +1,18 @@
 #! /bin/bash
 
-if [ !command -v dialog ]; then
+if ! command -v dialog; then
   sudo apt-get install dialog -y
 fi
 
 BACKTITLE="Trude's FreeBSD Toolkit"
 dialog --erase-on-exit \
        --backtitle "$BACKTITLE" \
-       --checklist "Use the arrow keys and SPACE to select, then press ENTER." 30 100 5 \
+       --checklist "Use the arrow keys and SPACE to select, then press ENTER." 30 90 5 \
         "1" "Update Debian" "on"\
         "2" "Install Dotfiles" "on"\
+        "3" "Install GitHub CLI" "off"\
+        "4" "Install AI Tools" "off"\
+        "5" "Install MultiMC" "off" 2> main.tmp
 main_menu=$( cat main.tmp )
 rm main.tmp
 mkdir logs
@@ -51,6 +54,65 @@ for selection in $main_menu; do
     sudo apt-get clean
     sudo apt-get autoremove -y >> logs/update.log
     dialogUpdate 100 5 5 5 5
+  fi
+
+  if [ "$selection" = "3" ]; then
+    # --- INSTALL GH CLI ---
+
+    {
+      sudo apt-get update
+      sudo apt-get install wget -y
+      sudo mkdir -p -m 755 /etc/apt/keyrings
+      sudo rm -f /etc/apt/sources.list.d/github-cli.list 2>/dev/null
+      wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg >/dev/null
+      sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+      sudo apt-get update
+      sudo apt-get install gh -y
+    } | dialog --backtitle "$BACKTITLE" --programbox "Install GitHub CLI" 30 90
+  fi
+
+  if [ "$selection" = "4" ]; then
+    # --- Install AI Tools ---
+
+    clear
+    echo "------------------------"
+    echo "--- Install AI Tools ---"
+    echo "------------------------"
+    echo
+    echo
+
+    # Ollama - LLM Server
+    curl -fsSL https://ollama.com/install.sh | sh
+
+    # Fabric - LLM Client w/ prompts
+    cd $HOME
+    git clone https://github.com/danielmiessler/fabric.git
+    sudo apt-get install pipx ffmpeg
+    cd fabric
+    pipx install .
+    fabric --setup
+    cd ..
+    rm -rf fabric
+  fi
+
+  if [ "$selection" = "5" ]; then
+    # --- Install MultiMC ---
+
+    {
+      sudo apt-get update
+      sudo apt-get install -y libqt5core5a libqt5network5 libqt5gui5
+      wget https://files.multimc.org/downloads/multimc_1.6-1.deb 2> /dev/null
+      sudo apt-get install -y ./multimc_1.6-1.deb
+      rm multimc_1.6-1.deb
+
+      # Install java
+      sudo mkdir -p /etc/apt/keyrings 2> /dev/null
+      wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc > /dev/null 2>&1
+      echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list > /dev/null 2>&1
+      sudo apt-get update
+      sudo apt-get install -y temurin-8-jdk temurin-21-jdk temurin-17-jdk
+    } | dialog --backtitle "$BACKTITLE" --programbox "Install Minecraft (MultiMC)" 30 90
   fi
 
   if [ "$selection" = "2" ]; then
@@ -112,3 +174,4 @@ for selection in $main_menu; do
   fi
 done
 
+clear
