@@ -22,10 +22,6 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
     cd dotfiles
     ./install.sh
     ```
-    Alternatively, if you did not fork the original repository, run the command below.
-    ```sh
-    bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
-    ```
 3. Make it your own! Tweak the install script, change some settings and add in your own.
 
 ## Screenshots
