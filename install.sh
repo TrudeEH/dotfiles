@@ -4,6 +4,9 @@ if ! command -v dialog; then
   sudo apt-get install dialog -y
 fi
 
+# Set dialog colors
+cp -f dotfiles/.dialogrc  $HOME/.dialogrc
+
 BACKTITLE="Trude's FreeBSD Toolkit"
 dialog --erase-on-exit \
        --backtitle "$BACKTITLE" \
