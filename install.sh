@@ -159,7 +159,7 @@ for selection in $main_menu; do
     dialogDotfiles 75 5 5 5 5 5 7 4 4
 
     # Utilities
-    sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst -y >> logs/dotfiles.log
+    sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst dbus-x11 -y >> logs/dotfiles.log
     dialogDotfiles 85 5 5 5 5 5 5 7 4
 
     # Compile
