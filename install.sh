@@ -141,7 +141,7 @@ for selection in $main_menu; do
     dialogDotfiles 20 5 7 4 4 4 4 4 4
 
     # DE Deps
-    sudo apt-get install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev -y >> logs/dotfiles.log
+    sudo apt-get install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev policykit-1-gnome dbus-x11 -y >> logs/dotfiles.log # Policykit is for graphic authentication. Not needed for the DE itself; dbux-x11 is needed for some apps like Steam, also not required for the DE.
     dialogDotfiles 30 5 5 7 4 4 4 4 4
 
     # Audio
@@ -159,7 +159,7 @@ for selection in $main_menu; do
     dialogDotfiles 75 5 5 5 5 5 7 4 4
 
     # Utilities
-    sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst dbus-x11 -y >> logs/dotfiles.log
+    sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst -y >> logs/dotfiles.log
     dialogDotfiles 85 5 5 5 5 5 5 7 4
 
     # Compile
