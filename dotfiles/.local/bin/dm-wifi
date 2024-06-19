@@ -1,0 +1,144 @@
+#!/bin/sh
+#
+# iwd-dmenu
+
+NEWLINE='
+'
+
+iwd_dmenu() {
+    main_menu() {
+        while :; do
+            # get first 802.11 capable device from /sys/class/net
+            interface="$(for dev in /sys/class/net/*; do
+                            [ -d "${dev}/wireless/" ] && printf '%s\n' "${dev##*/}"
+                         done | head -n 1)"
+
+            # user can connect, disconnect, or forget network
+            # don't care bout access points or other stuff
+            if ! show_menu 'iwd dmenu' 'Connect' 'Disconnect' 'Forget'; then break; fi
+        done
+    }
+
+    connect() {
+        get_network_info "iwctl station ${interface} get-networks"
+
+        # user can choose network to connect to
+        network="$(show_menu 'Connect' "${network_names}")"
+
+        # if network starts with '> ' it means user is already on that network
+        case "${network}" in '> '*) return ;; esac
+
+        get_network_info 'iwctl known-networks list'
+
+        # if network is known connect with no passphrase
+        if printf '%s\n' "${network_info}" | awk -F '|' '{print $1}' | grep -iq "\<${network}\>"; then
+            iwctl station "${interface}" connect "${network}"
+            return
+        fi
+
+        get_network_info "iwctl station ${interface} get-networks"
+
+        # if network is wep, psk, or 8021x get passphrase
+        case "$(printf '%s\n' "${network_info}" | grep -i "\<${network}\>" | awk -F '|' '{print $2}')" in
+            'wep'|'psk'|'8021x') get_passphrase                       ;;
+        # if open just connect without passphrase
+            'open') iwctl station "${interface}" connect "${network}" ;;
+        esac
+
+        # connect with passphrase
+        [ -n "${passphrase}" ] && iwctl --passphrase "${passphrase}" station "${interface}" connect "${network}"
+    }
+
+    disconnect() {
+        connected_network="$(iwctl station "${interface}" show | grep -i '\<Connected network\>' | awk '{ $1=""; $2=""; sub("  ", " "); { $1=$1; print } }')"
+        if [ -n "${connected_network}" ]; then
+            answer="$(show_menu "Disconnect from ${connected_network}?" 'Yes' 'No')"
+            case "$(printf '%s\n' "${answer}" | tr '[:upper:]' '[:lower:]')" in
+                'yes') iwctl station "${interface}" disconnect ;;
+                'no')  return                                  ;;
+            esac
+        fi
+    }
+
+    forget() {
+        get_network_info 'iwctl known-networks list'
+
+        # if there are known networks
+        if [ -n "${network_names}" ]; then
+            # get network
+            network="$(show_menu 'Forget' "${network_names}")"
+
+            # get confirmation
+            [ -n "${network}" ] && answer="$(show_menu "Forget ${network}?" 'Yes' 'No')"
+
+            # forget if answer is yes
+            [ "${answer}" = 'Yes' ] && iwctl known-networks "${network}" forget
+        fi
+    }
+
+    # get network column separately
+    get_network_column() {
+        printf '%s\n' "${info}" | awk -v var="${1}" 'BEGIN { FS = "open|wep|psk|8021x" } { print $var }' | sed 's/^[ \t]*//;s/[ \t]*$//'
+    }
+
+    get_network_info() {
+        # scan interface
+        iwctl station "${interface}" scan
+
+        printf '%s\n' "${1}"
+
+        info="$(eval "${1}" | grep '\s' | tail +3 | awk '{ $1 = $1 }; 1' | sed -e 's/\x1b\[[0-9;]*m//g')"
+
+        network_names="$(get_network_column '1')"
+        network_types="$(printf '%s\n' "${info}" | awk '{ for (i=1;i<=NF;i++){ if ($i ~ /open|wep|psk|8021x/) { print $i } } }')"
+        network_metas="$(get_network_column '2')"
+
+        i=1
+        network_info="$(printf '%s\n' "${network_names}" | ( while read -r name; do
+            type_field="$(printf '%s\n' "${network_types}" | sed -n ${i}p)"
+            meta_field="$(printf '%s\n' "${network_metas}" | sed -n ${i}p)"
+
+            if [ ${i} -eq 1 ]; then network_info="${name}|${type_field}|${meta_field}"
+            else network_info="${network_info}${NEWLINE}${name}|${type_field}|${meta_field}"
+            fi
+
+            i=$((i+1))
+        done
+        printf '%s\n' "${network_info}" ))"
+    }
+
+    # hide input with dmenu -P flag
+    get_passphrase() { passphrase="$(dmenu -p 'Passphrase:' -P)" ; }
+
+    show_menu() {
+        # first arg is prompt
+        prompt="${1}"
+        shift
+
+        # remaining opts are options
+        options="$(for option in "${@}"; do
+                    printf '%s\n' "${option}"
+                done)"
+
+        # print using dmenu
+        if ! answer="$(printf '%s\n' "${options}" | dmenu -l 10 -p "${prompt}")"; then return 1; fi
+
+        # get user's answer
+        printf '%s\n' "${options}" | while read -r line; do
+            if [ "${line}" = "${answer}" ]; then
+                # if answer is a function run it else just print it
+                cmd="$(printf '%s\n' "${answer}" | tr '[:upper:]' '[:lower:]')"
+                if command -v "${cmd}" >/dev/null 2>&1 && [ "${cmd}" != 'yes' ]; then "${cmd}"
+                else printf '%s\n' "${answer}"
+                fi
+                break
+            fi
+        done
+    }
+
+    main_menu
+}
+
+main() { iwd_dmenu ; }
+
+main "${@}"
