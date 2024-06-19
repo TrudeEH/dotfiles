@@ -86,7 +86,7 @@ alias grep='grep --color=auto'
 alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
-alias v='vim'
+alias v='nvim'
 
 set completion-ignore-case On
 

@@ -24,7 +24,7 @@ rm logs/compile.log
 rm logs/compile.err.log
 compile() {
   cd $HOME/dotfiles/programs/$1
-  sudo rm -rf config.h
+  sudo rm -rf config.h &> /dev/null
   sudo make clean install >> $HOME/dotfiles/logs/compile.log 2>> $HOME/dotfiles/logs/compile.err.log
   cd $HOME/dotfiles
 }
@@ -130,50 +130,62 @@ for selection in $main_menu; do
         "Install Audio Server" "$4" \
         "Install Network Daemon" "$5" \
         "Install Firefox" "$6" \
-        "Install Utilities" "$7" \
-        "Compile Programs" "$8" \
-        "Copy Dotfiles to \$HOME" "$9"
+        "Install Neovim" "$7" \
+        "Install Utilities" "$8" \
+        "Compile Programs" "$9" \
+        "Copy Dotfiles to \$HOME" "${10}"
     }
 
-    dialogDotfiles 0 7 4 4 4 4 4 4 4
+    dialogDotfiles 0 7 4 4 4 4 4 4 4 4
     # Xorg
     sudo apt-get install xorg -y > logs/dotfiles.log
-    dialogDotfiles 20 5 7 4 4 4 4 4 4
+    dialogDotfiles 20 5 7 4 4 4 4 4 4 4
 
     # DE Deps
     sudo apt-get install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev policykit-1-gnome dbus-x11 -y >> logs/dotfiles.log # Policykit is for graphic authentication. Not needed for the DE itself; dbux-x11 is needed for some apps like Steam, also not required for the DE.
-    dialogDotfiles 30 5 5 7 4 4 4 4 4
+    dialogDotfiles 30 5 5 7 4 4 4 4 4 4
 
     # Audio
     sudo apt-get install pipewire-audio wireplumber pipewire-pulse pipewire-alsa -y >> logs/dotfiles.log
     systemctl --user --now enable wireplumber.service >> logs/dotfiles.log
-    dialogDotfiles 45 5 5 5 7 4 4 4 4
+    dialogDotfiles 45 5 5 5 7 4 4 4 4 4
 
     # Network
     sudo apt-get install iwd systemd-resolved -y >> logs/dotfiles.log
     sudo systemctl enable iwd systemd-resolved >> logs/dotfiles.log 2> logs/dotfiles.iwd.log
-    dialogDotfiles 60 5 5 5 5 7 4 4 4
+    dialogDotfiles 60 5 5 5 5 7 4 4 4 4
 
     # Firefox
     sudo apt-get install firefox-esr -y >> logs/dotfiles.log
-    dialogDotfiles 75 5 5 5 5 5 7 4 4
+    dialogDotfiles 75 5 5 5 5 5 7 4 4 4
+
+    # Neovim
+    sudo apt-get install make gcc ripgrep unzip git xclip curl -y &> logs/nvim.log
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz &>> logs/nvim.log
+    sudo rm -rf /opt/nvim-linux64 &>> logs/nvim.log
+    sudo mkdir -p /opt/nvim-linux64 &>> logs/nvim.log
+    sudo chmod a+rX /opt/nvim-linux64
+    sudo tar -C /opt -xzf nvim-linux64.tar.gz &>> logs/nvim.log
+    rm -f nvim-linux64.tar.gz &>> logs/nvim.log
+    sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/ &>> logs/nvim.log
+    dialogDotfiles 80 5 5 5 5 5 5 7 4 4
 
     # Utilities
     sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst -y >> logs/dotfiles.log
-    dialogDotfiles 85 5 5 5 5 5 5 7 4
+    dialogDotfiles 85 5 5 5 5 5 5 5 7 4
 
     # Compile
     for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf"; do
       compile $program
     done
-    dialogDotfiles 95 5 5 5 5 5 5 5 7
+    dialogDotfiles 95 5 5 5 5 5 5 5 5 7
 
     # Copy configs | end
     cp -vrf dotfiles/.* $HOME >> logs/dotfiles.log
     fc-cache -f
     # Copy wifi config
     sudo cp -f iwd.conf /etc/iwd/main.conf
-    dialogDotfiles 100 5 5 5 5 5 5 5 5
+    dialogDotfiles 100 5 5 5 5 5 5 5 5 5
   fi
 done
 
