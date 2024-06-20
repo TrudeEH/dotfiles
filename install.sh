@@ -15,7 +15,8 @@ dialog --erase-on-exit \
         "2" "Install Dotfiles" "on"\
         "3" "Install GitHub CLI" "off"\
         "4" "Install AI Tools" "off"\
-        "5" "Install MultiMC" "off" 2> main.tmp
+        "5" "Install MultiMC" "off"\
+        "6" "Enable bluetooth support" "off" 2> main.tmp
 main_menu=$( cat main.tmp )
 rm main.tmp
 mkdir logs
@@ -117,6 +118,14 @@ for selection in $main_menu; do
       sudo apt-get install -y temurin-8-jdk temurin-21-jdk temurin-17-jdk
     } | dialog --backtitle "$BACKTITLE" --programbox "Install Minecraft (MultiMC)" 30 90
   fi
+
+  if [ "$selection" = "6" ]; then
+    # --- ENABLE BLUETOOTH ---
+    
+    {
+      sudo apt-get install -y blueman
+    } | dialog --backtitle "$BACKTITLE" --programbox "Enable Bluetooth support (blueman)" 30 90
+  fi 
 
   if [ "$selection" = "2" ]; then
     # --- INSTALL DOTFILES ---
