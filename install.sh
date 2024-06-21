@@ -123,7 +123,7 @@ for selection in $main_menu; do
     # --- ENABLE BLUETOOTH ---
     
     {
-      sudo apt-get install -y blueman
+      sudo apt-get install -y bluetooth rfkill 
     } | dialog --backtitle "$BACKTITLE" --programbox "Enable Bluetooth support (blueman)" 30 90
   fi 
 
