@@ -123,7 +123,7 @@ for selection in $main_menu; do
     # --- ENABLE BLUETOOTH ---
     
     {
-      sudo apt-get install -y bluetooth rfkill 
+      sudo apt-get install -y 
     } | dialog --backtitle "$BACKTITLE" --programbox "Enable Bluetooth support (blueman)" 30 90
   fi 
 
@@ -139,7 +139,7 @@ for selection in $main_menu; do
         "Install Audio Server" "$4" \
         "Install Network Daemon" "$5" \
         "Install Firefox" "$6" \
-        "Install Neovim" "$7" \
+        "Install Neovim (from source)" "$7" \
         "Install Utilities" "$8" \
         "Compile Programs" "$9" \
         "Copy Dotfiles to \$HOME" "${10}"
@@ -147,7 +147,7 @@ for selection in $main_menu; do
 
     dialogDotfiles 0 7 4 4 4 4 4 4 4 4
     # Xorg
-    sudo apt-get install xorg -y > logs/dotfiles.log
+    sudo apt-get install xorg -y &> logs/dotfiles.log
     dialogDotfiles 20 5 7 4 4 4 4 4 4 4
 
     # DE Deps
@@ -169,14 +169,14 @@ for selection in $main_menu; do
     dialogDotfiles 75 5 5 5 5 5 7 4 4 4
 
     # Neovim
-    sudo apt-get install make gcc ripgrep unzip git xclip curl -y &> logs/nvim.log
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz &>> logs/nvim.log
-    sudo rm -rf /opt/nvim-linux64 &>> logs/nvim.log
-    sudo mkdir -p /opt/nvim-linux64 &>> logs/nvim.log
-    sudo chmod a+rX /opt/nvim-linux64
-    sudo tar -C /opt -xzf nvim-linux64.tar.gz &>> logs/nvim.log
-    rm -f nvim-linux64.tar.gz &>> logs/nvim.log
-    sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/ &>> logs/nvim.log
+    sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
+    git clone https://github.com/neovim/neovim --depth 1
+    cd neovim
+    git checkout stable
+    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make install
+    cd ..
+    rm -rf neovim
     dialogDotfiles 80 5 5 5 5 5 5 7 4 4
 
     # Utilities
