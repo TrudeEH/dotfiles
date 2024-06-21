@@ -160,8 +160,8 @@ for selection in $main_menu; do
     dialogDotfiles 45 5 5 5 7 4 4 4 4 4
 
     # Network
-    sudo apt-get install iwd systemd-resolved -y >> logs/dotfiles.log
-    sudo systemctl enable iwd systemd-resolved >> logs/dotfiles.log 2> logs/dotfiles.iwd.log
+    sudo apt-get install network-manager -y >> logs/dotfiles.log
+    sudo systemctl enable NetworkManager >> logs/dotfiles.log 2> logs/dotfiles.iwd.log
     dialogDotfiles 60 5 5 5 5 7 4 4 4 4
 
     # Firefox
@@ -192,8 +192,6 @@ for selection in $main_menu; do
     # Copy configs | end
     cp -vrf dotfiles/.* $HOME >> logs/dotfiles.log
     fc-cache -f
-    # Copy wifi config
-    sudo cp -f iwd.conf /etc/iwd/main.conf
     dialogDotfiles 100 5 5 5 5 5 5 5 5 5
   fi
 done
