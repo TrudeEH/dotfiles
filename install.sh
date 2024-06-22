@@ -7,7 +7,7 @@ fi
 # Set dialog colors
 cp -f dotfiles/.dialogrc  $HOME/.dialogrc
 
-BACKTITLE="Trude's FreeBSD Toolkit"
+BACKTITLE="Trude's Linux Toolkit"
 dialog --erase-on-exit \
        --backtitle "$BACKTITLE" \
        --checklist "Use the arrow keys and SPACE to select, then press ENTER." 30 90 5 \
@@ -46,17 +46,17 @@ for selection in $main_menu; do
 
     dialogUpdate 0 7 4 4 4
 
-    sudo apt-get update > logs/update.log
+    sudo apt-get update &> logs/update.log
     dialogUpdate 15 5 7 4 4
 
-    sudo apt-get dist-upgrade -y >> logs/update.log
+    sudo apt-get dist-upgrade -y &>> logs/update.log
     dialogUpdate 35 5 5 7 4
 
-    sudo apt-get upgrade -y >> logs/update.log
+    sudo apt-get upgrade -y &>> logs/update.log
     dialogUpdate 80 5 5 5 7
 
     sudo apt-get clean
-    sudo apt-get autoremove -y >> logs/update.log
+    sudo apt-get autoremove -y &>> logs/update.log
     dialogUpdate 100 5 5 5 5
   fi
 
@@ -123,7 +123,7 @@ for selection in $main_menu; do
     # --- ENABLE BLUETOOTH ---
     
     {
-      sudo apt-get install -y 
+      sudo apt-get install -y bluetooth rfkill 
     } | dialog --backtitle "$BACKTITLE" --programbox "Enable Bluetooth support (blueman)" 30 90
   fi 
 
@@ -151,36 +151,38 @@ for selection in $main_menu; do
     dialogDotfiles 20 5 7 4 4 4 4 4 4 4
 
     # DE Deps
-    sudo apt-get install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev policykit-1-gnome dbus-x11 -y >> logs/dotfiles.log # Policykit is for graphic authentication. Not needed for the DE itself; dbux-x11 is needed for some apps like Steam, also not required for the DE.
+    sudo apt-get install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev policykit-1-gnome dbus-x11 -y &>> logs/dotfiles.log # Policykit is for graphic authentication. Not needed for the DE itself; dbux-x11 is needed for some apps like Steam, also not required for the DE.
     dialogDotfiles 30 5 5 7 4 4 4 4 4 4
 
     # Audio
-    sudo apt-get install pipewire-audio wireplumber pipewire-pulse pipewire-alsa -y >> logs/dotfiles.log
-    systemctl --user --now enable wireplumber.service >> logs/dotfiles.log
+    sudo apt-get install pipewire-audio wireplumber pipewire-pulse pipewire-alsa -y &>> logs/dotfiles.log
+    systemctl --user --now enable wireplumber.service &>> logs/dotfiles.log
     dialogDotfiles 45 5 5 5 7 4 4 4 4 4
 
     # Network
-    sudo apt-get install network-manager -y >> logs/dotfiles.log
+    sudo apt-get install network-manager -y &>> logs/dotfiles.log
     sudo systemctl enable NetworkManager >> logs/dotfiles.log 2> logs/dotfiles.iwd.log
     dialogDotfiles 60 5 5 5 5 7 4 4 4 4
 
     # Firefox
-    sudo apt-get install firefox-esr -y >> logs/dotfiles.log
+    sudo apt-get install firefox-esr -y &>> logs/dotfiles.log
     dialogDotfiles 75 5 5 5 5 5 7 4 4 4
 
     # Neovim
-    sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
-    git clone https://github.com/neovim/neovim --depth 1
-    cd neovim
-    git checkout stable
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    sudo make install
-    cd ..
-    rm -rf neovim
-    dialogDotfiles 80 5 5 5 5 5 5 7 4 4
+    {
+      sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
+      git clone https://github.com/neovim/neovim --depth 1 2>/dev/null
+      cd neovim
+      git checkout stable
+      make CMAKE_BUILD_TYPE=RelWithDebInfo
+      sudo make install
+      cd ..
+      rm -rf neovim
+      dialogDotfiles 80 5 5 5 5 5 5 7 4 4
+    } | dialog --backtitle "$BACKTITLE" --programbox "Compile Neovim" 30 90 
 
     # Utilities
-    sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst -y >> logs/dotfiles.log
+    sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst -y &>> logs/dotfiles.log
     dialogDotfiles 85 5 5 5 5 5 5 5 7 4
 
     # Compile
@@ -190,7 +192,7 @@ for selection in $main_menu; do
     dialogDotfiles 95 5 5 5 5 5 5 5 5 7
 
     # Copy configs | end
-    cp -vrf dotfiles/.* $HOME >> logs/dotfiles.log
+    cp -vrf dotfiles/.* $HOME &>> logs/dotfiles.log
     fc-cache -f
     dialogDotfiles 100 5 5 5 5 5 5 5 5 5
   fi
