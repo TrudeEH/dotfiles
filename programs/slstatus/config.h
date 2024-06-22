@@ -4,7 +4,7 @@
 const unsigned int interval = 1000;
 
 /* text to show if no value can be retrieved */
-static const char unknown_str[] = "??";
+static const char unknown_str[] = "";
 
 /* maximum output string length */
 #define MAXLEN 2048
@@ -63,11 +63,16 @@ static const char unknown_str[] = "??";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
+
+
+
 static const struct arg args[] = {
 	/* function format          argument */
   
   { wifi_essid,		  "  %s",        "wlan0"	      },
-  { wifi_perc,		  "(%s%%)  ",     "wlan0"	      },
+  { wifi_essid,		  "%s",	          "wlo1"	      }, 
+  { wifi_perc,		  "(%s",          "wlan0"	      },
+  { wifi_perc,		  "%s%%)  ",	  "wlo1"	      },
   { battery_perc,         "󰂉 %s%%  ",     "BAT0"              },
   { run_command,          " %s%%  ",     "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-" },
   { cpu_perc,             " %s%%  ",     NULL                },
