@@ -63,17 +63,22 @@ for selection in $main_menu; do
   if [ "$selection" = "3" ]; then
     # --- INSTALL GH CLI ---
 
-    {
-      sudo apt-get update
-      sudo apt-get install wget -y
-      sudo mkdir -p -m 755 /etc/apt/keyrings
-      sudo rm -f /etc/apt/sources.list.d/github-cli.list 2>/dev/null
-      wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg >/dev/null
-      sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
-      echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
-      sudo apt-get update
-      sudo apt-get install gh -y
-    } | dialog --backtitle "$BACKTITLE" --programbox "Install GitHub CLI" 30 90
+    clear
+    echo "----------------------"
+    echo "--- Install GH CLI ---"
+    echo "----------------------"
+    echo
+    echo
+
+    sudo apt-get update
+    sudo apt-get install wget -y
+    sudo mkdir -p -m 755 /etc/apt/keyrings
+    sudo rm -f /etc/apt/sources.list.d/github-cli.list 
+    wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
+    sudo apt-get update
+    sudo apt-get install gh -y
   fi
 
   if [ "$selection" = "4" ]; then
@@ -103,20 +108,26 @@ for selection in $main_menu; do
   if [ "$selection" = "5" ]; then
     # --- Install MultiMC ---
 
-    {
-      sudo apt-get update
-      sudo apt-get install -y libqt5core5a libqt5network5 libqt5gui5
-      wget https://files.multimc.org/downloads/multimc_1.6-1.deb 2> /dev/null
-      sudo apt-get install -y ./multimc_1.6-1.deb
-      rm multimc_1.6-1.deb
+    clear
+    echo "------------------------"
+    echo "--- Install AI Tools ---"
+    echo "------------------------"
+    echo
+    echo
 
-      # Install java
-      sudo mkdir -p /etc/apt/keyrings 2> /dev/null
-      wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc > /dev/null 2>&1
-      echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list > /dev/null 2>&1
-      sudo apt-get update
-      sudo apt-get install -y temurin-8-jdk temurin-21-jdk temurin-17-jdk
-    } | dialog --backtitle "$BACKTITLE" --programbox "Install Minecraft (MultiMC)" 30 90
+
+    sudo apt-get update
+    sudo apt-get install -y libqt5core5a libqt5network5 libqt5gui5
+    wget https://files.multimc.org/downloads/multimc_1.6-1.deb 2> /dev/null
+    sudo apt-get install -y ./multimc_1.6-1.deb
+    rm multimc_1.6-1.deb
+
+    # Install java
+    sudo mkdir -p /etc/apt/keyrings 
+    wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc
+    echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
+    sudo apt-get update
+    sudo apt-get install -y temurin-8-jdk temurin-21-jdk temurin-17-jdk
   fi
 
   if [ "$selection" = "6" ]; then
