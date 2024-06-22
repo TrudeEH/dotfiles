@@ -90,11 +90,11 @@ alias v='nvim'
 
 set completion-ignore-case On
 
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
+
 export OFLAGS="--ozone-platform-hint=auto"
 
 export PATH=$PATH:/home/trude/.local/bin
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-if [ -f "/home/trude/.config/fabric/fabric-bootstrap.inc" ]; then . "/home/trude/.config/fabric/fabric-bootstrap.inc"; fi

@@ -182,7 +182,7 @@ for selection in $main_menu; do
     } | dialog --backtitle "$BACKTITLE" --programbox "Compile Neovim" 30 90 
 
     # Utilities
-    sudo apt-get install htop fzf tmux git vim wget curl feh scrot dunst -y &>> logs/dotfiles.log
+    sudo apt-get install htop fzf tmux git wget curl feh scrot dunst bash-completion -y &>> logs/dotfiles.log
     dialogDotfiles 85 5 5 5 5 5 5 5 7 4
 
     # Compile
