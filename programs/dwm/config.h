@@ -68,20 +68,20 @@ static const char *dmenucmd[]      = { "dmenu_run", "-m", dmenumon, NULL };
 static const char *termcmd[]       = { "tabbed", "-c", "-r", "2", "st", "-w", "''", NULL };
 static const char *slockcmd[]      = { "slock", NULL };
 static const char *screenshotcmd[] = { "scrot", "--select", "--line", "mode=edge", NULL };
-static const char *webcmd[]        = { "firefox", "--new-window", "/home/trude/.homepage/index.html" };
+static const char *webcmd[]        = { "firefox", "--new-window", "/home/trude/.homepage/index.html", NULL };
 
 static const Key keys[] = {
   /* Volume keys support */
-  { 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
 	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
 	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
 
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,             			    XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,             	        XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = slockcmd } },
-  { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = screenshotcmd } },
-  { MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
+        { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = screenshotcmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -91,7 +91,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,             			    XK_c,      killclient,     {0} },
+	{ MODKEY,             		XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
