@@ -69,15 +69,15 @@ static const char unknown_str[] = "";
 static const struct arg args[] = {
 	/* function format          argument */
   
-  { wifi_essid,		  "  %s",        "wlan0"	      },
+  { wifi_essid,		  "[  %s",        "wlan0"	      },
   { wifi_essid,		  "%s",	          "wlo1"	      }, 
-  { wifi_perc,		  "(%s",          "wlan0"	      },
-  { wifi_perc,		  "%s%%)  ",	  "wlo1"	      },
-  { battery_perc,         "󰂉 %s",         "BAT0"              },
-  { battery_perc,	  "%s%%  ",	  "cw2015-battery"    },
-  { run_command,          " %s%%  ",     "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-" },
-  { cpu_perc,             " %s%%  ",     NULL                },
-  { ram_used,             " %s",         NULL                },
-  { ram_perc,             "(%s%%)  ",     NULL                },
-  { datetime,             " %s",         "%d/%m/%y %l:%M %p" },
+  { wifi_perc,		  " %s",          "wlan0"	      },
+  { wifi_perc,		  "%s%%] ",	  "wlo1"	      },
+  { battery_perc,         "[󰂉 %s",         "BAT0"              },
+  { battery_perc,	  "%s%%] ",	  "cw2015-battery"    },
+  { run_command,          "[ %s%%] ",     "wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-" },
+  { cpu_perc,             "[ %s%%] ",     NULL                },
+  { ram_used,             "[ %s",         NULL                },
+  { ram_perc,             " %s%%] ",     NULL                },
+  { datetime,             "[ %s]",         "%d/%m/%y %l:%M %p" },
 };
