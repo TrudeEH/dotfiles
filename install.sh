@@ -158,7 +158,7 @@ for selection in $main_menu; do
 
     dialogDotfiles 0 7 4 4 4 4 4 4 4 4
     # Xorg
-    sudo apt-get install xorg -y &> logs/dotfiles.log
+    sudo apt-get install xorg picom -y &> logs/dotfiles.log
     dialogDotfiles 20 5 7 4 4 4 4 4 4 4
 
     # DE Deps
@@ -180,17 +180,15 @@ for selection in $main_menu; do
     dialogDotfiles 75 5 5 5 5 5 7 4 4 4
 
     # Neovim
-    {
-      sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
-      git clone https://github.com/neovim/neovim --depth 1 2>/dev/null
-      cd neovim
-      git checkout stable
-      make CMAKE_BUILD_TYPE=RelWithDebInfo
-      sudo make install
-      cd ..
-      rm -rf neovim
-      dialogDotfiles 80 5 5 5 5 5 5 7 4 4
-    } | dialog --backtitle "$BACKTITLE" --programbox "Compile Neovim" 30 90 
+    sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
+    git clone https://github.com/neovim/neovim --depth 1 2>/dev/null
+    cd neovim
+    git checkout stable
+    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make install
+    cd ..
+    rm -rf neovim
+    dialogDotfiles 80 5 5 5 5 5 5 7 4 4
 
     # Utilities
     sudo apt-get install htop fzf tmux git wget curl feh scrot dunst bash-completion -y &>> logs/dotfiles.log
