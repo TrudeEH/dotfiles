@@ -41,5 +41,6 @@ programs/tabbed/tabbed
 programs/slstatus/slstatus
 programs/surf/surf
 programs/herbe/herbe
+programs/dwmblocks/dwmblocks
 
 logs/
