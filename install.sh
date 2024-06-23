@@ -195,7 +195,7 @@ for selection in $main_menu; do
     dialogDotfiles 85 5 5 5 5 5 5 5 7 4
 
     # Compile
-    for program in "dwm" "dmenu" "slock" "slstatus" "st" "tabbed" "surf"; do
+    for program in "dwm" "dmenu" "slock" "st" "tabbed" "dwmblocks"; do
       compile $program
     done
     dialogDotfiles 95 5 5 5 5 5 5 5 5 7
