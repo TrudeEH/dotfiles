@@ -4,7 +4,8 @@
 # to charge status (🔌 for plugged up, 🔋 for discharging on battery, etc.).
 
 # Loop through all attached batteries and format the info
-for battery in /sys/class/power_supply/BAT?*; do
+# for battery in /sys/class/power_supply/BAT?*; do # For standard devices, use this line instead.
+for battery in /sys/class/power_supply/?*; do
 	# If non-first battery, print a space separator.
 	[ -n "${capacity+x}" ] && printf " "
 	# Sets up the status and capacity
