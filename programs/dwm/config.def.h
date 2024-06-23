@@ -31,6 +31,7 @@ static const Rule rules[] = {
 	 */
 	/* class      	     instance    title    tags mask     isfloating   CenterThisWindow?     monitor */
 	{ "st",              NULL,       NULL,    0,            0,     	     1,		           -1 },
+	{ "tabbed",          NULL,       NULL,    0,            0,     	     1,		           -1 },
 };
 
 /* layout(s) */
