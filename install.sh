@@ -16,9 +16,9 @@ dialog --erase-on-exit \
         "3" "Install GitHub CLI" "off"\
         "4" "Install AI Tools" "off"\
         "5" "Install MultiMC" "off"\
-        "6" "Enable bluetooth support" "off" 2> main.tmp
-main_menu=$( cat main.tmp )
-rm main.tmp
+        "6" "Enable bluetooth support" "off" 2> choice.tmp
+main_menu=$( cat choice.tmp )
+rm choice.tmp
 mkdir logs
 
 rm logs/compile.log
@@ -179,14 +179,22 @@ for selection in $main_menu; do
     dialogDotfiles 75 5 5 5 5 5 7 4 4 4
 
     # Neovim
-    sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
-    git clone https://github.com/neovim/neovim --depth 1 2>/dev/null
-    cd neovim
-    git checkout stable
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    sudo make install
-    cd ..
-    rm -rf neovim
+    dialog --erase-on-exit \
+           --backtitle "$BACKTITLE" \
+           --title "Install/Update Neovim?" \
+           --yesno "Nvim will be compiled from source. This may take a long time, depending on your device. If unsure, select yes." 10 40
+
+    if [ "$?" -eq 0 ]; then
+      # NVIM has to be compiled from source to support arm64 and i386 devices, for example.
+      sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
+      git clone https://github.com/neovim/neovim --depth 1 2>/dev/null
+      cd neovim
+      git checkout stable
+      make CMAKE_BUILD_TYPE=RelWithDebInfo
+        sudo make install
+      cd ..
+      rm -rf neovim
+    fi
     dialogDotfiles 80 5 5 5 5 5 5 7 4 4
 
     # Utilities
