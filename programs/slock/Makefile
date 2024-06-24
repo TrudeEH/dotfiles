@@ -20,10 +20,6 @@ options:
 
 ${OBJ}: config.h config.mk arg.h util.h
 
-config.h:
-	@echo creating $@ from config.def.h
-	@cp config.def.h $@
-
 slock: ${OBJ}
 	@echo CC -o $@
 	@${CC} -o $@ ${OBJ} ${LDFLAGS}
@@ -31,15 +27,6 @@ slock: ${OBJ}
 clean:
 	@echo cleaning
 	@rm -f slock ${OBJ} slock-${VERSION}.tar.gz
-
-dist: clean
-	@echo creating dist tarball
-	@mkdir -p slock-${VERSION}
-	@cp -R LICENSE Makefile README slock.1 config.mk \
-		${SRC} config.def.h arg.h util.h slock-${VERSION}
-	@tar -cf slock-${VERSION}.tar slock-${VERSION}
-	@gzip slock-${VERSION}.tar
-	@rm -rf slock-${VERSION}
 
 install: all
 	@echo installing executable file to ${DESTDIR}${PREFIX}/bin
@@ -58,4 +45,4 @@ uninstall:
 	@echo removing manual page from ${DESTDIR}${MANPREFIX}/man1
 	@rm -f ${DESTDIR}${MANPREFIX}/man1/slock.1
 
-.PHONY: all options clean dist install uninstall
+.PHONY: all options clean install uninstall
