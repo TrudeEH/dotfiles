@@ -20,7 +20,7 @@ SRC = tabbed.c xembed.c
 OBJ = ${SRC:.c=.o}
 BIN = ${OBJ:.o=}
 MAN1 = ${BIN:=.1}
-HDR = arg.h config.def.h
+HDR = arg.h config.h
 DOC = LICENSE README
 
 all: ${BIN}
@@ -30,20 +30,11 @@ all: ${BIN}
 
 ${OBJ}: config.h
 
-config.h:
-	cp config.def.h $@
-
 .o:
 	${CC} -o $@ $< ${TABBED_LDFLAGS}
 
 clean:
 	rm -f ${BIN} ${OBJ} "${NAME}-${VERSION}.tar.gz"
-
-dist: clean
-	mkdir -p "${NAME}-${VERSION}"
-	cp -fR Makefile ${MAN1} ${DOC} ${HDR} ${SRC} "${NAME}-${VERSION}"
-	tar -cf - "${NAME}-${VERSION}" | gzip -c > "${NAME}-${VERSION}.tar.gz"
-	rm -rf ${NAME}-${VERSION}
 
 install: all
 	# installing executable files.
@@ -66,4 +57,4 @@ uninstall:
 	for m in ${MAN1}; do rm -f "${DESTDIR}${MANPREFIX}/man1/$$m"; done
 	-rmdir "${DESTDIR}${DOCPREFIX}"
 
-.PHONY: all clean dist install uninstall
+.PHONY: all clean install uninstall
