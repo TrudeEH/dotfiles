@@ -1,66 +1,27 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-sources_file="$HOME/.local/bin/dmenu-websearch-sources"
+engine="https://www.google.com/search?q="
 
-prompt="-p Search:"
+declare -A bookmarks=(    
+    ["YouTube"]="https://www.youtube.com/"
+    ["GitHub"]="https://github.com/TrudeEH/dotfiles"
+    ["TrudeWeb"]="https://trudeeh.github.io/web/"
+    ["Gemini"]="https://gemini.google.com/app"
+    ["Element"]="https://app.element.io/#/home"
+    ["Gmail"]="https://mail.google.com/mail/u/0/#inbox"
+    ["Google Messages"]="https://messages.google.com/web/conversations"
+    ["WOL"]="https://wol.jw.org/pt-PT/"
+)
 
-se_data="$( 
-    awk -F'"' '
-    BEGIN {
-        labels=""
-    }
-    {
-        # Selector line
-        gsub(/[[:space:]]/,"",$1)
-        sel=$1
-        
-        # Description line
-        dsc=$2
-        
-        # URL line
-        gsub(/[[:space:]]/,"",$3)
-        url=$3
-        
-        # URL array (selector is the key)
-        surl[sel]=url
-        
-        # Descriptions array (selector is the key)
-        sdsc[sel]=dsc
-        
-        if (labels != "") {
-            labels=sprintf ("%s\n%s - %s", labels, sel, dsc)
-        } else {
-            labels=sprintf ("%s - %s", sel, dsc)
-        }
-    }
-    END {
-        for(k in surl) {
-            print "declare -A " k
-            print k "[url]=\"" surl[k] "\""
-            print k "[dsc]=\"" sdsc[k] "\""
-        }
-        print "dmenu_labels=\"" labels "\""
-    }
-    ' "$sources_file"
-)";
+choice=$(printf "%s\n" "${!bookmarks[@]}" | dmenu -i -p "Search:")
 
-# Eval awk output as real variables...
-eval "$se_data"
+if [[ -n "$choice" ]]; then
+    # Find the matching URL
+    url=${bookmarks[$choice]}
 
-# Output label string to rofi...
-search="$(dmenu $prompt <<< $dmenu_labels)"
-
-if [[ ! -z "$search" ]]; then
-
-    # Retrieve data...
-    sel="$( awk '{ print tolower($1) }' <<< $search )"
-    txt="$( cut -d" " -f2- <<< $search )"
-
-    eval "sen_dsc=\"\${$sel[dsc]}\""
-    eval "sen_url=\"\${$sel[url]}\""
-
-    xdg-open "$sen_url$txt" &>/dev/null &
-
+    if [[ -n "$url" ]]; then
+        xdg-open $url
+    else
+        xdg-open $engine$choice
+    fi
 fi
-
-exit 0
