@@ -11,6 +11,7 @@ declare -A bookmarks=(
     ["Gmail"]="https://mail.google.com/mail/u/0/#inbox"
     ["Google Messages"]="https://messages.google.com/web/conversations"
     ["WOL"]="https://wol.jw.org/pt-PT/"
+    ["Discord"]="https://discord.com/app"
 )
 
 choice=$(printf "%s\n" "${!bookmarks[@]}" | dmenu -i -p "Search:")
