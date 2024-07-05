@@ -1,7 +1,7 @@
 CC = cc
 
 CFLAGS = -Wall -Wextra 
-TARGET = install
+TARGET = main.o
 
 all: $(TARGET)
 
