@@ -11,27 +11,25 @@ BACKTITLE="Trude's Linux Toolkit"
 dialog --erase-on-exit \
        --backtitle "$BACKTITLE" \
        --checklist "Use the arrow keys and SPACE to select, then press ENTER." 30 90 5 \
-        "1" "Update Debian" "on"\
-        "2" "Install Dotfiles" "on"\
-        "3" "Install GitHub CLI" "off"\
-        "4" "Install AI Tools" "off"\
-        "5" "Install MultiMC" "off"\
-        "6" "Enable bluetooth support" "off" 2> choice.tmp
+        "1" "Update OS" "on"\
+        "2" "Copy Dotfiles" "on"\
+        "3" "Install DWM Desktop" "off" \
+        "4" "Install KDE Desktop" "off" \
+        "5" "Install GitHub CLI" "off"\
+        "6" "Install Ollama" "off"\
+        "7" "Install MultiMC" "off" 2> choice.tmp
 main_menu=$( cat choice.tmp )
 rm choice.tmp
-mkdir logs
 
-rm logs/compile.log
-rm logs/compile.err.log
 compile() {
-  cd $HOME/dotfiles/programs/$1
-  sudo make clean install >> $HOME/dotfiles/logs/compile.log 2>> $HOME/dotfiles/logs/compile.err.log
-  cd $HOME/dotfiles
+  cd programs/$1
+  sudo make clean install
+  cd ../..
 }
 
 for selection in $main_menu; do
   if [ "$selection" = "1" ]; then
-    # --- UPDATE DEBIAN ---
+    # --- UPDATE OS ---
 
     dialogUpdate() {
       dialog --backtitle "$BACKTITLE" --title "Update Debian and Packages" \
@@ -45,21 +43,87 @@ for selection in $main_menu; do
 
     dialogUpdate 0 7 4 4 4
 
-    sudo apt-get update &> logs/update.log
+    sudo apt-get update &> /dev/null
     dialogUpdate 15 5 7 4 4
 
-    sudo apt-get dist-upgrade -y &>> logs/update.log
-    dialogUpdate 35 5 5 7 4
+    sudo apt-get dist-upgrade -y &> /dev/null
+    dialogUpdate 35 5 5 7 4DWM
 
-    sudo apt-get upgrade -y &>> logs/update.log
+    sudo apt-get upgrade -y &> /dev/null
     dialogUpdate 80 5 5 5 7
 
-    sudo apt-get clean
-    sudo apt-get autoremove -y &>> logs/update.log
+    sudo apt-get clean &> /dev/null
+    sudo apt-get autoremove -y &> /dev/null
     dialogUpdate 100 5 5 5 5
   fi
 
+  if [ "$selection" = "2" ]; then
+    clear
+    echo "---------------------"
+    echo "--- Copy Dotfiles ---"
+    echo "---------------------"
+    echo
+    echo
+
+     # Neovim
+    dialog --erase-on-exit \
+           --backtitle "$BACKTITLE" \
+           --title "Install/Update Neovim?" \
+           --yesno "Nvim will be compiled from source. This may take a long time, depending on your device. If unsure, select yes." 10 40
+
+    if [ "$?" -eq 0 ]; then
+      # NVIM has to be compiled from source to support arm64 and i386 devices, for example.
+      sudo apt install -y ninja-build gettext cmake unzip curl build-essential
+      git clone https://github.com/neovim/neovim --depth 1
+      cd neovim
+      git checkout stable
+      make CMAKE_BUILD_TYPE=RelWithDebInfo
+        sudo make install
+      cd ..
+      rm -rf neovim
+    fi
+
+    echo "Installing utilities..."
+    sudo apt install -y htop fzf git wget curl bash-completion
+
+    echo "Copying dotfiles..."
+    cp -vrf dotfiles/.* $HOME
+
+    echo "Loading fonts..."
+    fc-cache -f
+  fi
+
   if [ "$selection" = "3" ]; then
+    clear
+    echo "---------------------------"
+    echo "--- Install DWM Desktop ---"
+    echo "---------------------------"
+    echo
+    echo
+
+    # Install Dependencies
+    sudo apt install -y xorg picom libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev policykit-1-gnome dbus-x11 pipewire-audio wireplumber pipewire-pulse pipewire-alsa network-manager firefox-esr feh scrot dunst
+    systemctl --user --now enable wireplumber.service
+    sudo systemctl enable NetworkManager
+
+    # Compile
+    for program in "dwm" "dmenu" "slock" "st" "tabbed" "dwmblocks"; do
+      compile $program
+    done
+  fi
+
+  if [ "$selection" = "4" ]; then
+    clear
+    echo "---------------------------"
+    echo "--- Install KDE Desktop ---"
+    echo "---------------------------"
+    echo
+    echo
+
+    sudo apt install -y kde-plasma-desktop plasma-nm
+  fi
+
+  if [ "$selection" = "5" ]; then
     # --- INSTALL GH CLI ---
 
     clear
@@ -69,55 +133,43 @@ for selection in $main_menu; do
     echo
     echo
 
-    sudo apt-get update
-    sudo apt-get install wget -y
+    sudo apt install wget -y
     sudo mkdir -p -m 755 /etc/apt/keyrings
     sudo rm -f /etc/apt/sources.list.d/github-cli.list 
     wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg
     sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
-    sudo apt-get update
-    sudo apt-get install gh -y
+    sudo apt update
+    sudo apt install gh -y
   fi
 
-  if [ "$selection" = "4" ]; then
+  if [ "$selection" = "6" ]; then
     # --- Install AI Tools ---
 
     clear
-    echo "------------------------"
-    echo "--- Install AI Tools ---"
-    echo "------------------------"
+    echo "----------------------"
+    echo "--- Install Ollama ---"
+    echo "----------------------"
     echo
     echo
 
     # Ollama - LLM Server
     curl -fsSL https://ollama.com/install.sh | sh
-
-    # Fabric - LLM Client w/ prompts
-    cd $HOME
-    git clone https://github.com/danielmiessler/fabric.git
-    sudo apt-get install pipx ffmpeg
-    cd fabric
-    pipx install .
-    fabric --setup
-    cd ..
-    rm -rf fabric
   fi
 
-  if [ "$selection" = "5" ]; then
+  if [ "$selection" = "7" ]; then
     # --- Install MultiMC ---
 
     clear
-    echo "------------------------"
-    echo "--- Install AI Tools ---"
-    echo "------------------------"
+    echo "-----------------------"
+    echo "--- Install MultiMC ---"
+    echo "-----------------------"
     echo
     echo
-
 
     sudo apt-get update
     sudo apt-get install -y libqt5core5a libqt5network5 libqt5gui5
-    wget https://files.multimc.org/downloads/multimc_1.6-1.deb 2> /dev/null
+    wget https://files.multimc.org/downloads/multimc_1.6-1.deb
     sudo apt-get install -y ./multimc_1.6-1.deb
     rm multimc_1.6-1.deb
 
@@ -125,92 +177,8 @@ for selection in $main_menu; do
     sudo mkdir -p /etc/apt/keyrings 
     wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc
     echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
-    sudo apt-get update
-    sudo apt-get install -y temurin-8-jdk temurin-21-jdk temurin-17-jdk
-  fi
-
-  if [ "$selection" = "6" ]; then
-    # --- ENABLE BLUETOOTH ---
-    
-    {
-      sudo apt-get install -y bluetooth rfkill 
-    } | dialog --backtitle "$BACKTITLE" --programbox "Enable Bluetooth support (blueman)" 30 90
-  fi 
-
-  if [ "$selection" = "2" ]; then
-    # --- INSTALL DOTFILES ---
-
-    dialogDotfiles() {
-      dialog --backtitle "$BACKTITLE" --title "Install Trude's Dotfiles" \
-        --mixedgauge "Installing dotfiles..." \
-        0 0 $1 \
-        "Install Xorg" "$2" \
-        "Install Desktop Dependencies" "$3" \
-        "Install Audio Server" "$4" \
-        "Install Network Daemon" "$5" \
-        "Install Firefox" "$6" \
-        "Install Neovim (from source)" "$7" \
-        "Install Utilities" "$8" \
-        "Compile Programs" "$9" \
-        "Copy Dotfiles to \$HOME" "${10}"
-    }
-
-    dialogDotfiles 0 7 4 4 4 4 4 4 4 4
-    # Xorg
-    sudo apt-get install xorg picom -y &> logs/dotfiles.log
-    dialogDotfiles 20 5 7 4 4 4 4 4 4 4
-
-    # DE Deps
-    sudo apt-get install libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev policykit-1-gnome dbus-x11 -y &>> logs/dotfiles.log # Policykit is for graphic authentication. Not needed for the DE itself; dbux-x11 is needed for some apps like Steam, also not required for the DE.
-    dialogDotfiles 30 5 5 7 4 4 4 4 4 4
-
-    # Audio
-    sudo apt-get install pipewire-audio wireplumber pipewire-pulse pipewire-alsa -y &>> logs/dotfiles.log
-    systemctl --user --now enable wireplumber.service &>> logs/dotfiles.log
-    dialogDotfiles 45 5 5 5 7 4 4 4 4 4
-
-    # Network
-    sudo apt-get install network-manager -y &>> logs/dotfiles.log
-    sudo systemctl enable NetworkManager >> logs/dotfiles.log 2> logs/dotfiles.iwd.log
-    dialogDotfiles 60 5 5 5 5 7 4 4 4 4
-
-    # Firefox
-    sudo apt-get install firefox-esr -y &>> logs/dotfiles.log
-    dialogDotfiles 75 5 5 5 5 5 7 4 4 4
-
-    # Neovim
-    dialog --erase-on-exit \
-           --backtitle "$BACKTITLE" \
-           --title "Install/Update Neovim?" \
-           --yesno "Nvim will be compiled from source. This may take a long time, depending on your device. If unsure, select yes." 10 40
-
-    if [ "$?" -eq 0 ]; then
-      # NVIM has to be compiled from source to support arm64 and i386 devices, for example.
-      sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
-      git clone https://github.com/neovim/neovim --depth 1 2>/dev/null
-      cd neovim
-      git checkout stable
-      make CMAKE_BUILD_TYPE=RelWithDebInfo
-        sudo make install
-      cd ..
-      rm -rf neovim
-    fi
-    dialogDotfiles 80 5 5 5 5 5 5 7 4 4
-
-    # Utilities
-    sudo apt-get install htop fzf tmux git wget curl feh scrot dunst bash-completion -y &>> logs/dotfiles.log
-    dialogDotfiles 85 5 5 5 5 5 5 5 7 4
-
-    # Compile
-    for program in "dwm" "dmenu" "slock" "st" "tabbed" "dwmblocks"; do
-      compile $program
-    done
-    dialogDotfiles 95 5 5 5 5 5 5 5 5 7
-
-    # Copy configs | end
-    cp -vrf dotfiles/.* $HOME &>> logs/dotfiles.log
-    fc-cache -f
-    dialogDotfiles 100 5 5 5 5 5 5 5 5 5
+    sudo apt update
+    sudo apt install -y temurin-8-jdk temurin-21-jdk temurin-17-jdk
   fi
 done
 
