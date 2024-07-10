@@ -120,7 +120,7 @@ for selection in $main_menu; do
     echo
     echo
 
-    sudo apt install -y gnome-core 
+    sudo apt install -y gnome-core power-profiles-daemon
     dconf load -f / < ./settings.dconf
   fi
 
