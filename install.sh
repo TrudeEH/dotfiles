@@ -14,7 +14,7 @@ dialog --erase-on-exit \
         "1" "Update OS" "on"\
         "2" "Copy Dotfiles" "on"\
         "3" "Install DWM Desktop" "off" \
-        "4" "Install KDE Desktop" "off" \
+        "4" "Install GNOME Desktop" "off" \
         "5" "Install GitHub CLI" "off"\
         "6" "Install Ollama" "off"\
         "7" "Install MultiMC" "off" 2> choice.tmp
@@ -114,13 +114,14 @@ for selection in $main_menu; do
 
   if [ "$selection" = "4" ]; then
     clear
-    echo "---------------------------"
-    echo "--- Install KDE Desktop ---"
-    echo "---------------------------"
+    echo "-----------------------------"
+    echo "--- Install GNOME Desktop ---"
+    echo "-----------------------------"
     echo
     echo
 
-    sudo apt install -y kde-plasma-desktop plasma-nm
+    sudo apt install -y gnome-core 
+    dconf load -f / < ./settings.dconf
   fi
 
   if [ "$selection" = "5" ]; then
