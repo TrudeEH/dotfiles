@@ -88,6 +88,7 @@ for selection in $main_menu; do
 
     echo "Copying dotfiles..."
     cp -vrf dotfiles/.* $HOME
+    cp -vrf dotfiles/* $HOME
 
     echo "Loading fonts..."
     fc-cache -f
