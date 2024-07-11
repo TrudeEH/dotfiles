@@ -65,11 +65,11 @@ for selection in $main_menu; do
     echo
     echo
 
-     # Neovim
+    # Neovim
     dialog --erase-on-exit \
            --backtitle "$BACKTITLE" \
            --title "Install/Update Neovim?" \
-           --yesno "Nvim will be compiled from source. This may take a long time, depending on your device. If unsure, select yes." 10 40
+           --yesno "Nvim will be compiled from source. This may take a long time, depending on your device." 10 40
 
     if [ "$?" -eq 0 ]; then
       # NVIM has to be compiled from source to support arm64 and i386 devices, for example.
@@ -81,6 +81,16 @@ for selection in $main_menu; do
         sudo make install
       cd ..
       rm -rf neovim
+    fi
+
+    # Zed
+    dialog --erase-on-exit \
+           --backtitle "$BACKTITLE" \
+           --title "Install Zed?" \
+           --yesno "Zed (code editor) will be installed using the official install script." 10 40
+
+    if [ "$?" -eq 0 ]; then
+      curl https://zed.dev/install.sh | sh
     fi
 
     echo "Installing utilities..."
@@ -137,7 +147,7 @@ for selection in $main_menu; do
 
     sudo apt install wget -y
     sudo mkdir -p -m 755 /etc/apt/keyrings
-    sudo rm -f /etc/apt/sources.list.d/github-cli.list 
+    sudo rm -f /etc/apt/sources.list.d/github-cli.list
     wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg
     sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
@@ -176,7 +186,7 @@ for selection in $main_menu; do
     rm multimc_1.6-1.deb
 
     # Install java
-    sudo mkdir -p /etc/apt/keyrings 
+    sudo mkdir -p /etc/apt/keyrings
     wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc
     echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
     sudo apt update
