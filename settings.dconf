@@ -75,3 +75,10 @@ enabled=true
 background-color='rgb(0,0,0)'
 foreground-color='rgb(208,207,204)'
 use-theme-colors=false
+use-system-font=false
+font='JetBrainsMono Nerd Font 12'
+exit-action='hold'
+backspace-binding='auto'
+
+[/org/gnome/terminal/legacy/keybindings]
+paste='<Primary>v'
