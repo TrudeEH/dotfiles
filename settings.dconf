@@ -53,7 +53,7 @@ sleep-inactive-ac-timeout=3600
 sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
-favorite-apps=['firefox.desktop', firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'io.github.mrvladus.List.desktop', 'org.gnome.Terminal.desktop', 'dev.zed.Zed.desktop', 'org.gnome.Software.desktop']
+favorite-apps=['firefox.desktop', 'firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'io.github.mrvladus.List.desktop', 'org.gnome.Terminal.desktop', 'dev.zed.Zed.desktop', 'org.gnome.Software.desktop']
 
 [org/gnome/shell/extensions/dash-to-dock]
 dash-max-icon-size=34
