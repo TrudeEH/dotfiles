@@ -13,6 +13,7 @@ xkb-options=@as []
 clock-format='12h'
 clock-show-seconds=false
 clock-show-weekday=true
+gtk-theme='adw-gtk3-dark'
 color-scheme='prefer-dark'
 
 [org/gnome/desktop/peripherals/touchpad]

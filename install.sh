@@ -145,6 +145,8 @@ for selection in $main_menu; do
       sudo apt install -y flatpak
       sudo apt install -y gnome-software-plugin-flatpak
       sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      echo "Installing Flatpak GTK3 theme..."
+      flatpak install org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
     fi
 
 
