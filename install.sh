@@ -58,13 +58,6 @@ for selection in $main_menu; do
   fi
 
   if [ "$selection" = "2" ]; then
-    clear
-    echo "---------------------"
-    echo "--- Copy Dotfiles ---"
-    echo "---------------------"
-    echo
-    echo
-
     # Neovim
     dialog --erase-on-exit \
            --backtitle "$BACKTITLE" \
@@ -91,6 +84,16 @@ for selection in $main_menu; do
 
     if [ "$?" -eq 0 ]; then
       curl https://zed.dev/install.sh | sh
+    fi
+
+    # Firefox Theme
+    dialog --erase-on-exit \
+           --backtitle "$BACKTITLE" \
+           --title "Install Adwaita Firefox theme?" \
+           --yesno "The theme mimics GNOME Web and will be installed using the script provided by the theme on GitHub." 10 40
+
+    if [ "$?" -eq 0 ]; then
+      curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
     fi
 
     echo "Installing utilities..."
