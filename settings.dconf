@@ -49,9 +49,6 @@ search-filter-time-type='last_modified'
 night-light-enabled=true
 night-light-temperature=uint32 2380
 
-[org/gnome/settings-daemon/plugins/power]window-position=(26, 23)
-window-size=(1203, 902)
-
 sleep-inactive-ac-timeout=3600
 sleep-inactive-ac-type='nothing'
 
@@ -81,5 +78,5 @@ font='JetBrainsMono Nerd Font 12'
 exit-action='hold'
 backspace-binding='auto'
 
-[/org/gnome/terminal/legacy/keybindings]
+[org/gnome/terminal/legacy/keybindings]
 paste='<Primary>v'
