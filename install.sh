@@ -14,7 +14,7 @@ dialog --erase-on-exit \
         "1" "Update OS" "on"\
         "2" "Copy Dotfiles" "on"\
         "3" "Install DWM Desktop" "off" \
-        "4" "Install GNOME Desktop" "off" \
+        "4" "Install GNOME Desktop" "on" \
         "5" "Install GitHub CLI" "off"\
         "6" "Install Ollama" "off"\
         "7" "Install MultiMC" "off" 2> choice.tmp
@@ -124,6 +124,12 @@ for selection in $main_menu; do
   fi
 
   if [ "$selection" = "4" ]; then
+    dialog --erase-on-exit \
+           --backtitle "$BACKTITLE" \
+           --title "Add Flatpak support?" \
+           --yesno "Install Flatpak; Add the GNOME Software add-on and enable Flathub." 10 40
+    flatpak_choice="$?"
+
     clear
     echo "-----------------------------"
     echo "--- Install GNOME Desktop ---"
@@ -133,6 +139,15 @@ for selection in $main_menu; do
 
     sudo apt install -y gnome-core power-profiles-daemon
     dconf load -f / < ./settings.dconf
+  
+    if [ $flatpak_choice -eq 0 ]; then
+      echo "Enabling Flatpak..."
+      sudo apt install -y flatpak
+      sudo apt install -y gnome-software-plugin-flatpak
+      sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    fi
+
+
   fi
 
   if [ "$selection" = "5" ]; then
