@@ -89,10 +89,11 @@ for selection in $main_menu; do
     # Firefox Theme
     dialog --erase-on-exit \
            --backtitle "$BACKTITLE" \
-           --title "Install Adwaita Firefox theme?" \
+           --title "Install Firefox and the Adwaita Firefox theme?" \
            --yesno "The theme mimics GNOME Web and will be installed using the script provided by the theme on GitHub." 10 40
 
     if [ "$?" -eq 0 ]; then
+      sudo apt install -y firefox-esr
       curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
     fi
 
