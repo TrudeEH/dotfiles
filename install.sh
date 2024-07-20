@@ -17,7 +17,7 @@ dialog --erase-on-exit \
         "4" "Install GNOME Desktop" "on" \
         "5" "Install GitHub CLI" "off"\
         "6" "Install Ollama" "off"\
-        "7" "Install MultiMC" "off" 2> choice.tmp
+        "7" "Install Apps (Enables Flatpak)" "on" 2> choice.tmp
 main_menu=$( cat choice.tmp )
 rm choice.tmp
 
@@ -128,12 +128,6 @@ for selection in $main_menu; do
   fi
 
   if [ "$selection" = "4" ]; then
-    dialog --erase-on-exit \
-           --backtitle "$BACKTITLE" \
-           --title "Add Flatpak support?" \
-           --yesno "Install Flatpak; Add the GNOME Software add-on and enable Flathub." 10 40
-    flatpak_choice="$?"
-
     clear
     echo "-----------------------------"
     echo "--- Install GNOME Desktop ---"
@@ -143,22 +137,9 @@ for selection in $main_menu; do
 
     sudo apt install -y gnome-core power-profiles-daemon
     dconf load -f / < ./settings.dconf
-  
-    if [ $flatpak_choice -eq 0 ]; then
-      echo "Enabling Flatpak..."
-      sudo apt install -y flatpak
-      sudo apt install -y gnome-software-plugin-flatpak
-      sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-      echo "Installing Flatpak GTK3 theme..."
-      flatpak install org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
-    fi
-
-
   fi
 
   if [ "$selection" = "5" ]; then
-    # --- INSTALL GH CLI ---
-
     clear
     echo "----------------------"
     echo "--- Install GH CLI ---"
@@ -177,8 +158,6 @@ for selection in $main_menu; do
   fi
 
   if [ "$selection" = "6" ]; then
-    # --- Install AI Tools ---
-
     clear
     echo "----------------------"
     echo "--- Install Ollama ---"
@@ -191,28 +170,43 @@ for selection in $main_menu; do
   fi
 
   if [ "$selection" = "7" ]; then
-    # --- Install MultiMC ---
-
     clear
-    echo "-----------------------"
-    echo "--- Install MultiMC ---"
-    echo "-----------------------"
+    echo "----------------------------"
+    echo "--- Install Applications ---"
+    echo "----------------------------"
     echo
     echo
 
-    sudo apt-get update
-    sudo apt-get install -y libqt5core5a libqt5network5 libqt5gui5
-    wget https://files.multimc.org/downloads/multimc_1.6-1.deb
-    sudo apt-get install -y ./multimc_1.6-1.deb
-    rm multimc_1.6-1.deb
+    echo "Enabling Flatpak..."
+    sudo apt install -y flatpak
+    sudo apt install -y gnome-software-plugin-flatpak
+    sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-    # Install java
-    sudo mkdir -p /etc/apt/keyrings
-    wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc
-    echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
-    sudo apt update
-    sudo apt install -y temurin-8-jdk temurin-21-jdk temurin-17-jdk
+    echo "Installing Flatpak GTK3 theme..."
+    flatpak install org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
+
+    dialog --erase-on-exit \
+           --backtitle "$BACKTITLE" \
+           --checklist "Select Apps to install. Entries marked with * are NOT open-source." 30 90 5 \
+            "io.github.mrvladus.List" "Errands (Tasks)" "on"\
+            "io.gitlab.news_flash.NewsFlash" "Newsflash (RSS)" "on"\
+            "org.gnome.gitlab.somas.Apostrophe" "Apostrophe (Markdown Editor)" "on" 2> choice.tmp
+    app_menu=$( cat choice.tmp )
+    rm choice.tmp
+
+    dialog --erase-on-exit \
+           --backtitle "$BACKTITLE" \
+           --title "Install Discord (Flatpak) with the Vencord mod?" \
+           --yesno "Installs Discord and runs Vencord's update script. Select yes to repair a broken client as well." 20 60
+
+    if [ "$?" -eq 0 ]; then
+        flatpak install flathub com.discordapp.Discord
+        sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
+    fi
+
+    for app in $app_menu; do
+      echo "Installing $app..."
+      flatpak install flathub $app
+    done
   fi
 done
-
-clear
