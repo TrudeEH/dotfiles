@@ -190,7 +190,8 @@ for selection in $main_menu; do
            --checklist "Select Apps to install. Entries marked with * are NOT open-source." 30 90 5 \
             "io.github.mrvladus.List" "Errands (Tasks)" "on"\
             "io.gitlab.news_flash.NewsFlash" "Newsflash (RSS)" "on"\
-            "org.gnome.gitlab.somas.Apostrophe" "Apostrophe (Markdown Editor)" "on" 2> choice.tmp
+            "org.gnome.gitlab.somas.Apostrophe" "Apostrophe (Markdown Editor)" "on"\
+            "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)" "on" 2> choice.tmp
     app_menu=$( cat choice.tmp )
     rm choice.tmp
 
