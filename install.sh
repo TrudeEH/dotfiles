@@ -17,7 +17,8 @@ dialog --erase-on-exit \
         "4" "Install GNOME Desktop" "on" \
         "5" "Install GitHub CLI" "off"\
         "6" "Install Ollama" "off"\
-        "7" "Install Apps (Enables Flatpak)" "on" 2> choice.tmp
+        "7" "Install Apps (Enables Flatpak)" "on"\
+        "8" "Install Tailscale (VPN)" "on" 2> choice.tmp
 main_menu=$( cat choice.tmp )
 rm choice.tmp
 
@@ -209,5 +210,16 @@ for selection in $main_menu; do
       echo "Installing $app..."
       flatpak install flathub $app
     done
+  fi
+
+  if [ "$selection" = "8" ]; then
+    clear
+    echo "-------------------------"
+    echo "--- Install Tailscale ---"
+    echo "-------------------------"
+    echo
+    echo
+
+    curl -fsSL https://tailscale.com/install.sh | sh
   fi
 done

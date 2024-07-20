@@ -13,7 +13,8 @@ dialog --erase-on-exit \
        --checklist "Use the arrow keys and SPACE to select, then press ENTER." 30 90 5 \
         "1" "Update OS" "on"\
         "2" "Copy Dotfiles" "on"\
-        "3" "Install CasaOS UI" "off" 2> choice.tmp
+        "3" "Install CasaOS UI" "off"\
+        "4" "Install Tailscale (VPN)" "on" 2> choice.tmp
 main_menu=$( cat choice.tmp )
 rm choice.tmp
 
@@ -81,5 +82,16 @@ for selection in $main_menu; do
     # --- Install CasaOS ---
     sudo apt install -y curl
     curl -fsSL https://get.casaos.io | sudo bash
+  fi
+
+  if [ "$selection" = "4" ]; then
+    clear
+    echo "-------------------------"
+    echo "--- Install Tailscale ---"
+    echo "-------------------------"
+    echo
+    echo
+
+    curl -fsSL https://tailscale.com/install.sh | sh
   fi
 done
