@@ -191,6 +191,8 @@ for selection in $main_menu; do
             "io.github.mrvladus.List" "Errands (Tasks)" "on"\
             "io.gitlab.news_flash.NewsFlash" "Newsflash (RSS)" "on"\
             "org.gnome.gitlab.somas.Apostrophe" "Apostrophe (Markdown Editor)" "on"\
+            "org.gnome.World.Secrets" "Secrets (Password manager)" "on"\
+            "org.gnome.Polari" "Polari (IRC)" "on" \
             "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)" "on" 2> choice.tmp
     app_menu=$( cat choice.tmp )
     rm choice.tmp
