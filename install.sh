@@ -14,7 +14,7 @@ dialog --erase-on-exit \
         "1" "Update OS" "on"\
         "2" "Copy Dotfiles" "on"\
         "3" "Install DWM Desktop" "off" \
-        "4" "Install GNOME Desktop" "on" \
+        "4" "Configure GNOME (dconf)" "on" \
         "5" "Install GitHub CLI" "off"\
         "6" "Install Ollama" "off"\
         "7" "Install Apps (Enables Flatpak)" "on"\
@@ -90,11 +90,10 @@ for selection in $main_menu; do
     # Firefox Theme
     dialog --erase-on-exit \
            --backtitle "$BACKTITLE" \
-           --title "Install Firefox and the Adwaita Firefox theme?" \
-           --yesno "The theme mimics GNOME Web and will be installed using the script provided by the theme on GitHub." 10 40
+           --title "Install the Adwaita Firefox theme?" \
+           --yesno "OPEN FIREFOX AT LEAST ONCE BEFORE INSTALLING. The theme mimics GNOME Web and will be installed using the script provided by the theme on GitHub." 10 40
 
     if [ "$?" -eq 0 ]; then
-      sudo apt install -y firefox-esr
       curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
     fi
 
@@ -130,13 +129,12 @@ for selection in $main_menu; do
 
   if [ "$selection" = "4" ]; then
     clear
-    echo "-----------------------------"
-    echo "--- Install GNOME Desktop ---"
-    echo "-----------------------------"
+    echo "-----------------------"
+    echo "--- Configure GNOME ---"
+    echo "-----------------------"
     echo
     echo
 
-    sudo apt install -y gnome-core power-profiles-daemon
     dconf load -f / < ./settings.dconf
   fi
 
@@ -197,16 +195,6 @@ for selection in $main_menu; do
             "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)" "on" 2> choice.tmp
     app_menu=$( cat choice.tmp )
     rm choice.tmp
-
-    dialog --erase-on-exit \
-           --backtitle "$BACKTITLE" \
-           --title "Install Discord (Flatpak) with the Vencord mod?" \
-           --yesno "Installs Discord and runs Vencord's update script. Select yes to repair a broken client as well." 20 60
-
-    if [ "$?" -eq 0 ]; then
-        flatpak install flathub com.discordapp.Discord
-        sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
-    fi
 
     for app in $app_menu; do
       echo "Installing $app..."
