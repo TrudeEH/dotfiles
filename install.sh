@@ -91,7 +91,7 @@ for selection in $main_menu; do
     dialog --erase-on-exit \
            --backtitle "$BACKTITLE" \
            --title "Install the Adwaita Firefox theme?" \
-           --yesno "OPEN FIREFOX AT LEAST ONCE BEFORE INSTALLING. The theme mimics GNOME Web and will be installed using the script provided by the theme on GitHub." 10 40
+           --yesno "OPEN FIREFOX BEFORE INSTALLING! The theme mimics GNOME Web and will be installed using the script provided by the theme on GitHub." 10 40
 
     if [ "$?" -eq 0 ]; then
       curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
@@ -211,5 +211,6 @@ for selection in $main_menu; do
     echo
 
     curl -fsSL https://tailscale.com/install.sh | sh
+    sudo tailscale up
   fi
 done
