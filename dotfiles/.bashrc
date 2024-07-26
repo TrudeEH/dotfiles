@@ -28,7 +28,7 @@ pushall() {
   else
     git pull
     git diff
-    read -p "Press ENTER to continue..." 
+    read -p "Press ENTER to continue..."
     git add -A
     git commit -m "$@"
     git push
@@ -40,7 +40,7 @@ hex2color(){
     r=$(printf '0x%0.2s' "$hex")
     g=$(printf '0x%0.2s' ${hex#??})
     b=$(printf '0x%0.2s' ${hex#????})
-    printf '%03d' "$(( (r<75?0:(r-35)/40)*6*6 + 
+    printf '%03d' "$(( (r<75?0:(r-35)/40)*6*6 +
                        (g<75?0:(g-35)/40)*6   +
                        (b<75?0:(b-35)/40)     + 16 ))"
 }
@@ -87,6 +87,7 @@ alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
 alias v='nvim'
+alias cp='rsync -ah --progress'
 
 set completion-ignore-case On
 
@@ -97,4 +98,3 @@ set completion-ignore-case On
 export OFLAGS="--ozone-platform-hint=auto"
 
 export PATH=$PATH:/home/trude/.local/bin
-

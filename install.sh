@@ -18,7 +18,8 @@ dialog --erase-on-exit \
         "5" "Install GitHub CLI" "off"\
         "6" "Install Ollama" "off"\
         "7" "Install Apps (Enables Flatpak)" "on"\
-        "8" "Install Tailscale (VPN)" "on" 2> choice.tmp
+        "8" "Install Tailscale (VPN)" "on"\
+        "9" "Install Syncthing" "on" 2> choice.tmp
 main_menu=$( cat choice.tmp )
 rm choice.tmp
 
@@ -212,5 +213,19 @@ for selection in $main_menu; do
 
     curl -fsSL https://tailscale.com/install.sh | sh
     sudo tailscale up
+  fi
+
+  if [ "$selection" = "9" ]; then
+    clear
+    echo "-------------------------"
+    echo "--- Install Syncthing ---"
+    echo "-------------------------"
+    echo
+    echo
+
+    sudo apt install syncthing
+    systemctl --user enable syncthing.service
+    systemctl --user start syncthing.service
+    xdg-open "http://127.0.0.1:8384/" &
   fi
 done
