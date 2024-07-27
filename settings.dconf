@@ -45,6 +45,9 @@ default-folder-viewer='icon-view'
 migrated-gtk-settings=true
 search-filter-time-type='last_modified'
 
+[org/gnome/nautilus/icon-view]
+default-zoom-level='small'
+
 [org/gnome/settings-daemon/plugins/color]
 night-light-enabled=true
 night-light-temperature=uint32 2380
@@ -53,7 +56,7 @@ sleep-inactive-ac-timeout=3600
 sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
-favorite-apps=['firefox.desktop', 'firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'io.github.mrvladus.List.desktop', 'org.gnome.Terminal.desktop', 'dev.zed.Zed.desktop', 'org.gnome.Software.desktop']
+favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'org.gnome.Fractal.desktop', 'so.libdb.dissent.desktop', 'org.gnome.Polari.desktop', 'org.gnome.World.Secrets.desktop', 'io.github.mrvladus.List.desktop', 'org.gnome.Builder.desktop', 're.sonny.Workbench.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Software.desktop', 'org.prismlauncher.PrismLauncher.desktop']
 
 [org/gnome/shell/extensions/dash-to-dock]
 dash-max-icon-size=34

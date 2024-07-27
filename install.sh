@@ -193,6 +193,8 @@ for selection in $main_menu; do
             "org.gnome.gitlab.somas.Apostrophe" "Apostrophe (Markdown Editor)" "on"\
             "org.gnome.World.Secrets" "Secrets (Password manager)" "on"\
             "org.gnome.Polari" "Polari (IRC)" "off" \
+            "org.gnome.Fractal" "Fractal (Matrix)" "on"\
+            "so.libdb.dissent" "Dissent (Discord)" "on"\
             "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)" "on"\
             "org.gnome.Builder" "Builder (IDE)" "on"\
             "org.gnome.design.AppIconPreview" "App Icon Preview" "on"\
