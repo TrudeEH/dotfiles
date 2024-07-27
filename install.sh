@@ -79,14 +79,14 @@ for selection in $main_menu; do
     fi
 
     # Zed
-    dialog --erase-on-exit \
-           --backtitle "$BACKTITLE" \
-           --title "Install Zed?" \
-           --yesno "Zed (code editor) will be installed using the official install script." 10 40
+    #dialog --erase-on-exit \
+    #       --backtitle "$BACKTITLE" \
+    #       --title "Install Zed?" \
+    #       --yesno "Zed (code editor) will be installed using the official install script." 10 40
 
-    if [ "$?" -eq 0 ]; then
-      curl https://zed.dev/install.sh | sh
-    fi
+    #if [ "$?" -eq 0 ]; then
+    #  curl https://zed.dev/install.sh | sh
+    #fi
 
     # Firefox Theme
     dialog --erase-on-exit \
@@ -187,19 +187,27 @@ for selection in $main_menu; do
 
     dialog --erase-on-exit \
            --backtitle "$BACKTITLE" \
-           --checklist "Select Apps to install. Entries marked with * are NOT open-source." 30 90 5 \
+           --checklist "Select Apps to install." 30 90 5 \
             "io.github.mrvladus.List" "Errands (Tasks)" "on"\
             "io.gitlab.news_flash.NewsFlash" "Newsflash (RSS)" "on"\
             "org.gnome.gitlab.somas.Apostrophe" "Apostrophe (Markdown Editor)" "on"\
             "org.gnome.World.Secrets" "Secrets (Password manager)" "on"\
-            "org.gnome.Polari" "Polari (IRC)" "on" \
-            "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)" "on" 2> choice.tmp
+            "org.gnome.Polari" "Polari (IRC)" "off" \
+            "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)" "on"\
+            "org.gnome.Builder" "Builder (IDE)" "on"\
+            "org.gnome.design.AppIconPreview" "App Icon Preview" "on"\
+            "org.gnome.design.IconLibrary" "Icon Library" "on"\
+            "org.gnome.design.Palette" "Color Palette" "on"\
+            "org.gnome.design.SymbolicPreview" "Symbolic Preview" "on"\
+            "org.gnome.design.Typography" "Typography" "on"\
+            "re.sonny.Workbench" "Workbench" "on"\
+            "org.prismlauncher.PrismLauncher" "Prism Launcher" "off" 2> choice.tmp
     app_menu=$( cat choice.tmp )
     rm choice.tmp
 
     for app in $app_menu; do
       echo "Installing $app..."
-      flatpak install flathub $app
+      flatpak install -y flathub $app
     done
   fi
 
