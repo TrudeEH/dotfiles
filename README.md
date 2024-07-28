@@ -38,6 +38,7 @@ Looking for my **sway** dotfiles? [Click Here](https://github.com/TrudeEH/dotfil
 - ChromeOS Crostini (Debian 12 Container)
 - Debian 12
 - Linux Mint 21.3
+- Ubuntu 24.04
 
 ## Gruvbox theme
 ![theme](images/gruvbox.png)
