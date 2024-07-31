@@ -1,27 +1,29 @@
 #! /bin/bash
 
-if ! command -v dialog; then
-  sudo apt-get install dialog -y
+if ! command -v zenity; then
+  sudo apt-get install zenity dialog -y
 fi
 
-# Set dialog colors
-cp -f dotfiles/.dialogrc  $HOME/.dialogrc
-
 BACKTITLE="Trude's Linux Toolkit"
-dialog --erase-on-exit \
-       --backtitle "$BACKTITLE" \
-       --checklist "Use the arrow keys and SPACE to select, then press ENTER." 30 90 5 \
-        "1" "Update OS" "on"\
-        "2" "Copy Dotfiles" "on"\
-        "3" "Install DWM Desktop" "off" \
-        "4" "Configure GNOME (dconf)" "on" \
-        "5" "Install GitHub CLI" "off"\
-        "6" "Install Ollama" "off"\
-        "7" "Install Apps (Enables Flatpak)" "on"\
-        "8" "Install Tailscale (VPN)" "on"\
-        "9" "Install Syncthing" "on" 2> choice.tmp
-main_menu=$( cat choice.tmp )
-rm choice.tmp
+
+options=(
+  TRUE "Update OS"
+  TRUE "Copy Dotfiles"
+  FALSE "Install DWM Desktop"
+  TRUE "Configure GNOME"
+  TRUE "Install GitHub CLI"
+  FALSE "Install Ollama"
+  TRUE "Install Apps (Enables Flatpak)"
+  FALSE "Install Tailscale (VPN)"
+  FALSE "Install Syncthing"
+)
+# Use zenity --list to display menu and capture chosen option
+checkbox=$(zenity --list --checklist \
+  --title="$BACKTITLE" \
+  --column="Select" \
+  --column="Tasks" "${options[@]}")
+
+readarray -td '|' choices < <(printf '%s' "$checkbox")
 
 compile() {
   cd programs/$1
@@ -29,10 +31,8 @@ compile() {
   cd ../..
 }
 
-for selection in $main_menu; do
-  if [ "$selection" = "1" ]; then
-    # --- UPDATE OS ---
-
+for selection in "${choices[@]}"; do
+  if [ "$selection" = "Update OS" ]; then
     dialogUpdate() {
       dialog --backtitle "$BACKTITLE" --title "Update Debian and Packages" \
 	       --mixedgauge "Updating..." \
@@ -59,7 +59,7 @@ for selection in $main_menu; do
     dialogUpdate 100 5 5 5 5
   fi
 
-  if [ "$selection" = "2" ]; then
+  if [ "$selection" = "Copy Dotfiles" ]; then
     # Neovim
     dialog --erase-on-exit \
            --backtitle "$BACKTITLE" \
@@ -109,7 +109,7 @@ for selection in $main_menu; do
     fc-cache -f
   fi
 
-  if [ "$selection" = "3" ]; then
+  if [ "$selection" = "Install DWM Desktop" ]; then
     clear
     echo "---------------------------"
     echo "--- Install DWM Desktop ---"
@@ -128,7 +128,7 @@ for selection in $main_menu; do
     done
   fi
 
-  if [ "$selection" = "4" ]; then
+  if [ "$selection" = "Configure GNOME" ]; then
     clear
     echo "-----------------------"
     echo "--- Configure GNOME ---"
@@ -139,7 +139,7 @@ for selection in $main_menu; do
     dconf load -f / < ./settings.dconf
   fi
 
-  if [ "$selection" = "5" ]; then
+  if [ "$selection" = "Install GitHub CLI" ]; then
     clear
     echo "----------------------"
     echo "--- Install GH CLI ---"
@@ -157,7 +157,7 @@ for selection in $main_menu; do
     sudo apt install gh -y
   fi
 
-  if [ "$selection" = "6" ]; then
+  if [ "$selection" = "Install Ollama" ]; then
     clear
     echo "----------------------"
     echo "--- Install Ollama ---"
@@ -169,7 +169,7 @@ for selection in $main_menu; do
     curl -fsSL https://ollama.com/install.sh | sh
   fi
 
-  if [ "$selection" = "7" ]; then
+  if [ "$selection" = "Install Apps (Enables Flatpak)" ]; then
     clear
     echo "----------------------------"
     echo "--- Install Applications ---"
@@ -213,7 +213,7 @@ for selection in $main_menu; do
     done
   fi
 
-  if [ "$selection" = "8" ]; then
+  if [ "$selection" = "Install Tailscale (VPN)" ]; then
     clear
     echo "-------------------------"
     echo "--- Install Tailscale ---"
@@ -225,7 +225,7 @@ for selection in $main_menu; do
     sudo tailscale up
   fi
 
-  if [ "$selection" = "9" ]; then
+  if [ "$selection" = "Install Syncthing" ]; then
     clear
     echo "-------------------------"
     echo "--- Install Syncthing ---"
