@@ -87,7 +87,7 @@ alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
 alias v='nvim'
-alias cp='rsync -ah --progress'
+alias cpp='rsync -ah --progress'
 
 set completion-ignore-case On
 
