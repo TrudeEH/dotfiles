@@ -186,13 +186,13 @@ done
 if command -v flatpak; then
   options=(
     FALSE "io.github.mrvladus.List" "Errands (Tasks)"
-    FALSE "io.gitlab.news_flash.NewsFlash" "Newsflash (RSS)"
+    TRUE "io.gitlab.news_flash.NewsFlash" "Newsflash (RSS)"
     FALSE "org.gnome.gitlab.somas.Apostrophe" "Apostrophe (Markdown Editor)"
-    FALSE "org.gnome.World.Secrets" "Secrets (Password manager)"
+    TRUE "org.gnome.World.Secrets" "Secrets (Password manager)"
     FALSE "org.gnome.Polari" "Polari (IRC)"
-    FALSE "org.gnome.Fractal" "Fractal (Matrix)"
-    FALSE "so.libdb.dissent" "Dissent (Discord)"
-    FALSE "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)"
+    TRUE "org.gnome.Fractal" "Fractal (Matrix)"
+    TRUE "so.libdb.dissent" "Dissent (Discord)"
+    TRUE "io.gitlab.adhami3310.Impression" "Impression (Disk image creator)"
     FALSE "org.gnome.Builder" "Builder (IDE)"
     FALSE "org.gnome.design.AppIconPreview" "App Icon Preview"
     FALSE "org.gnome.design.IconLibrary" "Icon Library"
@@ -200,8 +200,8 @@ if command -v flatpak; then
     FALSE "org.gnome.design.SymbolicPreview" "Symbolic Preview"
     FALSE "org.gnome.design.Typography" "Typography"
     FALSE "re.sonny.Workbench" "Workbench"
-    FALSE "org.prismlauncher.PrismLauncher" "Prism Launcher"
-    FALSE "md.obsidian.Obsidian" "Obsidian"
+    TRUE "org.prismlauncher.PrismLauncher" "Prism Launcher"
+    TRUE "md.obsidian.Obsidian" "Obsidian"
   )
   checkbox=$(zenity --list --checklist --width=800 --height=600 \
     --title="Install Apps" \
