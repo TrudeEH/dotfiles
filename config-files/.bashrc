@@ -91,6 +91,7 @@ alias ta='tmux attach'
 alias t='tmux'
 alias v='nvim'
 alias cpp='rsync -ah --progress'
+alias code='code --enable-features=UseOzonePlatform --ozone-platform=wayland'
 
 set completion-ignore-case On
 
