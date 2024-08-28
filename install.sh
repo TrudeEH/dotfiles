@@ -131,7 +131,7 @@ for selection in "${choices[@]}"; do
 
   if [ "$selection" = "Install Ollama" ]; then
     zenity --notification --window-icon="info" --text="Installing Ollama..."
-    curl -fsSL https://ollama.com/install.sh | sh
+    curl -fsSL https://ollama.com/install.sh | auth sh
     if [[ $? == 0 ]]; then
       zenity --notification --window-icon="info" --text="Ollama is now installed."
     else
