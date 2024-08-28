@@ -93,6 +93,7 @@ options=(
   FALSE "Install GitHub CLI"
   FALSE "Install Tailscale"
   FALSE "Install Firefox + Adw theme"
+  FALSE "Install Syncthing"
 )
 checkbox=$(zenity --list --checklist --height=500 --title="Install Apps" \
   --column="Select" \
@@ -179,6 +180,16 @@ for selection in "${choices[@]}"; do
       echo "100"
     ) |
       zenity --progress --title="Firefox" --text="Installing Firefox..." --percentage=0 --no-cancel
+  fi
+
+  if [ "$selection" = "Install Syncthing" ]; then
+    zenity --notification --window-icon="info" --text="Installing Syncthing..."
+    sudo apt install -y syncthing
+    if [[ $? == 0 ]]; then
+      zenity --notification --window-icon="info" --text="Syncthing is now installed."
+    else
+      zenity --notification --window-icon="error" --text="Syncthing failed to install."
+    fi
   fi
 done
 
