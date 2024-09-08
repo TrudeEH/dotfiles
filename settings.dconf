@@ -108,7 +108,7 @@ sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
 enabled-extensions=['caffeine@patapon.info', 'appindicatorsupport@rgcjonas.gmail.com', 'Vitals@CoreCoding.com']
-favorite-apps=['google-chrome.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'md.obsidian.Obsidian.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'vesktop.desktop', 'org.gnome.Fractal.desktop', 'org.gnome.World.Secrets.desktop', 'org.gnome.Calculator.desktop', 'code.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Software.desktop', 'net.lutris.Lutris.desktop', 'org.prismlauncher.PrismLauncher.desktop', 'org.vinegarhq.Sober.desktop']
+favorite-apps=['google-chrome.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'md.obsidian.Obsidian.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'vesktop.desktop', 'org.gnome.Fractal.desktop', 'org.gnome.World.Secrets.desktop', 'org.gnome.Calculator.desktop', 'code.desktop', 'org.gnome.Console.desktop', 'org.gnome.Software.desktop', 'net.lutris.Lutris.desktop', 'org.prismlauncher.PrismLauncher.desktop']
 last-selected-power-profile='performance'
 welcome-dialog-last-shown-version='43.9'
 
