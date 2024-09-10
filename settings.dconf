@@ -21,8 +21,8 @@ automatic-timezone=true
 
 [org/gnome/desktop/input-sources]
 current=uint32 0
-mru-sources=[('xkb', 'us'), ('xkb', 'pt')]
-sources=[('xkb', 'us'), ('xkb', 'pt')]
+mru-sources=[('xkb', 'us+altgr-intl'), ('xkb', 'us+intl')]
+sources=[('xkb', 'us+altgr-intl')]
 xkb-options=@as []
 
 [org/gnome/desktop/interface]
@@ -32,6 +32,8 @@ clock-show-weekday=true
 color-scheme='prefer-dark'
 cursor-theme='Adwaita'
 enable-animations=true
+font-antialiasing='grayscale'
+font-hinting='slight'
 gtk-theme='adw-gtk3-dark'
 locate-pointer=false
 monospace-font-name='JetBrainsMono Nerd Font 11'
