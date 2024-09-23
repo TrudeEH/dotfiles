@@ -102,3 +102,10 @@ set completion-ignore-case On
 export OFLAGS="--ozone-platform-hint=auto"
 
 export PATH=$PATH:/home/trude/.local/bin
+
+if [[ -z $TMUX ]]; then
+  tmux attach
+  if [[ $? == 1 ]]; then
+    tmux new -s main
+  fi
+fi
