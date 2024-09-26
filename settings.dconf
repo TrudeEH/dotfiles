@@ -2,6 +2,20 @@
 theme='auto'
 use-system-font=true
 
+[org/gnome/calculator]
+accuracy=9
+angle-units='degrees'
+base=10
+button-mode='programming'
+number-format='automatic'
+show-thousands=false
+show-zeroes=false
+source-currency=''
+source-units='degree'
+target-currency=''
+target-units='radian'
+word-size=64
+
 [org/gnome/desktop/a11y/interface]
 high-contrast=false
 show-status-shapes=false
@@ -79,12 +93,19 @@ ask-for-default=false
 default-search-engine='DuckDuckGo'
 search-engine-providers=[{'url': <'https://www.bing.com/search?q=%s'>, 'bang': <'!b'>, 'name': <'Bing'>}, {'url': <'https://duckduckgo.com/?q=%s&t=epiphany'>, 'bang': <'!ddg'>, 'name': <'DuckDuckGo'>}, {'url': <'https://www.google.com/search?q=%s'>, 'bang': <'!g'>, 'name': <'Google'>}]
 
-[org/gnome/epiphany/state]
-is-maximized=false
-window-size=(1809, 1282)
-
 [org/gnome/epiphany/web]
 show-developer-actions=true
+
+[org/gnome/evince/default]
+continuous=true
+dual-page=false
+dual-page-odd-left=true
+enable-spellchecking=true
+inverted-colors=false
+show-sidebar=true
+sidebar-page='thumbnails'
+sidebar-size=132
+sizing-mode='automatic'
 
 [org/gnome/evolution-data-server]
 migrated=true
@@ -112,9 +133,13 @@ night-light-temperature=uint32 2410
 sleep-inactive-ac-timeout=3600
 sleep-inactive-ac-type='nothing'
 
+[org/gnome/settings-daemon/plugins/power]
+power-button-action='interactive'
+sleep-inactive-ac-type='nothing'
+
 [org/gnome/shell]
-enabled-extensions=['caffeine@patapon.info', 'appindicatorsupport@rgcjonas.gmail.com', 'Vitals@CoreCoding.com', 'blur-my-shell@aunetx']
-favorite-apps=['google-chrome.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'md.obsidian.Obsidian.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'org.gnome.Fractal.desktop', 'org.gnome.World.Secrets.desktop', 'org.gnome.Calculator.desktop', 'code.desktop', 'org.gnome.Console.desktop', 'org.gnome.Software.desktop', 'net.lutris.Lutris.desktop', 'org.prismlauncher.PrismLauncher.desktop']
+enabled-extensions=['caffeine@patapon.info', 'appindicatorsupport@rgcjonas.gmail.com', 'Vitals@CoreCoding.com', 'logowidget@github.com.howbea', 'gtk4-ding@smedius.gitlab.com', 'blur-my-shell@aunetx']
+favorite-apps=['google-chrome.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'md.obsidian.Obsidian.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'org.gnome.Fractal.desktop', 'org.gnome.World.Secrets.desktop', 'org.gnome.Calculator.desktop', 'code.desktop', 'org.gnome.Console.desktop', 'org.gnome.SystemMonitor.desktop', 'org.gnome.Software.desktop', 'net.lutris.Lutris.desktop', 'org.prismlauncher.PrismLauncher.desktop']
 last-selected-power-profile='performance'
 welcome-dialog-last-shown-version='43.9'
 
@@ -156,10 +181,6 @@ fixed-widths=false
 hot-sensors=['_memory_usage_', '_processor_usage_', '__temperature_max__']
 icon-style=1
 use-higher-precision=false
-
-[org/gnome/software]
-first-run=false
-show-only-verified-apps=false
 
 [org/gnome/system/location]
 enabled=true
