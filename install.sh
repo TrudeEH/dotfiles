@@ -176,7 +176,7 @@ while [[ "$O" != " " ]]; do
       if [[ $cur == enter ]]; then
          R
          # Dotfiles
-         sudo apt install htop fzf git wget curl bash-completion
+         sudo apt install neovim tmux htop fzf git wget curl bash-completion -y
          cp -vrf config-files/.* $HOME
          cp -vrf config-files/* $HOME
          dconf load -f / <./settings.dconf
