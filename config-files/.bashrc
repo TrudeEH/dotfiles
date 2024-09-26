@@ -1,6 +1,14 @@
 export EDITOR="nvim"
 export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ "
 
+update() {
+  sudo apt update
+  sudo apt upgrade
+  sudo apt full-upgrade
+  sudo apt autoremove
+  sudo apt autoclean
+}
+
 extract() {
   if [ -f $1 ]; then
     case $1 in
