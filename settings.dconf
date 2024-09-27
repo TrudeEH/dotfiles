@@ -38,7 +38,7 @@ automatic-timezone=true
 current=uint32 0
 mru-sources=[('xkb', 'us+altgr-intl'), ('xkb', 'us+intl')]
 sources=[('xkb', 'us+altgr-intl')]
-xkb-options=@as []
+xkb-options=['caps:ctrl_modifier']
 
 [org/gnome/desktop/interface]
 clock-format='12h'
