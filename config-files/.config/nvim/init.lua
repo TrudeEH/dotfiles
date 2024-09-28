@@ -71,7 +71,7 @@ require('lazy').setup({{ -- Syntax Highlighting / Simple Code Completion
   "nvim-treesitter/nvim-treesitter",
   config = function()
     require'nvim-treesitter.configs'.setup {
-      ensure_installed = {"c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "bash", "python"},
+      ensure_installed = {"c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "bash", "tmux"},
       auto_install = true,
       highlight = {
         enable = true
