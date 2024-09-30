@@ -139,7 +139,7 @@ sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
 enabled-extensions=['caffeine@patapon.info', 'appindicatorsupport@rgcjonas.gmail.com', 'Vitals@CoreCoding.com', 'logowidget@github.com.howbea', 'gtk4-ding@smedius.gitlab.com', 'blur-my-shell@aunetx']
-favorite-apps=['org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']
+favorite-apps=['google-chrome.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']
 last-selected-power-profile='performance'
 
 [org/gnome/shell/extensions/dash-to-dock]
