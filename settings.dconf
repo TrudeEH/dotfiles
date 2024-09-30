@@ -90,7 +90,7 @@ visual-bell=false
 
 [org/gnome/epiphany]
 ask-for-default=false
-default-search-engine='DuckDuckGo'
+default-search-engine='Google'
 search-engine-providers=[{'url': <'https://www.bing.com/search?q=%s'>, 'bang': <'!b'>, 'name': <'Bing'>}, {'url': <'https://duckduckgo.com/?q=%s&t=epiphany'>, 'bang': <'!ddg'>, 'name': <'DuckDuckGo'>}, {'url': <'https://www.google.com/search?q=%s'>, 'bang': <'!g'>, 'name': <'Google'>}]
 
 [org/gnome/epiphany/web]
@@ -139,31 +139,8 @@ sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
 enabled-extensions=['caffeine@patapon.info', 'appindicatorsupport@rgcjonas.gmail.com', 'Vitals@CoreCoding.com', 'logowidget@github.com.howbea', 'gtk4-ding@smedius.gitlab.com', 'blur-my-shell@aunetx']
-favorite-apps=['google-chrome.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'md.obsidian.Obsidian.desktop', 'io.gitlab.news_flash.NewsFlash.desktop', 'org.gnome.Fractal.desktop', 'org.gnome.World.Secrets.desktop', 'org.gnome.Calculator.desktop', 'code.desktop', 'org.gnome.Console.desktop', 'org.gnome.SystemMonitor.desktop', 'org.gnome.Software.desktop', 'net.lutris.Lutris.desktop', 'org.prismlauncher.PrismLauncher.desktop']
+favorite-apps=['org.gnome.Epiphany.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop']
 last-selected-power-profile='performance'
-welcome-dialog-last-shown-version='43.9'
-
-[org/gnome/shell/extensions/blur-my-shell]
-settings-version=2
-
-[org/gnome/shell/extensions/blur-my-shell/appfolder]
-brightness=0.59999999999999998
-sigma=30
-
-[org/gnome/shell/extensions/blur-my-shell/dash-to-dock]
-blur=true
-brightness=0.59999999999999998
-sigma=30
-static-blur=true
-style-dash-to-dock=0
-
-[org/gnome/shell/extensions/blur-my-shell/panel]
-brightness=0.59999999999999998
-sigma=30
-
-[org/gnome/shell/extensions/blur-my-shell/window-list]
-brightness=0.59999999999999998
-sigma=30
 
 [org/gnome/shell/extensions/dash-to-dock]
 dash-max-icon-size=34
@@ -182,11 +159,11 @@ hot-sensors=['_memory_usage_', '_processor_usage_', '__temperature_max__']
 icon-style=1
 use-higher-precision=false
 
+[org/gnome/shell/world-clocks]
+locations=@av []
+
 [org/gnome/system/location]
 enabled=true
-
-[org/gnome/terminal/legacy/keybindings]
-paste='<Primary>v'
 
 [org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
 background-color='rgb(0,0,0)'
@@ -195,4 +172,4 @@ exit-action='hold'
 font='JetBrainsMono Nerd Font 12'
 foreground-color='rgb(208,207,204)'
 use-system-font=false
-use-theme-colors=false
+use-theme-colors=true

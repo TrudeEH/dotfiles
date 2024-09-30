@@ -46,19 +46,19 @@ ARROW() {
 }
 M0() {
    TPUT 4 12
-   $e "Switch to Debian testing"
+   $e "Install Dotfiles"
 }
 M1() {
    TPUT 5 12
-   $e "Install GNOME"
+   $e "Configure GNOME"
 }
 M2() {
    TPUT 6 12
-   $e "Install DWM"
+   $e "Install DWM Desktop"
 }
 M3() {
    TPUT 7 12
-   $e "Install Dotfiles"
+   $e "Switch to Debian testing"
 }
 M4() {
    TPUT 8 12
@@ -121,8 +121,8 @@ ES() {
 INIT
 while [[ "$O" != " " ]]; do
    case $i in
-   0)
-      S=M0
+   3)
+      S=M3
       SC
       if [[ $cur == enter ]]; then
          R
@@ -141,8 +141,8 @@ while [[ "$O" != " " ]]; do
       SC
       if [[ $cur == enter ]]; then
          R
-         # GNOME Install
-         sudo apt install gnome-core
+         # GNOME Config
+         dconf load -f / <./settings.dconf
          ES
       fi
       ;;
@@ -170,16 +170,15 @@ while [[ "$O" != " " ]]; do
          ES
       fi
       ;;
-   3)
-      S=M3
+   0)
+      S=M0
       SC
       if [[ $cur == enter ]]; then
          R
          # Dotfiles
-         sudo apt install neovim tmux htop fzf git wget curl bash-completion -y
+         sudo apt install neovim tmux htop fzf git wget curl bash-completion build-essentials -y
          cp -vrf config-files/.* $HOME
          cp -vrf config-files/* $HOME
-         dconf load -f / <./settings.dconf
          fc-cache -f
          ES
       fi
