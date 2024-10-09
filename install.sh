@@ -50,7 +50,7 @@ case $main_menu in
       mkdir -p ~/.config/nix-darwin/
       cp -rf ./nix/macOS/* ~/.config/nix-darwin/
       cp -f ./nix/home.nix ~/.config/nix-darwin/
-      nix run nix-darwin -- switch --flake ~/.config/nix-darwin
+      nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-darwin
       ;;
    *)
       echo "Invalid option selected."
