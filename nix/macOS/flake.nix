@@ -25,13 +25,7 @@
       system.stateVersion = 5;
 
       # Home-manager module.
-      home-manager = {
-        extraSpecialArgs = {inherit inputs;};
-        backupFileExtension = "backup";
-        users = {
-          "trude" = import ./home.nix;
-        };
-      };
+      home-manager.users.trude = import ./home.nix;
 
       # Configs
       environment.systemPackages = [
