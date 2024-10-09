@@ -7,7 +7,7 @@
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
-    }
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -17,7 +17,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs }:
   let
-    configuration = { lib, pkgs, config, inputs, ... }: {
+    configuration = { pkgs, config, ... }: {
       services.nix-daemon.enable = true;
       nix.settings.experimental-features = "nix-command flakes";
       nixpkgs.config.allowUnfree = true;
@@ -25,7 +25,13 @@
       system.stateVersion = 5;
 
       # Home-manager module.
-      home-manager.users.trude = import ./home.nix;
+      home-manager = {
+        extraSpecialArgs = {inherit inputs;};
+        backupFileExtension = "backup";
+        users = {
+          "trude" = import ./home.nix;
+        };
+      };
 
       # Configs
       environment.systemPackages = [
