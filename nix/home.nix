@@ -349,10 +349,10 @@ in
     enable = true;
     defaultApplications = {
       "text/html" = "org.gnome.Epiphany.desktop";
-      "x-scheme-handler/http" = "org.gnome.Epiphany.desktop";
-      "x-scheme-handler/https" = "org.gnome.Epiphany.desktop";
-      "x-scheme-handler/about" = "org.gnome.Epiphany.desktop";
-      "x-scheme-handler/unknown" = "org.gnome.Epiphany.desktop";
+      "x-scheme-handler/http" = "google-chrome.desktop";
+      "x-scheme-handler/https" = "google-chrome.desktop";
+      "x-scheme-handler/about" = "google-chrome.desktop";
+      "x-scheme-handler/unknown" = "google-chrome.desktop";
     };
   };
 
