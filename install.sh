@@ -9,11 +9,11 @@ if [ $(pwd) != "$HOME/dotfiles" ]; then
 fi
 
 if ! nix --version &>/dev/null; then
-   echo -e "[E] Nix not found."
-   echo -e "[+] Installing the Nix package manager..."
+   echo "[E] Nix not found."
+   echo "[+] Installing the Nix package manager..."
    sh <(curl -L https://nixos.org/nix/install)
    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-   echo -e "[I] Installed Nix."
+   echo "[I] Installed Nix."
 fi
 
 E='echo -e'
