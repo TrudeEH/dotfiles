@@ -1,4 +1,21 @@
 #!/bin/bash
+
+# Dependencies
+export NIXPKGS_ALLOW_UNFREE=1
+if [ $(pwd) != "$HOME/dotfiles" ]; then
+   cd $HOME
+   git clone https://github.com/TrudeEH/dotfiles --depth 1
+   cd dotfiles
+fi
+
+if ! nix --version &>/dev/null; then
+   echo -e "[E] Nix not found."
+   echo -e "[+] Installing the Nix package manager..."
+   sh <(curl -L https://nixos.org/nix/install)
+   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+   echo -e "[I] Installed Nix."
+fi
+
 E='echo -e'
 e='echo -en'
 trap "R;exit" 2
@@ -14,7 +31,7 @@ R() {
    CLEAR
 }
 HEAD() {
-   for each in $(seq 1 12); do
+   for each in $(seq 1 11); do
       $E "   \xE2\x94\x82                                          \xE2\x94\x82"
    done
    MARK
@@ -23,12 +40,9 @@ HEAD() {
    UNMARK
 }
 i=0
-CLEAR
-CIVIS
-NULL=/dev/null
 FOOT() {
    MARK
-   TPUT 12 5
+   TPUT 11 5
    $E " UP \xE2\x86\x91 \xE2\x86\x93 DOWN    ENTER - SELECT,NEXT       "
    UNMARK
 }
@@ -45,30 +59,22 @@ ARROW() {
    if [[ "$key" == "$($e \\x0A)" ]]; then echo enter; fi
 }
 M0() {
-   TPUT 4 12
-   $e "Install Dotfiles"
+   TPUT 4 11
+   $e "Set up Generic System"
 }
 M1() {
-   TPUT 5 12
-   $e "Configure GNOME"
+   TPUT 5 11
+   $e "Set up NixOS"
 }
 M2() {
-   TPUT 6 12
-   $e "Install DWM Desktop"
+   TPUT 6 11
+   $e "Set up macOS"
 }
 M3() {
-   TPUT 7 12
-   $e "Switch to Debian testing"
+   TPUT 8 11
+   $e "EXIT"
 }
-M4() {
-   TPUT 8 12
-   $e "Enable Flatpak support"
-}
-M5() {
-   TPUT 9 12
-   $e "EXIT   "
-}
-LM=5
+LM=3
 MENU() { for each in $(seq 0 $LM); do M${each}; done; }
 POS() {
    if [[ $cur == up ]]; then ((i--)); fi
@@ -121,18 +127,22 @@ ES() {
 INIT
 while [[ "$O" != " " ]]; do
    case $i in
-   3)
-      S=M3
+   0)
+      S=M0
       SC
       if [[ $cur == enter ]]; then
          R
-         # Debian testing
-         sudo cp -f ./debian-sources.list /etc/apt/sources.list
-         sudo apt update
-         sudo apt upgrade -y
-         sudo apt full-upgrade -y
-         sudo apt autoremove -y
-         sudo apt autoclean -y
+         # Install Home-manager
+         nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+         nix-channel --update
+         nix-shell '<home-manager>' -A install
+
+         # Apply config
+         mkdir -p $HOME/.config/home-manager
+         rm $HOME/.config/home-manager/home.nix
+         cp ./nix/home.nix $HOME/.config/home-manager/home.nix
+
+         home-manager -b backup switch
          ES
       fi
       ;;
@@ -141,8 +151,10 @@ while [[ "$O" != " " ]]; do
       SC
       if [[ $cur == enter ]]; then
          R
-         # GNOME Config
-         dconf load -f / <./settings.dconf
+         # Dotfiles for NixOS
+         sudo cp -rf ./nix/nixos/* /etc/nixos/
+         sudo cp -f ./nix/home.nix /etc/nixos/
+         sudo nixos-rebuild switch --flake /etc/nixos#default
          ES
       fi
       ;;
@@ -151,52 +163,15 @@ while [[ "$O" != " " ]]; do
       SC
       if [[ $cur == enter ]]; then
          R
-         # DWM Install
-         compile() {
-            cd programs/$1
-            sudo make clean install
-            cd ../..
-         }
-
-         # Install Dependencies
-         sudo apt install -y xorg picom libx11-dev libxft-dev libxinerama-dev build-essential libxrandr-dev policykit-1-gnome dbus-x11 pipewire-audio wireplumber pipewire-pulse pipewire-alsa network-manager feh scrot dunst
-         systemctl --user --now enable wireplumber.service
-         sudo systemctl enable NetworkManager
-
-         # Compile
-         for program in "dwm" "dmenu" "slock" "st" "tabbed" "dwmblocks"; do
-            compile $program
-         done
+         mkdir -p ~/.config/nix-darwin/
+         cp -rf ./nix/macOS/* ~/.config/nix-darwin/
+         cp -f ./nix/home.nix ~/.config/nix-darwin/
+         nix run nix-darwin -- switch --flake ~/.config/nix-darwin
          ES
       fi
       ;;
-   0)
-      S=M0
-      SC
-      if [[ $cur == enter ]]; then
-         R
-         # Dotfiles
-         sudo apt install neovim tmux htop fzf git wget curl bash-completion build-essential -y
-         cp -vrf config-files/.* $HOME
-         cp -vrf config-files/* $HOME
-         fc-cache -f
-         ES
-      fi
-      ;;
-   4)
-      S=M4
-      SC
-      if [[ $cur == enter ]]; then
-         R
-         # Flatpak
-         sudo apt install flatpak gnome-software-plugin-flatpak
-         sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-         flatpak install org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
-         ES
-      fi
-      ;;
-   5)
-      S=M5
+   3)
+      S=M3
       SC
       if [[ $cur == enter ]]; then
          R
