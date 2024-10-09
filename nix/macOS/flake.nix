@@ -17,7 +17,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs }:
   let
-    configuration = { pkgs, config, ... }: {
+    configuration = { lib, pkgs, config, inputs, ... }: {
       services.nix-daemon.enable = true;
       nix.settings.experimental-features = "nix-command flakes";
       nixpkgs.config.allowUnfree = true;
