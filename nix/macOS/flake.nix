@@ -68,7 +68,7 @@
         NSGlobalDomain.KeyRepeat = 2;
       };
 
-      # nixpkgs.hostPlatform = "x86_64-darwin"; # aarch64-darwin for ARM
+      nixpkgs.hostPlatform = "x86_64-darwin"; # aarch64-darwin for ARM
     };
   in
   {
