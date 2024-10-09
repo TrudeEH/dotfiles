@@ -1,5 +1,0 @@
-# Change Xorg display scaling if needed.
-
-# Xft.dpi: 192  # 200% Scale
-# Xft.dpi: 160  # 166% Scale
-# Xft.dpi: 96   # Default
