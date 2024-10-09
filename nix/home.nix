@@ -4,14 +4,15 @@
 let
   inherit (lib) mkIf optionals;
   inherit (pkgs.stdenv) isLinux isDarwin; #GNOME on Linux
+  userName = "trude";
 in
 {
   # =======================================================================
   # ----------------------- HOME & INSTALLED PACKAGES ---------------------
   # =======================================================================
 
-  home.username = "trude";
-  home.homeDirectory = "/home/trude";
+  home.username = userName;
+  home.homeDirectory = if isLinux then "/home/${userName}" else "/Users/${userName}";
   home.stateVersion = "24.05";
 
   nixpkgs.config.allowUnfree = true;
