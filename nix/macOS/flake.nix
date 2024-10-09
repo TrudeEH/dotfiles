@@ -66,7 +66,7 @@
         loginwindow.GuestEnabled = false;
         NSGlobalDomain.AppleInterfaceStyle = "Dark";
         NSGlobalDomain.KeyRepeat = 2;
-      }
+      };
 
       # nixpkgs.hostPlatform = "x86_64-darwin"; # aarch64-darwin for ARM
     };
