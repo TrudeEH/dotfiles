@@ -19,7 +19,6 @@ in
   home.packages = with pkgs; [
     google-chrome
     transmission_4
-    neovim
     gh
     unzip
     fastfetch
@@ -302,7 +301,7 @@ in
 
     "org/gnome/shell" = {
       enabled-extensions = [ "caffeine@patapon.info" "appindicatorsupport@rgcjonas.gmail.com" "Vitals@CoreCoding.com" "gtk4-ding@smedius.gitlab.com" "blur-my-shell@aunetx" ];
-      favorite-apps = [ "google-chrome.desktop" "org.gnome.Epiphany.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Console.desktop" "org.gnome.Terminal.desktop" ];
+      favorite-apps = [ "google-chrome.desktop" "org.gnome.Epiphany.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Console.desktop" "org.gnome.Terminal.desktop" "codium.desktop" ];
       last-selected-power-profile = "performance";
     };
 
@@ -497,6 +496,19 @@ in
   services.gnome-keyring.enable = isLinux;
   programs.home-manager.enable = true;
 
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      nvim-treesitter.withAllGrammars
+    ];
+    # Use the Nix package search engine to find
+    # even more plugins : https://search.nixos.org/packages
+  };
+
   programs.tmux = {
     enable = true;
     aggressiveResize = true;
@@ -629,14 +641,13 @@ in
       mhutchie.git-graph
       pkief.material-icon-theme
       oderwat.indent-rainbow
-      bierner.emojisense
       jnoortheen.nix-ide
       ritwickdey.liveserver
       github.vscode-pull-request-github
-      ms-toolsai.jupyter
-      ms-python.python
       arrterian.nix-env-selector
       piousdeer.adwaita-theme
+      llvm-vs-code-extensions.vscode-clangd
+      formulahendry.code-runner
     ]);
 
     # Settings
