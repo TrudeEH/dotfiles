@@ -63,7 +63,6 @@
         };
         NSGlobalDomain.AppleICUForce24HourTime = false;
         NSGlobalDomain.AppleInterfaceStyle = "Dark";
-        AppleInterfaceStyleSwitchesAutomatically = false;
         NSGlobalDomain.AppleScrollerPagingBehavior = true;
         NSGlobalDomain.AppleShowAllExtensions = true;
         NSGlobalDomain.AppleShowAllFiles = true;
