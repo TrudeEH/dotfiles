@@ -62,15 +62,15 @@ in
     '')
 
     (writeShellScriptBin "update" ''
+      nix-channel --update
       if command -v nixos-rebuild 2>&1 >/dev/null; then
         sudo nixos-rebuild switch --recreate-lock-file --flake /etc/nixos#default
-      fi
-      if command -v darwin-rebuild 2>&1 >/dev/null; then
+      elif command -v darwin-rebuild 2>&1 >/dev/null; then
         sudo softwareupdate -i -a
         nix run nix-darwin -- switch --recreate-lock-file --flake ~/.config/nix-darwin
+      else
+        home-manager -b backup switch
       fi
-      nix-channel --update
-      home-manager -b backup switch
     '')
   ]
   # Linux-only apps
