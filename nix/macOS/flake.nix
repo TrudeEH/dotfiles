@@ -15,7 +15,7 @@
     };
 
     # Fix an issue where home-manager apps are not indexed on Spotlight
-    mac-app-util.url = {
+    mac-app-util = {
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
