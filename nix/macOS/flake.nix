@@ -25,6 +25,10 @@
       system.stateVersion = 5;
 
       # Home-manager module.
+      users.users.trude = {
+        name = "trude";
+        home = "/Users/trude";
+      };
       home-manager = {
         extraSpecialArgs = {inherit inputs;};
         backupFileExtension = "backup";
