@@ -60,7 +60,7 @@
           "com.apple.Safari" = {
             "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
           };
-        }
+        };
         NSGlobalDomain.AppleICUForce24HourTime = false;
         NSGlobalDomain.AppleInterfaceStyle = "Dark";
         AppleInterfaceStyleSwitchesAutomatically = false;
@@ -84,10 +84,10 @@
         dock.persistent-apps = [ #Dock apps
           "/Applications/Safari.app"
           "/System/Applications/Utilities/Terminal.app"
-        ]
+        ];
         dock.persistent-others = [ #Dock folders
           "~/Downloads"
-        ]
+        ];
         dock.show-recents = false; #Dock show ecent apps
         dock.showhidden = true;
         dock.static-only = true; #Show only open apps in dock
