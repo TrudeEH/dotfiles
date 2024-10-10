@@ -30,7 +30,7 @@
       system.configurationRevision = self.rev or self.dirtyRev or null;
       system.stateVersion = 5;
 
-      # Home-manager module.
+      # Home-manager module
       users.users.trude = {
         name = "trude";
         home = "/Users/trude";
@@ -46,39 +46,72 @@
         mac-app-util.homeManagerModules.default
       ];
 
-      # Configs
-      environment.systemPackages = [
-        pkgs.mkalias
-      ];
-
-      system.activationScripts.applications.text =
-      let
-        env = pkgs.buildEnv {
-          name = "system-applications";
-          paths = config.environment.systemPackages;
-          pathsToLink = "/Applications";
-        };
-      in
-        pkgs.lib.mkForce ''
-        # Set up applications.
-        echo "setting up /Applications..." >&2
-        rm -rf /Applications/Nix\ Apps
-        mkdir -p /Applications/Nix\ Apps
-        find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-        while read src; do
-          app_name=$(basename "$src")
-          echo "copying $src" >&2
-          ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-        done
-        '';
+      # System packages
+      environment.systemPackages = [];
 
       # Configure macOS
+      security.pam.enableSudoTouchIdAuth = true;
       system.defaults = {
-        # man 5 configuration.nix
-        dock.autohide = true;
-        loginwindow.GuestEnabled = false;
+        # https://daiderd.com/nix-darwin/manual/index.html
+        ActivityMonitor.IconType = 5;
+        ActivityMonitor.SortColumn = "CPUUsage";
+        ActivityMonitor.SortDirection = 0;
+        CustomUserPreferences = {
+          "com.apple.Safari" = {
+            "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
+          };
+        }
+        NSGlobalDomain.AppleICUForce24HourTime = false;
         NSGlobalDomain.AppleInterfaceStyle = "Dark";
+        AppleInterfaceStyleSwitchesAutomatically = false;
+        NSGlobalDomain.AppleScrollerPagingBehavior = true;
+        NSGlobalDomain.AppleShowAllExtensions = true;
+        NSGlobalDomain.AppleShowAllFiles = true;
+        NSGlobalDomain.NSDocumentSaveNewDocumentsToCloud = false;
+        NSGlobalDomain.NSWindowShouldDragOnGesture = true;
         NSGlobalDomain.KeyRepeat = 2;
+        NSGlobalDomain."com.apple.mouse.tapBehavior" = 1; #Tap to click on mouse.
+        NSGlobalDomain."com.apple.swipescrolldirection" = false; #Normal scrolling.
+        WindowManager.EnableStandardClickToShowDesktop = true;
+        WindowManager.StandardHideDesktopIcons = false;
+        alf.globalstate = 1; #Firewall
+        alf.stealthenabled = 1; #Drop incoming ping requests
+        dock.autohide = false;
+        dock.autohide-delay = 0;
+        dock.autohide-time-modifier = 0.5; #Dock autohide animation speed
+        dock.expose-animation-duration = 0.5; #Mission Control animation speed
+        dock.minimize-to-application = true; #Minimize windows into their application icon
+        dock.persistent-apps = [ #Dock apps
+          "/Applications/Safari.app"
+          "/System/Applications/Utilities/Terminal.app"
+        ]
+        dock.persistent-others = [ #Dock folders
+          "~/Downloads"
+        ]
+        dock.show-recents = false; #Dock show ecent apps
+        dock.showhidden = true;
+        dock.static-only = true; #Show only open apps in dock
+        dock.tilesize = 32; #Dock icon size
+        finder.AppleShowAllExtensions = true;
+        finder.AppleShowAllFiles = true;
+        finder.FXDefaultSearchScope = "SCcf"; #Search defaults to current folder
+        finder.FXEnableExtensionChangeWarning = false;
+        finder.FXPreferredViewStyle = "Nlsv"; #Default to list view
+        finder.ShowPathbar = true;
+        finder.ShowStatusBar = true;
+        finder._FXSortFoldersFirst = true;
+        loginwindow.GuestEnabled = false;
+        menuExtraClock.Show24Hour = false;
+        menuExtraClock.ShowAMPM = true;
+        menuExtraClock.ShowDayOfMonth = true;
+        screencapture.disable-shadow = true;
+        screensaver.askForPassword = true;
+        trackpad.Clicking = true; #Tap to click
+        trackpad.Dragging = true;
+      };
+      system.keyboard = {
+        enableKeyMapping = true;
+        remapCapsLockToControl = true;
       };
 
       nixpkgs.hostPlatform = "x86_64-darwin"; # aarch64-darwin for ARM
