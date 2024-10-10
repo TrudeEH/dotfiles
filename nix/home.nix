@@ -149,8 +149,8 @@ in
 
     "org/gnome/desktop/input-sources" = {
       current = mkUint32 0;
-      mru-sources = [ (mkTuple [ "xkb" "us+altgr-intl" ]) (mkTuple [ "xkb" "us+intl" ]) ];
-      sources = [ (mkTuple [ "xkb" "us+altgr-intl" ]) ];
+      mru-sources = [ (mkTuple [ "xkb" "pt" ]) (mkTuple [ "xkb" "pt" ]) ];
+      sources = [ (mkTuple [ "xkb" "pt" ]) ];
       xkb-options = [ "caps:ctrl_modifier" ];
     };
 

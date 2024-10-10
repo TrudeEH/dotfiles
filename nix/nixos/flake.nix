@@ -81,7 +81,7 @@
         LC_TIME = "pt_PT.UTF-8";
       };
       services.xserver.xkb = {
-        layout = "us";
+        layout = "pt";
         variant = "";
       };
       system.stateVersion = "24.05";
