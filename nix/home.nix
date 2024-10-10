@@ -67,7 +67,7 @@ in
         sudo nixos-rebuild switch --recreate-lock-file --flake /etc/nixos#default
       elif command -v darwin-rebuild 2>&1 >/dev/null; then
         sudo softwareupdate -i -a
-        nix run nix-darwin -- switch --recreate-lock-file --flake ~/.config/nix-darwin
+        nix run nix-darwin -- switch --recreate-lock-file --flake ~/.config/nix-darwin#default
       else
         home-manager -b backup switch
       fi
