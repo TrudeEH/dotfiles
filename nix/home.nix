@@ -300,7 +300,7 @@ in
 
     "org/gnome/shell" = {
       enabled-extensions = [ "caffeine@patapon.info" "appindicatorsupport@rgcjonas.gmail.com" "Vitals@CoreCoding.com" "gtk4-ding@smedius.gitlab.com" "blur-my-shell@aunetx" ];
-      favorite-apps = [ "google-chrome.desktop" "org.gnome.Epiphany.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Console.desktop" "org.gnome.Terminal.desktop" "codium.desktop" ];
+      favorite-apps = [];
       last-selected-power-profile = "performance";
     };
 
