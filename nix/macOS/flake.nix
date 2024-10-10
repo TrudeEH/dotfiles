@@ -13,9 +13,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Fix an issue where home-manager apps are not indexed on Spotlight
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, mac-app-util }:
   let
     configuration = { pkgs, config, ... }: {
       services.nix-daemon.enable = true;
@@ -36,6 +39,9 @@
           "trude" = import ./home.nix;
         };
       };
+      home-manager.sharedModules = [
+        mac-app-util.homeManagerModules.default
+      ];
 
       # Configs
       environment.systemPackages = [
@@ -81,6 +87,7 @@
     darwinConfigurations.default = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
+        inputs.mac-app-util.darwinModules.default
         inputs.home-manager.darwinModules.default
       ];
     };
