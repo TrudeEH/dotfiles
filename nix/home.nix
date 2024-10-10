@@ -356,8 +356,17 @@ in
     };
   };
 
-  programs.firefox = mkIf isLinux {
-    enable = true;
+
+  # ===========================================================
+  # -------------------- Independent --------------------------
+  # ===========================================================
+
+  # Autostart services on boot
+  services.gnome-keyring.enable = isLinux;
+  programs.home-manager.enable = true;
+
+  programs.firefox = {
+    enable = false;
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
@@ -482,19 +491,6 @@ in
       ];
     };
   };
-
-
-  # =====================================================
-  # -------------------- macOS --------------------------
-  # =====================================================
-
-  # ===========================================================
-  # -------------------- Independent --------------------------
-  # ===========================================================
-
-  # Autostart services on boot
-  services.gnome-keyring.enable = isLinux;
-  programs.home-manager.enable = true;
 
   programs.neovim = {
     enable = true;
