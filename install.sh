@@ -47,6 +47,7 @@ case $main_menu in
       sudo nixos-rebuild switch --flake /etc/nixos#default
       ;;
    3)
+      chsh -s /bin/bash
       mkdir -p ~/.config/nix-darwin/
       cp -rf ./nix/macOS/* ~/.config/nix-darwin/
       cp -f ./nix/home.nix ~/.config/nix-darwin/

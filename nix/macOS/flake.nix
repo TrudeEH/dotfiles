@@ -34,7 +34,6 @@
       users.users.trude = {
         name = "trude";
         home = "/Users/trude";
-        shell = pkgs.bash;
       };
       home-manager = {
         extraSpecialArgs = {inherit inputs;};
