@@ -18,7 +18,6 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     google-chrome
-    transmission_4
     gh
     unzip
     fastfetch
