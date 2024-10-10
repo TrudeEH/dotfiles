@@ -21,6 +21,7 @@ in
     gh
     unzip
     fastfetch
+    prismlauncher
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -75,7 +76,7 @@ in
   # Linux-only apps
   ++ optionals isLinux [eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine]
   # macOS-only apps
-  ++ optionals isDarwin [raycast];
+  ++ optionals isDarwin [];
 
   # Cursor theme fix (Linux)
   home.file = mkIf isLinux {
