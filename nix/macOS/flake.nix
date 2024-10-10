@@ -77,7 +77,7 @@
     darwinConfigurations.default = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
-        inputs.home-manager.nixosModules.default
+        inputs.home-manager.darwinModules.default
       ];
     };
     darwinPackages = self.darwinConfigurations.default.pkgs;
