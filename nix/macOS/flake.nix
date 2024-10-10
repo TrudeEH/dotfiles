@@ -76,7 +76,7 @@
         alf.globalstate = 1; #Firewall
         alf.stealthenabled = 1; #Drop incoming ping requests
         dock.autohide = false;
-        dock.autohide-delay = 0;
+        dock.autohide-delay = 0.0;
         dock.autohide-time-modifier = 0.5; #Dock autohide animation speed
         dock.expose-animation-duration = 0.5; #Mission Control animation speed
         dock.minimize-to-application = true; #Minimize windows into their application icon
