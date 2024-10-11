@@ -300,7 +300,7 @@ in
     };
 
     "org/gnome/shell" = {
-      enabled-extensions = [ "caffeine@patapon.info" "appindicatorsupport@rgcjonas.gmail.com" "Vitals@CoreCoding.com" "gtk4-ding@smedius.gitlab.com" "blur-my-shell@aunetx" ];
+      enabled-extensions = [ "caffeine@patapon.info" "appindicatorsupport@rgcjonas.gmail.com" "Vitals@CoreCoding.com" "gtk4-ding@smedius.gitlab.com" "blur-my-shell@aunetx" "search-light@icedman.github.com" ];
       favorite-apps = [];
       last-selected-power-profile = "performance";
     };
