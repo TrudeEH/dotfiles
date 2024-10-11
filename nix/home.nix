@@ -326,7 +326,7 @@ in
     };
 
     "org/gnome/shell/extensions/search-light" = {
-      background-color=[0.14117647707462311 0.14117647707462311 0.14117647707462311 1.0];
+      background-color = mkTuple [ 0.1411764770746231 0.1411764770746231 0.1411764770746231 1.0 ];
       blur-background=false;
       border-radius=5.7443946188340806;
       border-thickness=0;
