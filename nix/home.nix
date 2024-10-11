@@ -74,7 +74,7 @@ in
     '')
   ]
   # Linux-only apps
-  ++ optionals isLinux [eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine]
+  ++ optionals isLinux [eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.search-light]
   # macOS-only apps
   ++ optionals isDarwin [];
 
@@ -323,6 +323,19 @@ in
       hot-sensors = [ "_memory_usage_" "_processor_usage_" "__temperature_max__" ];
       icon-style = 1;
       use-higher-precision = false;
+    };
+
+    "org/gnome/shell/extensions/search-light" = {
+      background-color=[0.14117647707462311 0.14117647707462311 0.14117647707462311 1.0];
+      blur-background=false;
+      border-radius=5.7443946188340806;
+      border-thickness=0;
+      currency-converter=true;
+      entry-font-size=1;
+      scale-height=0.10000000000000001;
+      scale-width=0.10000000000000001;
+      unit-converter=true;
+      window-effect=0;
     };
 
     "org/gnome/shell/world-clocks" = {
