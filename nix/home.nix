@@ -533,7 +533,7 @@ in
       plugins = with pkgs; [ tmuxPlugins.cpu ];
       prefix = "C-s";
       terminal = "tmux-256color";
-      shell = if isLinux then "${pkgs.zsh}/bin/zsh" else "/bin/zsh";
+      shell = if isLinux then "${pkgs.zsh}/bin/zsh" else "/Users/${userName}/.nix-profile/bin/zsh";
 
       extraConfig = ''
         bind-key C command-prompt -p "Name of new window: " "new-window -n '%%'"
