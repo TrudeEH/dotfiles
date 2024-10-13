@@ -143,8 +143,14 @@
         enableKeyMapping = true;
         remapCapsLockToControl = true;
       };
+    };
 
-      nixpkgs.hostPlatform = "x86_64-darwin"; # aarch64-darwin for ARM
+    intel = { pkgs, config, ... }: {
+      nixpkgs.hostPlatform = "x86_64-darwin";
+    };
+
+    apple-silicon = { pkgs, config, ... }: {
+      nixpkgs.hostPlatform = "aarch64-darwin";
     };
   in
   {
@@ -153,6 +159,15 @@
     darwinConfigurations.default = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
+        apple-silicon
+        inputs.mac-app-util.darwinModules.default
+        inputs.home-manager.darwinModules.default
+      ];
+    };
+    darwinConfigurations.x86 = nix-darwin.lib.darwinSystem {
+      modules = [
+        configuration
+        intel
         inputs.mac-app-util.darwinModules.default
         inputs.home-manager.darwinModules.default
       ];
