@@ -533,7 +533,6 @@ in
       plugins = with pkgs; [ tmuxPlugins.cpu ];
       prefix = "C-s";
       terminal = "tmux-256color";
-      shell = "${pkgs.zsh}/bin/zsh";
 
       extraConfig = ''
         bind-key C command-prompt -p "Name of new window: " "new-window -n '%%'"
@@ -642,13 +641,6 @@ in
         set -o vi
         export EDITOR="nvim";
         export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
-
-        if [[ -z $TMUX ]]; then
-          tmux attach
-          if [[ $? == 1 ]]; then
-            tmux new -s main
-          fi
-        fi
       '';
     };
 
@@ -680,13 +672,6 @@ in
 
         set -o vi
         export EDITOR="nvim";
-
-        if [[ -z $TMUX ]]; then
-          tmux attach
-          if [[ $? == 1 ]]; then
-          tmux new -s main
-          fi
-        fi
       '';
     };
 
