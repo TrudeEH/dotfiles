@@ -568,7 +568,6 @@ in
         set -g @cpu_high_fg_color "#[fg=#FF0000]"
         set -g @ram_high_fg_color "#[fg=#FF0000]"
         run-shell ${pkgs.tmuxPlugins.cpu}/share/tmux-plugins/cpu/cpu.tmux
-        set-option -g default-command "reattach-to-user-namespace -l zsh"
       '';
     };
 
