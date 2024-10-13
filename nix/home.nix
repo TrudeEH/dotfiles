@@ -744,6 +744,7 @@ in
         "update.showReleaseNotes" = false;
         "window.titleBarStyle" = "custom";
         "explorer.confirmDelete" = false;
+        "explorer.confirmDragAndDrop" = false;
       };
     };
   };
