@@ -533,7 +533,7 @@ in
       plugins = with pkgs; [ tmuxPlugins.cpu ];
       prefix = "C-s";
       terminal = "tmux-256color";
-      #shell = "${pkgs.zsh}/bin/zsh";
+      shell = "${pkgs.zsh}/bin/zsh";
 
       extraConfig = ''
         bind-key C command-prompt -p "Name of new window: " "new-window -n '%%'"
@@ -568,6 +568,7 @@ in
         set -g @cpu_high_fg_color "#[fg=#FF0000]"
         set -g @ram_high_fg_color "#[fg=#FF0000]"
         run-shell ${pkgs.tmuxPlugins.cpu}/share/tmux-plugins/cpu/cpu.tmux
+        set-option -g default-command "reattach-to-user-namespace -l zsh"
       '';
     };
 
