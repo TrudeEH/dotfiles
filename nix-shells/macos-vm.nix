@@ -11,7 +11,7 @@ pkgs.mkShellNoCC {
   shellHook = ''
     mkdir -p macos-vm
     cd macos-vm
-    quickget macos ventura
-    quickemu --vm macos-ventura.conf
+    quickget macos sonoma
+    quickemu --vm macos-sonoma.conf
   '';
 }
