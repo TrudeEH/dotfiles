@@ -30,84 +30,115 @@
       system.configurationRevision = self.rev or self.dirtyRev or null;
       system.stateVersion = 5;
 
-      # Home-manager module
       users.users.trude = {
         name = "trude";
         home = "/Users/trude";
       };
+
       home-manager = {
         extraSpecialArgs = {inherit inputs;};
         backupFileExtension = "backup";
         users = {
           "trude" = import ./home.nix;
         };
+        sharedModules = [
+          mac-app-util.homeManagerModules.default
+        ];
       };
-      home-manager.sharedModules = [
-        mac-app-util.homeManagerModules.default
-      ];
 
-      # System packages
       environment.systemPackages = [];
 
-      # Configure macOS
       security.pam.enableSudoTouchIdAuth = true;
+
       system.defaults = {
         # https://daiderd.com/nix-darwin/manual/index.html
-        ActivityMonitor.IconType = 5;
-        ActivityMonitor.SortColumn = "CPUUsage";
-        ActivityMonitor.SortDirection = 0;
+
+        ActivityMonitor = {
+          IconType = 5;
+          SortColumn = "CPUUsage";
+          SortDirection = 0;
+        };
+
         CustomUserPreferences = {
           "com.apple.Safari" = {
             "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
           };
         };
-        NSGlobalDomain.AppleICUForce24HourTime = false;
-        NSGlobalDomain.AppleInterfaceStyle = "Dark";
-        NSGlobalDomain.AppleScrollerPagingBehavior = true;
-        NSGlobalDomain.AppleShowAllExtensions = true;
-        NSGlobalDomain.AppleShowAllFiles = true;
-        NSGlobalDomain.NSDocumentSaveNewDocumentsToCloud = false;
-        NSGlobalDomain.NSWindowShouldDragOnGesture = true;
-        NSGlobalDomain.KeyRepeat = 2;
-        NSGlobalDomain."com.apple.mouse.tapBehavior" = 1; #Tap to click on mouse.
-        NSGlobalDomain."com.apple.swipescrolldirection" = false; #Normal scrolling.
-        WindowManager.EnableStandardClickToShowDesktop = true;
-        WindowManager.StandardHideDesktopIcons = false;
-        alf.globalstate = 1; #Firewall
-        alf.stealthenabled = 1; #Drop incoming ping requests
-        dock.autohide = false;
-        dock.autohide-delay = 0.0;
-        dock.autohide-time-modifier = 0.5; #Dock autohide animation speed
-        dock.expose-animation-duration = 0.5; #Mission Control animation speed
-        dock.minimize-to-application = true; #Minimize windows into their application icon
-        dock.persistent-apps = [ #Dock apps
-          "/Applications/Safari.app"
-          "/System/Applications/Utilities/Terminal.app"
-        ];
-        dock.persistent-others = [ #Dock folders
-          "~/Downloads"
-        ];
-        dock.show-recents = false; #Dock show ecent apps
-        dock.showhidden = true;
-        dock.static-only = true; #Show only open apps in dock
-        dock.tilesize = 32; #Dock icon size
-        finder.AppleShowAllExtensions = true;
-        finder.AppleShowAllFiles = true;
-        finder.FXDefaultSearchScope = "SCcf"; #Search defaults to current folder
-        finder.FXEnableExtensionChangeWarning = false;
-        finder.FXPreferredViewStyle = "Nlsv"; #Default to list view
-        finder.ShowPathbar = true;
-        finder.ShowStatusBar = true;
-        finder._FXSortFoldersFirst = true;
+
+        NSGlobalDomain = {
+          AppleICUForce24HourTime = false;
+          AppleInterfaceStyle = "Dark";
+          AppleScrollerPagingBehavior = true;
+          AppleShowAllExtensions = true;
+          AppleShowAllFiles = true;
+          NSDocumentSaveNewDocumentsToCloud = false;
+          NSWindowShouldDragOnGesture = true;
+          KeyRepeat = 2;
+          "com.apple.mouse.tapBehavior" = 1; #Tap to click on mouse.
+          "com.apple.swipescrolldirection" = false; #Normal scrolling.
+
+        };
+
+        WindowManager = {
+          EnableStandardClickToShowDesktop = true;
+          StandardHideDesktopIcons = false;
+        };
+
+
+        alf = {
+          globalstate = 1; #Firewall
+          stealthenabled = 1; #Drop incoming ping requests
+        };
+
+        dock = {
+          autohide = false;
+          autohide-delay = 0.0;
+          autohide-time-modifier = 0.5; #Dock autohide animation speed
+          expose-animation-duration = 0.5; #Mission Control animation speed
+          minimize-to-application = true; #Minimize windows into their application icon
+
+          persistent-apps = [ #Dock apps
+            "/Applications/Safari.app"
+            "/System/Applications/Utilities/Terminal.app"
+          ];
+
+          persistent-others = [ #Dock folders
+            "~/Downloads"
+          ];
+
+          show-recents = false; #Dock show ecent apps
+          showhidden = true;
+          static-only = true; #Show only open apps in dock
+          tilesize = 32; #Dock icon size
+        };
+
+
+        finder = {
+          AppleShowAllExtensions = true;
+          AppleShowAllFiles = true;
+          FXDefaultSearchScope = "SCcf"; #Search defaults to current folder
+          FXEnableExtensionChangeWarning = false;
+          FXPreferredViewStyle = "Nlsv"; #Default to list view
+          ShowPathbar = true;
+          ShowStatusBar = true;
+          _FXSortFoldersFirst = true;
+        };
+
         loginwindow.GuestEnabled = false;
-        menuExtraClock.Show24Hour = false;
-        menuExtraClock.ShowAMPM = true;
-        menuExtraClock.ShowDayOfMonth = true;
+
+        menuExtraClock = {
+          Show24Hour = false;
+          ShowAMPM = true;
+          ShowDayOfMonth = true;
+        };
+
         screencapture.disable-shadow = true;
         screensaver.askForPassword = true;
+
         trackpad.Clicking = true; #Tap to click
         trackpad.Dragging = true;
       };
+
       system.keyboard = {
         enableKeyMapping = true;
         remapCapsLockToControl = true;

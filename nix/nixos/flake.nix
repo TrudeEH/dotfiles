@@ -13,19 +13,28 @@
   outputs = { self, nixpkgs, ... }@inputs:
   let
     configuration = { lib, config, pkgs, inputs, ... }: {
-      nix.settings.experimental-features = [ "nix-command" "flakes" ];
+      nix.settings = {
+        experimental-features = [ "nix-command" "flakes" ];
+        auto-optimise-store = true;
+      };
       nixpkgs.config.allowUnfree = true;
 
-      environment.systemPackages = with pkgs; [ ];
-
-      users.users.trude = {
-        isNormalUser = true;
-        initialPassword = "trude";
-        description = "TrudeEH";
-        extraGroups = [ "networkmanager" "wheel" ];
+      environment = {
+        systemPackages = with pkgs; [ ];
+        shells = with pkgs; [ zsh ];
       };
 
-      # Home-manager module.
+      users = {
+        defaultUserShell = pkgs.zsh;
+        users.trude = {
+          isNormalUser = true;
+          initialPassword = "trude";
+          description = "TrudeEH";
+          extraGroups = [ "networkmanager" "wheel" ];
+        };
+      };
+      programs.zsh.enable = true;
+
       home-manager = {
         extraSpecialArgs = {inherit inputs;};
         backupFileExtension = "backup";
@@ -34,39 +43,44 @@
         };
       };
 
-      # Network.
-      networking.hostName = "trudeDev";
-      networking.networkmanager.enable = true;
-
-      # GNOME.
-      services.xserver.enable = true;
-      services.xserver.displayManager.gdm.enable = true;
-      services.xserver.desktopManager.gnome.enable = true;
-
-      # Enable CUPS to print documents.
-      services.printing.enable = true;
-
-      # Enable sound with pipewire.
-      hardware.pulseaudio.enable = false;
-      security.rtkit.enable = true;
-      services.pipewire = {
-        enable = true;
-        alsa.enable = true;
-        alsa.support32Bit = true;
-        pulse.enable = true;
-        #jack.enable = true;
+      networking = {
+        hostName = "trudeDev";
+        networkmanager.enable = true;
+        #firewall.allowedTCPPorts = [ ... ];
+        #firewall.allowedUDPPorts = [ ... ];
       };
 
-      # System Services.
-      # services.openssh.enable = true;
+      services = {
+        xserver = {
+          enable = true;
+          displayManager.gdm.enable = true;
+          desktopManager.gnome.enable = true;
+          xkb = {
+            layout = "pt";
+            variant = "";
+          };
+        };
+        printing.enable = true;
+        pipewire = {
+          enable = true;
+          alsa.enable = true;
+          alsa.support32Bit = true;
+          pulse.enable = true;
+          #jack.enable = true;
+        };
+        #openssh.enable = true;
+      };
 
-      # Firewall.
-      # networking.firewall.allowedTCPPorts = [ ... ];
-      # networking.firewall.allowedUDPPorts = [ ... ];
+      hardware.pulseaudio.enable = false;
+      security.rtkit.enable = true;
+      virtualisation.libvirtd.enable = true;
 
-      # System options.
-      boot.loader.systemd-boot.enable = true;
-      boot.loader.efi.canTouchEfiVariables = true;
+      boot = {
+        loader.systemd-boot.enable = true;
+        loader.efi.canTouchEfiVariables = true;
+        supportedFilesystems = ["ntfs"];
+      };
+
       time.timeZone = "Europe/Lisbon";
       i18n.defaultLocale = "en_US.UTF-8";
       i18n.extraLocaleSettings = {
@@ -79,10 +93,6 @@
         LC_PAPER = "pt_PT.UTF-8";
         LC_TELEPHONE = "pt_PT.UTF-8";
         LC_TIME = "pt_PT.UTF-8";
-      };
-      services.xserver.xkb = {
-        layout = "pt";
-        variant = "";
       };
       system.stateVersion = "24.05";
     };

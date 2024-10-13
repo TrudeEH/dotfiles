@@ -375,330 +375,383 @@ in
   # ===========================================================
 
   # Autostart services on boot
-  services.gnome-keyring.enable = isLinux;
-  programs.home-manager.enable = true;
+  services = {
+    gnome-keyring.enable = isLinux;
+  };
 
-  programs.firefox = {
-    enable = false;
-    policies = {
-      DisableTelemetry = true;
-      DisableFirefoxStudies = true;
-      DontCheckDefaultBrowser = true;
-      DisablePocket = true;
-      SearchBar = "unified";
+  programs = {
+    home-manager.enable = true;
 
-      Preferences = {
-        # Privacy settings
-        "extensions.pocket.enabled" = false;
-        "browser.topsites.contile.enabled" = false;
-        "browser.newtabpage.activity-stream.showSponsored" = false;
-        "browser.newtabpage.activity-stream.system.showSponsored" = false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+    firefox = {
+      enable = false;
+      policies = {
+        DisableTelemetry = true;
+        DisableFirefoxStudies = true;
+        DontCheckDefaultBrowser = true;
+        DisablePocket = true;
+        SearchBar = "unified";
+
+        Preferences = {
+          # Privacy settings
+          "extensions.pocket.enabled" = false;
+          "browser.topsites.contile.enabled" = false;
+          "browser.newtabpage.activity-stream.showSponsored" = false;
+          "browser.newtabpage.activity-stream.system.showSponsored" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+        };
+
+        ExtensionSettings = {
+          "uBlock0@raymondhill.net" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          "jid1-MnnxcxisBPnSXQ@jetpack" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
+            installation_mode = "force_installed";
+          };
+        };
       };
 
-      ExtensionSettings = {
-        "uBlock0@raymondhill.net" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-          installation_mode = "force_installed";
+      profiles.default = {
+        id = 0;
+        name = "TrudeEH";
+        isDefault = true;
+        settings = {
+          "browser.startup.homepage" = "about:newtab";
+          "browser.search.defaultenginename" = "DuckDuckGo";
+          "browser.search.order.1" = "DuckDuckGo";
+          "general.smoothScroll" = true;
+          "browser.disableResetPrompt" = true;
+          "browser.download.panel.shown" = true;
+          "browser.download.useDownloadDir" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          "browser.shell.checkDefaultBrowser" = false;
+          "browser.shell.defaultBrowserCheckCount" = 1;
+          "dom.security.https_only_mode" = true;
+          "identity.fxaccounts.enabled" = false;
+          "privacy.trackingprotection.enabled" = true;
+          "signon.rememberSignons" = false;
         };
-        "jid1-MnnxcxisBPnSXQ@jetpack" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
-          installation_mode = "force_installed";
+        search = {
+          force = true;
+          default = "Startpage";
+          order = [ "Startpage" "DuckDuckGo" "Google" ];
+          engines = {
+            "Startpage" = {
+              urls = [{
+                template = "https://www.startpage.com/do/search?query={searchTerms}";
+              }];
+              definedAliases = [ "@s" ];
+            };
+            "Nix Packages" = {
+              urls = [{
+                template = "https://search.nixos.org/packages";
+                params = [
+                  { name = "type"; value = "packages"; }
+                  { name = "query"; value = "{searchTerms}"; }
+                ];
+              }];
+              icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@np" ];
+            };
+            "NixOS Wiki" = {
+              urls = [{ template = "https://nixos.wiki/index.php?search={searchTerms}"; }];
+              iconUpdateURL = "https://nixos.wiki/favicon.png";
+              updateInterval = 24 * 60 * 60 * 1000; # every day
+              definedAliases = [ "@nw" ];
+            };
+            "Bing".metaData.hidden = true;
+            "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+          };
         };
+        bookmarks = [
+          {
+            name = "Toolbar";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "YouTube";
+                url = "https://www.youtube.com/";
+              }
+              {
+                name = "Arch Linux";
+                tags = [ "news" "wiki" "arch" ];
+                url = "https://archlinux.org/";
+              }
+              {
+                name = "NixOS Discourse";
+                tags = [ "wiki" "nix" ];
+                url = "https://discourse.nixos.org/";
+              }
+              {
+                name = "GitHub";
+                url = "https://github.com/";
+              }
+              {
+                name = "WOL";
+                url = "https://wol.jw.org/pt-PT/";
+              }
+              {
+                name = "Rust Book";
+                url = "https://doc.rust-lang.org/stable/book/";
+              }
+              {
+                name = "Rust by example";
+                url = "https://doc.rust-lang.org/stable/rust-by-example/";
+              }
+              {
+                name = "Rustlings";
+                url = "https://github.com/rust-lang/rustlings/";
+              }
+            ];
+          }
+        ];
       };
     };
 
-    profiles.default = {
-      id = 0;
-      name = "TrudeEH";
-      isDefault = true;
-      settings = {
-        "browser.startup.homepage" = "about:newtab";
-        "browser.search.defaultenginename" = "DuckDuckGo";
-        "browser.search.order.1" = "DuckDuckGo";
-        "general.smoothScroll" = true;
-        "browser.disableResetPrompt" = true;
-        "browser.download.panel.shown" = true;
-        "browser.download.useDownloadDir" = false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-        "browser.shell.checkDefaultBrowser" = false;
-        "browser.shell.defaultBrowserCheckCount" = 1;
-        "dom.security.https_only_mode" = true;
-        "identity.fxaccounts.enabled" = false;
-        "privacy.trackingprotection.enabled" = true;
-        "signon.rememberSignons" = false;
-      };
-      search = {
-        force = true;
-        default = "Startpage";
-        order = [ "Startpage" "DuckDuckGo" "Google" ];
-        engines = {
-          "Startpage" = {
-            urls = [{
-              template = "https://www.startpage.com/do/search?query={searchTerms}";
-            }];
-            definedAliases = [ "@s" ];
-          };
-          "Nix Packages" = {
-            urls = [{
-              template = "https://search.nixos.org/packages";
-              params = [
-                { name = "type"; value = "packages"; }
-                { name = "query"; value = "{searchTerms}"; }
-              ];
-            }];
-            icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "@np" ];
-          };
-          "NixOS Wiki" = {
-            urls = [{ template = "https://nixos.wiki/index.php?search={searchTerms}"; }];
-            iconUpdateURL = "https://nixos.wiki/favicon.png";
-            updateInterval = 24 * 60 * 60 * 1000; # every day
-            definedAliases = [ "@nw" ];
-          };
-          "Bing".metaData.hidden = true;
-          "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
-        };
-      };
-      bookmarks = [
-        {
-          name = "Toolbar";
-          toolbar = true;
-          bookmarks = [
-            {
-              name = "YouTube";
-              url = "https://www.youtube.com/";
-            }
-            {
-              name = "Arch Linux";
-              tags = [ "news" "wiki" "arch" ];
-              url = "https://archlinux.org/";
-            }
-            {
-              name = "NixOS Discourse";
-              tags = [ "wiki" "nix" ];
-              url = "https://discourse.nixos.org/";
-            }
-            {
-              name = "GitHub";
-              url = "https://github.com/";
-            }
-            {
-              name = "WOL";
-              url = "https://wol.jw.org/pt-PT/";
-            }
-            {
-              name = "Rust Book";
-              url = "https://doc.rust-lang.org/stable/book/";
-            }
-            {
-              name = "Rust by example";
-              url = "https://doc.rust-lang.org/stable/rust-by-example/";
-            }
-            {
-              name = "Rustlings";
-              url = "https://github.com/rust-lang/rustlings/";
-            }
-          ];
-        }
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      plugins = with pkgs.vimPlugins; [
+        nvim-treesitter.withAllGrammars
       ];
+      # Use the Nix package search engine to find
+      # even more plugins : https://search.nixos.org/packages
     };
-  };
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      nvim-treesitter.withAllGrammars
-    ];
-    # Use the Nix package search engine to find
-    # even more plugins : https://search.nixos.org/packages
-  };
+    tmux = {
+      enable = true;
+      aggressiveResize = true;
+      baseIndex = 1;
+      disableConfirmationPrompt = true;
+      escapeTime = 250;
+      keyMode = "vi";
+      mouse = true;
+      plugins = with pkgs; [ tmuxPlugins.cpu ];
+      prefix = "C-s";
+      terminal = "tmux-256color";
+      shell = "${pkgs.zsh}/bin/zsh";
 
-  programs.tmux = {
-    enable = true;
-    aggressiveResize = true;
-    baseIndex = 1;
-    disableConfirmationPrompt = true;
-    escapeTime = 250;
-    keyMode = "vi";
-    mouse = true;
-    plugins = with pkgs; [ tmuxPlugins.cpu ];
-    prefix = "C-s";
-    terminal = "tmux-256color";
+      extraConfig = ''
+        bind-key C command-prompt -p "Name of new window: " "new-window -n '%%'"
 
-    extraConfig = ''
-      bind-key C command-prompt -p "Name of new window: " "new-window -n '%%'"
+        # hjkl pane traversal
+        bind-key h select-pane -L
+        bind-key j select-pane -D
+        bind-key k select-pane -U
+        bind-key l select-pane -R
 
-      # hjkl pane traversal
-      bind-key h select-pane -L
-      bind-key j select-pane -D
-      bind-key k select-pane -U
-      bind-key l select-pane -R
+        # easy reload config
+        bind-key r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded."
 
-      # easy reload config
-      bind-key r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded."
+        # set window split
+        bind-key v split-window -h -c "#{pane_current_path}"
+        bind-key b split-window -v -c "#{pane_current_path}"
 
-      # set window split
-      bind-key v split-window -h -c "#{pane_current_path}"
-      bind-key b split-window -v -c "#{pane_current_path}"
+        # Styling
+        set-option -g status-position top
+        set -g mode-style "fg=black,bg=orange"
+        set-option -g pane-border-style fg=colour236
+        set-option -g pane-active-border-style fg=orange
+        set-window-option -g window-status-current-style fg=orange,bg=default,bright
+        set-window-option -g window-status-style fg=colour244,bg=default
+        set-window-option -g clock-mode-colour orange
+        set-option -g status-style "bg=default,fg=white"
+        set-option -g status-left ""
+        set-option -g status-right '[Session: #S] [CPU: #{cpu_fg_color}#{cpu_percentage}#[default]] [RAM: #{ram_fg_color}#{ram_percentage}#[default]] %d#[dim]/#[default]%m#[dim]/#[default]%Y %I:%M#[dim]%P#[default]'
+        set -g status-interval 1
+        set -g status-right-length 60
 
-      # Styling
-      set-option -g status-position top
-      set -g mode-style "fg=black,bg=orange"
-      set-option -g pane-border-style fg=colour236
-      set-option -g pane-active-border-style fg=orange
-      set-window-option -g window-status-current-style fg=orange,bg=default,bright
-      set-window-option -g window-status-style fg=colour244,bg=default
-      set-window-option -g clock-mode-colour orange
-      set-option -g status-style "bg=default,fg=white"
-      set-option -g status-left ""
-      set-option -g status-right '[Session: #S] [CPU: #{cpu_fg_color}#{cpu_percentage}#[default]] [RAM: #{ram_fg_color}#{ram_percentage}#[default]] %d#[dim]/#[default]%m#[dim]/#[default]%Y %I:%M#[dim]%P#[default]'
-      set -g status-interval 1
-      set -g status-right-length 60
-
-      set -g @cpu_high_fg_color "#[fg=#FF0000]"
-      set -g @ram_high_fg_color "#[fg=#FF0000]"
-      run-shell ${pkgs.tmuxPlugins.cpu}/share/tmux-plugins/cpu/cpu.tmux
-    '';
-  };
-
-  programs.git = {
-    enable = true;
-    userName = "TrudeEH";
-    userEmail = "ehtrude@gmail.com";
-    aliases = {
-      a = "add";
-      c = "commit";
-      ca = "commit --amend";
-      can = "commit --amend --no-edit";
-      cl = "clone";
-      cm = "commit -m";
-      co = "checkout";
-      cp = "cherry-pick";
-      cpx = "cherry-pick -x";
-      d = "diff";
-      f = "fetch";
-      fo = "fetch origin";
-      fu = "fetch upstream";
-      lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
-      lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
-      pl = "pull";
-      pr = "pull -r";
-      ps = "push";
-      psf = "push -f";
-      rb = "rebase";
-      rbi = "rebase -i";
-      r = "remote";
-      ra = "remote add";
-      rr = "remote rm";
-      rv = "remote -v";
-      rs = "remote show";
-      st = "status";
+        set -g @cpu_high_fg_color "#[fg=#FF0000]"
+        set -g @ram_high_fg_color "#[fg=#FF0000]"
+        run-shell ${pkgs.tmuxPlugins.cpu}/share/tmux-plugins/cpu/cpu.tmux
+      '';
     };
-    extraConfig = {
-      pull = {
-        rebase=true;
+
+    git = {
+      enable = true;
+      userName = "TrudeEH";
+      userEmail = "ehtrude@gmail.com";
+      aliases = {
+        a = "add";
+        c = "commit";
+        ca = "commit --amend";
+        can = "commit --amend --no-edit";
+        cl = "clone";
+        cm = "commit -m";
+        co = "checkout";
+        cp = "cherry-pick";
+        cpx = "cherry-pick -x";
+        d = "diff";
+        f = "fetch";
+        fo = "fetch origin";
+        fu = "fetch upstream";
+        lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
+        lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
+        pl = "pull";
+        pr = "pull -r";
+        ps = "push";
+        psf = "push -f";
+        rb = "rebase";
+        rbi = "rebase -i";
+        r = "remote";
+        ra = "remote add";
+        rr = "remote rm";
+        rv = "remote -v";
+        rs = "remote show";
+        st = "status";
+      };
+      extraConfig = {
+        pull = {
+          rebase=true;
+        };
       };
     };
-  };
 
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    shellAliases = {
-      l = "ls -alh";
-      ls = "ls --color=auto";
-      ll = "ls -lhi";
-      grep = "grep --color=auto";
-      ta = "tmux attach";
-      t = "tmux";
-      v = "nvim";
-      cpp = "rsync -ah --progress";
-      code = "codium --enable-features=UseOzonePlatform --ozone-platform=wayland";
-      neofetch = "fastfetch";
-      sudo = "sudo -i";
-      ns = "nix-shell";
+    starship = {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      settings = {
+        add_newline = true;
+      };
     };
-    initExtra = "set completion-ignore-case On";
-    bashrcExtra = ''
-      set -o vi
-      export EDITOR="nvim";
-      export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
 
-      if [[ -z $TMUX ]]; then
-        tmux attach
-        if [[ $? == 1 ]]; then
-          tmux new -s main
+    bash = {
+      enable = true;
+      enableCompletion = true;
+      shellAliases = {
+        l = "ls -alh";
+        ls = "ls --color=auto";
+        ll = "ls -lhi";
+        grep = "grep --color=auto";
+        ta = "tmux attach";
+        t = "tmux";
+        v = "nvim";
+        cpp = "rsync -ah --progress";
+        code = "codium --enable-features=UseOzonePlatform --ozone-platform=wayland";
+        neofetch = "fastfetch";
+        sudo = "sudo -i";
+        ns = "nix-shell";
+      };
+      initExtra = "set completion-ignore-case On";
+      bashrcExtra = ''
+        set -o vi
+        export EDITOR="nvim";
+        export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
+
+        if [[ -z $TMUX ]]; then
+          tmux attach
+          if [[ $? == 1 ]]; then
+            tmux new -s main
+          fi
         fi
-      fi
-    '';
-  };
+      '';
+    };
 
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscodium;
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
-    mutableExtensionsDir = false;
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
 
-    # Extensions
-    extensions = (with pkgs.vscode-extensions; [
-      ms-vscode-remote.remote-ssh
-      mhutchie.git-graph
-      pkief.material-icon-theme
-      oderwat.indent-rainbow
-      jnoortheen.nix-ide
-      ritwickdey.liveserver
-      github.vscode-pull-request-github
-      arrterian.nix-env-selector
-      piousdeer.adwaita-theme
-      llvm-vs-code-extensions.vscode-clangd
-      formulahendry.code-runner
-    ]);
+      shellAliases = {
+        l = "ls -alh";
+        ls = "ls --color=auto";
+        ll = "ls -lhi";
+        grep = "grep --color=auto";
+        ta = "tmux attach";
+        t = "tmux";
+        v = "nvim";
+        cpp = "rsync -ah --progress";
+        code = "codium --enable-features=UseOzonePlatform --ozone-platform=wayland";
+        neofetch = "fastfetch";
+        sudo = "sudo -i";
+        ns = "nix-shell";
+      };
 
-    # Settings
-    userSettings = {
-      # General
-      "editor.fontSize" = 14;
-      "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace', monospace";
-      "terminal.integrated.fontSize" = 12;
-      "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace', monospace";
-      "window.zoomLevel" = 0.1;
-      "editor.multiCursorModifier" = "ctrlCmd";
-      "workbench.startupEditor" = "none";
-      "explorer.compactFolders" = false;
-      "workbench.tree.indent" = 12;
-      # Whitespace
-      "files.trimTrailingWhitespace" = true;
-      "files.trimFinalNewlines" = true;
-      "files.insertFinalNewline" = true;
-      "diffEditor.ignoreTrimWhitespace" = false;
-      # Git
-      "git.enableCommitSigning" = false;
-      "git.enableSmartCommit" = true;
-      "git.confirmSync" = false;
-      "git.autofetch" = true;
-      # Styling
-      "window.autoDetectColorScheme" = true;
-      "workbench.colorTheme" = "Adwaita Dark";
-      "workbench.preferredDarkColorTheme" = "Adwaita Dark";
-      "workbench.preferredLightColorTheme" = "Adwaita Light";
-      "workbench.iconTheme" = "material-icon-theme";
-      "material-icon-theme.activeIconPack" = "none";
-      "material-icon-theme.folders.theme" = "classic";
-      "editor.fontLigatures" = true;
-      "window.commandCenter" = true;
-      "workbench.productIconTheme" = "adwaita";
-      "editor.renderLineHighlight" = "none";
-      # Other
-      "telemetry.telemetryLevel" = "off";
-      "update.showReleaseNotes" = false;
-      "window.titleBarStyle" = "custom";
-      "explorer.confirmDelete" = false;
+      initExtra = ''
+        # Case-insensitive completion
+        autoload -Uz compinit && compinit
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+        set -o vi
+        export EDITOR="nvim";
+
+        if [[ -z $TMUX ]]; then
+          tmux attach
+          if [[ $? == 1 ]]; then
+          tmux new -s main
+          fi
+        fi
+      '';
+    };
+
+    vscode = {
+      enable = true;
+      package = pkgs.vscodium;
+      enableUpdateCheck = false;
+      enableExtensionUpdateCheck = false;
+      mutableExtensionsDir = false;
+
+      # Extensions
+      extensions = (with pkgs.vscode-extensions; [
+        ms-vscode-remote.remote-ssh
+        mhutchie.git-graph
+        pkief.material-icon-theme
+        oderwat.indent-rainbow
+        jnoortheen.nix-ide
+        ritwickdey.liveserver
+        github.vscode-pull-request-github
+        arrterian.nix-env-selector
+        piousdeer.adwaita-theme
+        llvm-vs-code-extensions.vscode-clangd
+        formulahendry.code-runner
+      ]);
+
+      # Settings
+      userSettings = {
+        # General
+        "editor.fontSize" = 14;
+        "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace', monospace";
+        "terminal.integrated.fontSize" = 12;
+        "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font', 'monospace', monospace";
+        "window.zoomLevel" = 0.1;
+        "editor.multiCursorModifier" = "ctrlCmd";
+        "workbench.startupEditor" = "none";
+        "explorer.compactFolders" = false;
+        "workbench.tree.indent" = 12;
+        # Whitespace
+        "files.trimTrailingWhitespace" = true;
+        "files.trimFinalNewlines" = true;
+        "files.insertFinalNewline" = true;
+        "diffEditor.ignoreTrimWhitespace" = false;
+        # Git
+        "git.enableCommitSigning" = false;
+        "git.enableSmartCommit" = true;
+        "git.confirmSync" = false;
+        "git.autofetch" = true;
+        # Styling
+        "window.autoDetectColorScheme" = true;
+        "workbench.colorTheme" = "Adwaita Dark";
+        "workbench.preferredDarkColorTheme" = "Adwaita Dark";
+        "workbench.preferredLightColorTheme" = "Adwaita Light";
+        "workbench.iconTheme" = "material-icon-theme";
+        "material-icon-theme.activeIconPack" = "none";
+        "material-icon-theme.folders.theme" = "classic";
+        "editor.fontLigatures" = true;
+        "window.commandCenter" = true;
+        "workbench.productIconTheme" = "adwaita";
+        "editor.renderLineHighlight" = "none";
+        # Other
+        "telemetry.telemetryLevel" = "off";
+        "update.showReleaseNotes" = false;
+        "window.titleBarStyle" = "custom";
+        "explorer.confirmDelete" = false;
+      };
     };
   };
 }
