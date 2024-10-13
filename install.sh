@@ -50,7 +50,14 @@ case $main_menu in
       mkdir -p ~/.config/nix-darwin/
       cp -rf ./nix/macOS/* ~/.config/nix-darwin/
       cp -f ./nix/home.nix ~/.config/nix-darwin/
-      nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-darwin#default
+
+      if [[ $(uname -m) == "x86_64" ]]; then
+         echo "Intel mac detected."
+         nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-darwin#x86
+      else
+         echo "Apple silicon detected."
+         nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-darwin#default
+      fi
       ;;
    *)
       echo "Invalid option selected."
