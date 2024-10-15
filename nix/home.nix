@@ -16,12 +16,11 @@ in
   home.stateVersion = "24.05";
 
   nixpkgs.config.allowUnfree = true;
+
   home.packages = with pkgs; [
     google-chrome
-    gh
-    unzip
-    fastfetch
-    prismlauncher
+    gh unzip fastfetch
+    prismlauncher steam
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -78,10 +77,12 @@ in
   # macOS-only apps
   ++ optionals isDarwin [];
 
-  # Cursor theme fix (Linux)
-  home.file = mkIf isLinux {
+  home.file = {
+    ".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
+  } // (if isLinux then {
+    # Cursor theme fix (Linux)
     ".icons/default".source = "${pkgs.bibata-cursors}/share/icons/Bibata-Modern-Classic"; # Set file content as another file
-  };
+  } else {});
 
   home.sessionVariables = {
     EDITOR = "nvim";
