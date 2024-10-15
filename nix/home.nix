@@ -74,7 +74,7 @@ in
     '')
   ]
   # Linux-only apps
-  ++ optionals isLinux [eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.search-light]
+  ++ optionals isLinux [newsflash eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.search-light]
   # macOS-only apps
   ++ optionals isDarwin [];
 
