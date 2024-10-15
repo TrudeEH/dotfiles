@@ -20,7 +20,7 @@ in
   home.packages = with pkgs; [
     google-chrome
     gh unzip fastfetch
-    prismlauncher steam
+    prismlauncher
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })

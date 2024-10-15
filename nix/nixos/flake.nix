@@ -34,6 +34,7 @@
         };
       };
       programs.zsh.enable = true;
+      programs.steam.enable = true; #Home-manager steam installation crashes...
 
       home-manager = {
         extraSpecialArgs = {inherit inputs;};
