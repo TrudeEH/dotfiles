@@ -747,6 +747,7 @@ in
         "window.titleBarStyle" = "custom";
         "explorer.confirmDelete" = false;
         "explorer.confirmDragAndDrop" = false;
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
     };
   };
