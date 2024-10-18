@@ -693,6 +693,7 @@ in
 
       # Extensions
       extensions = (with pkgs.vscode-extensions; [
+        esbenp.prettier-vscode
         ms-vscode-remote.remote-ssh
         mhutchie.git-graph
         pkief.material-icon-theme
