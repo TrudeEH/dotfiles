@@ -35,6 +35,7 @@
       };
       programs.zsh.enable = true;
       programs.steam.enable = true; #Home-manager steam installation crashes...
+      programs.nix-ld.enable = true;
 
       home-manager = {
         extraSpecialArgs = {inherit inputs;};
