@@ -31,6 +31,8 @@ case $main_menu in
       # Install Home-manager
       nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
       nix-channel --update
+      mkdir -p $HOME/.pre-nix-backup/
+      mv $HOME/.bashrc $HOME/.profile $HOME/.pre-nix-backup/
       nix-shell '<home-manager>' -A install
 
       # Apply config
@@ -38,7 +40,7 @@ case $main_menu in
       rm $HOME/.config/home-manager/home.nix
       cp ./nix/home.nix $HOME/.config/home-manager/home.nix
 
-      home-manager -b backup switch
+      home-manager switch -b backup
       ;;
    2)
       sudo cp -rf ./nix/nixos/* /etc/nixos/

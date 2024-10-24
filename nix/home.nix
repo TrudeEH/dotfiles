@@ -5,6 +5,7 @@ let
   inherit (lib) mkIf optionals;
   inherit (pkgs.stdenv) isLinux isDarwin; #GNOME on Linux
   userName = "trude";
+  isDesktop = false; # Disable for servers and WSL
 in
 {
   # =======================================================================
@@ -18,9 +19,7 @@ in
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-    google-chrome
     gh unzip fastfetch
-    prismlauncher
 
     # Override nerdfont to install JetBrains only.
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -72,8 +71,10 @@ in
       fi
     '')
   ]
+  # Desktop-only apps
+  ++ optionals isDesktop [google-chrome prismlauncher]
   # Linux-only apps
-  ++ optionals isLinux [newsflash eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.search-light]
+  ++ optionals (isDesktop && isLinux) [newsflash eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.search-light]
   # macOS-only apps
   ++ optionals isDarwin [];
 
@@ -85,7 +86,7 @@ in
   } else {});
 
   home.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "code";
   };
 
   # =====================================================
@@ -641,7 +642,7 @@ in
       initExtra = "set completion-ignore-case On";
       bashrcExtra = ''
         set -o vi
-        export EDITOR="nvim";
+        export EDITOR="code";
         export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ ";
       '';
     };
