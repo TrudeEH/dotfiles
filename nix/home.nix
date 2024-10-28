@@ -76,7 +76,7 @@ in
   # Linux-only apps
   ++ optionals (isDesktop && isLinux) [newsflash eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.search-light]
   # macOS-only apps
-  ++ optionals isDarwin [];
+  ++ optionals (isDesktop && isDarwin) [net-news-wire stats raycast iina];
 
   home.file = {
     ".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";

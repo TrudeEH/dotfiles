@@ -132,7 +132,7 @@
           ShowDayOfMonth = true;
         };
 
-        screencapture.disable-shadow = true;
+        screencapture.disable-shadow = false;
         screensaver.askForPassword = true;
 
         trackpad.Clicking = true; #Tap to click
