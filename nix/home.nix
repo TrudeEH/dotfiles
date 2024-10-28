@@ -5,7 +5,7 @@ let
   inherit (lib) mkIf optionals;
   inherit (pkgs.stdenv) isLinux isDarwin; #GNOME on Linux
   userName = "trude";
-  isDesktop = false; # Disable for servers and WSL
+  isDesktop = true; # Disable for servers and WSL
 in
 {
   # =======================================================================
@@ -72,11 +72,11 @@ in
     '')
   ]
   # Desktop-only apps
-  ++ optionals isDesktop [google-chrome prismlauncher]
+  ++ optionals isDesktop [google-chrome]
   # Linux-only apps
   ++ optionals (isDesktop && isLinux) [newsflash eyedropper gnome-terminal epiphany gnome-podcasts impression gnome-boxes adw-gtk3 gnomeExtensions.vitals gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.search-light]
   # macOS-only apps
-  ++ optionals (isDesktop && isDarwin) [net-news-wire stats raycast iina];
+  ++ optionals (isDesktop && isDarwin) [net-news-wire raycast iina discord];
 
   home.file = {
     ".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
@@ -674,13 +674,6 @@ in
 
         set -o vi
         export EDITOR="nvim";
-
-        if [[ -z $TMUX ]]; then
-          tmux attach
-          if [[ $? == 1 ]]; then
-            tmux new -s main
-          fi
-        fi
       '';
     };
 
@@ -702,7 +695,6 @@ in
         ritwickdey.liveserver
         github.vscode-pull-request-github
         arrterian.nix-env-selector
-        piousdeer.adwaita-theme
         llvm-vs-code-extensions.vscode-clangd
         formulahendry.code-runner
       ]);
@@ -731,15 +723,11 @@ in
         "git.autofetch" = true;
         # Styling
         "window.autoDetectColorScheme" = true;
-        "workbench.colorTheme" = "Adwaita Dark";
-        "workbench.preferredDarkColorTheme" = "Adwaita Dark";
-        "workbench.preferredLightColorTheme" = "Adwaita Light";
         "workbench.iconTheme" = "material-icon-theme";
         "material-icon-theme.activeIconPack" = "none";
         "material-icon-theme.folders.theme" = "classic";
         "editor.fontLigatures" = true;
         "window.commandCenter" = true;
-        "workbench.productIconTheme" = "adwaita";
         "editor.renderLineHighlight" = "none";
         # Other
         "telemetry.telemetryLevel" = "off";

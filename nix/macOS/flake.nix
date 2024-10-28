@@ -59,12 +59,6 @@
           SortDirection = 0;
         };
 
-        CustomUserPreferences = {
-          "com.apple.Safari" = {
-            "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
-          };
-        };
-
         NSGlobalDomain = {
           AppleICUForce24HourTime = false;
           AppleInterfaceStyle = "Dark";
