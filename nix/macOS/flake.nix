@@ -92,17 +92,15 @@
           minimize-to-application = true; #Minimize windows into their application icon
 
           persistent-apps = [ #Dock apps
-            "/Applications/Safari.app"
-            "/System/Applications/Utilities/Terminal.app"
           ];
 
           persistent-others = [ #Dock folders
-            "~/Downloads"
+            "/Users/trude/Downloads"
           ];
 
-          show-recents = false; #Dock show ecent apps
+          show-recents = false; #Dock show recent apps
           showhidden = true;
-          static-only = true; #Show only open apps in dock
+          static-only = false; #Show only open apps in dock
           tilesize = 32; #Dock icon size
         };
 
