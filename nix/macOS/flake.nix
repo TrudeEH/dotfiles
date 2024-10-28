@@ -101,7 +101,7 @@
           show-recents = false; #Dock show recent apps
           showhidden = true;
           static-only = false; #Show only open apps in dock
-          tilesize = 32; #Dock icon size
+          tilesize = 48; #Dock icon size
         };
 
 
