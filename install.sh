@@ -12,6 +12,7 @@ if ! nix --version &>/dev/null; then
    echo "[E] Nix not found."
    echo "[+] Installing the Nix package manager..."
    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
    echo "[I] Installed Nix."
 fi
 
