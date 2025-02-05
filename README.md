@@ -6,6 +6,7 @@
 
 | Repository | Description |
 |----------------------------|-------------------------|
+| main (current) | Simple Dotfiles Base |
 | [nix-gnome-and-osx](https://github.com/TrudeEH/dotfiles/tree/nix-gnome-and-osx) | Nix dotfiles for macOS, NixOS and any other Linux distro using GNOME |
 | [debian-dwm](https://github.com/TrudeEH/dotfiles/tree/debian-dwm) | Dwm (X11) setup for Debian |
 | [freebsd-dwm](https://github.com/TrudeEH/dotfiles/tree/freebsd-dwm) | Dwm (X11) setup for FreeBSD |
