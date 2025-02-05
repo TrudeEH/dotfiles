@@ -5,12 +5,16 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-echo
+echo -e "${CYAN}"
 echo "####################"
-echo "# Trude's Dotfiles #"
+echo -n "#"
+echo -e "${PURPLE} Trude's Dotfiles${CYAN} #"
 echo "####################"
+echo -e "${CYAN}Running on: ${PURPLE}$OSTYPE${NC}"
 echo
 
 echo -e "${YELLOW}[+] Updating distro...${NC}"
@@ -53,10 +57,12 @@ else
 fi
 
 # Load Dconf (GNOME settings)
-echo -e "${YELLOW}[+] Loading Dconf settings...${NC}"
-dconf load / <$HOME/dotfiles/dconf-settings.ini
-if [ $? -ne 0 ]; then
-   echo -e "${RED}[E] Error loading Dconf settings.${NC}"
-else
-   echo -e "${GREEN}[I] Dconf settings loaded successfully.${NC}"
+if [[ "$OSTYPE" != "darwin"* ]]; then
+   echo -e "${YELLOW}[+] Loading Dconf settings...${NC}"
+   dconf load / <$HOME/dotfiles/dconf-settings.ini
+   if [ $? -ne 0 ]; then
+      echo -e "${RED}[E] Error loading Dconf settings.${NC}"
+   else
+      echo -e "${GREEN}[I] Dconf settings loaded successfully.${NC}"
+   fi
 fi
