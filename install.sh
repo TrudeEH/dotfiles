@@ -1,68 +1,62 @@
 #!/bin/bash
 
-# Dependencies
-export NIXPKGS_ALLOW_UNFREE=1
-if [ $(pwd) != "$HOME/dotfiles" ]; then
-   cd $HOME
-   git clone https://github.com/TrudeEH/dotfiles --depth 1
-   cd dotfiles
-fi
-
-if ! nix --version &>/dev/null; then
-   echo "[E] Nix not found."
-   echo "[+] Installing the Nix package manager..."
-   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-   echo "[I] Installed Nix."
-fi
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
 
 echo
 echo "####################"
 echo "# Trude's Dotfiles #"
 echo "####################"
 echo
-echo "1) Set up Generic System"
-echo "2) Set up NixOS"
-echo "3) Set up macOS"
-echo
-read -p "> " main_menu
 
-case $main_menu in
-   1)
-      # Install Home-manager
-      nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-      nix-channel --update
-      mkdir -p $HOME/.pre-nix-backup/
-      mv $HOME/.bashrc $HOME/.profile $HOME/.pre-nix-backup/
-      nix-shell '<home-manager>' -A install
+echo -e "${YELLOW}[+] Updating distro...${NC}"
+sudo apt update
 
-      # Apply config
-      mkdir -p $HOME/.config/home-manager
-      rm $HOME/.config/home-manager/home.nix
-      cp ./nix/home.nix $HOME/.config/home-manager/home.nix
+# Check if git is installed
+if ! git --version &>/dev/null; then
+   echo -e "${YELLOW}[+] Installing GIT...${NC}"
+   sudo apt install -y git
+   if [ $? -ne 0 ]; then
+      echo -e "${RED}[E] Error installing GIT. Exiting...${NC}"
+      exit 1
+   fi
+else
+   echo -e "${GREEN}[I] GIT is already installed.${NC}"
+fi
 
-      home-manager switch -b backup
-      ;;
-   2)
-      sudo cp -rf ./nix/nixos/* /etc/nixos/
-      sudo cp -f ./nix/home.nix /etc/nixos/
-      sudo nixos-rebuild switch --flake /etc/nixos#default
-      ;;
-   3)
-      mkdir -p ~/.config/nix-darwin/
-      cp -rf ./nix/macOS/* ~/.config/nix-darwin/
-      cp -f ./nix/home.nix ~/.config/nix-darwin/
+# Clone Dotfiles if not already present
+cd $HOME/dotfiles
+if [ $(pwd) != "$HOME/dotfiles" ]; then
+   echo -e "${YELLOW}[+] Cloning Dotfiles repository...${NC}"
+   git clone https://github.com/TrudeEH/dotfiles --depth 1
+   if [ $? -ne 0 ]; then
+      echo -e "${RED}[E] Error cloning Dotfiles repository. Exiting...${NC}"
+      exit 2
+   fi
+   cd dotfiles
+   echo -e "${GREEN}[I] Dotfiles repository cloned successfully.${NC}"
+else
+   echo -e "${GREEN}[I] Dotfiles repository already present.${NC}"
+fi
 
-      if [[ $(uname -m) == "x86_64" ]]; then
-         echo "Intel mac detected."
-         nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-darwin#x86
-      else
-         echo "Apple silicon detected."
-         nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-darwin#default
-      fi
-      ;;
-   *)
-      echo "Invalid option selected."
-      return 1
-      ;;
-esac
+# Copy files
+echo -e "${YELLOW}[+] Installing Dotfiles...${NC}"
+cp -r $HOME/dotfiles/home/. $HOME
+if [ $? -ne 0 ]; then
+   echo -e "${RED}[E] Error copying Dotfiles.${NC}"
+else
+   echo -e "${GREEN}[I] Dotfiles installed successfully.${NC}"
+fi
+
+# Load Dconf (GNOME settings)
+echo -e "${YELLOW}[+] Loading Dconf settings...${NC}"
+dconf load / <$HOME/dotfiles/dconf-settings.ini
+if [ $? -ne 0 ]; then
+   echo -e "${RED}[E] Error loading Dconf settings.${NC}"
+else
+   echo -e "${GREEN}[I] Dconf settings loaded successfully.${NC}"
+fi
