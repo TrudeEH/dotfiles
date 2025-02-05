@@ -1,0 +1,1 @@
+Filter out any property that has a space above it as is not a header. headers start with '['
