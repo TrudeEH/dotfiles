@@ -19,3 +19,8 @@ I highly recommend anyone interested to fork the repository and modify any confi
 These repository can be used as a base for your own dotfiles.
 
 The 'main' branch serves as a place for active development, and becomes a new branch once I deem it stable enough. I am actively maitaining these repositories, so if you find a bug, file a PR or open an issue, I will review and work on it.
+
+To install the configuration on the 'main' repository, run:
+```sh
+bash <(curl -s https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/main/install.sh)
+```
