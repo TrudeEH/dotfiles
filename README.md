@@ -5,7 +5,7 @@
 ## Install
 ### Arch Linux
 ```sh
-bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
+bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/arch-sway/install.sh)
 ```
 ### MacOS / Other Distros
 - Replace `paru` with the correct package manager for your distro.
