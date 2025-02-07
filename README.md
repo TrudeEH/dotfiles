@@ -21,5 +21,5 @@ This repository can be used as a base for your own dotfiles.
 2. Run the install script:
 
 ```sh
-bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/main/install.sh)
+bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/nix-gnome-and-osx/install.sh)
 ```
