@@ -8,7 +8,7 @@ If you would like to use this repository, I recommend forking it and editing hom
 
 ## Install
 ```sh
-bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/main/install.sh)
+bash <(curl -L https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/arch-dwm-x11/install.sh)
 ```
 
 ## Custom commands
