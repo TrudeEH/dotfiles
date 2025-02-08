@@ -17,8 +17,33 @@ echo "####################"
 echo -e "${CYAN}Running on: ${PURPLE}$OSTYPE${NC}"
 echo
 
-echo -e "${YELLOW}[+] Updating distro...${NC}"
-sudo apt update
+# Update repositories
+if [[ "$OSTYPE" == "darwin"* ]]; then
+   if command -v brew >/dev/null 2>&1; then
+      echo -e "${YELLOW}[+] Updating Homebrew repositories...${NC}"
+      brew update
+   else
+      echo -e "${YELLOW}[i] Brew is not installed. Skipping update on macOS.${NC}"
+   fi
+else
+   if [ -f /etc/os-release ]; then
+      . /etc/os-release
+      if [[ "$ID_LIKE" == *debian* || "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
+         echo -e "${YELLOW}[+] Updating APT repositories...${NC}"
+         sudo apt update
+      elif [[ "$ID" == "fedora" ]]; then
+         echo -e "${YELLOW}[+] Updating DNF repositories...${NC}"
+         sudo dnf check-update
+      elif [[ "$ID" == "arch" ]]; then
+         echo -e "${YELLOW}[+] Updating PACMAN repositories...${NC}"
+         sudo pacman -Sy
+      else
+         echo -e "${RED}[E] Distribution not recognized for repository update.${NC}"
+      fi
+   else
+      echo -e "${RED}[E] /etc/os-release not found. Skipping repository update.${NC}"
+   fi
+fi
 
 # Check if git is installed
 if ! git --version &>/dev/null; then
