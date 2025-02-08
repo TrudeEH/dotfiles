@@ -33,7 +33,7 @@ else
          sudo apt update
       elif [[ "$ID" == "fedora" ]]; then
          echo -e "${YELLOW}[+] Updating DNF repositories...${NC}"
-         sudo dnf check-update
+         sudo dnf update
       elif [[ "$ID" == "arch" ]]; then
          echo -e "${YELLOW}[+] Updating PACMAN repositories...${NC}"
          sudo pacman -Sy
