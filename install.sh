@@ -17,59 +17,72 @@ echo "####################"
 echo -e "${CYAN}Running on: ${PURPLE}$OSTYPE${NC}"
 echo
 
-# Update repositories
+# Detect package managers and update repositories
 if [[ "$OSTYPE" == "darwin"* ]]; then
-   if command -v brew >/dev/null 2>&1; then
-      echo -e "${YELLOW}[+] Updating Homebrew repositories...${NC}"
-      brew update
-   else
-      echo -e "${YELLOW}[i] Brew is not installed. Skipping update on macOS.${NC}"
+   if ! command -v brew >/dev/null 2>&1; then
+      echo -e "${YELLOW}[+] Installing Homebrew...${NC}"
+      chsh -s /bin/bash # Switch to bash (optional)
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    fi
+   pkg_manager="brew"
+   echo -e "${YELLOW}[+] Updating Homebrew repositories...${NC}"
+   brew update
+elif command -v apt >/dev/null 2>&1; then
+   pkg_manager="apt"
+   echo -e "${YELLOW}[+] Updating APT repositories...${NC}"
+   sudo apt update
+elif command -v dnf >/dev/null 2>&1; then
+   pkg_manager="dnf"
+   echo -e "${YELLOW}[+] Updating DNF repositories...${NC}"
+   sudo dnf update
+elif command -v pacman >/dev/null 2>&1; then
+   pkg_manager="pacman"
+   echo -e "${YELLOW}[+] Updating PACMAN repositories...${NC}"
+   sudo pacman -Sy
 else
-   if [ -f /etc/os-release ]; then
-      . /etc/os-release
-      if [[ "$ID_LIKE" == *debian* || "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
-         echo -e "${YELLOW}[+] Updating APT repositories...${NC}"
-         sudo apt update
-      elif [[ "$ID" == "fedora" ]]; then
-         echo -e "${YELLOW}[+] Updating DNF repositories...${NC}"
-         sudo dnf update
-      elif [[ "$ID" == "arch" ]]; then
-         echo -e "${YELLOW}[+] Updating PACMAN repositories...${NC}"
-         sudo pacman -Sy
-      else
-         echo -e "${RED}[E] Distribution not recognized for repository update.${NC}"
-      fi
-   else
-      echo -e "${RED}[E] /etc/os-release not found. Skipping repository update.${NC}"
-   fi
+   echo -e "${RED}[E] No supported package manager found. Exiting...${NC}"
+   exit 1
 fi
 
-# Check if git is installed
-if ! git --version &>/dev/null; then
-   echo -e "${YELLOW}[+] Installing GIT...${NC}"
-   sudo apt install -y git
+# Install Programs
+programs=(neovim curl git bat)
+
+for prog in "${programs[@]}"; do
+   echo -e "${YELLOW}[+] Installing ${prog}...${NC}"
+   case $pkg_manager in
+   brew)
+      brew install "$prog"
+      ;;
+   apt)
+      sudo apt install -y "$prog"
+      ;;
+   dnf)
+      sudo dnf install -y "$prog"
+      ;;
+   pacman)
+      sudo pacman -S --noconfirm "$prog"
+      ;;
+   esac
    if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error installing GIT. Exiting...${NC}"
-      exit 1
+      echo -e "${RED}[E] Error installing ${prog}.${NC}"
+   else
+      echo -e "${GREEN}[I] ${prog} installed successfully.${NC}"
    fi
-else
-   echo -e "${GREEN}[I] GIT is already installed.${NC}"
-fi
+done
 
 # Clone Dotfiles if not already present
 cd $HOME/dotfiles
 if [ $(pwd) != "$HOME/dotfiles" ]; then
-   echo -e "${YELLOW}[+] Cloning Dotfiles repository...${NC}"
+   echo -e "${YELLOW}[+] Cloning dotfiles repository...${NC}"
    git clone https://github.com/TrudeEH/dotfiles --depth 1
    if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error cloning Dotfiles repository. Exiting...${NC}"
+      echo -e "${RED}[E] Error cloning dotfiles repository. Exiting...${NC}"
       exit 2
    fi
    cd dotfiles
-   echo -e "${GREEN}[I] Dotfiles repository cloned successfully.${NC}"
+   echo -e "${GREEN}[I] dotfiles repository cloned successfully.${NC}"
 else
-   echo -e "${GREEN}[I] Dotfiles repository already present.${NC}"
+   echo -e "${GREEN}[I] dotfiles repository already present.${NC}"
 fi
 
 # Copy files
@@ -79,6 +92,26 @@ if [ $? -ne 0 ]; then
    echo -e "${RED}[E] Error copying Dotfiles.${NC}"
 else
    echo -e "${GREEN}[I] Dotfiles installed successfully.${NC}"
+fi
+
+# Install fonts
+echo -e "${YELLOW}[+] Installing fonts...${NC}"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+   cp -rf $HOME/dotfiles/fonts/* $HOME/Library/Fonts/
+   if [ $? -ne 0 ]; then
+      echo -e "${RED}[E] Error installing fonts.${NC}"
+   else
+      echo -e "${GREEN}[I] Fonts installed successfully.${NC}"
+   fi
+else
+   mkdir -p $HOME/.local/share/fonts
+   cp -rf $HOME/dotfiles/fonts/* $HOME/.local/share/fonts/
+   if [ $? -ne 0 ]; then
+      echo -e "${RED}[E] Error installing fonts.${NC}"
+   else
+      fc-cache -fv $HOME/.local/share/fonts
+      echo -e "${GREEN}[I] Fonts installed successfully.${NC}"
+   fi
 fi
 
 # Load Dconf (GNOME settings)
