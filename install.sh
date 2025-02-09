@@ -1,5 +1,30 @@
 #!/bin/bash
 
+# Parse flags
+help_message="Usage: $0 [--desktop|-d | --terminal|-t]"
+if [ $# -eq 0 ]; then
+   echo "$help_message"
+   exit 1
+fi
+
+while [[ $# -gt 0 ]]; do
+   case "$1" in
+   --desktop | -d)
+      desktop=true
+      shift
+      ;;
+   --terminal | -t)
+      desktop=false
+      shift
+      ;;
+   *)
+      echo "Unknown option: $1"
+      echo "$help_message"
+      exit 1
+      ;;
+   esac
+done
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -45,7 +70,14 @@ else
 fi
 
 # Install Programs
-programs=(neovim curl git bat)
+programs=(neovim curl git bat tmux bmon)
+
+if $desktop; then
+   programs+=(
+      rtv # Reddit Terminal Viewer
+
+   )
+fi
 
 for prog in "${programs[@]}"; do
    echo -e "${YELLOW}[+] Installing ${prog}...${NC}"
@@ -115,12 +147,14 @@ else
 fi
 
 # Load Dconf (GNOME settings)
-if [[ "$OSTYPE" != "darwin"* ]]; then
-   echo -e "${YELLOW}[+] Loading Dconf settings...${NC}"
-   dconf load / <$HOME/dotfiles/dconf-settings.ini
-   if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error loading Dconf settings.${NC}"
-   else
-      echo -e "${GREEN}[I] Dconf settings loaded successfully.${NC}"
+if $desktop; then
+   if [[ "$OSTYPE" != "darwin"* ]]; then
+      echo -e "${YELLOW}[+] Loading Dconf settings...${NC}"
+      dconf load / <$HOME/dotfiles/dconf-settings.ini
+      if [ $? -ne 0 ]; then
+         echo -e "${RED}[E] Error loading Dconf settings.${NC}"
+      else
+         echo -e "${GREEN}[I] Dconf settings loaded successfully.${NC}"
+      fi
    fi
 fi
