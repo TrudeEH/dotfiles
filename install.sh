@@ -70,12 +70,15 @@ else
 fi
 
 # Install Programs
-programs=(neovim curl git bat tmux bmon)
+programs=(neovim curl git bat tmux bmon fzf)
 
 if $desktop; then
    programs+=(
-      rtv # Reddit Terminal Viewer
-
+      tldr        # Simplified man pages
+      weechat     # IRC client
+      w3m         # Text-based web browser
+      nnn         # File manager
+      taskwarrior # Task manager
    )
 fi
 
