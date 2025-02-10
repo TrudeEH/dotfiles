@@ -70,7 +70,7 @@ else
 fi
 
 # Install Programs
-programs=(neovim curl git bat tmux bmon fzf)
+programs=(neovim curl git bat tmux bmon fzf gcc make)
 
 if $desktop; then
    programs+=(
