@@ -81,6 +81,7 @@ if $desktop; then
       taskwarrior # Task manager
       mutt        # Email client
       pass-otp    # Password manager
+      zbar-tools  # QR code reader
    )
 fi
 
