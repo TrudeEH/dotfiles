@@ -41,7 +41,6 @@ alias ll='ls -lhi'
 alias ta='tmux attach'
 alias t='tmux'
 alias v='nvim'
-alias cat="bat"
 alias t="tmux"
 alias ta="tmux attach"
 
