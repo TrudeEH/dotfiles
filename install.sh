@@ -70,7 +70,7 @@ else
 fi
 
 # Install Programs
-programs=(neovim curl git bat tmux bmon fzf gcc make)
+programs=(neovim curl git bat tmux bmon fzf gcc make gpg)
 
 if $desktop; then
    programs+=(
@@ -79,6 +79,8 @@ if $desktop; then
       w3m         # Text-based web browser
       nnn         # File manager
       taskwarrior # Task manager
+      mutt        # Email client
+      pass-otp    # Password manager
    )
 fi
 
