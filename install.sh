@@ -79,9 +79,9 @@ if $desktop; then
       w3m         # Text-based web browser
       nnn         # File manager
       taskwarrior # Task manager
-      mutt        # Email client
-      pass-otp    # Password manager
-      zbar-tools  # QR code reader
+      #mutt        # Email client
+      pass-otp   # Password manager
+      zbar-tools # QR code reader
    )
 fi
 
