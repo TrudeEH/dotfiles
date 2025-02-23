@@ -107,7 +107,7 @@ if $hyprland; then
       hyprpaper                   # Wallpaper manager
       hyprpicker                  # Color picker
       hyprpolkitagent             # Auth pop-up for sudo access
-      network-manager-applet      # Network manager applet
+      network-manager             # Network manager
       pipewire                    # Audio server
       udiskie                     # Automount USB drives
       waybar                      # Status bar

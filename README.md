@@ -24,3 +24,5 @@ To install the configuration on the 'main' repository, run:
 ```sh
 bash <(curl -s https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/main/install.sh)
 ```
+
+To configure wifi, use `nmtui`.
