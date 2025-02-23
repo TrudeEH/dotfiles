@@ -1,24 +1,14 @@
 #! /bin/bash
 sudo timedatectl set-timezone Europe/Lisbon
 
-# Install Paru
-if [ ! $(command -v paru) ]; then
-    sudo pacman -S --needed base-devel
-    git clone https://aur.archlinux.org/paru.git
-    cd paru
-    makepkg -si
-    cd ..
-    rm -rf paru
-fi
-
 # Install script dependencies
-paru -Sy curl git bat fzf less
+pacman -Sy curl git bat fzf less
 
 # Install DE
-paru -Sy mpd ncmpcpp dunst xdg-desktop-portal-wlr xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard xorg-xwayland polkit-gnome
+pacman -Sy mpd ncmpcpp dunst xdg-desktop-portal-wlr xdg-desktop-portal sway swaybg swaylock waybar wofi foot grim slurp wl-clipboard xorg-xwayland polkit-gnome
 
 # Install CLI Apps
-paru -Sy gdu tmux neovim
+pacman -Sy gdu tmux neovim
 
 if [ $(pwd) != "$HOME/dotfiles" ]; then
     cd $HOME
