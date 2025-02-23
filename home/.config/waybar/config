@@ -20,7 +20,7 @@
     "hyprland/workspaces": {
         "format": "{icon}",
         "format-icons": {
-            "focused": "",
+            "active": "",
             "default": ""
         },
         "on-scroll-up": "hyprctl dispatch workspace e+1",
