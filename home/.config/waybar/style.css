@@ -1,0 +1,308 @@
+@define-color base #282828;
+@define-color foreground #ebdbb2;
+@define-color cyan #83a598;
+@define-color green #8ec07c;
+@define-color orange #fe8019;
+@define-color pink #d3869b;
+@define-color purple #b16286;
+@define-color red #fb4934;
+@define-color yellow #fabd2f;
+
+* {
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: "JetBrainsMono Nerd Font", "Material Design Icons";
+  font-size: 14px;
+  color: @foreground;
+}
+
+#window {
+  color: @pink;
+  background: @base;
+  transition-property: background-color;
+  border-radius: 100px;
+  padding: 0 10px;
+}
+
+#waybar.empty #window {
+  background: none;
+}
+
+window#waybar {
+  background-color: transparent;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+
+
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+
+button {
+  margin-right: 5px;
+  /* Avoid rounded borders under each button name */
+  border: none;
+  border-radius: 0;
+  background: @base;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+button:hover {
+  color: @pink;
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+#workspaces {
+  border-radius: 100px;
+  background: @base;
+  padding: 0 15px;
+}
+
+#workspaces button {
+  border: none;
+  background-color: @base;
+  color: @foreground;
+  transition: 0.2s;
+  padding-left: 0;
+  padding-right: 4px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+#workspaces button:hover {
+  color: @orange;
+  background: @base;
+  transition: 0.2s;
+}
+
+#workspaces button.focused {
+  background: @base;
+}
+
+#workspaces button.urgent {
+  color: @red;
+}
+
+#mode {
+  background: @base;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd,
+#language,
+#keyboard-state,
+#custom-power {
+  padding-left: 15px;
+  padding-right: 18px;
+  background-color: @base;
+  border-radius: 100px;
+}
+
+#window,
+#workspaces {
+  margin: 0 5px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+  margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+  margin-right: 0;
+}
+
+#clock {
+  color: @orange;
+}
+
+#temperature {
+  color: @orange;
+}
+
+#battery {
+  color: @purple;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @orange;
+}
+
+@keyframes blink {
+  to {
+    background-color: @base;
+    color: #000000;
+  }
+}
+
+#battery.critical:not(.charging) {
+  background-color: @red;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+label:focus {
+  color: @foreground;
+}
+
+#cpu {
+  color: @purple;
+}
+
+#memory {
+  color: @purple;
+}
+
+#disk {
+  color: @purple;
+}
+
+#backlight {
+  color: @yellow;
+}
+
+#network {
+  color: @pink;
+}
+
+#network.disconnected {
+  color: @red;
+}
+
+#pulseaudio {
+  color: @cyan;
+}
+
+#pulseaudio.muted {
+  color: @red;
+}
+
+#wireplumber {
+  color: @cyan;
+}
+
+#wireplumber.muted {
+  color: @red;
+}
+
+#custom-media {
+  color: @purple;
+  min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+  color: @purple;
+}
+
+#custom-media.custom-vlc {
+  color: @purple;
+}
+
+#temperature {
+  color: @purple;
+}
+
+#temperature.critical {
+  color: @base;
+  background: @red;
+  box-shadow: inset 0px 0px 0px 3px @base;
+}
+
+#tray {
+  color: @foreground;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: @base;
+}
+
+#tray * {
+  background: @base;
+}
+
+#idle_inhibitor {
+  color: @yellow;
+}
+
+#idle_inhibitor.activated {
+  background-color: @red;
+  box-shadow: inset 0px 0px 0px 3px @base;
+  color: @base;
+}
+
+#mpd {
+  color: @purple;
+}
+
+#mpd.disconnected {
+  background-color: @red;
+  color: @base;
+  box-shadow: inset 0px 0px 0px 3px @base;
+}
+
+#mpd.stopped {
+  color: @red;
+}
+
+#mpd.paused {
+  color: @yellow;
+}
+
+#language {
+  color: @orange;
+  min-width: 16px;
+}
+
+#keyboard-state {
+  color: @orange;
+  min-width: 16px;
+}
+
+#keyboard-state > label {
+  padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+  color: @red;
+}
+
+#scratchpad {
+  color: @yellow;
+}
+
+#scratchpad.empty {
+  color: @cyan;
+}
