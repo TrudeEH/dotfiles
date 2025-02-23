@@ -1,7 +1,13 @@
 #!/bin/bash
 
 # Parse flags
-help_message="Usage: $0 [--desktop|-d | --terminal|-t]"
+help_message="Usage: $0 [--desktop|-d | --hyprland|-h | --terminal|-t]
+
+Options:
+  --desktop,  -d  Install desktop programs and configure GNOME (must already be installed).
+  --hyprland, -h  Install desktop programs and Hyprland.
+  --terminal, -t  Only install the basic dependencies for CLI use."
+
 if [ $# -eq 0 ]; then
    echo "$help_message"
    exit 1
@@ -11,10 +17,17 @@ while [[ $# -gt 0 ]]; do
    case "$1" in
    --desktop | -d)
       desktop=true
+      hyprland=false
+      shift
+      ;;
+   --hyprland | -h)
+      desktop=true
+      hyprland=true
       shift
       ;;
    --terminal | -t)
       desktop=false
+      hyprland=false
       shift
       ;;
    *)
@@ -82,6 +95,34 @@ if $desktop; then
       #mutt        # Email client
       #pass-otp   # Password manager
       #zbar-tools # QR code reader
+   )
+fi
+
+if $hyprland; then
+   programs+=(
+      dunst                       # Notifications
+      foot                        # Terminal
+      hyprland                    # Window manager
+      hyprlock                    # Screen locker
+      hyprpaper                   # Wallpaper manager
+      hyprpicker                  # Color picker
+      hyprpolkitagent             # Auth pop-up for sudo access
+      hyprsunset                  # Blue light filter
+      nm-applet                   # Network manager applet
+      pipewire                    # Audio server
+      udiskie                     # Automount USB drives
+      waybar                      # Status bar
+      wireplumber                 # PipeWire session manager
+      wofi                        # Launcher
+      xdg-desktop-portal-hyprland # D-Bus support for Hyprland
+
+      nautilus                   # File manager
+      nautilus-admin-gtk4        # Open as administrator
+      nautilus-image-converter   # Image converter
+      nautilus-open-any-terminal # Terminal in Nautilus
+
+      qt5-wayland # Qt5 Wayland support
+      qt6-wayland # Qt6 Wayland support
    )
 fi
 
