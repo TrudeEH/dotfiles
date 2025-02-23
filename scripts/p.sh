@@ -62,10 +62,10 @@ p() (
       sudo pacman -Rsn $(pacman -Qdtq)
       if [ ! "$(command -v reflector)" ]; then
         sudo pacman -Sy --noconfirm reflector rsync curl
+        iso=$(curl -4 ifconfig.co/country-iso)
+        extra="FR"
+        sudo reflector -a 48 -c $iso -c $extra -f 5 -l 30 --verbose --sort rate --save /etc/pacman.d/mirrorlist
       fi
-      iso=$(curl -4 ifconfig.co/country-iso)
-      extra="FR"
-      sudo reflector -a 48 -c $iso -c $extra -f 5 -l 30 --verbose --sort rate --save /etc/pacman.d/mirrorlist
       if [ ! "$(command -v paccache)" ]; then
         sudo pacman -Sy --noconfirm pacman-contrib
       fi
