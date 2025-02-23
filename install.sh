@@ -139,7 +139,7 @@ for prog in "${programs[@]}"; do
       sudo dnf install -y "$prog"
       ;;
    pacman)
-      sudo pacman -S --noconfirm "$prog"
+      sudo pacman -S --needed --noconfirm "$prog"
       ;;
    esac
    if [ $? -ne 0 ]; then
