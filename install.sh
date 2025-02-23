@@ -116,10 +116,7 @@ if $hyprland; then
       wofi                        # Launcher
       xdg-desktop-portal-hyprland # D-Bus support for Hyprland
 
-      nautilus                   # File manager
-      nautilus-admin-gtk4        # Open as administrator
-      nautilus-image-converter   # Image converter
-      nautilus-open-any-terminal # Terminal in Nautilus
+      nautilus # File manager
 
       qt5-wayland # Qt5 Wayland support
       qt6-wayland # Qt6 Wayland support
