@@ -132,6 +132,16 @@ else
    echo -e "${GREEN}[I] Dotfiles installed successfully.${NC}"
 fi
 
+# Copy scripts
+echo -e "${YELLOW}[+] Installing Scripts...${NC}"
+mkdir -p $HOME/.local/bin
+cp -r $HOME/dotfiles/scripts/. $HOME/.local/bin/
+if [ $? -ne 0 ]; then
+   echo -e "${RED}[E] Error copying Scripts.${NC}"
+else
+   echo -e "${GREEN}[I] Scripts installed successfully.${NC}"
+fi
+
 # Install fonts
 echo -e "${YELLOW}[+] Installing fonts...${NC}"
 if [[ "$OSTYPE" == "darwin"* ]]; then

@@ -52,4 +52,5 @@ set completion-ignore-case On
 
 export OFLAGS="--ozone-platform-hint=auto"
 
-export PATH=$PATH:/home/trude/.local/bin
+export PATH=$PATH:$HOME/.local/bin
+source $HOME/.local/bin/p.sh
