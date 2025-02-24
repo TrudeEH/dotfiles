@@ -16,24 +16,29 @@ UNDERLINE="\e[4m"
 
 ENDCOLOR="\e[0m"
 
+pcheck() {
+  local pms=()
+  if command -v flatpak >/dev/null 2>&1; then
+    pms+=("flatpak")
+  fi
+  if command -v nix >/dev/null 2>&1; then
+    pms+=("nix")
+  fi
+  if command -v brew >/dev/null 2>&1; then
+    pms+=("brew")
+  fi
+  if command -v apt >/dev/null 2>&1; then
+    pms+=("apt")
+  elif command -v pacman >/dev/null 2>&1; then
+    pms+=("pacman")
+  elif command -v dnf >/dev/null 2>&1; then
+    pms+=("dnf")
+  fi
+  echo "${pms[@]}"
+}
+
 p() (
-  packageManagers=()
-  if [ "$(command -v flatpak)" ]; then
-    packageManagers+=("flatpak")
-  fi
-  if [ "$(command -v nix)" ]; then
-    packageManagers+=("nix")
-  fi
-  if [ "$(command -v brew)" ]; then
-    packageManagers+=("brew")
-  fi
-  if [ "$(command -v apt)" ]; then
-    packageManagers+=("apt")
-  elif [ "$(command -v pacman)" ]; then
-    packageManagers+=("pacman")
-  elif [ "$(command -v dnf)" ]; then
-    packageManagers+=("dnf")
-  fi
+  packageManagers=($(pcheck))
 
   updateP() {
     if [[ ${packageManagers[@]} =~ "flatpak" ]]; then

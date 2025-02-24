@@ -47,40 +47,32 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+# Clone Dotfiles if not already present
+cd $HOME/dotfiles
+if [ $(pwd) != "$HOME/dotfiles" ]; then
+   echo -e "${YELLOW}[+] Cloning dotfiles repository...${NC}"
+   git clone https://github.com/TrudeEH/dotfiles --depth 1
+   if [ $? -ne 0 ]; then
+      echo -e "${RED}[E] Error cloning dotfiles repository. Exiting...${NC}"
+      exit 2
+   fi
+   cd dotfiles
+   echo -e "${GREEN}[I] dotfiles repository cloned successfully.${NC}"
+else
+   echo -e "${GREEN}[I] dotfiles repository already present.${NC}"
+fi
+
+source ./scripts/p.sh
+packageManagers=($(pcheck))
+
 echo -e "${CYAN}"
 echo "####################"
 echo -n "#"
 echo -e "${PURPLE} Trude's Dotfiles${CYAN} #"
 echo "####################"
 echo -e "${CYAN}Running on: ${PURPLE}$OSTYPE${NC}"
+echo -e "${CYAN}Package managers: ${PURPLE}${packageManagers[@]}${NC}"
 echo
-
-# Detect package managers and update repositories
-if [[ "$OSTYPE" == "darwin"* ]]; then
-   if ! command -v brew >/dev/null 2>&1; then
-      echo -e "${YELLOW}[+] Installing Homebrew...${NC}"
-      chsh -s /bin/bash # Switch to bash (optional)
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   fi
-   pkg_manager="brew"
-   echo -e "${YELLOW}[+] Updating Homebrew repositories...${NC}"
-   brew update
-elif command -v apt >/dev/null 2>&1; then
-   pkg_manager="apt"
-   echo -e "${YELLOW}[+] Updating APT repositories...${NC}"
-   sudo apt update
-elif command -v dnf >/dev/null 2>&1; then
-   pkg_manager="dnf"
-   echo -e "${YELLOW}[+] Updating DNF repositories...${NC}"
-   sudo dnf update
-elif command -v pacman >/dev/null 2>&1; then
-   pkg_manager="pacman"
-   echo -e "${YELLOW}[+] Updating PACMAN repositories...${NC}"
-   sudo pacman -Sy
-else
-   echo -e "${RED}[E] No supported package manager found. Exiting...${NC}"
-   exit 1
-fi
 
 # Install Programs
 programs=(neovim curl git tmux bmon fzf gcc make gpg)
@@ -99,66 +91,31 @@ if $desktop; then
 fi
 
 if $hyprland; then
-   programs+=(
-      dunst                       # Notifications
-      foot                        # Terminal
-      hyprland                    # Window manager
-      hyprlock                    # Screen locker
-      hyprpaper                   # Wallpaper manager
-      hyprpicker                  # Color picker
-      hyprpolkitagent             # Auth pop-up for sudo access
-      network-manager             # Network manager
-      pipewire                    # Audio server
-      udiskie                     # Automount USB drives
-      waybar                      # Status bar
-      wireplumber                 # PipeWire session manager
-      wofi                        # Launcher
-      xdg-desktop-portal-hyprland # D-Bus support for Hyprland
-
-      nautilus # File manager
-
-      qt5-wayland # Qt5 Wayland support
-      qt6-wayland # Qt6 Wayland support
-   )
-fi
-
-for prog in "${programs[@]}"; do
-   echo -e "${YELLOW}[+] Installing ${prog}...${NC}"
-   case $pkg_manager in
-   brew)
-      brew install "$prog"
-      ;;
-   apt)
-      sudo apt install -y "$prog"
-      ;;
-   dnf)
-      sudo dnf install -y "$prog"
-      ;;
-   pacman)
-      sudo pacman -S --needed --noconfirm "$prog"
-      ;;
-   esac
-   if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error installing ${prog}.${NC}"
+   if [[ " ${packageManagers[@]} " =~ "dnf" || " ${packageManagers[@]} " =~ "pacman" ]]; then
+      programs+=(
+         dunst                       # Notifications
+         foot                        # Terminal
+         hyprland                    # Window manager
+         hyprlock                    # Screen locker
+         hyprpaper                   # Wallpaper manager
+         hyprpicker                  # Color picker
+         polkit-gnome                # Auth pop-up for sudo access
+         nautilus                    # File manager
+         network-manager             # Network manager
+         pipewire                    # Audio server
+         udiskie                     # Automount USB drives
+         waybar                      # Status bar
+         wireplumber                 # PipeWire session manager
+         wofi                        # Launcher
+         xdg-desktop-portal-hyprland # D-Bus support for Hyprland programs
+      )
    else
-      echo -e "${GREEN}[I] ${prog} installed successfully.${NC}"
+      echo -e "${RED}[E] Hyprland not available in your distro's repositories.${NC}"
+      exit 3
    fi
-done
-
-# Clone Dotfiles if not already present
-cd $HOME/dotfiles
-if [ $(pwd) != "$HOME/dotfiles" ]; then
-   echo -e "${YELLOW}[+] Cloning dotfiles repository...${NC}"
-   git clone https://github.com/TrudeEH/dotfiles --depth 1
-   if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error cloning dotfiles repository. Exiting...${NC}"
-      exit 2
-   fi
-   cd dotfiles
-   echo -e "${GREEN}[I] dotfiles repository cloned successfully.${NC}"
-else
-   echo -e "${GREEN}[I] dotfiles repository already present.${NC}"
 fi
+
+p i ${programs[@]}
 
 # Copy files
 echo -e "${YELLOW}[+] Installing Dotfiles...${NC}"
