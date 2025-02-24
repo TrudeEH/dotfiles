@@ -75,7 +75,7 @@ echo -e "${CYAN}Package managers: ${PURPLE}${packageManagers[@]}${NC}"
 echo
 
 # Install Programs
-programs=(neovim curl git tmux bmon htop fzf gcc make)
+programs=(neovim curl git tmux htop fzf gcc make)
 
 if $desktop; then
    programs+=(
