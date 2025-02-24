@@ -91,7 +91,7 @@ if $desktop; then
 fi
 
 if $hyprland; then
-   if [[ " ${packageManagers[@]} " =~ "dnf" || " ${packageManagers[@]} " =~ "pacman" ]]; then
+   if [[ " ${packageManagers[@]} " =~ "pacman" ]]; then
       programs+=(
          dunst                       # Notifications
          foot                        # Terminal
