@@ -79,14 +79,15 @@ programs=(neovim curl git tmux bmon fzf gcc make gpg)
 
 if $desktop; then
    programs+=(
-      tldr    # Simplified man pages
-      weechat # IRC client
+      tldr      # Simplified man pages
+      fastfetch # System info
+      #weechat     # IRC client
       #w3m         # Text-based web browser
       #nnn         # File manager
       #taskwarrior # Task manager
       #mutt        # Email client
-      #pass-otp   # Password manager
-      #zbar-tools # QR code reader
+      #pass-otp    # Password manager
+      #zbar-tools  # QR code reader
    )
 fi
 

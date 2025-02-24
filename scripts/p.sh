@@ -30,6 +30,9 @@ pcheck() {
   if command -v apt >/dev/null 2>&1; then
     pms+=("apt")
   elif command -v pacman >/dev/null 2>&1; then
+    if command -v paru >/dev/null 2>&1; then
+      pms+=("paru")
+    fi
     pms+=("pacman")
   elif command -v dnf >/dev/null 2>&1; then
     pms+=("dnf")
@@ -63,7 +66,11 @@ p() (
       sudo apt autoclean
     elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
       sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
-      sudo pacman -Syu
+      if [[ ${packageManagers[@]} =~ "paru" ]]; then
+        paru -Syu
+      else
+        sudo pacman -Syu
+      fi
       sudo pacman -Rsn $(pacman -Qdtq)
       if [ ! "$(command -v reflector)" ]; then
         sudo pacman -Sy --noconfirm reflector rsync curl
@@ -152,6 +159,12 @@ p() (
     if [[ ${packageManagers[@]} =~ "apt" ]]; then
       echo "Attempting apt install..."
       sudo apt install $1
+      if [[ $? == 0 ]]; then
+        return 0
+      fi
+    elif [[ ${packageManagers[@]} =~ "paru" ]]; then
+      echo "Attempting paru install..."
+      paru -Sy $1
       if [[ $? == 0 ]]; then
         return 0
       fi
@@ -252,6 +265,7 @@ p() (
     echo -e "p i package ${FAINT}- install package${ENDCOLOR}"
     echo -e "p r package ${FAINT}- remove package${ENDCOLOR}"
     echo -e "p c package ${FAINT}- check if package is installed${ENDCOLOR}"
+    echo -e "${FAINT}Supported package managers: flatpak, nix, brew, apt, paru, pacman, dnf${ENDCOLOR}"
     return 1
   fi
 )
