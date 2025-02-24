@@ -99,7 +99,7 @@ if $hyprland; then
          hyprlock                    # Screen locker
          hyprpaper                   # Wallpaper manager
          hyprpicker                  # Color picker
-         polkit-gnome                # Auth pop-up for sudo access
+         hyprpolkitagent             # Auth pop-up for sudo access
          nautilus                    # File manager
          network-manager             # Network manager
          pipewire                    # Audio server
