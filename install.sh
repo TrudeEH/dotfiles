@@ -81,6 +81,7 @@ if $desktop; then
    programs+=(
       tldr      # Simplified man pages
       fastfetch # System info
+      timeshift # System restore
       #weechat     # IRC client
       #w3m         # Text-based web browser
       #nnn         # File manager
