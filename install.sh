@@ -80,9 +80,10 @@ programs=(neovim curl git tmux htop fzf gcc make)
 if $desktop; then
    programs+=(
       tldr      # Simplified man pages
-      fastfetch # System info
+      fastfetch # System information
       timeshift # System restore
-      #weechat     # IRC client
+      s-tui     # CPU monitoring / Detect overheating
+      #weechat # IRC client
       #w3m         # Text-based web browser
       #nnn         # File manager
       #taskwarrior # Task manager
