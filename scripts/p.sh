@@ -100,34 +100,13 @@ p() (
         echo -e "${GREEN}${BOLD}Flatpak:${ENDCOLOR}${GREEN} $(echo $flatpak_apps | tr ' ' '\n' | grep -i $app_name)${ENDCOLOR}"
       fi
     fi
-    if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      nix_apps=$(nix-env -q)
-      echo $nix_apps | grep -iq $app_name
-      nix_success=$?
-      if [[ $nix_success == 0 ]]; then
-        echo -e "${GREEN}${BOLD}Nix:${ENDCOLOR}${GREEN} $(echo $nix_apps | tr ' ' '\n' | grep -i $app_name)${ENDCOLOR}"
-      fi
-    fi
-    if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      brew_apps=$(brew list)
-      echo $brew_apps | grep -iq $app_name
-      brew_success=$?
-      if [[ $brew_success == 0 ]]; then
-        echo -e "${GREEN}${BOLD}Brew:${ENDCOLOR}${GREEN} $(echo $brew_apps | tr ' ' '\n' | grep -i $app_name)${ENDCOLOR}"
-      fi
-    fi
-    if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      distro_apps=$(dpkg-query -l | grep '^ii' | awk '{print $2}')
-    elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      distro_apps=$(pacman -Q)
-    elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      distro_apps=$(dnf list)
-    fi
-
-    echo $distro_apps | grep -Eiq "(^|\s)$app_name($|\s)"
+    # Some package names are different from the command name
+    declare -A altNames=(["neovim"]="nvim" ["python"]="python3" ["nodejs"]="node" ["docker-compose"]="docker compose" ["pip"]="pip3")
+    commandName="${altNames[$app_name]:-$app_name}"
+    which "$commandName" &>/dev/null
     distro_success=$?
     if [[ $distro_success == 0 ]]; then
-      echo -e "${GREEN}${BOLD}Distro:${ENDCOLOR}${GREEN} $(echo $distro_apps | tr ' ' '\n' | grep -Ei "(^|\s)$app_name($|\s)")${ENDCOLOR}"
+      echo -e "${GREEN}${BOLD}Distro:${ENDCOLOR}${GREEN} $app_name is installed.${ENDCOLOR}"
     fi
 
     if [[ $flatpak_success != 0 && $nix_success != 0 && $brew_success != 0 && $distro_success != 0 ]]; then
@@ -139,103 +118,103 @@ p() (
   installP() {
     checkP $1
     if [[ $? != 1 ]]; then
-      echo "$1 is already installed."
+      echo -e "${GREEN}$1 is already installed.${ENDCOLOR}"
       return 0
     fi
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      echo "Attempting nix install..."
+      echo -e "${YELLOW}Attempting nix install...${ENDCOLOR}"
       nix-env -iA nixpkgs.$1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      echo "Attempting brew install..."
+      echo -e "${YELLOW}Attempting brew install...${ENDCOLOR}"
       brew install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      echo "Attempting apt install..."
+      echo -e "${YELLOW}Attempting apt install...${ENDCOLOR}"
       sudo apt install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "paru" ]]; then
-      echo "Attempting paru install..."
+      echo -e "${YELLOW}Attempting paru install...${ENDCOLOR}"
       paru -Sy $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      echo "Attempting pacman install..."
+      echo -e "${YELLOW}Attempting pacman install...${ENDCOLOR}"
       sudo pacman -Sy $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      echo "Attempting dnf install..."
+      echo -e "${YELLOW}Attempting dnf install...${ENDCOLOR}"
       sudo dnf install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      echo "Attempting flatpak install..."
+      echo -e "${YELLOW}Attempting flatpak install...${ENDCOLOR}"
       flatpak install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
-    echo "ERROR - $1 not found."
+    echo -e "${RED}ERROR - $1 not found.${ENDCOLOR}"
     return 1
   }
 
   removeP() {
     checkP $1
     if [[ $? != 0 ]]; then
-      echo "$1 is not installed."
+      echo -e "${YELLOW}$1 is not installed.${ENDCOLOR}"
       return 0
     fi
     if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      echo "Attempting flatpak uninstall..."
+      echo -e "${YELLOW}Attempting flatpak uninstall...${ENDCOLOR}"
       flatpak uninstall $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      echo "Attempting nix uninstall..."
+      echo -e "${YELLOW}Attempting nix uninstall...${ENDCOLOR}"
       nix-env --uninstall $1
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      echo "Attempting brew uninstall..."
+      echo -e "${YELLOW}Attempting brew uninstall...${ENDCOLOR}"
       brew uninstall $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      echo "Attempting apt uninstall..."
+      echo -e "${YELLOW}Attempting apt uninstall...${ENDCOLOR}"
       sudo apt remove $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      echo "Attempting pacman uninstall..."
+      echo -e "${YELLOW}Attempting pacman uninstall...${ENDCOLOR}"
       sudo pacman -Rs $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      echo "Attempting dnf uninstall..."
+      echo -e "${YELLOW}Attempting dnf uninstall...${ENDCOLOR}"
       sudo dnf remove $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
-    echo "ERROR - Failed to uninstall $1."
+    echo -e "${RED}ERROR - Failed to uninstall $1.${ENDCOLOR}"
     return 1
   }
 
