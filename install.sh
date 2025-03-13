@@ -121,6 +121,21 @@ else
    fi
 fi
 
+# Clone password-store
+if [ "$(whoami)" = "trude" ]; then
+   if [ ! -d "$HOME/.password-store" ]; then
+      printf "${YELLOW}[+] Cloning password-store...${NC}\n"
+      git clone https://github.com/TrudeEH/password-store "$HOME/.password-store"
+      if [ $? -ne 0 ]; then
+         printf "${RED}[E] Error cloning password-store.${NC}\n"
+      else
+         printf "${GREEN}[I] Password-store cloned successfully.${NC}\n"
+      fi
+   else
+      printf "${CYAN}[I] Password-store already present.${NC}\n"
+   fi
+fi
+
 # Security Scan
 if [ ! -f "$HOME/dotfiles/logs/lynis_scan.log" ]; then
    printf "${YELLOW}[+] Running Lynis Security Scan...${NC}\n"
