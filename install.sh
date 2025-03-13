@@ -9,100 +9,127 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+mkdir -p "$HOME/dotfiles/logs"
+
 # Clone Dotfiles if not already present
-cd $HOME/dotfiles
-if [ $(pwd) != "$HOME/dotfiles" ]; then
-   echo -e "${YELLOW}[+] Cloning dotfiles repository...${NC}"
+cd "$HOME/dotfiles" || exit
+if [ "$(pwd)" != "$HOME/dotfiles" ]; then
+   printf "${YELLOW}[+] Cloning dotfiles repository...${NC}\n"
    git clone https://github.com/TrudeEH/dotfiles --depth 1
    if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error cloning dotfiles repository. Exiting...${NC}"
+      printf "${RED}[E] Error cloning dotfiles repository. Exiting...${NC}\n"
       exit 2
    fi
-   cd dotfiles
-   echo -e "${GREEN}[I] dotfiles repository cloned successfully.${NC}"
+   cd dotfiles || exit
+   printf "${GREEN}[I] dotfiles repository cloned successfully.${NC}\n"
 else
-   echo -e "${GREEN}[I] dotfiles repository already present.${NC}"
+   printf "${GREEN}[I] dotfiles repository already present.${NC}\n"
 fi
 
 source ./scripts/p.sh
-packageManagers=($(pcheck))
 
-echo -e "${CYAN}"
-echo "####################"
-echo -n "#"
-echo -e "${PURPLE} Trude's Dotfiles${CYAN} #"
-echo "####################"
-echo -e "${CYAN}Running on: ${PURPLE}$OSTYPE${NC}"
-echo -e "${CYAN}Package managers: ${PURPLE}${packageManagers[@]}${NC}"
-echo
+printf "${CYAN}\n"
+printf "####################\n"
+printf "#"
+printf "${PURPLE} Trude's Dotfiles${CYAN} #\n"
+printf "####################\n"
+printf "${CYAN}Running on: ${PURPLE}%s${NC}\n" "$OSTYPE"
+printf "\n"
 
 # Install Programs
-programs=(neovim curl git tmux htop fzf gcc make tldr s-tui pass ufw)
-p i ${programs[@]}
+programs=(neovim curl git tmux htop fzf gcc make tldr pass lynis)
+
+if [[ "$OSTYPE" != "darwin"* ]]; then
+   programs+=(ufw s-tui)
+fi
+
+p i "${programs[@]}"
 
 # Copy files
-echo -e "${YELLOW}[+] Installing Dotfiles...${NC}"
-cp -r $HOME/dotfiles/home/. $HOME
+printf "${YELLOW}[+] Installing Dotfiles...${NC}\n"
+cp -r "$HOME/dotfiles/home/." "$HOME"
 if [ $? -ne 0 ]; then
-   echo -e "${RED}[E] Error copying Dotfiles.${NC}"
+   printf "${RED}[E] Error copying Dotfiles.${NC}\n"
 else
-   echo -e "${GREEN}[I] Dotfiles installed successfully.${NC}"
+   printf "${GREEN}[I] Dotfiles installed successfully.${NC}\n"
 fi
 
 # Copy scripts
-echo -e "${YELLOW}[+] Installing Scripts...${NC}"
-mkdir -p $HOME/.local/bin
-cp -r $HOME/dotfiles/scripts/. $HOME/.local/bin/
+printf "${YELLOW}[+] Installing Scripts...${NC}\n"
+mkdir -p "$HOME/.local/bin"
+cp -r "$HOME/dotfiles/scripts/." "$HOME/.local/bin/"
 if [ $? -ne 0 ]; then
-   echo -e "${RED}[E] Error copying Scripts.${NC}"
+   printf "${RED}[E] Error copying Scripts.${NC}\n"
 else
-   echo -e "${GREEN}[I] Scripts installed successfully.${NC}"
+   printf "${GREEN}[I] Scripts installed successfully.${NC}\n"
 fi
 
 # Install fonts
-echo -e "${YELLOW}[+] Installing fonts...${NC}"
+printf "${YELLOW}[+] Installing fonts...${NC}\n"
 if [[ "$OSTYPE" == "darwin"* ]]; then
-   cp -rf $HOME/dotfiles/fonts/* $HOME/Library/Fonts/
+   cp -rf "$HOME/dotfiles/fonts/"* "$HOME/Library/Fonts/"
    if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error installing fonts.${NC}"
+      printf "${RED}[E] Error installing fonts.${NC}\n"
    else
-      echo -e "${GREEN}[I] Fonts installed successfully.${NC}"
+      printf "${GREEN}[I] Fonts installed successfully.${NC}\n"
    fi
 else
-   mkdir -p $HOME/.local/share/fonts
-   cp -rf $HOME/dotfiles/fonts/* $HOME/.local/share/fonts/
+   mkdir -p "$HOME/.local/share/fonts"
+   cp -rf "$HOME/dotfiles/fonts/"* "$HOME/.local/share/fonts/"
    if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error installing fonts.${NC}"
+      printf "${RED}[E] Error installing fonts.${NC}\n"
    else
-      fc-cache -fv $HOME/.local/share/fonts
-      echo -e "${GREEN}[I] Fonts installed successfully.${NC}"
+      fc-cache -fv "$HOME/.local/share/fonts" >"$HOME/dotfiles/logs/font_install.log"
+      printf "${GREEN}[I] Fonts installed successfully.${NC}\n"
    fi
 fi
 
 # Load Dconf (GNOME settings)
 if [[ "$OSTYPE" != "darwin"* ]]; then
-   echo -e "${YELLOW}[+] Loading Dconf settings...${NC}"
-   dconf load / <$HOME/dotfiles/dconf-settings.ini
+   printf "${YELLOW}[+] Loading Dconf settings...${NC}\n"
+   dconf load / <"$HOME/dotfiles/dconf-settings.ini"
    if [ $? -ne 0 ]; then
-      echo -e "${RED}[E] Error loading Dconf settings.${NC}"
+      printf "${RED}[E] Error loading Dconf settings.${NC}\n"
    else
-      echo -e "${GREEN}[I] Dconf settings loaded successfully.${NC}"
+      printf "${GREEN}[I] Dconf settings loaded successfully.${NC}\n"
    fi
 fi
 
 # UFW Firewall
-echo -e "${YELLOW}[+] Setting up UFW...${NC}"
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-if systemctl is-active --quiet sshd; then
-   echo -e "${YELLOW}[+] SSH Server detected; Enabling SSH rule...${NC}"
-   sudo ufw limit 22/tcp
-   sudo ufw limit ssh
-fi
-sudo ufw enable
-sudo ufw status numbered
-if [ $? -ne 0 ]; then
-   echo -e "${RED}[E] Error setting up UFW.${NC}"
+if [[ "$OSTYPE" != "darwin"* ]]; then
+   printf "${YELLOW}[+] Setting up UFW...${NC}\n"
+   sudo ufw default deny incoming
+   sudo ufw default allow outgoing
+   if systemctl is-active --quiet sshd; then
+      printf "${YELLOW}[+] SSH Server detected; Enabling SSH rule...${NC}\n"
+      sudo ufw limit 22/tcp
+   fi
+   sudo ufw enable
+   sudo ufw status numbered | tee "$HOME/dotfiles/logs/ufw_status.log"
+   if [ $? -ne 0 ]; then
+      printf "${RED}[E] Error setting up UFW.${NC}\n"
+   else
+      printf "${GREEN}[I] UFW setup successfully.${NC}\n"
+   fi
 else
-   echo -e "${GREEN}[I] UFW setup successfully.${NC}"
+   printf "${YELLOW}[+] Enabling macOS Firewall...${NC}\n"
+   sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+   if [ $? -ne 0 ]; then
+      printf "${RED}[E] Error enabling Firewall.${NC}\n"
+   else
+      printf "${GREEN}[I] Firewall enabled successfully.${NC}\n"
+   fi
+fi
+
+# Security Scan
+if [ ! -f "$HOME/dotfiles/logs/lynis_scan.log" ]; then
+   printf "${YELLOW}[+] Running Lynis Security Scan...${NC}\n"
+   sudo lynis audit system | tee "$HOME/dotfiles/logs/lynis_scan.log"
+   if [ $? -ne 0 ]; then
+      printf "${RED}[E] Error running Lynis.${NC}\n"
+   else
+      printf "${GREEN}[I] Lynis scan completed.${NC}\n"
+   fi
+else
+   printf "${CYAN}[I] Previous Lynis scan detected, read the log @ $HOME/dotfiles/logs/lynis_scan.log.${NC}\n"
 fi

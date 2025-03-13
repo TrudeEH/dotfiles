@@ -5,3 +5,5 @@ BrewFile.lock.json
 .vscode
 
 /nix-shells/macos-vm/
+
+logs/
