@@ -97,20 +97,38 @@ p() (
       echo $flatpak_apps | grep -iq $app_name
       flatpak_success=$?
       if [[ $flatpak_success == 0 ]]; then
-        echo -e "${GREEN}${BOLD}Flatpak:${ENDCOLOR}${GREEN} $(echo $flatpak_apps | tr ' ' '\n' | grep -i $app_name)${ENDCOLOR}"
+        printf "%b\n" "${GREEN}${BOLD}Flatpak:${ENDCOLOR}${GREEN} $(echo "$flatpak_apps" | tr ' ' '\n' | grep -i "$app_name")${ENDCOLOR}"
       fi
     fi
     # Some package names are different from the command name
-    declare -A altNames=(["neovim"]="nvim" ["python"]="python3" ["nodejs"]="node" ["docker-compose"]="docker compose" ["pip"]="pip3")
-    commandName="${altNames[$app_name]:-$app_name}"
+    case "$app_name" in
+    neovim)
+      commandName="nvim"
+      ;;
+    python)
+      commandName="python3"
+      ;;
+    nodejs)
+      commandName="node"
+      ;;
+    docker-compose)
+      commandName="docker compose"
+      ;;
+    pip)
+      commandName="pip3"
+      ;;
+    *)
+      commandName="$app_name"
+      ;;
+    esac
     which "$commandName" &>/dev/null
     distro_success=$?
     if [[ $distro_success == 0 ]]; then
-      echo -e "${GREEN}${BOLD}Distro:${ENDCOLOR}${GREEN} $app_name is installed.${ENDCOLOR}"
+      printf "%b\n" "${GREEN}${BOLD}Distro:${ENDCOLOR}${GREEN} $app_name is installed.${ENDCOLOR}"
     fi
 
     if [[ $flatpak_success != 0 && $nix_success != 0 && $brew_success != 0 && $distro_success != 0 ]]; then
-      echo -e "${YELLOW}$app_name not installed.${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}$app_name not installed.${ENDCOLOR}"
       return 1
     fi
   }
@@ -118,108 +136,108 @@ p() (
   installP() {
     checkP $1
     if [[ $? != 1 ]]; then
-      echo -e "${GREEN}$1 is already installed.${ENDCOLOR}"
+      printf "%b\n" "${GREEN}$1 is already installed.${ENDCOLOR}"
       return 0
     fi
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      echo -e "${YELLOW}Attempting nix install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting nix install...${ENDCOLOR}"
       nix-env -iA nixpkgs.$1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      echo -e "${YELLOW}Attempting brew install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting brew install...${ENDCOLOR}"
       brew install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      echo -e "${YELLOW}Attempting apt install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting apt install...${ENDCOLOR}"
       sudo apt install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "paru" ]]; then
-      echo -e "${YELLOW}Attempting paru install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting paru install...${ENDCOLOR}"
       paru -Sy $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      echo -e "${YELLOW}Attempting pacman install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting pacman install...${ENDCOLOR}"
       sudo pacman -Sy $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      echo -e "${YELLOW}Attempting dnf install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting dnf install...${ENDCOLOR}"
       sudo dnf install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      echo -e "${YELLOW}Attempting flatpak install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting flatpak install...${ENDCOLOR}"
       flatpak install $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
-    echo -e "${RED}ERROR - $1 not found.${ENDCOLOR}"
+    printf "%b\n" "${RED}ERROR - $1 not found.${ENDCOLOR}"
     return 1
   }
 
   removeP() {
     checkP $1
     if [[ $? != 0 ]]; then
-      echo -e "${YELLOW}$1 is not installed.${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}$1 is not installed.${ENDCOLOR}"
       return 0
     fi
     if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      echo -e "${YELLOW}Attempting flatpak uninstall...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting flatpak uninstall...${ENDCOLOR}"
       flatpak uninstall $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      echo -e "${YELLOW}Attempting nix uninstall...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting nix uninstall...${ENDCOLOR}"
       nix-env --uninstall $1
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      echo -e "${YELLOW}Attempting brew uninstall...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting brew uninstall...${ENDCOLOR}"
       brew uninstall $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
     if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      echo -e "${YELLOW}Attempting apt uninstall...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting apt uninstall...${ENDCOLOR}"
       sudo apt remove $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      echo -e "${YELLOW}Attempting pacman uninstall...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting pacman uninstall...${ENDCOLOR}"
       sudo pacman -Rs $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      echo -e "${YELLOW}Attempting dnf uninstall...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting dnf uninstall...${ENDCOLOR}"
       sudo dnf remove $1
       if [[ $? == 0 ]]; then
         return 0
       fi
     fi
-    echo -e "${RED}ERROR - Failed to uninstall $1.${ENDCOLOR}"
+    printf "%b\n" "${RED}ERROR - Failed to uninstall $1.${ENDCOLOR}"
     return 1
   }
 
   # If no parameter or u
-  echo "Available package managers: ${packageManagers[@]}"
+  printf "%b\n" "${CYAN}Available package managers: ${MAGENTA}${packageManagers[@]}${ENDCOLOR}"
   if [ -z $1 ] || [ $1 = "u" ]; then
     updateP
     return 0
@@ -239,12 +257,12 @@ p() (
       checkP $package
     done
   else
-    echo -e "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
-    echo -e "p (u)       ${FAINT}- update os${ENDCOLOR}"
-    echo -e "p i package ${FAINT}- install package${ENDCOLOR}"
-    echo -e "p r package ${FAINT}- remove package${ENDCOLOR}"
-    echo -e "p c package ${FAINT}- check if package is installed${ENDCOLOR}"
-    echo -e "${FAINT}Supported package managers: flatpak, nix, brew, apt, paru, pacman, dnf${ENDCOLOR}"
+    printf "%b\n" "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
+    printf "%b\n" "p (u)       ${FAINT}- update os${ENDCOLOR}"
+    printf "%b\n" "p i package ${FAINT}- install package${ENDCOLOR}"
+    printf "%b\n" "p r package ${FAINT}- remove package${ENDCOLOR}"
+    printf "%b\n" "p c package ${FAINT}- check if package is installed${ENDCOLOR}"
+    printf "%b\n" "${FAINT}Supported package managers: flatpak, nix, brew, apt, paru, pacman, dnf${ENDCOLOR}"
     return 1
   fi
 )
