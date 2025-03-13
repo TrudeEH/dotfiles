@@ -97,6 +97,7 @@ sudo ufw default allow outgoing
 if systemctl is-active --quiet sshd; then
    echo -e "${YELLOW}[+] SSH Server detected; Enabling SSH rule...${NC}"
    sudo ufw limit 22/tcp
+   sudo ufw limit ssh
 fi
 sudo ufw enable
 sudo ufw status numbered
