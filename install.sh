@@ -37,7 +37,7 @@ echo -e "${CYAN}Package managers: ${PURPLE}${packageManagers[@]}${NC}"
 echo
 
 # Install Programs
-programs=(neovim curl git tmux htop fzf gcc make tldr s-tui)
+programs=(neovim curl git tmux htop fzf gcc make tldr s-tui pass ufw)
 p i ${programs[@]}
 
 # Copy files
@@ -88,4 +88,20 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
    else
       echo -e "${GREEN}[I] Dconf settings loaded successfully.${NC}"
    fi
+fi
+
+# UFW Firewall
+echo -e "${YELLOW}[+] Setting up UFW...${NC}"
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+if systemctl is-active --quiet sshd; then
+   echo -e "${YELLOW}[+] SSH Server detected; Enabling SSH rule...${NC}"
+   sudo ufw limit 22/tcp
+fi
+sudo ufw enable
+sudo ufw status numbered
+if [ $? -ne 0 ]; then
+   echo -e "${RED}[E] Error setting up UFW.${NC}"
+else
+   echo -e "${GREEN}[I] UFW setup successfully.${NC}"
 fi
