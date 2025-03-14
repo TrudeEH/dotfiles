@@ -45,26 +45,31 @@ p() (
 
   updateP() {
     if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
+      printf "%b\n" "${YELLOW}Updating flatpak...${ENDCOLOR}"
       flatpak update
       flatpak uninstall --unused --delete-data
     fi
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
+      printf "%b\n" "${YELLOW}Updating nix...${ENDCOLOR}"
       nix-channel --update
       sudo nix-channel --update
       nix-collect-garbage --delete-older-than 7d
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
+      printf "%b\n" "${YELLOW}Updating brew...${ENDCOLOR}"
       brew update
       brew doctor
       brew upgrade
     fi
     if [[ ${packageManagers[@]} =~ "apt" ]]; then
+      printf "%b\n" "${YELLOW}Updating apt...${ENDCOLOR}"
       sudo apt update
       sudo apt upgrade
       sudo apt dist-upgrade
       sudo apt autoremove
       sudo apt autoclean
     elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
+      printf "%b\n" "${YELLOW}Updating pacman...${ENDCOLOR}"
       sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
       if [[ ${packageManagers[@]} =~ "paru" ]]; then
         paru -Syu
@@ -73,6 +78,7 @@ p() (
       fi
       sudo pacman -Rsn $(pacman -Qdtq)
       if [ ! "$(command -v reflector)" ]; then
+        printf "%b\n" "${YELLOW}Selecting fastest pacman mirrors...${ENDCOLOR}"
         sudo pacman -Sy --noconfirm reflector rsync curl
         iso=$(curl -4 ifconfig.co/country-iso)
         extra="FR"
@@ -83,6 +89,7 @@ p() (
       fi
       paccache -rk1
     elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
+      printf "%b\n" "${YELLOW}Updating dnf...${ENDCOLOR}"
       sudo dnf upgrade --refresh
       sudo dnf autoremove
     fi
@@ -237,7 +244,7 @@ p() (
   }
 
   # If no parameter or u
-  printf "%b\n" "${CYAN}Available package managers: ${MAGENTA}${packageManagers[@]}${ENDCOLOR}"
+  printf "%b\n" "${CYAN}Detected package managers: ${MAGENTA}${packageManagers[*]}${ENDCOLOR}"
   if [ -z $1 ] || [ $1 = "u" ]; then
     updateP
     return 0
