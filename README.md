@@ -18,11 +18,9 @@ Welcome to Trude's dotfiles. Here you will find my personal configurations, tool
 I highly recommend anyone interested to fork the repository and modify any configurations to your liking.
 These repository can be used as a base for your own dotfiles.
 
-The 'main' branch serves as a place for active development, and becomes a new branch once I deem it stable enough. I am actively maitaining these repositories, so if you find a bug, file a PR or open an issue, I will review and work on it.
+The 'main' branch is my current configuration, while others serve as an archive of previous setups.
 
-To install the configuration on the 'main' repository, run:
+To install my current configuration, run:
 ```sh
 bash <(curl -s https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/main/install.sh)
 ```
-
-To configure wifi, use `nmtui`.
