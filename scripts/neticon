@@ -1,13 +1,9 @@
 #!/bin/sh
 
-# Show wifi 📶 and percent strength or 📡 if none.
-# Show 🌐 if connected to ethernet or ❎ if none.
-# Show 🔒 if a vpn connection is active
-
 # Wifi
-if [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'up' ] ; then
+if [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'up' ]; then
 	wifiicon="$(awk '/^[[:space:]]*w/ { gsub(/[[:space:]]+/, " "); print " ", int($3 * 100 / 70) "% " }' /proc/net/wireless)"
-elif [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'down' ] ; then
+elif [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'down' ]; then
 	wifiicon=" "
 fi
 

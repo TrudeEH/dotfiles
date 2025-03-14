@@ -111,6 +111,7 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
       sudo ufw limit 22/tcp
    fi
    sudo ufw enable
+   sudo ss -tupln | tee "$HOME/dotfiles/logs/open_ports.log"
    sudo ufw status numbered | tee "$HOME/dotfiles/logs/ufw_status.log"
    if [ $? -ne 0 ]; then
       printf "${RED}Error setting up UFW.${NC}\n"
