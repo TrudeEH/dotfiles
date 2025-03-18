@@ -142,7 +142,11 @@ fi
 
 # Trude-only settings
 if [ "$USER" = "trude" ]; then
+   # Git config
    git config --global commit.gpgsign true
+   git config --global tag.gpgSign true
+   git config --global gpg.format ssh
+   git config --global user.signingkey ~/.ssh/id_ed25519.pub
    git config --global user.name "TrudeEH"
    git config --global user.email "ehtrude@gmail.com"
 
