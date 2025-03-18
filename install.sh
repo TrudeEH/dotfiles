@@ -66,7 +66,7 @@ printf "${CYAN}Desktop: ${PURPLE}%s${NC}\n" "$XDG_CURRENT_DESKTOP"
 printf "\n"
 
 # Install Programs
-programs=(neovim curl git tmux htop fzf gcc make tldr pass lynis)
+programs=(neovim curl git tmux htop fzf gcc make tldr pass lynis bat)
 
 if [[ "$OSTYPE" != "darwin"* ]]; then
    programs+=(ufw s-tui)
