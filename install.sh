@@ -172,6 +172,7 @@ fi
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
    printf "${YELLOW}Installing GNOME Extensions...${NC}\n"
    install_gnome_extension "appindicatorsupport@rgcjonas.gmail.com"
+   install_gnome_extension "caffeine@patapon.info"
 
    printf "${YELLOW}Loading Dconf settings...${NC}\n"
    dconf load / <"$HOME/dotfiles/dconf-settings.ini"
