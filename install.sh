@@ -9,6 +9,27 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+install_gnome_extension() {
+   local uuid="$1"
+
+   if [ -z "$uuid" ]; then
+      printf "${RED}Usage: install_gnome_extension <extension-uuid>${NC}\n"
+      return 1
+   fi
+
+   if ! gnome-extensions list | grep -qw "$uuid"; then
+      printf "${GREEN}Sent install request for %s.${NC}\n" "$uuid"
+      gdbus call --session --dest org.gnome.Shell.Extensions \
+         --object-path /org/gnome/Shell/Extensions \
+         --method org.gnome.Shell.Extensions.InstallRemoteExtension \
+         "$uuid" >/dev/null 2>&1
+      return 0
+   else
+      printf "${GREEN}GNOME Extension %s is already installed.${NC}\n" "$uuid"
+      return 0
+   fi
+}
+
 mkdir -p "$HOME/dotfiles/logs"
 
 # Clone Dotfiles if not already present
@@ -40,6 +61,8 @@ printf "#"
 printf "${PURPLE} Trude's Dotfiles${CYAN} #\n"
 printf "####################\n"
 printf "${CYAN}Running on: ${PURPLE}%s${NC}\n" "$OSTYPE"
+printf "${CYAN}User: ${PURPLE}%s${NC}\n" "$USER"
+printf "${CYAN}Desktop: ${PURPLE}%s${NC}\n" "$XDG_CURRENT_DESKTOP"
 printf "\n"
 
 # Install Programs
@@ -87,17 +110,6 @@ else
    else
       fc-cache -fv "$HOME/.local/share/fonts" >"$HOME/dotfiles/logs/font_install.log"
       printf "${GREEN}Fonts installed successfully.${NC}\n"
-   fi
-fi
-
-# Load Dconf (GNOME settings)
-if [[ "$OSTYPE" != "darwin"* ]]; then
-   printf "${YELLOW}Loading Dconf settings...${NC}\n"
-   dconf load / <"$HOME/dotfiles/dconf-settings.ini"
-   if [ $? -ne 0 ]; then
-      printf "${RED}Error loading Dconf settings.${NC}\n"
-   else
-      printf "${GREEN}Dconf settings loaded successfully.${NC}\n"
    fi
 fi
 
@@ -154,4 +166,18 @@ if [ ! -f "$HOME/dotfiles/logs/lynis_scan.log" ]; then
    fi
 else
    printf "${CYAN}Previous Lynis scan detected, read the log @ $HOME/dotfiles/logs/lynis_scan.log.${NC}\n"
+fi
+
+# Set up GNOME Desktop
+if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
+   printf "${YELLOW}Installing GNOME Extensions...${NC}\n"
+   install_gnome_extension "appindicatorsupport@rgcjonas.gmail.com"
+
+   printf "${YELLOW}Loading Dconf settings...${NC}\n"
+   dconf load / <"$HOME/dotfiles/dconf-settings.ini"
+   if [ $? -ne 0 ]; then
+      printf "${RED}Error loading Dconf settings.${NC}\n"
+   else
+      printf "${GREEN}Dconf settings loaded successfully.${NC}\n"
+   fi
 fi
