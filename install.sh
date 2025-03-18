@@ -142,8 +142,8 @@ fi
 
 # Clone password-store
 if [ "$USER" = "trude" ]; then
-   if [ ! -f "$HOME/.ssh/id_rsa" ] || [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
-      printf "${RED}RSA key not found. Please add your RSA key pair for password-store.${NC}\n"
+   if [ ! -f "$HOME/.ssh/id_ed25519" ] || [ ! -f "$HOME/.ssh/id_ed25519.pub" ]; then
+      printf "${RED}ED25519 key not found. Please add your ED25519 key pair for password-store.${NC}\n"
    elif ! gpg --list-keys "ehtrude@gmail.com" >/dev/null 2>&1; then
       printf "${RED}GPG key for ehtrude@gmail.com not found. Please import the key for password-store.${NC}\n"
    else
