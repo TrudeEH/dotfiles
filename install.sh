@@ -140,8 +140,13 @@ else
    fi
 fi
 
-# Clone password-store
+# Trude-only settings
 if [ "$USER" = "trude" ]; then
+   git config --global commit.gpgsign true
+   git config --global user.name "TrudeEH"
+   git config --global user.email "ehtrude@gmail.com"
+
+   # Clone password-store
    if [ ! -f "$HOME/.ssh/id_ed25519" ] || [ ! -f "$HOME/.ssh/id_ed25519.pub" ]; then
       printf "${RED}ED25519 key not found. Please add your ED25519 key pair for password-store.${NC}\n"
    elif ! gpg --list-keys "ehtrude@gmail.com" >/dev/null 2>&1; then
