@@ -141,17 +141,23 @@ else
 fi
 
 # Clone password-store
-if [ "$(whoami)" = "trude" ]; then
-   if [ ! -d "$HOME/.password-store" ]; then
-      printf "${YELLOW}Cloning password-store...${NC}\n"
-      git clone https://github.com/TrudeEH/password-store "$HOME/.password-store"
-      if [ $? -ne 0 ]; then
-         printf "${RED}Error cloning password-store.${NC}\n"
-      else
-         printf "${GREEN}Password-store cloned successfully.${NC}\n"
-      fi
+if [ "$USER" = "trude" ]; then
+   if [ ! -f "$HOME/.ssh/id_rsa" ] || [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
+      printf "${RED}RSA key not found. Please add your RSA key pair for password-store.${NC}\n"
+   elif ! gpg --list-keys "ehtrude@gmail.com" >/dev/null 2>&1; then
+      printf "${RED}GPG key for ehtrude@gmail.com not found. Please import the key for password-store.${NC}\n"
    else
-      printf "${CYAN}Password-store already present.${NC}\n"
+      if [ ! -d "$HOME/.password-store" ]; then
+         printf "${YELLOW}Cloning password-store...${NC}\n"
+         git clone git@github.com:TrudeEH/password-store.git "$HOME/.password-store"
+         if [ $? -ne 0 ]; then
+            printf "${RED}Error cloning password-store.${NC}\n"
+         else
+            printf "${GREEN}Password-store cloned successfully.${NC}\n"
+         fi
+      else
+         printf "${CYAN}Password-store already present.${NC}\n"
+      fi
    fi
 fi
 
