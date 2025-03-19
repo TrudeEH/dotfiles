@@ -152,12 +152,14 @@ if [ "$USER" = "trude" ]; then
 
    # Clone password-store
    if [ ! -f "$HOME/.ssh/id_ed25519" ] || [ ! -f "$HOME/.ssh/id_ed25519.pub" ]; then
-      printf "${RED}ED25519 key not found. Please add your ED25519 key pair for password-store.${NC}\n"
+      printf "${RED}ED25519 key not found in ${CYAN}$HOME/.ssh/id_ed25519. ${RED}Please add your ED25519 key pair for password-store.${NC}\n"
    elif ! gpg --list-keys "ehtrude@gmail.com" >/dev/null 2>&1; then
       printf "${RED}GPG key for ehtrude@gmail.com not found. Please import the key for password-store.${NC}\n"
    else
       if [ ! -d "$HOME/.password-store" ]; then
          printf "${YELLOW}Cloning password-store...${NC}\n"
+         chmod 700 ~/.ssh
+         chmod 600 ~/.ssh/*
          git clone git@github.com:TrudeEH/password-store.git "$HOME/.password-store"
          if [ $? -ne 0 ]; then
             printf "${RED}Error cloning password-store.${NC}\n"
