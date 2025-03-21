@@ -24,6 +24,13 @@ install_gnome_extension() {
          --method org.gnome.Shell.Extensions.InstallRemoteExtension \
          "$uuid" >/dev/null 2>&1
       return 0
+   elif gnome-extensions list --updates | grep -qw "$uuid"; then
+      printf "${GREEN}Sent update request for %s.${NC}\n" "$uuid"
+      gdbus call --session --dest org.gnome.Shell.Extensions \
+         --object-path /org/gnome/Shell/Extensions \
+         --method org.gnome.Shell.Extensions.InstallRemoteExtension \
+         "$uuid" >/dev/null 2>&1
+      return 0
    else
       printf "${GREEN}GNOME Extension %s is already installed.${NC}\n" "$uuid"
       return 0
