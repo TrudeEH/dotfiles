@@ -37,15 +37,13 @@ install_gnome_extension() {
    fi
 }
 
-mkdir -p "$HOME/dotfiles/logs"
-
 # Clone Dotfiles if not already present
 cd "$HOME/dotfiles"
 if [ "$(pwd)" != "$HOME/dotfiles" ]; then
    printf "${YELLOW}Cloning dotfiles repository...${NC}\n"
    git clone https://github.com/TrudeEH/dotfiles --depth 1
    if [ $? -ne 0 ]; then
-      printf "${RED}Error cloning dotfiles repository. Exiting...${NC}\n"
+      printf "${RED}Error cloning dotfiles repository. Is git installed? Exiting...${NC}\n"
       exit 2
    fi
    cd dotfiles || exit
@@ -62,6 +60,18 @@ fi
 
 source ./scripts/p.sh
 
+# NixOS
+if grep -qi "nixos" /etc/os-release; then
+   printf "${CYAN}NixOS detected.${NC}\n"
+   nixos=true
+   sudo cp -f /etc/nixos/configuration.nix /etc/nixos/configuration.nix.bak
+   sudo cp -f configuration.nix /etc/nixos/configuration.nix
+   sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos
+   p
+fi
+
+mkdir -p "$HOME/dotfiles/logs"
+
 printf "${CYAN}\n"
 printf "####################\n"
 printf "#"
@@ -73,13 +83,15 @@ printf "${CYAN}Desktop: ${PURPLE}%s${NC}\n" "$XDG_CURRENT_DESKTOP"
 printf "\n"
 
 # Install Programs
-programs=(neovim curl git tmux htop fzf gcc make tldr pass lynis bat)
+if [ -z "$nixos" ]; then
+   programs=(neovim curl git tmux htop fzf gcc make tldr pass lynis bat)
 
-if [[ "$OSTYPE" != "darwin"* ]]; then
-   programs+=(ufw s-tui)
+   if [[ "$OSTYPE" != "darwin"* ]]; then
+      programs+=(ufw s-tui)
+   fi
+
+   p i "${programs[@]}"
 fi
-
-p i "${programs[@]}"
 
 # Copy files
 printf "${YELLOW}Installing Dotfiles...${NC}\n"
@@ -121,7 +133,7 @@ else
 fi
 
 # UFW Firewall
-if [[ "$OSTYPE" != "darwin"* ]]; then
+if [ -z "$nixos" ] && [[ "$OSTYPE" != "darwin"* ]]; then
    printf "${YELLOW}Setting up UFW...${NC}\n"
    sudo ufw default deny incoming
    sudo ufw default allow outgoing
@@ -137,7 +149,7 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
    else
       printf "${GREEN}UFW setup successfully.${NC}\n"
    fi
-else
+elif [[ "$OSTYPE" == "darwin"* ]]; then
    printf "${YELLOW}Enabling macOS Firewall...${NC}\n"
    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
    if [ $? -ne 0 ]; then

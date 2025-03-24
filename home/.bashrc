@@ -84,13 +84,6 @@ alias cat="bat"
 
 set completion-ignore-case On
 
-# bash-completion
-if [[ "$OSTYPE" != "darwin"* ]] && [ ! -f /usr/share/bash-completion/bash_completion ]; then
-  p i bash-completion
-fi
-
-. /usr/share/bash-completion/bash_completion
-
 export OFLAGS="--ozone-platform-hint=auto"
 
 export PATH=$PATH:$HOME/.local/bin
