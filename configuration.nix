@@ -57,7 +57,7 @@
     description = "TrudeEH";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [ # GUI and user apps
-      vscode brave discord prismlauncher
+      vscode brave discord prismlauncher obsidian
     ];
   };
 
