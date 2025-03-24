@@ -52,8 +52,11 @@ p() (
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
       printf "%b\n" "${YELLOW}Updating nix...${ENDCOLOR}"
       nix-channel --update
-      sudo nix-channel --update
       nix-collect-garbage --delete-older-than 7d
+      if command -v nixos-rebuild >/dev/null 2>&1; then
+        sudo nix-channel --update
+        sudo nixos-rebuild switch
+      fi
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
       printf "%b\n" "${YELLOW}Updating brew...${ENDCOLOR}"
@@ -98,15 +101,6 @@ p() (
   checkP() {
     app_name=$(echo "$1" | tr '[:upper:]' '[:lower:]')
     app_name=$(echo "$app_name" | tr " " -)
-
-    if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      flatpak_apps=$(flatpak list --columns=application)
-      echo $flatpak_apps | grep -iq $app_name
-      flatpak_success=$?
-      if [[ $flatpak_success == 0 ]]; then
-        printf "%b\n" "${GREEN}${BOLD}Flatpak:${ENDCOLOR}${GREEN} $(echo "$flatpak_apps" | tr ' ' '\n' | grep -i "$app_name")${ENDCOLOR}"
-      fi
-    fi
     # Some package names are different from the command name
     case "$app_name" in
     neovim)
@@ -128,13 +122,23 @@ p() (
       commandName="$app_name"
       ;;
     esac
+
+    if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
+      flatpak_apps=$(flatpak list --columns=application)
+      echo $flatpak_apps | grep -iq $app_name
+      flatpak_success=$?
+      if [[ $flatpak_success == 0 ]]; then
+        printf "%b\n" "${GREEN}${BOLD}Flatpak:${ENDCOLOR}${GREEN} $(echo "$flatpak_apps" | tr ' ' '\n' | grep -i "$app_name")${ENDCOLOR}"
+      fi
+    fi
+
     which "$commandName" &>/dev/null
     distro_success=$?
     if [[ $distro_success == 0 ]]; then
       printf "%b\n" "${GREEN}${BOLD}Distro:${ENDCOLOR}${GREEN} $app_name is installed.${ENDCOLOR}"
     fi
 
-    if [[ $flatpak_success != 0 && $nix_success != 0 && $brew_success != 0 && $distro_success != 0 ]]; then
+    if [[ $flatpak_success != 0 && $distro_success != 0 ]]; then
       printf "%b\n" "${YELLOW}$app_name not installed.${ENDCOLOR}"
       return 1
     fi
