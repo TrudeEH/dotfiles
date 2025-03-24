@@ -150,13 +150,6 @@ p() (
       printf "%b\n" "${GREEN}$1 is already installed.${ENDCOLOR}"
       return 0
     fi
-    if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      printf "%b\n" "${YELLOW}Attempting nix install...${ENDCOLOR}"
-      nix-env -iA nixpkgs.$1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
       printf "%b\n" "${YELLOW}Attempting brew install...${ENDCOLOR}"
       brew install $1
@@ -213,10 +206,6 @@ p() (
         return 0
       fi
     fi
-    if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      printf "%b\n" "${YELLOW}Attempting nix uninstall...${ENDCOLOR}"
-      nix-env --uninstall $1
-    fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
       printf "%b\n" "${YELLOW}Attempting brew uninstall...${ENDCOLOR}"
       brew uninstall $1
@@ -247,6 +236,16 @@ p() (
     return 1
   }
 
+  shellP() {
+    if [[ ${packageManagers[@]} =~ "nix" ]]; then
+      printf "%b\n" "${YELLOW}Attempting to create nix shell...${ENDCOLOR}"
+      nix-shell -p $1
+      if [[ $? == 0 ]]; then
+        return 0
+      fi
+    fi
+  }
+
   # If no parameter or u
   printf "%b\n" "${CYAN}Detected package managers: ${MAGENTA}${packageManagers[*]}${ENDCOLOR}"
   if [ -z $1 ] || [ $1 = "u" ]; then
@@ -267,12 +266,16 @@ p() (
     for package in "$@"; do
       checkP $package
     done
+  elif [ $1 = "s" ]; then # If first parameter is s (shell)
+    shift
+    shellP $@
   else
     printf "%b\n" "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
     printf "%b\n" "p (u)       ${FAINT}- update os${ENDCOLOR}"
     printf "%b\n" "p i package ${FAINT}- install package${ENDCOLOR}"
     printf "%b\n" "p r package ${FAINT}- remove package${ENDCOLOR}"
     printf "%b\n" "p c package ${FAINT}- check if package is installed${ENDCOLOR}"
+    printf "%b\n" "p s packages ${FAINT}- launch a nix shell with the specified packages${ENDCOLOR}"
     printf "%b\n" "${FAINT}Supported package managers: flatpak, nix, brew, apt, paru, pacman, dnf${ENDCOLOR}"
     return 1
   fi
