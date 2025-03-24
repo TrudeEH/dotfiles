@@ -58,6 +58,16 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [ # GUI and user apps
       vscode brave discord prismlauncher obsidian
+
+      # Gnome-Circle Apps
+      devhelp sysprof gnome-builder gnome-boxes
+      dialect commit binary authenticator
+      webfontkitgenerator video-trimmer
+      textpieces switcheroo pika-backup
+      resources gnome-obfuscate gnome-podcasts
+      letterpress impression gnome-graphs
+      fragments eyedropper raider curtail
+      collision warp
     ];
   };
 
