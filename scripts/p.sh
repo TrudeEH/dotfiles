@@ -52,10 +52,13 @@ p() (
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
       printf "%b\n" "${YELLOW}Updating nix...${ENDCOLOR}"
       nix-channel --update
-      nix-collect-garbage --delete-older-than 7d
+      nix-collect-garbage --delete-older-than 7d &>/dev/null
       if command -v nixos-rebuild >/dev/null 2>&1; then
         sudo nix-channel --update
-        sudo nixos-rebuild switch
+        printf "${YELLOW}Rebuilding NixOS...${NC}\n"
+        sudo nixos-rebuild switch &>/tmp/nixos_rebuild.log || (
+          cat /tmp/nixos_rebuild.log | grep --color error && false
+        )
       fi
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
