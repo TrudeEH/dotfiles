@@ -80,7 +80,12 @@ alias t='tmux'
 alias v='nvim'
 alias t="tmux"
 alias ta="tmux attach"
-alias cat="bat"
+
+if command -v batcat 2>&1 >/dev/null; then
+    alias cat=batcat
+else
+    alias cat=bat
+fi
 
 set completion-ignore-case On
 
