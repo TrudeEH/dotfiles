@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# -r : Only reload configurations
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -36,6 +38,15 @@ install_gnome_extension() {
       return 0
    fi
 }
+
+# Flags
+reload=false
+for arg in "$@"; do
+   if [ "$arg" = "-r" ]; then
+      reload=true
+      break
+   fi
+done
 
 # Clone Dotfiles if not already present
 cd "$HOME/dotfiles"
@@ -83,7 +94,7 @@ printf "${CYAN}Desktop: ${PURPLE}%s${NC}\n" "$XDG_CURRENT_DESKTOP"
 printf "\n"
 
 # Install Programs
-if [ -z "$nixos" ]; then
+if [ "$reload" = false ] && [ -z "$nixos" ]; then
    programs=(neovim curl git tmux htop fzf gcc make tldr pass lynis bat)
 
    if [[ "$OSTYPE" != "darwin"* ]]; then
@@ -133,7 +144,7 @@ else
 fi
 
 # UFW Firewall
-if [ -z "$nixos" ] && [[ "$OSTYPE" != "darwin"* ]]; then
+if [ "$reload" = false ] && [ -z "$nixos" ] && [[ "$OSTYPE" != "darwin"* ]]; then
    printf "${YELLOW}Setting up UFW...${NC}\n"
    sudo ufw default deny incoming
    sudo ufw default allow outgoing
@@ -149,7 +160,7 @@ if [ -z "$nixos" ] && [[ "$OSTYPE" != "darwin"* ]]; then
    else
       printf "${GREEN}UFW setup successfully.${NC}\n"
    fi
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ "$OSTYPE" == "darwin"* && "$reload" = false ]]; then
    printf "${YELLOW}Enabling macOS Firewall...${NC}\n"
    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
    if [ $? -ne 0 ]; then
@@ -192,7 +203,7 @@ if [ "$USER" = "trude" ]; then
 fi
 
 # Security Scan
-if [ ! -f "$HOME/dotfiles/logs/lynis_scan.log" ]; then
+if [ "$reload" = false ] && [ ! -f "$HOME/dotfiles/logs/lynis_scan.log" ]; then
    printf "${YELLOW}Running Lynis Security Scan...${NC}\n"
    sudo lynis audit system | tee "$HOME/dotfiles/logs/lynis_scan.log"
    if [ $? -ne 0 ]; then
