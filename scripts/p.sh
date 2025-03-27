@@ -101,141 +101,71 @@ p() (
     fi
   }
 
-  checkP() {
-    app_name=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-    app_name=$(echo "$app_name" | tr " " -)
-    # Some package names are different from the command name
-    case "$app_name" in
-    neovim)
-      commandName="nvim"
-      ;;
-    python)
-      commandName="python3"
-      ;;
-    nodejs)
-      commandName="node"
-      ;;
-    docker-compose)
-      commandName="docker compose"
-      ;;
-    pip)
-      commandName="pip3"
-      ;;
-    *)
-      commandName="$app_name"
-      ;;
-    esac
-
-    if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      flatpak_apps=$(flatpak list --columns=application)
-      echo $flatpak_apps | grep -iq $app_name
-      flatpak_success=$?
-      if [[ $flatpak_success == 0 ]]; then
-        printf "%b\n" "${GREEN}${BOLD}Flatpak:${ENDCOLOR}${GREEN} $(echo "$flatpak_apps" | tr ' ' '\n' | grep -i "$app_name")${ENDCOLOR}"
-      fi
-    fi
-
-    which "$commandName" &>/dev/null
-    distro_success=$?
-    if [[ $distro_success == 0 ]]; then
-      printf "%b\n" "${GREEN}${BOLD}Distro:${ENDCOLOR}${GREEN} $app_name is installed.${ENDCOLOR}"
-    fi
-
-    if [[ $flatpak_success != 0 && $distro_success != 0 ]]; then
-      printf "%b\n" "${YELLOW}$app_name not installed.${ENDCOLOR}"
-      return 1
-    fi
-  }
-
   installP() {
-    checkP $1
-    if [[ $? != 1 ]]; then
-      printf "%b\n" "${GREEN}$1 is already installed.${ENDCOLOR}"
-      return 0
-    fi
-    if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      printf "%b\n" "${YELLOW}Attempting brew install...${ENDCOLOR}"
-      brew install $1
+    for pm in "${packageManagers[@]}"; do
+      printf "%b\n" "${YELLOW}Attempting ${pm} install...${ENDCOLOR}"
+      case "$pm" in
+      flatpak)
+        flatpak install "$1"
+        ;;
+      paru)
+        paru -Sy "$1"
+        ;;
+      apt)
+        sudo apt install "$1"
+        ;;
+      pacman)
+        sudo pacman -Sy "$1"
+        ;;
+      dnf)
+        sudo dnf install "$1"
+        ;;
+      brew)
+        brew install "$1"
+        ;;
+      *)
+        continue
+        ;;
+      esac
       if [[ $? == 0 ]]; then
         return 0
       fi
-    fi
-    if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      printf "%b\n" "${YELLOW}Attempting apt install...${ENDCOLOR}"
-      sudo apt install $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    elif [[ ${packageManagers[@]} =~ "paru" ]]; then
-      printf "%b\n" "${YELLOW}Attempting paru install...${ENDCOLOR}"
-      paru -Sy $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      printf "%b\n" "${YELLOW}Attempting pacman install...${ENDCOLOR}"
-      sudo pacman -Sy $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      printf "%b\n" "${YELLOW}Attempting dnf install...${ENDCOLOR}"
-      sudo dnf install $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    fi
-    if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      printf "%b\n" "${YELLOW}Attempting flatpak install...${ENDCOLOR}"
-      flatpak install $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    fi
-    printf "%b\n" "${RED}ERROR - $1 not found.${ENDCOLOR}"
+    done
+    printf "%b\n" "${RED}ERROR: $1 not found.${ENDCOLOR}"
     return 1
   }
 
   removeP() {
-    checkP $1
-    if [[ $? != 0 ]]; then
-      printf "%b\n" "${YELLOW}$1 is not installed.${ENDCOLOR}"
-      return 0
-    fi
-    if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      printf "%b\n" "${YELLOW}Attempting flatpak uninstall...${ENDCOLOR}"
-      flatpak uninstall $1
+    for pm in "${packageManagers[@]}"; do
+      printf "%b\n" "${YELLOW}Attempting ${pm} uninstall...${ENDCOLOR}"
+      case "$pm" in
+      flatpak)
+        flatpak uninstall "$1"
+        ;;
+      brew)
+        brew uninstall "$1"
+        ;;
+      apt)
+        sudo apt remove "$1"
+        ;;
+      pacman)
+        sudo pacman -Rs "$1"
+        ;;
+      paru)
+        paru -Rns "$1"
+        ;;
+      dnf)
+        sudo dnf remove "$1"
+        ;;
+      *)
+        continue
+        ;;
+      esac
       if [[ $? == 0 ]]; then
         return 0
       fi
-    fi
-    if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      printf "%b\n" "${YELLOW}Attempting brew uninstall...${ENDCOLOR}"
-      brew uninstall $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    fi
-    if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      printf "%b\n" "${YELLOW}Attempting apt uninstall...${ENDCOLOR}"
-      sudo apt remove $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      printf "%b\n" "${YELLOW}Attempting pacman uninstall...${ENDCOLOR}"
-      sudo pacman -Rs $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      printf "%b\n" "${YELLOW}Attempting dnf uninstall...${ENDCOLOR}"
-      sudo dnf remove $1
-      if [[ $? == 0 ]]; then
-        return 0
-      fi
-    fi
-    printf "%b\n" "${RED}ERROR - Failed to uninstall $1.${ENDCOLOR}"
+    done
+    printf "%b\n" "${RED}ERROR: $1 not found.${ENDCOLOR}"
     return 1
   }
 
@@ -277,7 +207,6 @@ p() (
     printf "%b\n" "p (u)       ${FAINT}- update os${ENDCOLOR}"
     printf "%b\n" "p i package ${FAINT}- install package${ENDCOLOR}"
     printf "%b\n" "p r package ${FAINT}- remove package${ENDCOLOR}"
-    printf "%b\n" "p c package ${FAINT}- check if package is installed${ENDCOLOR}"
     printf "%b\n" "p s packages ${FAINT}- launch a nix shell with the specified packages${ENDCOLOR}"
     printf "%b\n" "${FAINT}Supported package managers: flatpak, nix, brew, apt, paru, pacman, dnf${ENDCOLOR}"
     return 1
