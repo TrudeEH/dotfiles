@@ -82,9 +82,7 @@ alias t="tmux"
 alias ta="tmux attach"
 
 if command -v batcat 2>&1 >/dev/null; then
-    alias cat=batcat
-else
-    alias cat=bat
+  alias bat=batcat
 fi
 
 set completion-ignore-case On
