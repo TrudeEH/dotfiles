@@ -1,26 +1,28 @@
 #!/bin/sh
+# Script to display CPU usage
 
-# Module showing overall CPU usage as a percentage.
 # Cache in tmpfs to improve speed and reduce SSD load
-cache=/tmp/cpubarscache
-
-# Extract CPU stats (total time and idle time)
-cpu_stats=$(awk '/^cpu / {print $2 + $3 + $4 + $5, $5}' /proc/stat)
-
-# Check if cache exists, if not, initialize it
-[ ! -f $cache ] && echo "$cpu_stats" > "$cache"
-
-# Read previous CPU stats from cache
-prev_stats=$(cat "$cache")
-
-# Calculate CPU usage percentage and exit immediately
-echo "$cpu_stats $prev_stats" | awk '{
+cache=/tmp/cpu-script-cache
+rm /tmp/cpu-script-cache 2>/dev/null
+while true; do
+    sleep 1
+    cpu_stats=$(awk '/^cpu / {print $2 + $3 + $4 + $5, $5}' /proc/stat)
+    if [ ! -f "$cache" ]; then
+        printf "   ---%%   \r"
+        echo "$cpu_stats" >"$cache"
+        continue
+    fi
+    prev_stats=$(cat "$cache")
+    echo "$cpu_stats $prev_stats" | awk '{
     total_diff = $1 - $3
     idle_diff = $2 - $4
-    usage = 100 * (1 - idle_diff / total_diff)
-    printf " %.1f%%\n", usage
-    exit  # Terminate script after printing the first line
+    if (total_diff == 0) {
+        usage = 0
+    } else {
+        usage = 100 * (1 - idle_diff / total_diff)
+    }
+    printf "   %.1f%%   \r", usage
+    exit
 }'
-
-# Update cache with current stats
-echo "$cpu_stats" > "$cache"
+    echo "$cpu_stats" >"$cache"
+done
