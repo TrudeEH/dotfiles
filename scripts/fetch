@@ -25,7 +25,7 @@ echo -e "${CYAN}Host:${ENDCOLOR} ${HOST_MODEL}"
 # Kernel version
 echo -e "${CYAN}Kernel:${ENDCOLOR} Linux $(uname -r)"
 
-# Uptime in human-readable format
+# Uptime
 UPTIME=$(uptime -p | sed 's/up //')
 echo -e "${CYAN}Uptime:${ENDCOLOR} $UPTIME"
 
@@ -46,11 +46,11 @@ echo -e "${CYAN}DE:${ENDCOLOR} $DE"
 CPU=$(awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo | sed 's/^[ \t]*//')
 echo -e "${CYAN}CPU:${ENDCOLOR} $CPU"
 
-# GPU information extracted via lspci
+# GPU info
 GPU=$(lspci | grep -i 'vga\|3d' | head -n1 | cut -d: -f3 | sed 's/^[ \t]*//')
 echo -e "${CYAN}GPU:${ENDCOLOR} $GPU"
 
-# Memory usage: show used, total, and percentage used with conditional coloring
+# Memory usage
 mem_info=$(free | awk '/Mem:/ {print $2, $3}')
 read total used <<<"$mem_info"
 percent=$(awk "BEGIN {printf \"%.0f\", ($used/$total)*100}")
@@ -67,7 +67,7 @@ mem_total=$(free -h | awk '/Mem:/ {print $2}')
 mem_used=$(free -h | awk '/Mem:/ {print $3}')
 echo -e "${CYAN}Memory:${ENDCOLOR} ${mem_used} / ${mem_total} (${percent_color}${percent}%${ENDCOLOR})"
 
-# Swap usage (used/total)
+# Swap usage
 swap_used=$(free -h | awk '/Swap/ {print $3}')
 swap_total=$(free -h | awk '/Swap/ {print $2}')
 swap_perc=$(free | awk '/Swap/ {if($2>0){printf("%.0f", ($3/$2)*100)} else {print "0"}}')
@@ -82,7 +82,7 @@ fi
 
 echo -e "${CYAN}Swap:${ENDCOLOR} ${swap_used} / ${swap_total} (${swap_perc_color}${swap_perc}%${ENDCOLOR})"
 
-# Root disk usage without repeating filesystem label
+# Root disk usage
 root_line=$(df -h / | awk 'NR==2')
 root_used=$(echo $root_line | awk '{print $3}')
 root_total=$(echo $root_line | awk '{print $2}')
@@ -96,7 +96,7 @@ else
 fi
 echo -e "${CYAN}Disk (/):${ENDCOLOR} ${root_used} / ${root_total} (${root_color}${root_percent}%${ENDCOLOR})"
 
-# /home disk usage without duplicating the label
+# /home disk usage
 home_line=$(df -h /home 2>/dev/null | awk 'NR==2')
 if [ -n "$home_line" ]; then
   home_used=$(echo $home_line | awk '{print $3}')

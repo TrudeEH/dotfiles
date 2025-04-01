@@ -1,0 +1,3 @@
+#!/bin/sh
+
+free --mebi | sed -n '2{p;q}' | awk '{printf (" %.1f%%\n", ($4/$2)*100)}'
