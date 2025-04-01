@@ -36,3 +36,5 @@ sudo dpkg -i ../linux-image*-custom*.deb
 echo -e "\n${YELLOW}Cleaning up...${ENDCOLOR}\n"
 cd ../..
 rm -rf linux-parent
+
+dpkg --list | grep linux-image
