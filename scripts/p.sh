@@ -41,6 +41,7 @@ pcheck() {
 }
 
 p() (
+  trap "echo -e '\n${RED}p interrupted.${NC}'; exit 1" SIGINT SIGTERM
   packageManagers=($(pcheck))
 
   updateP() {
