@@ -11,6 +11,8 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+trap "echo -e '${RED}install.sh interrupted.${NC}'; exit 1" SIGINT SIGTERM
+
 install_gnome_extension() {
    local uuid="$1"
 
