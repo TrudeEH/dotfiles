@@ -1,0 +1,18 @@
+#! /bin/bash
+
+YELLOW="\e[33m"
+ENDCOLOR="\e[0m"
+
+printf "%b\n" "${YELLOW}Updating apt...${ENDCOLOR}"
+sudo apt update
+sudo apt upgrade
+sudo apt dist-upgrade
+sudo apt autoremove
+sudo apt autoclean
+
+if command -v flatpak >/dev/null 2>&1; then
+  printf "%b\n" "${YELLOW}Updating flatpak...${ENDCOLOR}"
+  flatpak update
+  flatpak uninstall --unused --delete-data
+fi
+

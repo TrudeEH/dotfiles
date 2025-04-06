@@ -18,9 +18,6 @@ ENDCOLOR="\e[0m"
 
 pcheck() {
   local pms=()
-  if command -v flatpak >/dev/null 2>&1; then
-    pms+=("flatpak")
-  fi
   if command -v nix >/dev/null 2>&1; then
     pms+=("nix")
   fi
@@ -36,6 +33,9 @@ pcheck() {
     pms+=("pacman")
   elif command -v dnf >/dev/null 2>&1; then
     pms+=("dnf")
+  fi
+  if command -v flatpak >/dev/null 2>&1; then
+    pms+=("flatpak")
   fi
   echo "${pms[@]}"
 }
