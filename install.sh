@@ -54,9 +54,11 @@ done
 cd "$HOME/dotfiles"
 if [ "$(pwd)" != "$HOME/dotfiles" ]; then
    printf "${YELLOW}Cloning dotfiles repository...${NC}\n"
+   sudo apt update
+   sudo apt install -y git
    git clone https://github.com/TrudeEH/dotfiles --depth 1
    if [ $? -ne 0 ]; then
-      printf "${RED}Error cloning dotfiles repository. Is git installed? Exiting...${NC}\n"
+      printf "${RED}Error cloning dotfiles repository. Exiting...${NC}\n"
       exit 2
    fi
    cd dotfiles || exit
@@ -71,82 +73,39 @@ else
    fi
 fi
 
-source ./scripts/p.sh
-
-# NixOS
-if grep -qi "nixos" /etc/os-release; then
-   printf "${CYAN}NixOS detected.${NC}\n"
-   nixos=true
-   sudo cp -f /etc/nixos/configuration.nix /etc/nixos/configuration.nix.bak
-   sudo cp -f configuration.nix /etc/nixos/configuration.nix
-   sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos
-   p
-fi
-
 mkdir -p "$HOME/dotfiles/logs"
+source scripts/fetch
 
 printf "${CYAN}\n"
 printf "####################\n"
 printf "#"
 printf "${PURPLE} Trude's Dotfiles${CYAN} #\n"
 printf "####################\n"
-printf "${CYAN}Running on: ${PURPLE}%s${NC}\n" "$OSTYPE"
-printf "${CYAN}User: ${PURPLE}%s${NC}\n" "$USER"
-printf "${CYAN}Desktop: ${PURPLE}%s${NC}\n" "$XDG_CURRENT_DESKTOP"
+fetch
 printf "\n"
 
 # Install Programs
-if [ "$reload" = false ] && [ -z "$nixos" ]; then
-   programs=(neovim curl git tmux htop fzf gcc make tldr pass lynis bat)
-
-   if [[ "$OSTYPE" != "darwin"* ]]; then
-      programs+=(ufw s-tui)
-   fi
-
-   p i "${programs[@]}"
+if [ "$reload" = false ]; then
+   sudo apt install neovim curl git tmux htop fzf tldr pass lynis bat ufw s-tui build-essential
 fi
 
 # Copy files
 printf "${YELLOW}Installing Dotfiles...${NC}\n"
 cp -r "$HOME/dotfiles/home/." "$HOME"
-if [ $? -ne 0 ]; then
-   printf "${RED}Error copying Dotfiles.${NC}\n"
-else
-   printf "${GREEN}Dotfiles installed successfully.${NC}\n"
-fi
 
 # Copy scripts
 printf "${YELLOW}Installing Scripts...${NC}\n"
 mkdir -p "$HOME/.local/bin"
 cp -r "$HOME/dotfiles/scripts/." "$HOME/.local/bin/"
-if [ $? -ne 0 ]; then
-   printf "${RED}Error copying Scripts.${NC}\n"
-else
-   printf "${GREEN}Scripts installed successfully.${NC}\n"
-fi
 
 # Install fonts
 printf "${YELLOW}Installing fonts...${NC}\n"
-if [[ "$OSTYPE" == "darwin"* ]]; then
-   cp -rf "$HOME/dotfiles/fonts/"* "$HOME/Library/Fonts/"
-   if [ $? -ne 0 ]; then
-      printf "${RED}Error installing fonts.${NC}\n"
-   else
-      printf "${GREEN}Fonts installed successfully.${NC}\n"
-   fi
-else
-   mkdir -p "$HOME/.local/share/fonts"
-   cp -rf "$HOME/dotfiles/fonts/"* "$HOME/.local/share/fonts/"
-   if [ $? -ne 0 ]; then
-      printf "${RED}Error installing fonts.${NC}\n"
-   else
-      fc-cache -fv "$HOME/.local/share/fonts" >"$HOME/dotfiles/logs/font_install.log"
-      printf "${GREEN}Fonts installed successfully.${NC}\n"
-   fi
-fi
+mkdir -p "$HOME/.local/share/fonts"
+cp -rf "$HOME/dotfiles/fonts/"* "$HOME/.local/share/fonts/"
+fc-cache -fv "$HOME/.local/share/fonts" >"$HOME/dotfiles/logs/font_install.log"
 
 # UFW Firewall
-if [ "$reload" = false ] && [ -z "$nixos" ] && [[ "$OSTYPE" != "darwin"* ]]; then
+if [ "$reload" = false ]; then
    printf "${YELLOW}Setting up UFW...${NC}\n"
    sudo ufw default deny incoming
    sudo ufw default allow outgoing
@@ -157,19 +116,6 @@ if [ "$reload" = false ] && [ -z "$nixos" ] && [[ "$OSTYPE" != "darwin"* ]]; the
    sudo ufw enable
    sudo ss -tupln | tee "$HOME/dotfiles/logs/open_ports.log"
    sudo ufw status numbered | tee "$HOME/dotfiles/logs/ufw_status.log"
-   if [ $? -ne 0 ]; then
-      printf "${RED}Error setting up UFW.${NC}\n"
-   else
-      printf "${GREEN}UFW setup successfully.${NC}\n"
-   fi
-elif [[ "$OSTYPE" == "darwin"* && "$reload" = false ]]; then
-   printf "${YELLOW}Enabling macOS Firewall...${NC}\n"
-   sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-   if [ $? -ne 0 ]; then
-      printf "${RED}Error enabling Firewall.${NC}\n"
-   else
-      printf "${GREEN}Firewall enabled successfully.${NC}\n"
-   fi
 fi
 
 # Trude-only settings
