@@ -74,7 +74,6 @@ else
 fi
 
 mkdir -p "$HOME/dotfiles/logs"
-source scripts/fetch
 
 printf "${CYAN}\n"
 printf "####################\n"

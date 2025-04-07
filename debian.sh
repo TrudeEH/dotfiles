@@ -9,7 +9,7 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-trap "echo -e '${RED}install.sh interrupted.${NC}'; exit 1" SIGINT SIGTERM
+trap "echo -e '${RED}debian.sh interrupted.${NC}'; exit 1" SIGINT SIGTERM
 
 PS3="Debian Sources: "
 options=("Stable" "Testing")

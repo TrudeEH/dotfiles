@@ -14,7 +14,7 @@ FAINT="\e[2m"
 ITALIC="\e[3m"
 UNDERLINE="\e[4m"
 
-ENDCOLOR="\e[0m"
+NC="\e[0m"
 
 pcheck() {
   local pms=()
@@ -46,12 +46,12 @@ p() (
 
   updateP() {
     if [[ ${packageManagers[@]} =~ "flatpak" ]]; then
-      printf "%b\n" "${YELLOW}Updating flatpak...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Updating flatpak...${NC}"
       flatpak update
       flatpak uninstall --unused --delete-data
     fi
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      printf "%b\n" "${YELLOW}Updating nix...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Updating nix...${NC}"
       nix-channel --update
       nix-collect-garbage --delete-older-than 7d &>/dev/null
       if command -v nixos-rebuild >/dev/null 2>&1; then
@@ -63,20 +63,20 @@ p() (
       fi
     fi
     if [[ ${packageManagers[@]} =~ "brew" ]]; then
-      printf "%b\n" "${YELLOW}Updating brew...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Updating brew...${NC}"
       brew update
       brew doctor
       brew upgrade
     fi
     if [[ ${packageManagers[@]} =~ "apt" ]]; then
-      printf "%b\n" "${YELLOW}Updating apt...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Updating apt...${NC}"
       sudo apt update
       sudo apt upgrade
       sudo apt dist-upgrade
       sudo apt autoremove
       sudo apt autoclean
     elif [[ ${packageManagers[@]} =~ "pacman" ]]; then
-      printf "%b\n" "${YELLOW}Updating pacman...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Updating pacman...${NC}"
       sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
       if [[ ${packageManagers[@]} =~ "paru" ]]; then
         paru -Syu
@@ -85,7 +85,7 @@ p() (
       fi
       sudo pacman -Rsn $(pacman -Qdtq)
       if [ ! "$(command -v reflector)" ]; then
-        printf "%b\n" "${YELLOW}Selecting fastest pacman mirrors...${ENDCOLOR}"
+        printf "%b\n" "${YELLOW}Selecting fastest pacman mirrors...${NC}"
         sudo pacman -Sy --noconfirm reflector rsync curl
         iso=$(curl -4 ifconfig.co/country-iso)
         extra="FR"
@@ -96,7 +96,7 @@ p() (
       fi
       paccache -rk1
     elif [[ ${packageManagers[@]} =~ "dnf" ]]; then
-      printf "%b\n" "${YELLOW}Updating dnf...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Updating dnf...${NC}"
       sudo dnf upgrade --refresh
       sudo dnf autoremove
     fi
@@ -104,7 +104,7 @@ p() (
 
   installP() {
     for pm in "${packageManagers[@]}"; do
-      printf "%b\n" "${YELLOW}Attempting ${pm} install...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting ${pm} install...${NC}"
       case "$pm" in
       flatpak)
         flatpak install "$1"
@@ -132,13 +132,13 @@ p() (
         return 0
       fi
     done
-    printf "%b\n" "${RED}ERROR: $1 not found.${ENDCOLOR}"
+    printf "%b\n" "${RED}ERROR: $1 not found.${NC}"
     return 1
   }
 
   removeP() {
     for pm in "${packageManagers[@]}"; do
-      printf "%b\n" "${YELLOW}Attempting ${pm} uninstall...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting ${pm} uninstall...${NC}"
       case "$pm" in
       flatpak)
         flatpak uninstall "$1"
@@ -166,13 +166,13 @@ p() (
         return 0
       fi
     done
-    printf "%b\n" "${RED}ERROR: $1 not found.${ENDCOLOR}"
+    printf "%b\n" "${RED}ERROR: $1 not found.${NC}"
     return 1
   }
 
   shellP() {
     if [[ ${packageManagers[@]} =~ "nix" ]]; then
-      printf "%b\n" "${YELLOW}Attempting to create nix shell...${ENDCOLOR}"
+      printf "%b\n" "${YELLOW}Attempting to create nix shell...${NC}"
       nix-shell -p $1
       if [[ $? == 0 ]]; then
         return 0
@@ -181,7 +181,7 @@ p() (
   }
 
   # If no parameter or u
-  printf "%b\n" "${CYAN}Detected package managers: ${MAGENTA}${packageManagers[*]}${ENDCOLOR}"
+  printf "%b\n" "${CYAN}Detected package managers: ${MAGENTA}${packageManagers[*]}${NC}"
   if [ -z $1 ] || [ $1 = "u" ]; then
     updateP
     return 0
@@ -204,12 +204,12 @@ p() (
     shift
     shellP $@
   else
-    printf "%b\n" "${YELLOW}${UNDERLINE}[i] Usage:${ENDCOLOR}"
-    printf "%b\n" "p (u)       ${FAINT}- update os${ENDCOLOR}"
-    printf "%b\n" "p i package ${FAINT}- install package${ENDCOLOR}"
-    printf "%b\n" "p r package ${FAINT}- remove package${ENDCOLOR}"
-    printf "%b\n" "p s packages ${FAINT}- launch a nix shell with the specified packages${ENDCOLOR}"
-    printf "%b\n" "${FAINT}Supported package managers: flatpak, nix, brew, apt, paru, pacman, dnf${ENDCOLOR}"
+    printf "%b\n" "${YELLOW}${UNDERLINE}[i] Usage:${NC}"
+    printf "%b\n" "p (u)       ${FAINT}- update os${NC}"
+    printf "%b\n" "p i package ${FAINT}- install package${NC}"
+    printf "%b\n" "p r package ${FAINT}- remove package${NC}"
+    printf "%b\n" "p s packages ${FAINT}- launch a nix shell with the specified packages${NC}"
+    printf "%b\n" "${FAINT}Supported package managers: flatpak, nix, brew, apt, paru, pacman, dnf${NC}"
     return 1
   fi
 )
