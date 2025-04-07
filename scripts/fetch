@@ -20,7 +20,8 @@ echo -e "${CYAN}OS:${ENDCOLOR} $OS $ARCH"
 
 # Host Model
 HOST_MODEL=$(cat /sys/class/dmi/id/product_name 2>/dev/null)
-echo -e "${CYAN}Host:${ENDCOLOR} ${HOST_MODEL}"
+HOST_VERSION=$(cat /sys/class/dmi/id/product_version 2>/dev/null)
+echo -e "${CYAN}Host:${ENDCOLOR} ${HOST_VERSION} (${HOST_MODEL})"
 
 # Kernel version
 echo -e "${CYAN}Kernel:${ENDCOLOR} Linux $(uname -r)"
