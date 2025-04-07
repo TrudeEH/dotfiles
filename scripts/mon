@@ -1,0 +1,73 @@
+#! /bin/bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+CYAN="\e[36m"
+NC="\e[0m"
+
+trap "echo -e '${CYAN}System Monitor interrupted.${NC}'; exit 1" SIGINT SIGTERM
+
+for i in {0..3}; do
+  echo
+done
+
+# Cache in tmpfs to improve speed and reduce SSD load
+cache=/tmp/cpu-script-cache
+rm /tmp/cpu-script-cache 2>/dev/null
+while true; do
+  # CPU
+  cpu_stats=$(awk '/^cpu / {print $2 + $3 + $4 + $5, $5}' /proc/stat)
+  if [ ! -f "$cache" ]; then
+    echo "$cpu_stats" >"$cache"
+    cpu_color=$CYAN
+    usage="--"
+  else
+    prev_stats=$(cat "$cache")
+    total=$(echo "$prev_stats" | awk '{print $1}')
+    prev_idle=$(echo "$prev_stats" | awk '{print $2}')
+    curr_total=$(echo "$cpu_stats" | awk '{print $1}')
+    curr_idle=$(echo "$cpu_stats" | awk '{print $2}')
+    total_diff=$((curr_total - total))
+    idle_diff=$((curr_idle - prev_idle))
+
+    if [ "$total_diff" -eq 0 ]; then
+      usage=0 # Avoid division by zero
+    else
+      usage=$((100 * (total_diff - idle_diff) / total_diff))
+    fi
+
+    if [ "$usage" -lt 50 ]; then
+      cpu_color=$GREEN
+    elif [ "$usage" -lt 70 ]; then
+      cpu_color=$YELLOW
+    else
+      cpu_color=$RED
+    fi
+  fi
+
+  # MEMORY
+  mem_info=$(free | awk '/Mem:/ {print $2, $3}')
+  read total used <<<"$mem_info"
+  percent=$(awk "BEGIN {printf \"%.0f\", ($used/$total)*100}")
+
+  mem_total=$(free -h | awk '/Mem:/ {print $2}')
+  mem_used=$(free -h | awk '/Mem:/ {print $3}')
+
+  if [ "$percent" -le 60 ]; then
+    mem_color=$GREEN
+  elif [ "$percent" -le 80 ]; then
+    mem_color=$YELLOW
+  else
+    mem_color=$RED
+  fi
+
+  echo -ne "\033[4A"
+  echo -e "============================="
+  echo -e "  ${cpu_color}${usage}%${NC}     "
+  echo -e "  ${mem_used} / ${mem_total} (${mem_color}${percent}%${NC})      "
+  echo -e "============================="
+
+  echo "$cpu_stats" >"$cache"
+  sleep 2
+done

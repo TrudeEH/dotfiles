@@ -7,49 +7,49 @@ YELLOW="\e[33m"
 MAGENTA="\e[35m"
 CYAN="\e[36m"
 BOLD="\e[1m"
-ENDCOLOR="\e[0m"
+NC="\e[0m"
 
 # User and host info
-echo -e "${BOLD}${MAGENTA}${USER}@$(hostname)${ENDCOLOR}"
+echo -e "${BOLD}${MAGENTA}${USER}@$(hostname)${NC}"
 echo "---------"
 
 # OS and architecture
 OS=$(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"')
 ARCH=$(uname -m)
-echo -e "${CYAN}OS:${ENDCOLOR} $OS $ARCH"
+echo -e "${CYAN}OS:${NC} $OS $ARCH"
 
 # Host Model
 HOST_MODEL=$(cat /sys/class/dmi/id/product_name 2>/dev/null)
 HOST_VERSION=$(cat /sys/class/dmi/id/product_version 2>/dev/null)
-echo -e "${CYAN}Host:${ENDCOLOR} ${HOST_VERSION} (${HOST_MODEL})"
+echo -e "${CYAN}Host:${NC} ${HOST_VERSION} (${HOST_MODEL})"
 
 # Kernel version
-echo -e "${CYAN}Kernel:${ENDCOLOR} Linux $(uname -r)"
+echo -e "${CYAN}Kernel:${NC} Linux $(uname -r)"
 
 # Uptime
 UPTIME=$(uptime -p | sed 's/up //')
-echo -e "${CYAN}Uptime:${ENDCOLOR} $UPTIME"
+echo -e "${CYAN}Uptime:${NC} $UPTIME"
 
 # Package counts: dpkg and flatpak
 PKG_COUNT=$(dpkg-query -f '${binary:Package}\n' -W 2>/dev/null | wc -l)
 FLAT_COUNT=$(flatpak list 2>/dev/null | wc -l)
-echo -e "${CYAN}Packages:${ENDCOLOR} ${PKG_COUNT} (dpkg), ${FLAT_COUNT} (flatpak)"
+echo -e "${CYAN}Packages:${NC} ${PKG_COUNT} (dpkg), ${FLAT_COUNT} (flatpak)"
 
 # Shell and version
 BASH_VER=$(bash --version | head -n1 | awk '{print $4}' | cut -d'(' -f1)
-echo -e "${CYAN}Shell:${ENDCOLOR} bash ${BASH_VER}"
+echo -e "${CYAN}Shell:${NC} bash ${BASH_VER}"
 
 # Desktop Environment
 DE=${XDG_CURRENT_DESKTOP:-"Unknown"}
-echo -e "${CYAN}DE:${ENDCOLOR} $DE"
+echo -e "${CYAN}DE:${NC} $DE"
 
 # CPU model from /proc/cpuinfo
 CPU=$(awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo | sed 's/^[ \t]*//')
-echo -e "${CYAN}CPU:${ENDCOLOR} $CPU"
+echo -e "${CYAN}CPU:${NC} $CPU"
 
 # GPU info
 GPU=$(lspci | grep -i 'vga\|3d' | head -n1 | cut -d: -f3 | sed 's/^[ \t]*//')
-echo -e "${CYAN}GPU:${ENDCOLOR} $GPU"
+echo -e "${CYAN}GPU:${NC} $GPU"
 
 # Memory usage
 mem_info=$(free | awk '/Mem:/ {print $2, $3}')
@@ -66,7 +66,7 @@ fi
 
 mem_total=$(free -h | awk '/Mem:/ {print $2}')
 mem_used=$(free -h | awk '/Mem:/ {print $3}')
-echo -e "${CYAN}Memory:${ENDCOLOR} ${mem_used} / ${mem_total} (${percent_color}${percent}%${ENDCOLOR})"
+echo -e "${CYAN}Memory:${NC} ${mem_used} / ${mem_total} (${percent_color}${percent}%${NC})"
 
 # Swap usage
 swap_used=$(free -h | awk '/Swap/ {print $3}')
@@ -81,7 +81,7 @@ else
   swap_perc_color=$RED
 fi
 
-echo -e "${CYAN}Swap:${ENDCOLOR} ${swap_used} / ${swap_total} (${swap_perc_color}${swap_perc}%${ENDCOLOR})"
+echo -e "${CYAN}Swap:${NC} ${swap_used} / ${swap_total} (${swap_perc_color}${swap_perc}%${NC})"
 
 # Root disk usage
 root_line=$(df -h / | awk 'NR==2')
@@ -95,7 +95,7 @@ elif [ "$root_percent" -le 80 ]; then
 else
   root_color=$RED
 fi
-echo -e "${CYAN}Disk (/):${ENDCOLOR} ${root_used} / ${root_total} (${root_color}${root_percent}%${ENDCOLOR})"
+echo -e "${CYAN}Disk (/):${NC} ${root_used} / ${root_total} (${root_color}${root_percent}%${NC})"
 
 # /home disk usage
 home_line=$(df -h /home 2>/dev/null | awk 'NR==2')
@@ -110,7 +110,7 @@ if [ -n "$home_line" ]; then
   else
     home_color=$RED
   fi
-  echo -e "${CYAN}Disk (/home):${ENDCOLOR} ${home_used} / ${home_total} (${home_color}${home_percent}%${ENDCOLOR})"
+  echo -e "${CYAN}Disk (/home):${NC} ${home_used} / ${home_total} (${home_color}${home_percent}%${NC})"
 fi
 
 # Determine the primary network interface used for internet access
@@ -118,11 +118,11 @@ PRIMARY_IFACE=$(ip route get 8.8.8.8 2>/dev/null | awk '{print $5; exit}')
 
 if [ -n "$PRIMARY_IFACE" ]; then
   LOCAL_IP=$(ip addr show "$PRIMARY_IFACE" | awk '/inet / {print $2}' | cut -d'/' -f1)
-  echo -e "${CYAN}Local IP ($PRIMARY_IFACE):${ENDCOLOR} ${LOCAL_IP}"
+  echo -e "${CYAN}Local IP ($PRIMARY_IFACE):${NC} ${LOCAL_IP}"
 else
-  echo -e "${RED}Local IP:${ENDCOLOR} Unable to determine primary network interface."
+  echo -e "${RED}Local IP:${NC} Unable to determine primary network interface."
 fi
 
 # Current locale setting
 LOCALE=$(locale | awk -F= '/^LANG=/{print $2; exit}')
-echo -e "${CYAN}Locale:${ENDCOLOR} $LOCALE"
+echo -e "${CYAN}Locale:${NC} $LOCALE"

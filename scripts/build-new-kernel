@@ -1,13 +1,13 @@
 #! /bin/bash
 
 YELLOW="\e[33m"
-ENDCOLOR="\e[0m"
+NC="\e[0m"
 
-echo -e "\n${YELLOW}Downloading APT dependencies...${ENDCOLOR}\n"
+echo -e "\n${YELLOW}Downloading APT dependencies...${NC}\n"
 sudo apt install build-essential git -y
 sudo apt build-dep linux -y
 
-echo -e "\n${YELLOW}Downloading kernel source...${ENDCOLOR}\n"
+echo -e "\n${YELLOW}Downloading kernel source...${NC}\n"
 mkdir linux-parent && cd linux-parent
 git clone --depth 1 https://github.com/torvalds/linux
 cd linux
@@ -26,14 +26,14 @@ scripts/config --set-val DEBUG_INFO_NONE y
 scripts/config --set-val DEBUG_INFO_DWARF5 n
 scripts/config --disable DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
 
-echo -e "\n${YELLOW}Compiling the kernel...${ENDCOLOR}\n"
+echo -e "\n${YELLOW}Compiling the kernel...${NC}\n"
 make -j$(nproc) deb-pkg LOCALVERSION=-custom
 
-echo -e "\n${YELLOW}Installing the generated dpkg packages...${ENDCOLOR}\n"
+echo -e "\n${YELLOW}Installing the generated dpkg packages...${NC}\n"
 sudo dpkg -i ../linux-headers*-custom*.deb
 sudo dpkg -i ../linux-image*-custom*.deb
 
-echo -e "\n${YELLOW}Cleaning up...${ENDCOLOR}\n"
+echo -e "\n${YELLOW}Cleaning up...${NC}\n"
 cd ../..
 rm -rf linux-parent
 

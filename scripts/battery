@@ -6,7 +6,7 @@ YELLOW="\e[33m"
 MAGENTA="\e[35m"
 CYAN="\e[36m"
 BOLD="\e[1m"
-ENDCOLOR="\e[0m"
+NC="\e[0m"
 
 BATTERY_INFO=$(upower -i $(upower -e | grep 'BAT'))
 BATTERY_PERCENT=$(echo "$BATTERY_INFO" | grep -oP 'percentage:\s+\K\d+')
@@ -24,10 +24,10 @@ else
   COLOR=$RED
 fi
 
-echo -e "${BOLD}Battery: ${COLOR}$BATTERY_PERCENT% ($BATTERY_STATUS)${ENDCOLOR}"
+echo -e "${BOLD}Battery: ${COLOR}$BATTERY_PERCENT% ($BATTERY_STATUS)${NC}"
 if [ -n "$CHARGE_CYCLES" ]; then
-  echo -e "${BOLD}Charge Cycles: ${MAGENTA}$CHARGE_CYCLES${ENDCOLOR}"
+  echo -e "${BOLD}Charge Cycles: ${MAGENTA}$CHARGE_CYCLES${NC}"
 fi
 if [ "$WARNING_LEVEL" != "none" ]; then
-  echo -e "${BOLD}Warning Level: ${RED}$WARNING_LEVEL${ENDCOLOR}"
+  echo -e "${BOLD}Warning Level: ${RED}$WARNING_LEVEL${NC}"
 fi
