@@ -19,13 +19,13 @@ select opt in "${options[@]}"; do
   1)
     echo -e "${CYAN}Using Stable sources.${NC}"
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
-    cp stable-sources.list /etc/apt/sources.list
+    sudo cp stable-sources.list /etc/apt/sources.list
     break
     ;;
   2)
     echo -e "${CYAN}Using Testing sources.${NC}"
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
-    cp testing-sources.list /etc/apt/sources.list
+    sudo cp testing-sources.list /etc/apt/sources.list
     break
     ;;
   *)
@@ -37,7 +37,7 @@ done
 ./scripts/update
 
 echo -e "${YELLOW}Installing GNOME...${NC}"
-sudo apt install gnome-core flatpak gnome-software-plugin-flatpak epiphany-browser
+sudo apt install gnome-core flatpak gnome-software-plugin-flatpak
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Enable Network Manager
