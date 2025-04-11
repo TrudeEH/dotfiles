@@ -85,7 +85,7 @@ printf "\n"
 
 # Install Programs
 if [ "$reload" = false ]; then
-   sudo apt install neovim curl git tmux htop fzf tldr pass lynis bat ufw s-tui build-essential
+   sudo apt install curl git tmux fzf tldr pass lynis bat ufw
 fi
 
 # Copy files
