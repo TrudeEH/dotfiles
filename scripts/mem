@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -6,12 +6,14 @@ YELLOW="\e[33m"
 NC="\e[0m"
 
 mem_info=$(free | awk '/Mem:/ {print $2, $3}')
-read total used <<<"$mem_info"
+set -- $mem_info
+total=$1
+used=$2
 percent=$(awk "BEGIN {printf \"%.0f\", ($used/$total)*100}")
 
 mem_total=$(free -h | awk '/Mem:/ {print $2}')
 mem_used=$(free -h | awk '/Mem:/ {print $3}')
-if [[ -t 1 ]]; then
+if [ -t 1 ]; then
   if [ "$percent" -le 60 ]; then
     percent_color=$GREEN
   elif [ "$percent" -le 80 ]; then
@@ -19,7 +21,7 @@ if [[ -t 1 ]]; then
   else
     percent_color=$RED
   fi
-  echo -e "  ${mem_used} / ${mem_total} (${percent_color}${percent}%${NC})"
+  echo "  ${mem_used} / ${mem_total} (${percent_color}${percent}%${NC})"
 else
   echo "${mem_used} ${mem_total} ${percent}"
 fi

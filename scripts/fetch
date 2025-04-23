@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Basic System Information Script
 
 RED="\e[31m"
@@ -10,50 +10,52 @@ BOLD="\e[1m"
 NC="\e[0m"
 
 # User and host info
-echo -e "${BOLD}${MAGENTA}${USER}@$(hostname)${NC}"
+echo "${BOLD}${MAGENTA}${USER}@$(hostname)${NC}"
 echo "---------"
 
 # OS and architecture
 OS=$(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"')
 ARCH=$(uname -m)
-echo -e "${CYAN}OS:${NC} $OS $ARCH"
+echo "${CYAN}OS:${NC} $OS $ARCH"
 
 # Host Model
 HOST_MODEL=$(cat /sys/class/dmi/id/product_name 2>/dev/null)
 HOST_VERSION=$(cat /sys/class/dmi/id/product_version 2>/dev/null)
-echo -e "${CYAN}Host:${NC} ${HOST_VERSION} (${HOST_MODEL})"
+echo "${CYAN}Host:${NC} ${HOST_VERSION} (${HOST_MODEL})"
 
 # Kernel version
-echo -e "${CYAN}Kernel:${NC} Linux $(uname -r)"
+echo "${CYAN}Kernel:${NC} Linux $(uname -r)"
 
 # Uptime
 UPTIME=$(uptime -p | sed 's/up //')
-echo -e "${CYAN}Uptime:${NC} $UPTIME"
+echo "${CYAN}Uptime:${NC} $UPTIME"
 
 # Package counts: dpkg and flatpak
 PKG_COUNT=$(dpkg-query -f '${binary:Package}\n' -W 2>/dev/null | wc -l)
 FLAT_COUNT=$(flatpak list 2>/dev/null | wc -l)
-echo -e "${CYAN}Packages:${NC} ${PKG_COUNT} (dpkg), ${FLAT_COUNT} (flatpak)"
+echo "${CYAN}Packages:${NC} ${PKG_COUNT} (dpkg), ${FLAT_COUNT} (flatpak)"
 
 # Shell and version
 BASH_VER=$(bash --version | head -n1 | awk '{print $4}' | cut -d'(' -f1)
-echo -e "${CYAN}Shell:${NC} bash ${BASH_VER}"
+echo "${CYAN}Shell:${NC} bash ${BASH_VER}"
 
 # Desktop Environment
 DE=${XDG_CURRENT_DESKTOP:-"Unknown"}
-echo -e "${CYAN}DE:${NC} $DE"
+echo "${CYAN}DE:${NC} $DE"
 
 # CPU model from /proc/cpuinfo
 CPU=$(awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo | sed 's/^[ \t]*//')
-echo -e "${CYAN}CPU:${NC} $CPU"
+echo "${CYAN}CPU:${NC} $CPU"
 
 # GPU info
 GPU=$(lspci | grep -i 'vga\|3d' | head -n1 | cut -d: -f3 | sed 's/^[ \t]*//')
-echo -e "${CYAN}GPU:${NC} $GPU"
+echo "${CYAN}GPU:${NC} $GPU"
 
 # Memory usage
 mem_info=$(free | awk '/Mem:/ {print $2, $3}')
-read total used <<<"$mem_info"
+set -- $mem_info
+total=$1
+used=$2
 percent=$(awk "BEGIN {printf \"%.0f\", ($used/$total)*100}")
 
 if [ "$percent" -le 60 ]; then
@@ -66,7 +68,7 @@ fi
 
 mem_total=$(free -h | awk '/Mem:/ {print $2}')
 mem_used=$(free -h | awk '/Mem:/ {print $3}')
-echo -e "${CYAN}Memory:${NC} ${mem_used} / ${mem_total} (${percent_color}${percent}%${NC})"
+echo "${CYAN}Memory:${NC} ${mem_used} / ${mem_total} (${percent_color}${percent}%${NC})"
 
 # Swap usage
 swap_used=$(free -h | awk '/Swap/ {print $3}')
@@ -81,13 +83,13 @@ else
   swap_perc_color=$RED
 fi
 
-echo -e "${CYAN}Swap:${NC} ${swap_used} / ${swap_total} (${swap_perc_color}${swap_perc}%${NC})"
+echo "${CYAN}Swap:${NC} ${swap_used} / ${swap_total} (${swap_perc_color}${swap_perc}%${NC})"
 
 # Root disk usage
 root_line=$(df -h / | awk 'NR==2')
-root_used=$(echo $root_line | awk '{print $3}')
-root_total=$(echo $root_line | awk '{print $2}')
-root_percent=$(echo $root_line | awk '{gsub("%","",$5); print $5}')
+root_used=$(echo "$root_line" | awk '{print $3}')
+root_total=$(echo "$root_line" | awk '{print $2}')
+root_percent=$(echo "$root_line" | awk '{gsub("%","",$5); print $5}')
 if [ "$root_percent" -le 60 ]; then
   root_color=$GREEN
 elif [ "$root_percent" -le 80 ]; then
@@ -95,14 +97,14 @@ elif [ "$root_percent" -le 80 ]; then
 else
   root_color=$RED
 fi
-echo -e "${CYAN}Disk (/):${NC} ${root_used} / ${root_total} (${root_color}${root_percent}%${NC})"
+echo "${CYAN}Disk (/):${NC} ${root_used} / ${root_total} (${root_color}${root_percent}%${NC})"
 
 # /home disk usage
 home_line=$(df -h /home 2>/dev/null | awk 'NR==2')
 if [ -n "$home_line" ]; then
-  home_used=$(echo $home_line | awk '{print $3}')
-  home_total=$(echo $home_line | awk '{print $2}')
-  home_percent=$(echo $home_line | awk '{gsub("%","",$5); print $5}')
+  home_used=$(echo "$home_line" | awk '{print $3}')
+  home_total=$(echo "$home_line" | awk '{print $2}')
+  home_percent=$(echo "$home_line" | awk '{gsub("%","",$5); print $5}')
   if [ "$home_percent" -le 60 ]; then
     home_color=$GREEN
   elif [ "$home_percent" -le 80 ]; then
@@ -110,7 +112,7 @@ if [ -n "$home_line" ]; then
   else
     home_color=$RED
   fi
-  echo -e "${CYAN}Disk (/home):${NC} ${home_used} / ${home_total} (${home_color}${home_percent}%${NC})"
+  echo "${CYAN}Disk (/home):${NC} ${home_used} / ${home_total} (${home_color}${home_percent}%${NC})"
 fi
 
 # Determine the primary network interface used for internet access
@@ -118,11 +120,11 @@ PRIMARY_IFACE=$(ip route get 8.8.8.8 2>/dev/null | awk '{print $5; exit}')
 
 if [ -n "$PRIMARY_IFACE" ]; then
   LOCAL_IP=$(ip addr show "$PRIMARY_IFACE" | awk '/inet / {print $2}' | cut -d'/' -f1)
-  echo -e "${CYAN}Local IP ($PRIMARY_IFACE):${NC} ${LOCAL_IP}"
+  echo "${CYAN}Local IP ($PRIMARY_IFACE):${NC} ${LOCAL_IP}"
 else
-  echo -e "${RED}Local IP:${NC} Unable to determine primary network interface."
+  echo "${RED}Local IP:${NC} Unable to determine primary network interface."
 fi
 
 # Current locale setting
 LOCALE=$(locale | awk -F= '/^LANG=/{print $2; exit}')
-echo -e "${CYAN}Locale:${NC} $LOCALE"
+echo "${CYAN}Locale:${NC} $LOCALE"
