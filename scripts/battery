@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -8,13 +8,13 @@ CYAN="\e[36m"
 BOLD="\e[1m"
 NC="\e[0m"
 
-BATTERY_INFO=$(upower -i $(upower -e | grep 'BAT'))
+BATTERY_INFO=$(upower -i "$(upower -e | grep 'BAT')")
 BATTERY_PERCENT=$(echo "$BATTERY_INFO" | grep -oP 'percentage:\s+\K\d+')
 BATTERY_STATUS=$(echo "$BATTERY_INFO" | grep -oP 'state:\s+\K\w+')
 CHARGE_CYCLES=$(echo "$BATTERY_INFO" | grep -oP 'cycle-count:\s+\K\d+')
 WARNING_LEVEL=$(echo "$BATTERY_INFO" | grep -oP 'warning-level:\s+\K\w+')
 
-if [ "$BATTERY_STATUS" == "charging" ] || [ "$BATTERY_STATUS" == "pending" ]; then
+if [ "$BATTERY_STATUS" = "charging" ] || [ "$BATTERY_STATUS" = "pending" ]; then
   COLOR=$CYAN
 elif [ "$BATTERY_PERCENT" -ge 80 ]; then
   COLOR=$GREEN
@@ -24,10 +24,10 @@ else
   COLOR=$RED
 fi
 
-echo -e "${BOLD}Battery: ${COLOR}$BATTERY_PERCENT% ($BATTERY_STATUS)${NC}"
+echo "${BOLD}Battery: ${COLOR}$BATTERY_PERCENT% ($BATTERY_STATUS)${NC}"
 if [ -n "$CHARGE_CYCLES" ]; then
-  echo -e "${BOLD}Charge Cycles: ${MAGENTA}$CHARGE_CYCLES${NC}"
+  echo "${BOLD}Charge Cycles: ${MAGENTA}$CHARGE_CYCLES${NC}"
 fi
 if [ "$WARNING_LEVEL" != "none" ]; then
-  echo -e "${BOLD}Warning Level: ${RED}$WARNING_LEVEL${NC}"
+  echo "${BOLD}Warning Level: ${RED}$WARNING_LEVEL${NC}"
 fi

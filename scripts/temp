@@ -1,3 +1,5 @@
-#! /bin/bash
+#!/bin/bash
 
-paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | column -s $'\t' -t | sed 's/\(.\)..$/.\1°C/'
+paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) |
+  column -s "$(printf '\t')" -t |
+  sed 's/\(.\)..$/.\1°C/'

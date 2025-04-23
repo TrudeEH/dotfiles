@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 YELLOW="\e[33m"
 NC="\e[0m"

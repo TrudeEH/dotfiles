@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -6,11 +6,11 @@ YELLOW="\e[33m"
 CYAN="\e[36m"
 NC="\e[0m"
 
-trap "echo -e '${CYAN}System Monitor interrupted.${NC}'; exit 1" SIGINT SIGTERM
+trap "echo '${CYAN}System Monitor interrupted.${NC}'; exit 1" INT TERM
 
-for i in {0..3}; do
-  echo
-done
+echo
+echo
+echo
 
 # Cache in tmpfs to improve speed and reduce SSD load
 cache=/tmp/cpu-script-cache
@@ -48,7 +48,9 @@ while true; do
 
   # MEMORY
   mem_info=$(free | awk '/Mem:/ {print $2, $3}')
-  read total used <<<"$mem_info"
+  set -- $mem_info
+  total=$1
+  used=$2
   percent=$(awk "BEGIN {printf \"%.0f\", ($used/$total)*100}")
 
   mem_total=$(free -h | awk '/Mem:/ {print $2}')
@@ -62,11 +64,11 @@ while true; do
     mem_color=$RED
   fi
 
-  echo -ne "\033[4A"
-  echo -e "============================="
-  echo -e "  ${cpu_color}${usage}%${NC}     "
-  echo -e "  ${mem_used} / ${mem_total} (${mem_color}${percent}%${NC})      "
-  echo -e "============================="
+  printf "\033[4A"
+  echo "============================="
+  echo "  ${cpu_color}${usage}%${NC}     "
+  echo "  ${mem_used} / ${mem_total} (${mem_color}${percent}%${NC})      "
+  echo "============================="
 
   echo "$cpu_stats" >"$cache"
   sleep 2
