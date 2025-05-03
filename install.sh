@@ -45,7 +45,6 @@ reload=false
 for arg in "$@"; do
    if [ "$arg" = "-r" ]; then
       reload=true
-      break
    fi
 done
 
@@ -81,7 +80,7 @@ echo
 
 # Install Programs
 if [ "$reload" = false ]; then
-   sudo apt install curl git tmux fzf tldr pass lynis bat ufw
+   sudo apt install curl git tmux fzf tealdeer pass lynis bat ufw
 fi
 
 # Copy files
@@ -162,6 +161,7 @@ case "$XDG_CURRENT_DESKTOP" in
    echo "${YELLOW}Installing GNOME Extensions...${NC}"
    install_gnome_extension "appindicatorsupport@rgcjonas.gmail.com"
    install_gnome_extension "caffeine@patapon.info"
+   install_gnome_extension "Vitals@CoreCoding.com"
 
    echo "${YELLOW}Loading Dconf settings...${NC}"
    if ! dconf load / <"$HOME/dotfiles/dconf-settings.ini"; then
