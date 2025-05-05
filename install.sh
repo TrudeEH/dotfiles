@@ -80,7 +80,7 @@ echo
 
 # Install Programs
 if [ "$reload" = false ]; then
-   sudo apt install curl git tmux fzf tealdeer pass lynis bat ufw
+   sudo apt install curl git tmux fzf tealdeer pass-otp zbar-tools lynis bat ufw
 fi
 
 # Copy files
