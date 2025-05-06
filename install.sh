@@ -160,7 +160,6 @@ fi
 case "$XDG_CURRENT_DESKTOP" in
 *GNOME*)
    echo "${YELLOW}Installing GNOME Extensions...${NC}"
-   install_gnome_extension "appindicatorsupport@rgcjonas.gmail.com"
    install_gnome_extension "caffeine@patapon.info"
    install_gnome_extension "Vitals@CoreCoding.com"
 
