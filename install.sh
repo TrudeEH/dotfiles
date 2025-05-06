@@ -80,7 +80,8 @@ echo
 
 # Install Programs
 if [ "$reload" = false ]; then
-   sudo apt install curl git tmux fzf tealdeer pass-otp zbar-tools lynis bat ufw
+   sudo apt install curl git tmux fzf tealdeer pass-otp zbar-tools lynis bat ufw \
+      gir1.2-gtop-2.0 lm-sensors # Vitals Extension deps
 fi
 
 # Copy files
