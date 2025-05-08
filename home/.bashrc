@@ -21,6 +21,7 @@ alias ta='tmux attach'
 alias t='tmux'
 alias v='nvim'
 alias t='tmux'
+alias raid='sudo mdadm --detail /dev/md0'
 
 if command -v batcat 2>&1 >/dev/null; then
   alias bat=batcat
