@@ -1,0 +1,11 @@
+#! /bin/sh
+
+current_url=$(git remote get-url origin)
+if echo "$current_url" | grep -q '^git@'; then
+  echo "Remote origin already uses SSH."
+  exit 0
+fi
+
+ssh_url=$(echo "$current_url" | sed -E 's|https?://([^/]+)/(.+)|git@\1:\2|')
+echo "Changing remote origin from $current_url to $ssh_url"
+git remote set-url origin "$ssh_url"
