@@ -1,0 +1,14 @@
+#! /bin/sh
+
+# This script is a temporary solution to a GNOME bug where the cursor leaves the game window instead of being locked to the screen.
+
+sudo apt install gamescope
+flatpak install com.valvesoftware.Steam
+flatpak install org.freedesktop.Platform.VulkanLayer.gamescope
+echo
+echo
+echo 'If the cursor escapes the screen in a game, enable gamescope with the launch arguments: `gamescope -- %command%`.'
+echo 'Add the `--force-grab-cursor` flag if the issue persists.'
+echo 'Add the `-f` flag to launch in fullscreen.'
+echo 'Add the `-h 720 -H 1440 -F fsr` flags to upscale the game (change the values accordingly).'
+echo 'You can use gamescope outside of Steam as well. Replace `%command%` with the launch command for your game.'
