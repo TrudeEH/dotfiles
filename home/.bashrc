@@ -22,6 +22,7 @@ alias t='tmux'
 alias v='nvim'
 alias t='tmux'
 alias raid='sudo mdadm --detail /dev/md0'
+alias unp='unp -U' # Extract any file type
 
 if command -v batcat 2>&1 >/dev/null; then
   alias bat=batcat
