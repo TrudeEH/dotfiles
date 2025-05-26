@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# -r : Only reload configurations
+# NOTE: Use `hyperfine` to benchmark
 
 # Colors
 RED='\033[0;31m'
@@ -46,28 +46,42 @@ for arg in "$@"; do
    if [ "$arg" = "-r" ]; then
       reload=true
    fi
+   if [ "$arg" = "-t" ]; then
+      tiling=true
+   fi
+   if [ "$arg" = "-h" ]; then
+      echo "Usage: $0 [-r][-t][-h]"
+      echo "   -r: Reload config"
+      echo "   -t: Install window manager"
+      echo "   -h: Show help message"
+      exit 0
+   fi
 done
 
 # Clone Dotfiles if not already present
-cd "$HOME/dotfiles" || exit
-if [ "$(pwd)" != "$HOME/dotfiles" ]; then
-   echo "${YELLOW}Cloning dotfiles repository...${NC}"
-   sudo apt update
-   sudo apt install -y git
-   if ! git clone https://github.com/TrudeEH/dotfiles --depth 1; then
-      echo "${RED}Error cloning dotfiles repository. Exiting...${NC}"
-      exit 2
+if [ "$reload" = false ]; then
+   cd "$HOME/dotfiles"
+   if [ "$(pwd)" != "$HOME/dotfiles" ]; then
+      echo "${YELLOW}Cloning dotfiles repository...${NC}"
+      sudo apt update
+      sudo apt install -y git
+      if ! git clone https://github.com/TrudeEH/dotfiles --depth 1; then
+         echo "${RED}Error cloning dotfiles repository. Exiting...${NC}"
+         exit 2
+      fi
+      cd dotfiles || exit
+      echo "${GREEN}dotfiles repository cloned successfully.${NC}"
+   else
+      echo "${YELLOW}Updating dotfiles repository...${NC}"
+      pull_output=$(git pull)
+      echo "$pull_output"
+      if ! echo "$pull_output" | grep -q "Already up to date."; then
+         echo "${YELLOW}Changes detected. Re-running script...${NC}"
+         exec "$0" "$@"
+      fi
    fi
-   cd dotfiles || exit
-   echo "${GREEN}dotfiles repository cloned successfully.${NC}"
 else
-   echo "${YELLOW}Updating dotfiles repository...${NC}"
-   pull_output=$(git pull)
-   echo "%s" "$pull_output"
-   if ! echo "$pull_output" | grep -q "Already up to date."; then
-      echo "${YELLOW}Changes detected. Re-running script...${NC}"
-      exec "$0" "$@"
-   fi
+   cd "$HOME/dotfiles" || exit
 fi
 
 mkdir -p "$HOME/dotfiles/logs"
@@ -80,8 +94,55 @@ echo
 
 # Install Programs
 if [ "$reload" = false ]; then
-   sudo apt install git tmux fzf tealdeer pass-otp zbar-tools lynis bat ufw unp hyperfine \
+   echo "Debian Sources:"
+   echo "1) Stable"
+   echo "2) Testing"
+   printf "Enter your choice: "
+
+   while read -r REPLY; do
+      case $REPLY in
+      1)
+         echo "${CYAN}Using Stable sources.${NC}"
+         sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
+         sudo cp stable-sources.list /etc/apt/sources.list
+         break
+         ;;
+      2)
+         echo "${CYAN}Using Testing sources.${NC}"
+         sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
+         sudo cp testing-sources.list /etc/apt/sources.list
+         break
+         ;;
+      *)
+         echo "Invalid option."
+         printf "Enter your choice: "
+         ;;
+      esac
+   done
+
+   ./scripts/update
+
+   sudo apt install git tmux fzf tealdeer pass-otp zbar-tools lynis bat ufw unp network-manager flatpak \
       gir1.2-gtop-2.0 lm-sensors # Vitals Extension deps
+   sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+   if [ "$tiling" = true ]; then
+      echo "${YELLOW}Installing Hyprland...${NC}"
+      sudo apt install hyprland dunst pipewire wireplumber xdg-desktop-portal-gnome lxpolkit waybar swaybg rofi nautilus udiskie foot
+   else
+      echo "${YELLOW}Installing GNOME...${NC}"
+      sudo apt install gnome-core gnome-software-plugin-flatpak
+
+      # Remove Firefox (Epiphany installed instead)
+      echo "${YELLOW}Removing Firefox...${NC}"
+      sudo apt purge firefox-esr
+   fi
+
+   # Enable Network Manager
+   echo "${YELLOW}Enabling Network Manager...${NC}"
+   sudo mv /etc/network/interfaces /etc/network/interfaces.bckp
+   sudo systemctl restart networking
+   sudo service NetworkManager restart
 fi
 
 # Copy files
