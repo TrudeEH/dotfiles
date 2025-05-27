@@ -1,0 +1,16 @@
+[DONE] Custom cursor
+SSH agent
+Lockscreen
+Waybar config
+App launcher (everything, pretty much)
+Terminal config
+Correct font across all configs
+Code editor
+Temperature max instead of just one sensor
+Settings screen
+(maybe) Material3-like theming: accent color changes with the wallpaper, perhaps even use color theory to calculate the other ones, still keeping the Adwaita-inspired pallete
+Add bluetooth GUI
+Add usage guide (include nmtui)
+Add keybinds script
+Fix XDG-Portal
+Make curves for animations and improve animation speeds/effects on Hyprland
