@@ -200,7 +200,7 @@
                 "enabled": false
             },
             "FavoriteEmojiFirst": {
-                "enabled": false
+                "enabled": true
             },
             "FavoriteGifSearch": {
                 "enabled": true,
@@ -407,7 +407,7 @@
                 "enabled": false
             },
             "NoTypingAnimation": {
-                "enabled": false
+                "enabled": true
             },
             "NoUnblockToJump": {
                 "enabled": true
@@ -485,7 +485,7 @@
                 "enabled": true
             },
             "QuickReply": {
-                "enabled": false
+                "enabled": true
             },
             "ReactErrorDecoder": {
                 "enabled": true
@@ -528,7 +528,7 @@
                 "onlySnow": false
             },
             "Summaries": {
-                "enabled": true,
+                "enabled": false,
                 "summaryExpiryThresholdDays": 3
             },
             "SendTimestamps": {
@@ -551,10 +551,10 @@
                 "iconSize": 32
             },
             "ShowHiddenChannels": {
-                "enabled": false,
+                "enabled": true,
                 "showMode": 0,
                 "hideUnreads": true,
-                "defaultAllowedUsersAndRolesDropdownState": true
+                "defaultAllowedUsersAndRolesDropdownState": false
             },
             "ShowHiddenThings": {
                 "enabled": true,
@@ -670,7 +670,19 @@
                 "enabled": true
             },
             "VcNarrator": {
-                "enabled": false
+                "enabled": true,
+                "voice": "Google US English",
+                "volume": 1,
+                "rate": 1,
+                "sayOwnName": false,
+                "latinOnly": false,
+                "joinMessage": "{{DISPLAY_NAME}} joined",
+                "leaveMessage": "{{DISPLAY_NAME}} left",
+                "moveMessage": "{{DISPLAY_NAME}} moved to {{CHANNEL}}",
+                "muteMessage": "{{DISPLAY_NAME}} muted",
+                "unmuteMessage": "{{DISPLAY_NAME}} unmuted",
+                "deafenMessage": "{{DISPLAY_NAME}} deafened",
+                "undeafenMessage": "{{DISPLAY_NAME}} undeafened"
             },
             "VencordToolbox": {
                 "enabled": false
@@ -783,6 +795,9 @@
             },
             "HideMedia": {
                 "enabled": false
+            },
+            "DisableDeepLinks": {
+                "enabled": true
             }
         },
         "notifications": {
@@ -790,6 +805,13 @@
             "position": "bottom-right",
             "useNative": "not-focused",
             "logLimit": 50
+        },
+        "eagerPatches": false,
+        "cloud": {
+            "authenticated": false,
+            "url": "https://api.vencord.dev/",
+            "settingsSync": false,
+            "settingsSyncVersion": 1748808073030
         }
     },
     "quickCss": "\n"
