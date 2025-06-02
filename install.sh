@@ -97,6 +97,7 @@ if [ "$reload" = false ]; then
    echo "Debian Sources:"
    echo "1) Stable"
    echo "2) Testing"
+   echo "3) Skip (Do not change)"
    printf "Enter your choice: "
 
    while read -r REPLY; do
@@ -111,6 +112,10 @@ if [ "$reload" = false ]; then
          echo "${CYAN}Using Testing sources.${NC}"
          sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
          sudo cp testing-sources.list /etc/apt/sources.list
+         break
+         ;;
+      3)
+         echo "${CYAN}Skipped.${NC}"
          break
          ;;
       *)
@@ -128,7 +133,7 @@ if [ "$reload" = false ]; then
 
    if [ "$tiling" = true ]; then
       echo "${YELLOW}Installing Hyprland...${NC}"
-      sudo apt install hyprland dunst pipewire wireplumber xdg-desktop-portal-gnome lxpolkit waybar swaybg rofi nautilus udiskie foot
+      sudo apt install hyprland dunst pipewire wireplumber xdg-desktop-portal-gnome polkit-kde-agent-1 waybar swaybg rofi nautilus udiskie foot
    else
       echo "${YELLOW}Installing GNOME...${NC}"
       sudo apt install gnome-core gnome-software-plugin-flatpak
