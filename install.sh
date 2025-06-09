@@ -89,7 +89,7 @@ mkdir -p "$HOME/dotfiles/logs"
 echo "${CYAN}####################"
 echo "#${PURPLE} Trude's Dotfiles${CYAN} #"
 echo "####################"
-fetch
+./scripts/fetch
 echo
 
 # Install Programs
