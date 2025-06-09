@@ -154,6 +154,10 @@ fi
 echo "${YELLOW}Installing Dotfiles...${NC}"
 cp -r "$HOME/dotfiles/home/." "$HOME"
 
+# Copy wallpapers
+echo "${YELLOW}Installing Wallpapers...${NC}"
+sudo cp -r $HOME/dotfiles/wallpapers/* /usr/share/backgrounds/gnome/
+
 # Copy scripts
 echo "${YELLOW}Installing Scripts...${NC}"
 mkdir -p "$HOME/.local/bin"
