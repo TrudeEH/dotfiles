@@ -46,13 +46,9 @@ for arg in "$@"; do
    if [ "$arg" = "-r" ]; then
       reload=true
    fi
-   if [ "$arg" = "-t" ]; then
-      tiling=true
-   fi
    if [ "$arg" = "-h" ]; then
-      echo "Usage: $0 [-r][-t][-h]"
+      echo "Usage: $0 [-r][-h]"
       echo "   -r: Reload config"
-      echo "   -t: Install window manager"
       echo "   -h: Show help message"
       exit 0
    fi
@@ -131,17 +127,12 @@ if [ "$reload" = false ]; then
       gir1.2-gtop-2.0 lm-sensors # Vitals Extension deps
    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-   if [ "$tiling" = true ]; then
-      echo "${YELLOW}Installing Hyprland...${NC}"
-      sudo apt install hyprland dunst pipewire wireplumber xdg-desktop-portal-gnome polkit-kde-agent-1 waybar swaybg rofi nautilus udiskie foot
-   else
-      echo "${YELLOW}Installing GNOME...${NC}"
-      sudo apt install gnome-core gnome-software-plugin-flatpak
+   echo "${YELLOW}Installing GNOME...${NC}"
+   sudo apt install gnome-core gnome-software-plugin-flatpak
 
-      # Remove Firefox (Epiphany installed instead)
-      echo "${YELLOW}Removing Firefox...${NC}"
-      sudo apt purge firefox-esr
-   fi
+   # Remove Firefox (Epiphany installed instead)
+   echo "${YELLOW}Removing Firefox...${NC}"
+   sudo apt purge firefox-esr
 
    # Enable Network Manager
    echo "${YELLOW}Enabling Network Manager...${NC}"
