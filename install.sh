@@ -223,6 +223,7 @@ case "$XDG_CURRENT_DESKTOP" in
    echo "${YELLOW}Installing GNOME Extensions...${NC}"
    install_gnome_extension "caffeine@patapon.info"
    install_gnome_extension "Vitals@CoreCoding.com"
+   install_gnome_extension "appindicatorsupport@rgcjonas.gmail.com"
 
    echo "${YELLOW}Loading Dconf settings...${NC}"
    if ! dconf load / <"$HOME/dotfiles/dconf-settings.ini"; then
