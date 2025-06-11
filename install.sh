@@ -90,10 +90,11 @@ echo
 
 # Install Programs
 if [ "$reload" = false ]; then
+   testing_branch="trixie"
    echo "Debian Sources:"
    echo "1) Stable"
-   echo "2) Testing"
-   echo "3) Skip (Do not change)"
+   echo "2) Testing ($testing_branch)"
+   echo "3) Skip ($(lsb_release -c -s))"
    printf "Enter your choice: "
 
    while read -r REPLY; do
@@ -101,13 +102,31 @@ if [ "$reload" = false ]; then
       1)
          echo "${CYAN}Using Stable sources.${NC}"
          sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
-         sudo cp stable-sources.list /etc/apt/sources.list
+         sudo sh -c 'cat > /etc/apt/sources.list <<EOF
+deb http://deb.debian.org/debian stable main contrib non-free
+deb-src http://deb.debian.org/debian stable main contrib non-free
+
+deb http://security.debian.org/debian-security stable-security main contrib non-free
+deb-src http://security.debian.org/debian-security stable-security main contrib non-free
+
+deb http://deb.debian.org/debian stable-updates main contrib non-free
+deb-src http://deb.debian.org/debian stable-updates main contrib non-free
+EOF'
          break
          ;;
       2)
          echo "${CYAN}Using Testing sources.${NC}"
          sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
-         sudo cp testing-sources.list /etc/apt/sources.list
+         sudo sh -c "cat > /etc/apt/sources.list <<EOF
+deb http://deb.debian.org/debian $testing_branch main contrib non-free
+deb-src http://deb.debian.org/debian $testing_branch main contrib non-free
+
+deb http://security.debian.org/debian-security $testing_branch-security main contrib non-free
+deb-src http://security.debian.org/debian-security $testing_branch-security main contrib non-free
+
+deb http://deb.debian.org/debian $testing_branch-updates main contrib non-free
+deb-src http://deb.debian.org/debian $testing_branch-updates main contrib non-free
+EOF"
          break
          ;;
       3)
