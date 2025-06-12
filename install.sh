@@ -176,7 +176,9 @@ cp -r "$HOME/dotfiles/scripts/." "$HOME/.local/bin/"
 echo "${YELLOW}Installing fonts...${NC}"
 mkdir -p "$HOME/.local/share/fonts"
 cp -rf "$HOME/dotfiles/fonts/"* "$HOME/.local/share/fonts/"
-fc-cache -fv "$HOME/.local/share/fonts" >"$HOME/dotfiles/logs/font_install.log"
+if [ ! -f "$HOME/dotfiles/logs/font_install.log" ]; then
+   fc-cache -fv "$HOME/.local/share/fonts" >"$HOME/dotfiles/logs/font_install.log"
+fi
 
 # UFW Firewall
 if [ "$reload" = false ]; then
