@@ -1,9 +1,7 @@
 # Trude's Dotfiles
 
-<p style="display: flex; justify-content: center; align-items: center;">
-  <img width="150" height="150" src="images/logo-circle.png">
-  <span style="display: inline-block; font-size: 82px; line-height: 1; margin: 0 15px;"> + </span>
-  <img width="150" height="150" src="images/debian.png">⠀
+<p align="center">
+  <img src="images/dotfiles-logo.png" alt="Logo Circle" width="200" align="middle">
 </p>
 
 
