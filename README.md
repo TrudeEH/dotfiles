@@ -13,5 +13,5 @@ The 'main' branch is my current configuration, while others serve as an archive 
 
 To install my current configuration, run:
 ```sh
-bash <(curl -s https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/main/install.sh)
+sh <(curl -s https://raw.githubusercontent.com/TrudeEH/dotfiles/refs/heads/main/install.sh)
 ```
