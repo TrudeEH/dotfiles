@@ -1,16 +1,47 @@
 #! /bin/sh
 
-# NOTE: Use `hyperfine` to benchmark
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-PURPLE='\033[0;35m'
-CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+MAGENTA="\e[35m"
+CYAN="\e[36m"
+BOLD="\e[1m"
+NC="\e[0m"
 
 trap 'printf "${RED}install.sh interrupted.${NC}"; exit 1' INT TERM
+
+testing_branch="trixie"
+
+window_height='15'
+window_width='60'
+
+W_MAIN=$(
+   whiptail --notags --title "Trude's Dotfiles" \
+      --cancel-button "Exit" \
+      --menu "Main Menu" $window_height $window_width 3 \
+      "install" "Install Dotfiles" \
+      "reload" "Reload Configuration" \
+      "update" "Update Debian" \
+      3>&1 1>&2 2>&3
+)
+
+if [ -z $W_MAIN ]; then
+   exit 1
+fi
+
+if [ $W_MAIN = "update" ]; then
+   ./scripts/update
+   exit 0
+fi
+
+if [ $W_MAIN = "install" ]; then
+   W_DEB_SOURCES=$(whiptail --notags --title "Debian Sources" \
+      --cancel-button "Skip" \
+      --menu "Choose your Debian source:" $window_height $window_width 2 \
+      "stable" "Stable" \
+      "testing" "Testing ($testing_branch)" \
+      3>&1 1>&2 2>&3)
+fi
 
 install_gnome_extension() {
    uuid="$1"
@@ -40,22 +71,8 @@ install_gnome_extension() {
    fi
 }
 
-# Flags
-reload=false
-for arg in "$@"; do
-   if [ "$arg" = "-r" ]; then
-      reload=true
-   fi
-   if [ "$arg" = "-h" ]; then
-      echo "Usage: $0 [-r][-h]"
-      echo "   -r: Reload config"
-      echo "   -h: Show help message"
-      exit 0
-   fi
-done
-
 # Clone Dotfiles if not already present
-if [ "$reload" = false ]; then
+if [ $W_MAIN = "install" ]; then
    cd "$HOME/dotfiles"
    if [ "$(pwd)" != "$HOME/dotfiles" ]; then
       echo "${YELLOW}Cloning dotfiles repository...${NC}"
@@ -82,27 +99,13 @@ fi
 
 mkdir -p "$HOME/dotfiles/logs"
 
-echo "${CYAN}####################"
-echo "#${PURPLE} Trude's Dotfiles${CYAN} #"
-echo "####################"
-./scripts/fetch
-echo
-
-# Install Programs
-if [ "$reload" = false ]; then
-   testing_branch="trixie"
-   echo "Debian Sources:"
-   echo "1) Stable"
-   echo "2) Testing ($testing_branch)"
-   echo "3) Skip ($(lsb_release -c -s))"
-   printf "Enter your choice: "
-
-   while read -r REPLY; do
-      case $REPLY in
-      1)
-         echo "${CYAN}Using Stable sources.${NC}"
-         sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
-         sudo sh -c 'cat > /etc/apt/sources.list <<EOF
+if [ $W_MAIN = "install" ]; then
+   echo "${YELLOW}Setting Debian Sources...${NC}"
+   case $W_DEB_SOURCES in
+   "stable")
+      echo "${CYAN}Using Stable sources.${NC}"
+      sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
+      sudo sh -c 'cat > /etc/apt/sources.list <<EOF
 deb http://deb.debian.org/debian stable main contrib non-free
 deb-src http://deb.debian.org/debian stable main contrib non-free
 
@@ -112,12 +115,12 @@ deb-src http://security.debian.org/debian-security stable-security main contrib 
 deb http://deb.debian.org/debian stable-updates main contrib non-free
 deb-src http://deb.debian.org/debian stable-updates main contrib non-free
 EOF'
-         break
-         ;;
-      2)
-         echo "${CYAN}Using Testing sources.${NC}"
-         sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
-         sudo sh -c "cat > /etc/apt/sources.list <<EOF
+      break
+      ;;
+   "testing")
+      echo "${CYAN}Using Testing sources.${NC}"
+      sudo cp /etc/apt/sources.list /etc/apt/sources.list.bckp
+      sudo sh -c "cat > /etc/apt/sources.list <<EOF
 deb http://deb.debian.org/debian $testing_branch main contrib non-free
 deb-src http://deb.debian.org/debian $testing_branch main contrib non-free
 
@@ -127,22 +130,18 @@ deb-src http://security.debian.org/debian-security $testing_branch-security main
 deb http://deb.debian.org/debian $testing_branch-updates main contrib non-free
 deb-src http://deb.debian.org/debian $testing_branch-updates main contrib non-free
 EOF"
-         break
-         ;;
-      3)
-         echo "${CYAN}Skipped.${NC}"
-         break
-         ;;
-      *)
-         echo "Invalid option."
-         printf "Enter your choice: "
-         ;;
-      esac
-   done
+      break
+      ;;
+   *)
+      echo "${CYAN}Skipped.${NC}"
+      break
+      ;;
+   esac
 
    ./scripts/update
 
-   sudo apt install git tmux fzf tealdeer pass-otp zbar-tools lynis bat ufw unp network-manager flatpak \
+   echo "${YELLOW}Installing Dependencies...${NC}"
+   sudo apt install git tmux fzf tealdeer pass-otp zbar-tools bat ufw unp network-manager flatpak \
       gir1.2-gtop-2.0 lm-sensors # Vitals Extension deps
    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
@@ -222,18 +221,6 @@ if [ "$USER" = "trude" ]; then
          echo "${CYAN}Password-store already present.${NC}"
       fi
    fi
-fi
-
-# Security Scan
-if [ "$reload" = false ] && [ ! -f "$HOME/dotfiles/logs/lynis_scan.log" ]; then
-   echo "${YELLOW}Running Lynis Security Scan...${NC}"
-   if ! sudo lynis audit system | tee "$HOME/dotfiles/logs/lynis_scan.log"; then
-      echo "${RED}Error running Lynis.${NC}"
-   else
-      echo "${GREEN}Lynis scan completed.${NC}"
-   fi
-else
-   echo "${CYAN}Previous Lynis scan detected, read the log @ $HOME/dotfiles/logs/lynis_scan.log.${NC}"
 fi
 
 # Set up GNOME Desktop
