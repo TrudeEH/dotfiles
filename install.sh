@@ -10,6 +10,11 @@ NC="\e[0m"
 
 trap 'printf "${RED}install.sh interrupted.${NC}"; exit 1' INT TERM
 
+if ! command -v whiptail >/dev/null 2>&1; then
+   echo "${YELLOW}Installing whiptail...${NC}"
+   sudo apt install -y whiptail
+fi
+
 testing_branch="trixie"
 
 window_height='15'
