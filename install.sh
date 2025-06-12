@@ -243,4 +243,15 @@ case "$XDG_CURRENT_DESKTOP" in
       echo "${RED}Error loading Dconf settings.${NC}"
    fi
    ;;
+*)
+   echo
+   echo
+   echo "${RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${NC}"
+   echo
+   echo "${CYAN}Dconf settings and GNOME extensions can only be installed after restarting."
+   echo "${CYAN}Please run the script again from within GNOME (with the reload option).${NC}"
+   echo
+   echo "${RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${NC}"
+   echo
+   ;;
 esac
