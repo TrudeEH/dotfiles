@@ -1,0 +1,2 @@
+#! /bin/sh
+docker exec -u www-data -it nextcloud-aio-nextcloud php "$@"
