@@ -37,8 +37,8 @@ services:
       NEXTCLOUD_ENABLE_DRI_DEVICE: true # Intel QuickSync
       SKIP_DOMAIN_VALIDATION: false # This should only be set to true if things are correctly configured.
       TALK_PORT: 3478 # This allows to adjust the port that the talk container is using which is exposed on the host. See https://github.com/nextcloud/all-in-one#how-to-adjust-the-talk-port
-    extra_hosts:
-      - cloud.kindawork.com:85.247.208.137
+    #extra_hosts:
+    # - cloud.example.com:8.8.8.8 # Uncomment and edit if your domain is not resolving correctly.
 
   gitea:
     image: gitea/gitea:latest
