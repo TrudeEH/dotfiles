@@ -77,30 +77,27 @@ install_gnome_extension() {
 }
 
 # Clone Dotfiles if not already present
-if [ $W_MAIN = "install" ]; then
-   cd "$HOME/dotfiles"
-   if [ "$(pwd)" != "$HOME/dotfiles" ]; then
-      echo "${YELLOW}Cloning dotfiles repository...${NC}"
-      sudo apt update
-      sudo apt install -y git
-      if ! git clone https://github.com/TrudeEH/dotfiles --depth 1; then
-         echo "${RED}Error cloning dotfiles repository. Exiting...${NC}"
-         exit 2
-      fi
-      cd dotfiles || exit
-      echo "${GREEN}dotfiles repository cloned successfully.${NC}"
-   else
-      echo "${YELLOW}Updating dotfiles repository...${NC}"
-      pull_output=$(git pull)
-      echo "$pull_output"
-      if ! echo "$pull_output" | grep -q "Already up to date."; then
-         echo "${YELLOW}Changes detected. Re-running script...${NC}"
-         exec "$0" "$@"
-      fi
+cd "$HOME/dotfiles"
+if [ "$(pwd)" != "$HOME/dotfiles" ]; then
+   echo "${YELLOW}Cloning dotfiles repository...${NC}"
+   sudo apt update
+   sudo apt install -y git
+   if ! git clone https://github.com/TrudeEH/dotfiles --depth 1; then
+      echo "${RED}Error cloning dotfiles repository. Exiting...${NC}"
+      exit 2
    fi
+   cd dotfiles || exit
+   echo "${GREEN}dotfiles repository cloned successfully.${NC}"
 else
-   cd "$HOME/dotfiles" || exit
+   echo "${YELLOW}Updating dotfiles repository...${NC}"
+   pull_output=$(git pull)
+   echo "$pull_output"
+   if ! echo "$pull_output" | grep -q "Already up to date."; then
+      echo "${YELLOW}Changes detected. Re-running script...${NC}"
+      exec "$0" "$@"
+   fi
 fi
+
 
 mkdir -p "$HOME/dotfiles/logs"
 
