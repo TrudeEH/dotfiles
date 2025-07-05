@@ -82,7 +82,7 @@ if [ "$(pwd)" != "$HOME/dotfiles" ]; then
    echo "${YELLOW}Cloning dotfiles repository...${NC}"
    sudo apt update
    sudo apt install -y git
-   if ! git clone https://github.com/TrudeEH/dotfiles --depth 1; then
+   if ! git clone https://git.trude.dev/trude/dotfiles --depth 1; then
       echo "${RED}Error cloning dotfiles repository. Exiting...${NC}"
       exit 2
    fi
@@ -97,7 +97,6 @@ else
       exec "$0" "$@"
    fi
 fi
-
 
 mkdir -p "$HOME/dotfiles/logs"
 
@@ -216,7 +215,7 @@ if [ "$USER" = "trude" ]; then
          echo "${YELLOW}Cloning password-store...${NC}"
          chmod 700 ~/.ssh
          chmod 600 ~/.ssh/*
-         if ! git clone git@github.com:TrudeEH/password-store.git "$HOME/.password-store"; then
+         if ! git clone git@git.trude.dev:trude/password-store.git "$HOME/.password-store"; then
             echo "${RED}Error cloning password-store.${NC}"
          else
             echo "${GREEN}Password-store cloned successfully.${NC}"
