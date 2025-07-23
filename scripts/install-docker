@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# Colors
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+MAGENTA="\e[35m"
+CYAN="\e[36m"
+GRAY="\e[90m"
+BOLD="\e[1m"
+NC="\e[0m"
+
+echo  "${CYAN}${BOLD}=== Docker Installation Script ===${NC}"
+
+echo  "${YELLOW}[+]${NC} Updating APT..."
+echo  "${GRAY}"
+sudo apt-get update
+echo  "${NC}"
+
+echo  "${YELLOW}[+]${NC} Installing required packages..."
+echo  "${GRAY}"
+sudo apt-get install -y ca-certificates curl gnupg lsb-release
+echo  "${NC}"
+
+echo  "${YELLOW}[+]${NC} Adding Docker's official GPG key..."
+echo  "${GRAY}"
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL "https://download.docker.com/linux/$(
+  . /etc/os-release
+  echo "$ID"
+)/gpg" | sudo gpg --dearmor >/tmp/docker.gpg
+sudo mv /tmp/docker.gpg /etc/apt/keyrings/docker.gpg
+sudo chmod 644 /etc/apt/keyrings/docker.gpg
+
+echo  "${YELLOW}[+]${NC} Setting up the Docker repository..."
+echo  "${GRAY}"
+ARCH=$(dpkg --print-architecture)
+OS_ID=$(awk -F= '/^ID=/{gsub(/\"/, "", $2); print $2}' /etc/os-release)
+RELEASE=$(lsb_release -cs)
+echo "deb [arch=$ARCH signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/$OS_ID $RELEASE stable" |
+  sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+echo  "${YELLOW}[+]${NC} Updating APT..."
+echo  "${GRAY}"
+sudo apt-get update
+echo  "${NC}"
+
+echo  "${YELLOW}[+]${NC} Installing Docker Engine..."
+echo  "${GRAY}"
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+echo  "${GREEN}[✓]${NC} Docker installation complete!"
+echo  "${GRAY}"
+docker --version
+echo  "${NC}"
+
+echo  "${YELLOW}[+]${NC} Allowing Docker use without sudo..."
+echo  "${GRAY}"
+sudo usermod -aG docker ${USER}
+exec sg docker newgrp
+echo  "${NC}${GREEN}[✓]${NC} User added to docker group"

@@ -1,17 +1,33 @@
 #! /bin/sh
 
 YELLOW="\e[33m"
+GRAY="\e[90m"
 NC="\e[0m"
 
-printf "%b\n" "${YELLOW}Updating apt...${NC}"
-sudo apt update
-sudo apt upgrade
-sudo apt full-upgrade
-sudo apt autoremove
-sudo apt autoclean
+printf "%b\n" "${YELLOW}[+]${NC} Updating repos..."
+printf "%b" "${GRAY}"
+sudo apt-get update
+printf "%b" "${NC}"
+
+printf "%b\n" "${YELLOW}[+]${NC} Upgrading packages..."
+printf "%b" "${GRAY}"
+sudo apt-get full-upgrade
+printf "%b" "${NC}"
+
+printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
+printf "%b" "${GRAY}"
+sudo apt-get autoremove
+printf "%b" "${NC}"
+
+printf "%b\n" "${YELLOW}[+]${NC} Cleaning up..."
+printf "%b" "${GRAY}"
+sudo apt-get autoclean
+printf "%b" "${NC}"
 
 if command -v flatpak >/dev/null 2>&1; then
-  printf "%b\n" "${YELLOW}Updating flatpak...${NC}"
+  printf "%b\n" "${YELLOW}[+]${NC} Updating flatpak packages..."
+  printf "%b" "${GRAY}"
   flatpak update
   flatpak uninstall --unused --delete-data
+  printf "%b" "${NC}"
 fi
