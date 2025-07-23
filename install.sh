@@ -83,19 +83,18 @@ if [ "$(pwd)" != "$HOME/dotfiles" ]; then
    sudo apt update
    sudo apt install -y git
    if ! git clone https://git.trude.dev/trude/dotfiles --depth 1; then
-      echo "${RED}Error cloning dotfiles repository. Exiting...${NC}"
-      exit 2
+      echo "${RED}Error cloning dotfiles repository. Update skipped...${NC}"
    fi
    cd dotfiles || exit
    echo "${GREEN}dotfiles repository cloned successfully.${NC}"
-else
-   echo "${YELLOW}Updating dotfiles repository...${NC}"
-   pull_output=$(git pull)
-   echo "$pull_output"
-   if ! echo "$pull_output" | grep -q "Already up to date."; then
-      echo "${YELLOW}Changes detected. Re-running script...${NC}"
-      exec "$0" "$@"
-   fi
+# else
+#    echo "${YELLOW}Updating dotfiles repository...${NC}"
+#    pull_output=$(git pull)
+#    echo "$pull_output"
+#    if ! echo "$pull_output" | grep -q "Already up to date."; then
+#       echo "${YELLOW}Changes detected. Re-running script...${NC}"
+#       exec "$0" "$@"
+#    fi
 fi
 
 mkdir -p "$HOME/dotfiles/logs"
