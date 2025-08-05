@@ -8,14 +8,6 @@ CYAN="\e[36m"
 BOLD="\e[1m"
 NC="\e[0m"
 
-install_package() {
-   if command -v pacman >/dev/null 2>&1; then
-      sudo pacman -Sy $@
-   elif command -v apt >/dev/null 2>&1; then
-      sudo apt install -y $@
-   fi
-}
-
 install_gnome_extension() {
    uuid="$1"
 
@@ -48,7 +40,7 @@ trap 'printf "${RED}install.sh interrupted.${NC}"; exit 1' INT TERM
 
 if ! command -v whiptail >/dev/null 2>&1; then
    printf "%b\n" "${YELLOW}[+]${NC} Installing whiptail..."
-   install_package whiptail
+   sudo pacman -Sy whiptail
 fi
 
 case "$XDG_CURRENT_DESKTOP" in
@@ -90,7 +82,7 @@ fi
 cd "$HOME/dotfiles"
 if [ "$(pwd)" != "$HOME/dotfiles" ]; then
    printf "%b\n" "${YELLOW}[+]${NC} Cloning dotfiles repository..."
-   install_package git
+   sudo pacman -Sy git
    if ! git clone https://git.trude.dev/trude/dotfiles --depth 1; then
       printf "%b\n" "${RED}Error cloning dotfiles repository. Update skipped...${NC}"
    fi
@@ -108,7 +100,7 @@ fi
 mkdir -p "$HOME/dotfiles/logs"
 
 if [ $W_MAIN = "flatpak" ]; then
-   install_package flatpak
+   sudo pacman -Sy flatpak
    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
@@ -125,7 +117,12 @@ if [ $W_MAIN = "install" ]; then
    ./scripts/update
 
    printf "%b\n" "${YELLOW}[+]${NC} Installing Dependencies..."
-   install_package git tmux fzf tealdeer pass-otp zbar-tools bat ufw unp network-manager bash-completion gnome-keyring libsecret reflector
+   sudo pacman -Sy git tmux fzf tealdeer pass-otp zbar-tools bat ufw unp network-manager bash-completion gnome-keyring libsecret reflector
+
+   # Enable GNOME Keyring SSH agent
+   printf "%b\n" "${YELLOW}[+]${NC} Enabling GNOME Keyring SSH agent..."
+   systemctl enable --user gcr-ssh-agent.socket
+   systemctl start --user gcr-ssh-agent.socket
 
    # Enable Network Manager
    printf "%b\n" "${YELLOW}[+]${NC} Enabling Network Manager..."

@@ -39,4 +39,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Set SSH_AUTH_SOCK to use gnome-keyring via GCR
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+
 export PATH=$PATH:$HOME/.local/bin
