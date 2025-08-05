@@ -1,32 +1,38 @@
 #! /bin/sh
 
 YELLOW="\e[33m"
-GRAY="\e[90m"
 NC="\e[0m"
 
-printf "%b\n" "${YELLOW}[+]${NC} Updating repos..."
-printf "%b" "${GRAY}"
-sudo apt-get update
-printf "%b" "${NC}"
+if command -v paru >/dev/null 2>&1; then
+  printf "%b\n" "${YELLOW}[+]${NC} Updating Arch using paru..."
+  paru
+  printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
+  sudo pacman -Rsn $(pacman -Qdtq)
+elif command -v pacman >/dev/null 2>&1; then
+  printf "%b\n" "${YELLOW}[+]${NC} Updating Arch..."
+  sudo pacman -Syu
+  printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
+  sudo pacman -Rsn $(pacman -Qdtq)
+elif command -v apt >/dev/null 2>&1; then
+  printf "%b\n" "${YELLOW}[+]${NC} Updating repos..."
+  sudo apt-get update
+  printf "%b" "${NC}"
 
-printf "%b\n" "${YELLOW}[+]${NC} Upgrading packages..."
-printf "%b" "${GRAY}"
-sudo apt-get full-upgrade
-printf "%b" "${NC}"
+  printf "%b\n" "${YELLOW}[+]${NC} Upgrading packages..."
+  sudo apt-get full-upgrade
+  printf "%b" "${NC}"
 
-printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
-printf "%b" "${GRAY}"
-sudo apt-get autoremove
-printf "%b" "${NC}"
+  printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
+  sudo apt-get autoremove
+  printf "%b" "${NC}"
 
-printf "%b\n" "${YELLOW}[+]${NC} Cleaning up..."
-printf "%b" "${GRAY}"
-sudo apt-get autoclean
-printf "%b" "${NC}"
+  printf "%b\n" "${YELLOW}[+]${NC} Cleaning up..."
+  sudo apt-get autoclean
+  printf "%b" "${NC}"
+fi
 
 if command -v flatpak >/dev/null 2>&1; then
   printf "%b\n" "${YELLOW}[+]${NC} Updating flatpak packages..."
-  printf "%b" "${GRAY}"
   flatpak update
   flatpak uninstall --unused --delete-data
   printf "%b" "${NC}"

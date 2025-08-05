@@ -1,7 +1,7 @@
 # Trude's Dotfiles
 
 <p align="center">
-  <img src="images/dotfiles-logo.png" alt="Logo Circle" width="200" align="middle">
+  <img src="images/logo-circle.png" alt="Logo Circle" width="200" align="middle">
 </p>
 
 
