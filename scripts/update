@@ -37,3 +37,7 @@ if command -v flatpak >/dev/null 2>&1; then
   flatpak uninstall --unused --delete-data
   printf "%b" "${NC}"
 fi
+
+printf "%b\n" "${YELLOW}[+]${NC} Searching for broken symlinks..."
+sudo find / -type d \( -path "/dev" -o -path "/proc" -o -path "/run" -o -path "/sys" \) -prune -o -xtype l -print
+printf "%b" "${NC}"

@@ -125,13 +125,16 @@ if [ $W_MAIN = "install" ]; then
    ./scripts/update
 
    printf "%b\n" "${YELLOW}[+]${NC} Installing Dependencies..."
-   install_package git tmux fzf tealdeer pass-otp zbar-tools bat ufw unp network-manager bash-completion
+   install_package git tmux fzf tealdeer pass-otp zbar-tools bat ufw unp network-manager bash-completion gnome-keyring libsecret reflector
 
    # Enable Network Manager
    printf "%b\n" "${YELLOW}[+]${NC} Enabling Network Manager..."
    sudo mv /etc/network/interfaces /etc/network/interfaces.bckp
    sudo systemctl restart networking
    sudo service NetworkManager restart
+
+   printf "%b\n" "${YELLOW}[+]${NC} Selecting Fastest Arch Mirrors..."
+   sudo reflector --sort rate --fastest 10 --verbose --protocol https --latest 200 --save /etc/pacman.d/mirrorlist
 fi
 
 if [ "$W_MAIN" = "install" ] || [ "$W_MAIN" = "reload" ]; then
