@@ -49,7 +49,7 @@ case "$XDG_CURRENT_DESKTOP" in
    ;;
 *)
    whiptail --title "Warning" --msgbox \
-      "Dconf settings and GNOME extensions can only be installed from within GNOME.\n\nPlease run this script again from within a GNOME session. The script will configure NetworkManager for you if needed." \
+      "Dconf settings and GNOME extensions can only be installed from within GNOME.\n\nPlease run this script again from within a GNOME session." \
       15 60
    ;;
 esac
@@ -114,21 +114,16 @@ if [ $W_MAIN = "paru" ]; then
 fi
 
 if [ $W_MAIN = "install" ]; then
+   sudo cp -f ./pacman.conf /etc/pacman.conf
    ./scripts/update
 
    printf "%b\n" "${YELLOW}[+]${NC} Installing Dependencies..."
-   sudo pacman -Sy git tmux fzf tealdeer pass-otp zbar-tools bat ufw unp network-manager bash-completion gnome-keyring libsecret reflector
+   sudo pacman -Sy git tmux fzf tealdeer pass-otp bat ufw unp bash-completion gnome-keyring libsecret reflector
 
    # Enable GNOME Keyring SSH agent
    printf "%b\n" "${YELLOW}[+]${NC} Enabling GNOME Keyring SSH agent..."
    systemctl enable --user gcr-ssh-agent.socket
    systemctl start --user gcr-ssh-agent.socket
-
-   # Enable Network Manager
-   printf "%b\n" "${YELLOW}[+]${NC} Enabling Network Manager..."
-   sudo mv /etc/network/interfaces /etc/network/interfaces.bckp
-   sudo systemctl restart networking
-   sudo service NetworkManager restart
 
    printf "%b\n" "${YELLOW}[+]${NC} Selecting Fastest Arch Mirrors..."
    sudo reflector --sort rate --fastest 10 --verbose --protocol https --latest 200 --save /etc/pacman.d/mirrorlist

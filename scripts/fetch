@@ -30,10 +30,23 @@ printf "%b\n" "${CYAN}Kernel:${NC} Linux $(uname -r)"
 UPTIME=$(uptime -p | sed 's/up //')
 printf "%b\n" "${CYAN}Uptime:${NC} $UPTIME"
 
-# Package counts: dpkg and flatpak
-PKG_COUNT=$(dpkg-query -f '${binary:Package}\n' -W 2>/dev/null | wc -l)
-FLAT_COUNT=$(flatpak list 2>/dev/null | wc -l)
-printf "%b\n" "${CYAN}Packages:${NC} ${PKG_COUNT} (dpkg), ${FLAT_COUNT} (flatpak)"
+# Package counts: detect package manager and count packages
+if command -v pacman >/dev/null 2>&1; then
+  # Arch Linux - count pacman and AUR packages
+  PKG_COUNT=$(pacman -Q 2>/dev/null | wc -l)
+  AUR_COUNT=$(pacman -Qm 2>/dev/null | wc -l)
+  FLAT_COUNT=$(flatpak list 2>/dev/null | wc -l)
+  printf "%b\n" "${CYAN}Packages:${NC} ${PKG_COUNT} (pacman), ${AUR_COUNT} (AUR), ${FLAT_COUNT} (flatpak)"
+elif command -v dpkg >/dev/null 2>&1; then
+  # Debian/Ubuntu - count dpkg packages
+  PKG_COUNT=$(dpkg-query -f '${binary:Package}\n' -W 2>/dev/null | wc -l)
+  FLAT_COUNT=$(flatpak list 2>/dev/null | wc -l)
+  printf "%b\n" "${CYAN}Packages:${NC} ${PKG_COUNT} (dpkg), ${FLAT_COUNT} (flatpak)"
+else
+  # Fallback - just count flatpak
+  FLAT_COUNT=$(flatpak list 2>/dev/null | wc -l)
+  printf "%b\n" "${CYAN}Packages:${NC} ${FLAT_COUNT} (flatpak)"
+fi
 
 # Shell and version
 BASH_VER=$(bash --version | head -n1 | awk '{print $4}' | cut -d'(' -f1)
