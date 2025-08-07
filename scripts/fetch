@@ -18,11 +18,6 @@ OS=$(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"')
 ARCH=$(uname -m)
 printf "%b\n" "${CYAN}OS:${NC} $OS $ARCH"
 
-# Host Model
-HOST_MODEL=$(cat /sys/class/dmi/id/product_name 2>/dev/null)
-HOST_VERSION=$(cat /sys/class/dmi/id/product_version 2>/dev/null)
-printf "%b\n" "${CYAN}Host:${NC} ${HOST_VERSION} (${HOST_MODEL})"
-
 # Kernel version
 printf "%b\n" "${CYAN}Kernel:${NC} Linux $(uname -r)"
 
@@ -55,6 +50,10 @@ printf "%b\n" "${CYAN}Shell:${NC} bash ${BASH_VER}"
 # Desktop Environment
 DE=${XDG_CURRENT_DESKTOP:-"Unknown"}
 printf "%b\n" "${CYAN}DE:${NC} $DE"
+
+# Motherboard Model
+BOARD_NAME=$(cat /sys/devices/virtual/dmi/id/board_name 2>/dev/null)
+printf "%b\n" "${CYAN}Motherboard:${NC} ${BOARD_NAME}"
 
 # CPU model from /proc/cpuinfo
 CPU=$(awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo | sed 's/^[ \t]*//')
