@@ -8,11 +8,15 @@ if command -v paru >/dev/null 2>&1; then
   paru
   printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
   sudo pacman -Rsn $(pacman -Qdtq)
+  printf "%b\n" "${YELLOW}[+]${NC} Checking for config changes..."
+  sudo pacdiff
 elif command -v pacman >/dev/null 2>&1; then
   printf "%b\n" "${YELLOW}[+]${NC} Updating Arch..."
   sudo pacman -Syu
   printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
   sudo pacman -Rsn $(pacman -Qdtq)
+  printf "%b\n" "${YELLOW}[+]${NC} Checking for config changes..."
+  sudo pacdiff
 elif command -v apt >/dev/null 2>&1; then
   printf "%b\n" "${YELLOW}[+]${NC} Updating repos..."
   sudo apt-get update

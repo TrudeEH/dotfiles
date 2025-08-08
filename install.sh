@@ -60,12 +60,13 @@ window_width='60'
 W_MAIN=$(
    whiptail --notags --title "Trude's Dotfiles" \
       --cancel-button "Exit" \
-      --menu "Main Menu" $window_height $window_width 5 \
+      --menu "Main Menu" $window_height $window_width 6 \
       "install" "Install Dotfiles" \
       "reload" "Reload Configuration" \
       "paru" "Install Paru AUR Helper" \
       "flatpak" "Install Flatpak" \
       "update" "Update Distro" \
+      "vulns" "Check for Vulnerabilities" \
       3>&1 1>&2 2>&3
 )
 
@@ -104,6 +105,10 @@ if [ $W_MAIN = "flatpak" ]; then
    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
+if [ $W_MAIN = "vulns" ]; then
+   arch-audit
+fi
+
 if [ $W_MAIN = "paru" ]; then
    sudo pacman -S --needed base-devel
    git clone https://aur.archlinux.org/paru.git --depth=1
@@ -118,7 +123,7 @@ if [ $W_MAIN = "install" ]; then
    ./scripts/update
 
    printf "%b\n" "${YELLOW}[+]${NC} Installing Dependencies..."
-   sudo pacman -Sy git tmux fzf tealdeer pass-otp bat ufw unp bash-completion gnome-keyring libsecret reflector
+   sudo pacman -Sy --needed git tmux fzf tealdeer pass-otp bat ufw unp bash-completion gnome-keyring libsecret pacman-contrib reflector arch-audit
 
    # Enable GNOME Keyring SSH agent
    printf "%b\n" "${YELLOW}[+]${NC} Enabling GNOME Keyring SSH agent..."
