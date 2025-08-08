@@ -10,6 +10,8 @@ if command -v paru >/dev/null 2>&1; then
   sudo pacman -Rsn $(pacman -Qdtq)
   printf "%b\n" "${YELLOW}[+]${NC} Checking for config changes..."
   sudo pacdiff
+  printf "%b\n" "${YELLOW}[+]${NC} Checking for vulnerabilities..."
+  arch-audit -u
 elif command -v pacman >/dev/null 2>&1; then
   printf "%b\n" "${YELLOW}[+]${NC} Updating Arch..."
   sudo pacman -Syu
@@ -17,6 +19,8 @@ elif command -v pacman >/dev/null 2>&1; then
   sudo pacman -Rsn $(pacman -Qdtq)
   printf "%b\n" "${YELLOW}[+]${NC} Checking for config changes..."
   sudo pacdiff
+  printf "%b\n" "${YELLOW}[+]${NC} Checking for vulnerabilities..."
+  arch-audit -u
 elif command -v apt >/dev/null 2>&1; then
   printf "%b\n" "${YELLOW}[+]${NC} Updating repos..."
   sudo apt-get update

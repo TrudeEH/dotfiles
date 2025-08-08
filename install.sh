@@ -106,7 +106,10 @@ if [ $W_MAIN = "flatpak" ]; then
 fi
 
 if [ $W_MAIN = "vulns" ]; then
+   printf "%b\n" "${CYAN}[I]${NC} Packages that contain known vulnerabilities:"
    arch-audit
+   printf "\n%b\n" "${RED}[I]${NC} Packages that can be fixed by updating:"
+   arch-audit -u
 fi
 
 if [ $W_MAIN = "paru" ]; then
