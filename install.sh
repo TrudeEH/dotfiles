@@ -144,6 +144,7 @@ if [ "$W_MAIN" = "install" ] || [ "$W_MAIN" = "reload" ]; then
 
    # Copy wallpapers
    printf "%b\n" "${YELLOW}[+]${NC} Installing Wallpapers..."
+   sudo mkdir -p /usr/share/backgrounds/gnome/
    sudo cp -r $HOME/dotfiles/wallpapers/* /usr/share/backgrounds/gnome/
 
    # Copy scripts
@@ -183,24 +184,12 @@ if [ "$W_MAIN" = "install" ] || [ "$W_MAIN" = "reload" ]; then
       git config --global user.name "TrudeEH"
       git config --global user.email "ehtrude@gmail.com"
 
-      # Clone password-store
+      # Configure SSH
       if [ ! -f "$HOME/.ssh/id_ed25519" ] || [ ! -f "$HOME/.ssh/id_ed25519.pub" ]; then
-         printf "%b\n" "${RED}ED25519 key not found in ${CYAN}$HOME/.ssh/id_ed25519. ${RED}Please add your ED25519 key pair for password-store.${NC}"
-      elif ! gpg --list-keys "ehtrude@gmail.com" >/dev/null 2>&1; then
-         printf "%b\n" "${RED}GPG key for ehtrude@gmail.com not found. Please import the key for password-store.${NC}"
+         printf "%b\n" "${RED}ED25519 key not found in ${CYAN}$HOME/.ssh/id_ed25519${NC}."
       else
-         if [ ! -d "$HOME/.password-store" ]; then
-            printf "%b\n" "${YELLOW}[+]${NC} Cloning password-store..."
-            chmod 700 ~/.ssh
-            chmod 600 ~/.ssh/*
-            if ! git clone git@git.trude.dev:trude/password-store.git "$HOME/.password-store"; then
-               printf "%b\n" "${RED}Error cloning password-store.${NC}"
-            else
-               printf "%b\n" "${GREEN}[✓]${NC} Password-store cloned successfully."
-            fi
-         else
-            printf "%b\n" "${GREEN}[✓]${NC} Password-store already present."
-         fi
+         chmod 700 ~/.ssh
+         chmod 600 ~/.ssh/*
       fi
    fi
 
