@@ -10,7 +10,7 @@ BOLD="\e[1m"
 NC="\e[0m"
 
 # User and host info
-printf "%b\n" "${BOLD}${MAGENTA}${USER}@$(hostname)${NC}"
+printf "%b\n" "${BOLD}${MAGENTA}${USER}@${HOSTNAME}${NC}"
 printf "%b\n" "---------"
 
 # OS and architecture
