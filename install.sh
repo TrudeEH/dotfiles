@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -61,11 +61,11 @@ W_MAIN=$(
       3>&1 1>&2 2>&3
 )
 
-if [ -z $W_MAIN ]; then
+if [ -z "$W_MAIN" ]; then
    exit 1
 fi
 
-if [ $W_MAIN = "update" ]; then
+if [ "$W_MAIN" = "update" ]; then
    ./scripts/update
    exit 0
 fi
@@ -91,19 +91,19 @@ fi
 
 mkdir -p "$HOME/dotfiles/logs"
 
-if [ $W_MAIN = "flatpak" ]; then
+if [ "$W_MAIN" = "flatpak" ]; then
    sudo pacman -S flatpak
    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
-if [ $W_MAIN = "vulns" ]; then
+if [ "$W_MAIN" = "vulns" ]; then
    printf "%b\n" "${CYAN}[I]${NC} Packages that contain known vulnerabilities:"
    arch-audit
    printf "\n%b\n" "${RED}[I]${NC} Packages that can be fixed by updating:"
    arch-audit -u
 fi
 
-if [ $W_MAIN = "paru" ]; then
+if [ "$W_MAIN" = "paru" ]; then
    sudo pacman -S --needed base-devel
    git clone https://aur.archlinux.org/paru.git --depth=1
    cd paru
@@ -112,7 +112,7 @@ if [ $W_MAIN = "paru" ]; then
    rm -rf paru
 fi
 
-if [ $W_MAIN = "setup" ]; then
+if [ "$W_MAIN" = "setup" ]; then
    printf "%b\n" "${YELLOW}[+]${NC} Installing GNOME..."
    sudo pacman -S gnome
 
@@ -131,7 +131,7 @@ if [ $W_MAIN = "setup" ]; then
    sudo systemctl enable gdm.service
 fi
 
-if [ $W_MAIN = "install" ]; then
+if [ "$W_MAIN" = "install" ]; then
    sudo cp -f ./pacman.conf /etc/pacman.conf
    ./scripts/update
 
@@ -147,7 +147,7 @@ if [ $W_MAIN = "install" ]; then
    sudo reflector --sort rate --fastest 10 --verbose --protocol https --latest 200 --save /etc/pacman.d/mirrorlist
 fi
 
-if [ "$W_MAIN" = "install" ] || [ "$W_MAIN" = "reload" ]; then
+if [ ""$W_MAIN"" = "install" ] || [ ""$W_MAIN"" = "reload" ]; then
    # Copy files
    printf "%b\n" "${YELLOW}[+]${NC} Installing Dotfiles..."
    cp -r "$HOME/dotfiles/home/." "$HOME"
