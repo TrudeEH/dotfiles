@@ -40,7 +40,7 @@ trap 'printf "${RED}install.sh interrupted.${NC}"; exit 1' INT TERM
 
 if ! command -v whiptail >/dev/null 2>&1; then
    printf "%b\n" "${YELLOW}[+]${NC} Installing whiptail..."
-   sudo pacman -S whiptail
+   sudo pacman -S libnewt
 fi
 
 window_height='15'
