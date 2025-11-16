@@ -40,19 +40,8 @@ trap 'printf "${RED}install.sh interrupted.${NC}"; exit 1' INT TERM
 
 if ! command -v whiptail >/dev/null 2>&1; then
    printf "%b\n" "${YELLOW}[+]${NC} Installing whiptail..."
-   sudo pacman -Sy whiptail
+   sudo pacman -S whiptail
 fi
-
-case "$XDG_CURRENT_DESKTOP" in
-*GNOME*)
-   printf "%b\n" "${GREEN}[✓]${NC} Running on GNOME."
-   ;;
-*)
-   whiptail --title "Warning" --msgbox \
-      "Dconf settings and GNOME extensions can only be installed from within GNOME.\n\nPlease run this script again from within a GNOME session." \
-      15 60
-   ;;
-esac
 
 window_height='15'
 window_width='60'
@@ -60,8 +49,10 @@ window_width='60'
 W_MAIN=$(
    whiptail --notags --title "Trude's Dotfiles" \
       --cancel-button "Exit" \
-      --menu "Main Menu" $window_height $window_width 6 \
+      --menu "Main Menu" $window_height $window_width 8 \
+      "setup" "Install GNOME & Core Apps" \
       "install" "Install Dotfiles" \
+      "" "" \
       "reload" "Reload Configuration" \
       "paru" "Install Paru AUR Helper" \
       "flatpak" "Install Flatpak" \
@@ -83,7 +74,7 @@ fi
 cd "$HOME/dotfiles"
 if [ "$(pwd)" != "$HOME/dotfiles" ]; then
    printf "%b\n" "${YELLOW}[+]${NC} Cloning dotfiles repository..."
-   sudo pacman -Sy git
+   sudo pacman -S git
    if ! git clone https://git.trude.dev/trude/dotfiles --depth 1; then
       printf "%b\n" "${RED}Error cloning dotfiles repository. Update skipped...${NC}"
    fi
@@ -101,7 +92,7 @@ fi
 mkdir -p "$HOME/dotfiles/logs"
 
 if [ $W_MAIN = "flatpak" ]; then
-   sudo pacman -Sy flatpak
+   sudo pacman -S flatpak
    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
@@ -121,12 +112,31 @@ if [ $W_MAIN = "paru" ]; then
    rm -rf paru
 fi
 
+if [ $W_MAIN = "setup" ]; then
+   printf "%b\n" "${YELLOW}[+]${NC} Installing GNOME..."
+   sudo pacman -S gnome
+
+   printf "%b\n" "${YELLOW}[+]${NC} Installing GNOME Circle Apps..."
+   sudo pacman -S --needed amberol apostrophe audio-sharing blanket collision curtail decoder dialect eartag errands eyedropper fragments gnome-podcasts graphs health hieroglyphic identity impression iotas komikku letterpress mousai newsflash obfuscate paper-clip pika-backup raider resources secrets shortwave solanum switcheroo valuta video-trimmer warp wike 
+
+   if whiptail --title "Developer Tools" --yesno "Are you a developer?\n\nInstall GNOME development tools?" 10 64; then
+      printf "%b\n" "${YELLOW}[+]${NC} Installing GNOME development tools..."
+      sudo pacman -S --needed manuals binary commit emblem gnome-builder lorem textpieces webfont-kit-generator sysprof gnome-boxes d-spy dconf-editor
+      printf "%b\n" "${CYAN}[I]${NC} Install workbench through the AUR for more convenient prototyping."
+   else
+      printf "%b\n" "${CYAN}[+]${NC} Skipped installing development tools."
+   fi
+
+   printf "%b\n" "${YELLOW}[+]${NC} Enabling GDM..."
+   sudo systemctl enable gdm.service
+fi
+
 if [ $W_MAIN = "install" ]; then
    sudo cp -f ./pacman.conf /etc/pacman.conf
    ./scripts/update
 
    printf "%b\n" "${YELLOW}[+]${NC} Installing Dependencies..."
-   sudo pacman -Sy --needed git tmux fzf tealdeer pass-otp bat ufw unp bash-completion gnome-keyring libsecret pacman-contrib reflector arch-audit
+   sudo pacman -S --needed git fzf tealdeer bat ufw unp bash-completion gnome-keyring libsecret pacman-contrib reflector arch-audit
 
    # Enable GNOME Keyring SSH agent
    printf "%b\n" "${YELLOW}[+]${NC} Enabling GNOME Keyring SSH agent..."
@@ -183,6 +193,7 @@ if [ "$W_MAIN" = "install" ] || [ "$W_MAIN" = "reload" ]; then
       git config --global user.signingkey ~/.ssh/id_ed25519.pub
       git config --global user.name "TrudeEH"
       git config --global user.email "ehtrude@gmail.com"
+      git config --global core.editor "/usr/bin/re.sonny.Commit"
 
       # Configure SSH
       if [ ! -f "$HOME/.ssh/id_ed25519" ] || [ ! -f "$HOME/.ssh/id_ed25519.pub" ]; then
@@ -201,6 +212,7 @@ if [ "$W_MAIN" = "install" ] || [ "$W_MAIN" = "reload" ]; then
       install_gnome_extension "Vitals@CoreCoding.com"
       install_gnome_extension "appindicatorsupport@rgcjonas.gmail.com"
       install_gnome_extension "gsconnect@andyholmes.github.io"
+      install_gnome_extension "blur-my-shell@aunetx"
 
       printf "%b\n" "${YELLOW}[+]${NC} Loading Dconf settings..."
       if ! dconf load / <"$HOME/dotfiles/dconf-settings.ini"; then
@@ -208,14 +220,9 @@ if [ "$W_MAIN" = "install" ] || [ "$W_MAIN" = "reload" ]; then
       fi
       ;;
    *)
-      printf "\n\n"
-      printf "%b\n" "${RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${NC}"
-      printf "\n"
-      printf "%b\n" "${CYAN}Dconf settings and GNOME extensions can only be installed after restarting."
-      printf "%b\n" "${CYAN}Please run the script again from within GNOME (with the reload option).${NC}"
-      printf "\n"
-      printf "%b\n" "${RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${NC}"
-      printf "\n"
+      whiptail --title "Warning" --msgbox \
+         "Dconf settings and GNOME extensions can only be installed from within GNOME.\n\nPlease run this script again from within a GNOME session." \
+         15 60
       ;;
    esac
 fi
