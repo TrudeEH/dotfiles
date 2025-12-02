@@ -2,17 +2,18 @@
     "settings": {
         "autoUpdate": true,
         "autoUpdateNotification": true,
-        "useQuickCss": false,
+        "useQuickCss": true,
         "themeLinks": [],
         "enabledThemes": [
             "trude.theme.css"
         ],
-        "enableReactDevtools": false,
+        "enableReactDevtools": true,
         "frameless": false,
         "transparent": false,
         "winCtrlQ": false,
         "disableMinSize": true,
         "winNativeTitleBar": false,
+        "localPlugins": true,
         "plugins": {
             "ChatInputButtonAPI": {
                 "enabled": true
@@ -93,15 +94,17 @@
                 "copyRoleColorInProfilePopout": false
             },
             "BetterSessions": {
-                "enabled": false
+                "enabled": true,
+                "backgroundCheck": false
             },
             "BetterSettings": {
                 "enabled": true,
                 "disableFade": true,
-                "eagerLoad": true
+                "eagerLoad": true,
+                "organizeMenu": true
             },
             "BetterUploadButton": {
-                "enabled": false
+                "enabled": true
             },
             "BiggerStreamPreview": {
                 "enabled": true
@@ -134,7 +137,7 @@
                 "enabled": false
             },
             "CopyEmojiMarkdown": {
-                "enabled": false
+                "enabled": true
             },
             "CopyFileContents": {
                 "enabled": true
@@ -171,9 +174,6 @@
             },
             "DontRoundMyTimestamps": {
                 "enabled": false
-            },
-            "EmoteCloner": {
-                "enabled": true
             },
             "Experiments": {
                 "enabled": true,
@@ -222,7 +222,7 @@
                 "enabled": true
             },
             "GameActivityToggle": {
-                "enabled": false,
+                "enabled": true,
                 "oldIcon": false
             },
             "GifPaste": {
@@ -258,7 +258,17 @@
                 "enabled": false
             },
             "LastFMRichPresence": {
-                "enabled": false
+                "enabled": false,
+                "shareUsername": false,
+                "shareSong": true,
+                "hideWithSpotify": true,
+                "hideWithActivity": false,
+                "statusName": "some music",
+                "statusDisplayType": "off",
+                "nameFormat": "status-name",
+                "useListeningStatus": false,
+                "missingArt": "lastfmLogo",
+                "showLastFmLogo": true
             },
             "LoadingQuotes": {
                 "enabled": false,
@@ -271,7 +281,8 @@
             "MemberCount": {
                 "enabled": true,
                 "memberList": true,
-                "toolTip": true
+                "toolTip": true,
+                "voiceActivity": true
             },
             "MentionAvatars": {
                 "enabled": true,
@@ -287,7 +298,8 @@
                 "enabled": true,
                 "latency": 2,
                 "detectDiscordKotlin": true,
-                "showMillis": false
+                "showMillis": false,
+                "ignoreSelf": false
             },
             "MessageLinkEmbeds": {
                 "enabled": true,
@@ -380,7 +392,7 @@
                 "enabled": true
             },
             "NoF1": {
-                "enabled": false
+                "enabled": true
             },
             "NoMaskedUrlPaste": {
                 "enabled": false
@@ -491,7 +503,7 @@
                 "enabled": true
             },
             "ReadAllNotificationsButton": {
-                "enabled": true
+                "enabled": false
             },
             "RelationshipNotifier": {
                 "enabled": true,
@@ -568,7 +580,8 @@
                 "enabled": true,
                 "mode": "nick-user",
                 "displayNames": false,
-                "inReplies": true
+                "inReplies": true,
+                "friendNicknames": "dms"
             },
             "ShowTimeoutDuration": {
                 "enabled": true
@@ -578,10 +591,10 @@
                 "persistState": false
             },
             "SilentTyping": {
-                "enabled": false,
-                "showIcon": false,
+                "enabled": true,
+                "showIcon": true,
                 "contextMenu": true,
-                "isEnabled": true
+                "isEnabled": false
             },
             "SortFriendRequests": {
                 "enabled": true,
@@ -670,8 +683,7 @@
                 "enabled": true
             },
             "VcNarrator": {
-                "enabled": true,
-                "voice": "Google US English",
+                "enabled": false,
                 "volume": 1,
                 "rate": 1,
                 "sayOwnName": false,
@@ -720,7 +732,21 @@
                 "enabled": true
             },
             "XSOverlay": {
-                "enabled": false
+                "enabled": false,
+                "webSocketPort": 42070,
+                "preferUDP": false,
+                "botNotifications": false,
+                "serverNotifications": true,
+                "dmNotifications": true,
+                "groupDmNotifications": true,
+                "callNotifications": true,
+                "pingColor": "#7289da",
+                "channelPingColor": "#8a2be2",
+                "soundPath": "default",
+                "timeout": 3,
+                "lengthBasedTimeout": true,
+                "opacity": 1,
+                "volume": 0.2
             },
             "NoTrack": {
                 "enabled": true,
@@ -742,7 +768,7 @@
                 "enabled": true
             },
             "FixImagesQuality": {
-                "enabled": false
+                "enabled": true
             },
             "AppleMusicRichPresence": {
                 "enabled": true,
@@ -776,7 +802,7 @@
             },
             "ShikiCodeblocks": {
                 "enabled": false,
-                "theme": "https://raw.githubusercontent.com/shikijs/textmate-grammars-themes/2d87559c7601a928b9f7e0f0dda243d2fb6d4499/packages/tm-themes/themes/catppuccin-mocha.json",
+                "theme": "https://raw.githubusercontent.com/shikijs/textmate-grammars-themes/2d87559c7601a928b9f7e0f0dda243d2fb6d4499/packages/tm-themes/themes/dark-plus.json",
                 "tryHljs": "SECONDARY",
                 "useDevIcon": "GREYSCALE",
                 "bgOpacity": 100
@@ -794,10 +820,19 @@
                 "enabled": true
             },
             "HideMedia": {
-                "enabled": false
+                "enabled": true
             },
             "DisableDeepLinks": {
                 "enabled": true
+            },
+            "ExpressionCloner": {
+                "enabled": true
+            },
+            "CopyStickerLinks": {
+                "enabled": true
+            },
+            "ImageFilename": {
+                "enabled": false
             }
         },
         "notifications": {
@@ -811,8 +846,8 @@
             "authenticated": false,
             "url": "https://api.vencord.dev/",
             "settingsSync": false,
-            "settingsSyncVersion": 1748808073030
+            "settingsSyncVersion": 1764014321902
         }
     },
-    "quickCss": "\n"
+    "quickCss": ".buttons__74017 {\n  position: fixed !important;\n  top: 8px !important;\n  right: 100px !important; /* distance from inbox button */\n  z-index: 1000 !important;\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-end !important; /* align icons to the right */\n  gap: 4px !important;\n  height: 1rem;\n}\n"
 }

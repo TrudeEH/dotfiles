@@ -3,41 +3,29 @@
 YELLOW="\e[33m"
 NC="\e[0m"
 
-if command -v paru >/dev/null 2>&1; then
-  printf "%b\n" "${YELLOW}[+]${NC} Updating Arch using paru..."
-  paru
-  printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
-  sudo pacman -Rsn $(pacman -Qdtq)
-  printf "%b\n" "${YELLOW}[+]${NC} Checking for config changes..."
-  sudo pacdiff
-  printf "%b\n" "${YELLOW}[+]${NC} Checking for vulnerabilities..."
-  arch-audit -u
-elif command -v pacman >/dev/null 2>&1; then
-  printf "%b\n" "${YELLOW}[+]${NC} Updating Arch..."
-  sudo pacman -Syu
-  printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
-  sudo pacman -Rsn $(pacman -Qdtq)
-  printf "%b\n" "${YELLOW}[+]${NC} Checking for config changes..."
-  sudo pacdiff
-  printf "%b\n" "${YELLOW}[+]${NC} Checking for vulnerabilities..."
-  arch-audit -u
-elif command -v apt >/dev/null 2>&1; then
-  printf "%b\n" "${YELLOW}[+]${NC} Updating repos..."
-  sudo apt-get update
-  printf "%b" "${NC}"
+printf "%b\n" "${YELLOW}[+]${NC} Updating Arch using paru..."
+paru
 
-  printf "%b\n" "${YELLOW}[+]${NC} Upgrading packages..."
-  sudo apt-get full-upgrade
-  printf "%b" "${NC}"
-
-  printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
-  sudo apt-get autoremove
-  printf "%b" "${NC}"
-
-  printf "%b\n" "${YELLOW}[+]${NC} Cleaning up..."
-  sudo apt-get autoclean
-  printf "%b" "${NC}"
+printf "%b\n" "${YELLOW}[+]${NC} Updating CPU microcode..."
+vendor=$(grep -m 1 'vendor_id' /proc/cpuinfo | awk '{print $3}')
+if [ "$vendor" == "GenuineIntel" ]; then
+    echo "CPU Detected: Intel"
+    paru -S intel-ucode --needed
+elif [ "$vendor" == "AuthenticAMD" ]; then
+    echo "CPU Detected: AMD"
+    paru -S amd-ucode --needed
+else
+    echo "Unknown CPU Vendor: $vendor"
 fi
+
+printf "%b\n" "${YELLOW}[+]${NC} Removing orphaned dependencies..."
+sudo pacman -Rsn $(pacman -Qdtq)
+
+printf "%b\n" "${YELLOW}[+]${NC} Checking for config changes..."
+sudo pacdiff
+
+printf "%b\n" "${YELLOW}[+]${NC} Checking for vulnerabilities..."
+arch-audit -u
 
 if command -v flatpak >/dev/null 2>&1; then
   printf "%b\n" "${YELLOW}[+]${NC} Updating flatpak packages..."
