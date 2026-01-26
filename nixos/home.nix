@@ -63,21 +63,24 @@
     (pkgs.writeShellScriptBin "rebuild" ''
       #! /bin/bash
       set -e
-      pushd ~/dotfiles
+      
+      # ANSI color codes
+      GRAY='\e[90m'
+      ORANGE='\e[38;5;214m'
+      RESET='\e[0m'
+      
+      pushd ~/dotfiles > /dev/null
       git diff -U0 *.nix
-      echo "NixOS Rebuilding..."
+      echo -e "''${ORANGE}NixOS Rebuilding...''${RESET}"
       if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC &> ~/.nixos-rebuild.log; then
         cat ~/.nixos-rebuild.log | grep --color error
         exit 1
       fi
-      echo "Activating home-manager..."
-      ~/.local/state/home-manager/gcroots/current-home/activate
-      gen=$(nixos-rebuild list-generations | grep current)
-      echo "Pushing changes..."
-      git commit -am "$gen"
-      git push
-      sudo nix-collect-garbage --delete-older-than 15d
-      popd
+      echo -e "''${ORANGE}Activating home-manager...''${RESET}"
+      echo -e "''${GRAY}$(~/.local/state/home-manager/gcroots/current-home/activate)''${RESET}"
+      echo -e "''${ORANGE}Cleaning up old generations...''${RESET}"
+      echo -e "''${GRAY}$(sudo nix-collect-garbage --delete-older-than 15d 2>&1)''${RESET}"
+      popd > /dev/null
     '')
   ];
 
