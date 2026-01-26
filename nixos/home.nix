@@ -5,7 +5,6 @@
   home.username = "trude";
   home.homeDirectory = "/home/trude";
   home.stateVersion = "25.11"; # Do not change after initial installation.
-  nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -224,7 +223,9 @@
       };
       "org/gnome/desktop/input-sources" = {
         show-all-sources = true;
-        sources = [ (lib.hm.gvariant.mkTuple [ "xkb" "us+altgr-intl" ]) ];
+        sources = [
+          (lib.hm.gvariant.mkTuple [ "xkb" "us+altgr-intl" ])
+        ];
         xkb-options = [ "terminate:ctrl_alt_bksp" ];
       };
       "org/gnome/desktop/interface" = {
