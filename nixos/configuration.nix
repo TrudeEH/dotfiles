@@ -76,6 +76,7 @@
   };
 
   home-manager = {
+    backupFileExtension = "~";
     extraSpecialArgs = { inherit inputs; };
     users = {
       "trude" = import ./home.nix;

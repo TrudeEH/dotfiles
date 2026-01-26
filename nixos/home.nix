@@ -79,7 +79,7 @@
 
   home.sessionVariables = {
     EDITOR = "gnome-text-editor";
-    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/.ssh";
   };
 
   programs.git = {
@@ -107,7 +107,7 @@
       };
     };
   };
-
+  
   programs.bash = {
     enable = true;
     shellAliases = {
