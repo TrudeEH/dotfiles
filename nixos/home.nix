@@ -21,7 +21,6 @@
 
     # VR / Games
     bs-manager
-    steam
     slimevr
     wivrn
     prismlauncher
