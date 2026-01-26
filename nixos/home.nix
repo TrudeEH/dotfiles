@@ -66,7 +66,10 @@
       pushd ~/dotfiles
       git diff -U0 *.nix
       echo "NixOS Rebuilding..."
-      sudo nixos-rebuild switch --flake ./nixos#TrudePC &> ~/.nixos-rebuild.log || ( cat ~/.nixos-rebuild.log | grep --color error && false )
+      if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC &> ~/.nixos-rebuild.log; then
+        cat ~/.nixos-rebuild.log | grep --color error
+        exit 1
+      fi
       echo "Activating home-manager..."
       ~/.local/state/home-manager/gcroots/current-home/activate
       gen=$(nixos-rebuild list-generations | grep current)
