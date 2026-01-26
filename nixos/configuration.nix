@@ -1,13 +1,12 @@
+# Shared configuration across all machines
 # Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running 'nixos-help').
 # man configuration.nix
 
 { config, pkgs, inputs, ... }:
 
-
 {
   imports = [ 
-    ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
   ];
 
@@ -19,8 +18,6 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Networking
-  networking.hostName = "TrudePC";
-  #networking.wireless.enable = true;
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Lisbon";
   i18n.defaultLocale = "en_US.UTF-8";
