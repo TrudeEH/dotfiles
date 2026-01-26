@@ -117,6 +117,12 @@
       SSHAgent = {
         Enabled = true;
       };
+      Security = {
+        LockDatabaseIdle = false;
+        LockDatabaseIdleSeconds = 0;
+        LockDatabaseMinimize = false;
+        LockDatabaseScreenLock = false;
+      };
     };
   };
   
@@ -218,7 +224,7 @@
       };
       "org/gnome/desktop/input-sources" = {
         show-all-sources = true;
-        sources = [ ["xkb" "us+altgr-intl"] ];
+        sources = [ (lib.hm.gvariant.mkTuple [ "xkb" "us+altgr-intl" ]) ];
         xkb-options = [ "terminate:ctrl_alt_bksp" ];
       };
       "org/gnome/desktop/interface" = {
