@@ -1,16 +1,22 @@
 # Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
+# man configuration.nix
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ 
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+  ];
 
   # Bootloader
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # Use latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Networking
   networking.hostName = "TrudePC";
@@ -32,18 +38,21 @@
 
   # Enable Wayland
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Keymap
   services.xserver.xkb = {
     layout = "us";
-    variant = "alt-intl";
+    variant = "altgr-intl";
+    options = "terminate:ctrl_alt_bksp";
   };
-  console.keyMap = "us";
 
   # Enable CUPS to print documents
   services.printing.enable = true;
+
+  # Enable dconf
+  programs.dconf.enable = true;
 
   # Enable sound with pipewire
   services.pulseaudio.enable = false;
@@ -62,27 +71,15 @@
     description = "TrudeEH";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      # General Apps
-      vscode
-      vesktop
-      google-chrome
-      localsend
-      keepassxc
-      tailscale
-      #stremio
-      nextcloud-talk-desktop
 
-      # VR / Games
-      bs-manager
-      steam
-      slimevr
-      wivrn
-      prismlauncher
-
-      # Gnome Apps
-      commit
-      binary
     ];
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "trude" = import ./home.nix;
+    };
   };
 
   # Packages
@@ -90,22 +87,23 @@
   environment.systemPackages = with pkgs; [
     git
   ];
-  # system.autoUpgrade = {
-  #   enable = true;
-  #   flake = inputs.self.outPath;
-  #   flags = [
-  #     "--update-input"
-  #     "nixpkgs"
-  #     "-L"
-  #   ];
-  #   dates = "09:00";
-  #   randomizedDelaySec = "45min";
-  # };
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L"
+    ];
+    dates = "09:00";
+    randomizedDelaySec = "45min";
+  };
   # Allow running executables
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     # Add missing dynamic libraries for unpackaged executables here.
   ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -121,10 +119,9 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
+  networking.firewall.enable = true;
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   system.stateVersion = "25.11"; # Don't change after initial installation.
 

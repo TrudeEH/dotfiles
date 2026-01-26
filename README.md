@@ -13,5 +13,10 @@ The 'main' branch is my current configuration, while others serve as an archive 
 
 To install my current configuration, run:
 ```sh
-sh <(curl -s https://git.trude.dev/trude/dotfiles/raw/branch/main/install.sh)
+sudo nixos-rebuild switch --flake ./nixos#TrudePC
+```
+
+Update NixOS:
+```sh
+sudo nix flake update --flake ./nixos
 ```
