@@ -15,7 +15,6 @@
     vesktop
     google-chrome
     localsend
-    keepassxc
     tailscale
     #stremio
     opencode
@@ -104,6 +103,19 @@
       "*" = {
         # Use keys from SSH agent instead of identity files
         identitiesOnly = false;
+      };
+    };
+  };
+
+  programs.keepassxc = {
+    enable = true;
+    settings = {
+      Browser = {
+        Enabled = true;
+        UpdateBinaryPath = false; # Prevent conflicts with home-manager managed manifest
+      };
+      SSHAgent = {
+        Enabled = true;
       };
     };
   };
