@@ -100,12 +100,32 @@
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Enable Steam
+  # Steam and VR
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
+  services.wivrn = {
+    enable = true;
+    openFirewall = true;
+    # Write information to /etc/xdg/openxr/1/active_runtime.json, VR applications
+    # will automatically read this and work with WiVRn (Note: This does not currently
+    # apply for games run in Valve's Proton)
+    defaultRuntime = true;
+    autoStart = true;
+  };
+  # Kernel patch for SteamVR performance issues on AMD GPUs
+  # boot.kernelPatches = [
+  #   {
+  #     name = "amdgpu-ignore-ctx-privileges";
+  #     patch = pkgs.fetchpatch {
+  #       name = "cap_sys_nice_begone.patch";
+  #       url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+  #       hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
+  #     };
+  #   }
+  # ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

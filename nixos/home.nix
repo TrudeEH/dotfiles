@@ -22,7 +22,6 @@
     # VR / Games
     bs-manager
     slimevr
-    wivrn
     prismlauncher
 
     # Gnome Extensions
