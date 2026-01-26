@@ -32,6 +32,7 @@
     gnomeExtensions.blur-my-shell
 
     # Gnome Apps
+    file-roller
     commit
     binary
 
