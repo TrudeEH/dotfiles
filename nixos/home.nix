@@ -5,6 +5,7 @@
   home.username = "trude";
   home.homeDirectory = "/home/trude";
   home.stateVersion = "25.11"; # Do not change after initial installation.
+  nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -66,6 +67,8 @@
       git diff -U0 *.nix
       echo "NixOS Rebuilding..."
       sudo nixos-rebuild switch --flake ./nixos#TrudePC &> ~/.nixos-rebuild.log || ( cat ~/.nixos-rebuild.log | grep --color error && false )
+      echo "Activating home-manager..."
+      ~/.local/state/home-manager/gcroots/current-home/activate
       gen=$(nixos-rebuild list-generations | grep current)
       echo "Pushing changes..."
       git commit -am "$gen"

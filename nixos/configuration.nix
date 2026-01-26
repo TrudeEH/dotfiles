@@ -75,8 +75,6 @@
   home-manager = {
     backupFileExtension = "~";
     extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
-    useUserPackages = true;
     users = {
       "trude" = import ./home.nix;
     };
