@@ -85,7 +85,6 @@
 
   home.sessionVariables = {
     EDITOR = "gnome-text-editor";
-    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/.ssh";
   };
 
   programs.git = {
@@ -266,6 +265,7 @@
         dynamic-workspaces = true;
       };
       "org/gnome/shell" = {
+        disable-user-extensions = false;
         disabled-extensions = [ "tiling-assistant@ubuntu.com" "ubuntu-dock@ubuntu.com" "ding@rastersoft.com" ];
         enabled-extensions = [ "blur-my-shell@aunetx" "gsconnect@andyholmes.github.io" "appindicatorsupport@rgcjonas.gmail.com" "caffeine@patapon.info" "Vitals@CoreCoding.com" ];
       };
