@@ -3,10 +3,15 @@
 # and in the NixOS manual (accessible by running 'nixos-help').
 # man configuration.nix
 
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports = [ 
+  imports = [
     inputs.home-manager.nixosModules.default
   ];
 
@@ -63,7 +68,10 @@
   users.users.trude = {
     isNormalUser = true;
     description = "TrudeEH";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [ ];
   };
 
@@ -98,7 +106,10 @@
   programs.nix-ld.libraries = with pkgs; [
     # Add missing dynamic libraries for unpackaged executables here.
   ];
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Steam and VR
   programs.steam = {

@@ -1,5 +1,10 @@
 # man home-configuration.nix
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   home.username = "trude";
@@ -8,6 +13,7 @@
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    nixfmt
     bat
 
     vscode
@@ -69,27 +75,41 @@
     (pkgs.writeShellScriptBin "rebuild" ''
       #! /bin/bash
       set -e
-      
+
       # ANSI color codes
       GRAY='\e[90m'
       ORANGE='\e[38;5;214m'
       RESET='\e[0m'
-      
-      pushd ~/dotfiles > /dev/null
+
+      pushd ~/dotfiles
       git diff -U0 *.nix
       echo -e "''${ORANGE}NixOS Rebuilding...''${RESET}"
       if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC &> ~/.nixos-rebuild.log; then
         cat ~/.nixos-rebuild.log | grep --color error
         exit 1
       fi
+      cat ~/.nixos-rebuild.log | grep --color error
       echo -e "''${ORANGE}Cleaning up old generations...''${RESET}"
       echo -e "''${GRAY}$(sudo nix-collect-garbage --delete-older-than 15d 2>&1)''${RESET}"
-      popd > /dev/null
+      popd
     '')
   ];
 
   home.sessionVariables = {
     EDITOR = "gnome-text-editor";
+  };
+
+  home.file = {
+    "Templates/markdown.md".text = "";
+    "Templates/text.txt".text = "";
+    ".config/vesktop/settings/settings.json" = {
+      source = ../vencord/settings.json;
+      force = true;
+    };
+    ".config/vesktop/themes/trude.theme.css" = {
+      source = ../vencord/trude.theme.css;
+      force = true;
+    };
   };
 
   programs.git = {
@@ -136,7 +156,7 @@
       };
     };
   };
-  
+
   programs.bash = {
     enable = true;
     shellAliases = {
@@ -209,19 +229,6 @@
     '';
   };
 
-  home.file = {
-    "Templates/markdown.md".text = "";
-    "Templates/text.txt".text = "";
-    ".config/vesktop/settings/settings.json" = {
-      source = ../vencord/settings.json;
-      force = true;
-    };
-    ".config/vesktop/themes/trude.theme.css" = {
-      source = ../vencord/trude.theme.css;
-      force = true;
-    };
-  };
-
   dconf = {
     enable = true;
     settings = {
@@ -236,7 +243,10 @@
       "org/gnome/desktop/input-sources" = {
         show-all-sources = true;
         sources = [
-          (lib.hm.gvariant.mkTuple [ "xkb" "us+altgr-intl" ])
+          (lib.hm.gvariant.mkTuple [
+            "xkb"
+            "us+altgr-intl"
+          ])
         ];
         xkb-options = [ "terminate:ctrl_alt_bksp" ];
       };
@@ -271,8 +281,18 @@
       };
       "org/gnome/shell" = {
         disable-user-extensions = false;
-        disabled-extensions = [ "tiling-assistant@ubuntu.com" "ubuntu-dock@ubuntu.com" "ding@rastersoft.com" ];
-        enabled-extensions = [ "blur-my-shell@aunetx" "gsconnect@andyholmes.github.io" "appindicatorsupport@rgcjonas.gmail.com" "caffeine@patapon.info" "Vitals@CoreCoding.com" ];
+        disabled-extensions = [
+          "tiling-assistant@ubuntu.com"
+          "ubuntu-dock@ubuntu.com"
+          "ding@rastersoft.com"
+        ];
+        enabled-extensions = [
+          "blur-my-shell@aunetx"
+          "gsconnect@andyholmes.github.io"
+          "appindicatorsupport@rgcjonas.gmail.com"
+          "caffeine@patapon.info"
+          "Vitals@CoreCoding.com"
+        ];
       };
       "org/gnome/shell/extensions/dash-to-dock" = {
         dash-max-icon-size = 32;
@@ -286,7 +306,7 @@
         show-home = false;
       };
       "org/gnome/shell/world-clocks" = {
-        locations = [];
+        locations = [ ];
       };
       "org/gnome/Console" = {
         use-system-font = false;
@@ -297,7 +317,24 @@
         cell-width-scale = 1.0;
         font = "JetBrainsMono NF 10";
         foreground-color = "rgb(208,207,204)";
-        palette = [ "rgb(36,31,49)" "rgb(192,28,40)" "rgb(46,194,126)" "rgb(245,194,17)" "rgb(30,120,228)" "rgb(152,65,187)" "rgb(10,185,220)" "rgb(192,191,188)" "rgb(94,92,100)" "rgb(237,51,59)" "rgb(87,227,137)" "rgb(248,228,92)" "rgb(81,161,255)" "rgb(192,97,203)" "rgb(79,210,253)" "rgb(246,245,244)" ];
+        palette = [
+          "rgb(36,31,49)"
+          "rgb(192,28,40)"
+          "rgb(46,194,126)"
+          "rgb(245,194,17)"
+          "rgb(30,120,228)"
+          "rgb(152,65,187)"
+          "rgb(10,185,220)"
+          "rgb(192,191,188)"
+          "rgb(94,92,100)"
+          "rgb(237,51,59)"
+          "rgb(87,227,137)"
+          "rgb(248,228,92)"
+          "rgb(81,161,255)"
+          "rgb(192,97,203)"
+          "rgb(79,210,253)"
+          "rgb(246,245,244)"
+        ];
         use-system-font = false;
         use-theme-colors = false;
       };
@@ -343,7 +380,12 @@
       };
       "org/gnome/shell/extensions/vitals" = {
         fixed-widths = false;
-        hot-sensors = [ "_processor_usage_" "_gpu#1_usage_" "_memory_usage_" "__temperature_max__" ];
+        hot-sensors = [
+          "_processor_usage_"
+          "_gpu#1_usage_"
+          "_memory_usage_"
+          "__temperature_max__"
+        ];
         icon-style = 1;
         menu-centered = false;
         position-in-panel = 0;
@@ -359,10 +401,10 @@
     enable = true;
     mimeApps = {
       associations.added = {
-        "text/x-shellscript" = ["org.gnome.TextEditor.desktop"];
+        "text/x-shellscript" = [ "org.gnome.TextEditor.desktop" ];
       };
       defaultApplications = {
-        "text/x-shellscript" = ["org.gnome.TextEditor.desktop"];
+        "text/x-shellscript" = [ "org.gnome.TextEditor.desktop" ];
       };
     };
   };
