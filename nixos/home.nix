@@ -5,7 +5,6 @@
   home.username = "trude";
   home.homeDirectory = "/home/trude";
   home.stateVersion = "25.11"; # Do not change after initial installation.
-  nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -28,12 +27,20 @@
     gnomeExtensions.caffeine
     gnomeExtensions.vitals
     gnomeExtensions.appindicator
-    gnomeExtensions.blur-my-shell
+    # gnomeExtensions.blur-my-shell
 
     # Gnome Apps
     file-roller
     commit
     binary
+    resources
+    raider
+    gnome-podcasts
+    gnome-obfuscate
+    collision
+    switcheroo
+    wordbook
+    textpieces
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''
@@ -75,8 +82,6 @@
         cat ~/.nixos-rebuild.log | grep --color error
         exit 1
       fi
-      echo -e "''${ORANGE}Activating home-manager...''${RESET}"
-      echo -e "''${GRAY}$(~/.local/state/home-manager/gcroots/current-home/activate)''${RESET}"
       echo -e "''${ORANGE}Cleaning up old generations...''${RESET}"
       echo -e "''${GRAY}$(sudo nix-collect-garbage --delete-older-than 15d 2>&1)''${RESET}"
       popd > /dev/null
@@ -346,6 +351,18 @@
         show-gpu = true;
         show-system = true;
         use-higher-precision = false;
+      };
+    };
+  };
+
+  xdg = {
+    enable = true;
+    mimeApps = {
+      associations.added = {
+        "text/x-shellscript" = ["org.gnome.TextEditor.desktop"];
+      };
+      defaultApplications = {
+        "text/x-shellscript" = ["org.gnome.TextEditor.desktop"];
       };
     };
   };

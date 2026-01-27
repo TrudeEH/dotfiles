@@ -64,12 +64,12 @@
     isNormalUser = true;
     description = "TrudeEH";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-
-    ];
+    packages = with pkgs; [ ];
   };
 
   home-manager = {
+    useUserPackages = true;
+    useGlobalPkgs = true;
     backupFileExtension = "~";
     extraSpecialArgs = { inherit inputs; };
     users = {
