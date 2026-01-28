@@ -14,6 +14,7 @@
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     nixfmt
+    nil
     bat
 
     vscode
@@ -81,17 +82,17 @@
       ORANGE='\e[38;5;214m'
       RESET='\e[0m'
 
-      pushd ~/dotfiles
+      pushd ~/dotfiles > /dev/null
       git diff -U0 *.nix
       echo -e "''${ORANGE}NixOS Rebuilding...''${RESET}"
-      if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC &> ~/.nixos-rebuild.log; then
+      if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC | tee ~/.nixos-rebuild.log; then
         cat ~/.nixos-rebuild.log | grep --color error
         exit 1
       fi
-      cat ~/.nixos-rebuild.log | grep --color error
+      echo
       echo -e "''${ORANGE}Cleaning up old generations...''${RESET}"
       echo -e "''${GRAY}$(sudo nix-collect-garbage --delete-older-than 15d 2>&1)''${RESET}"
-      popd
+      popd > /dev/null
     '')
   ];
 

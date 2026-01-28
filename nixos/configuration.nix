@@ -126,17 +126,17 @@
     defaultRuntime = true;
     autoStart = true;
   };
-  # Kernel patch for SteamVR performance issues on AMD GPUs
-  # boot.kernelPatches = [
-  #   {
-  #     name = "amdgpu-ignore-ctx-privileges";
-  #     patch = pkgs.fetchpatch {
-  #       name = "cap_sys_nice_begone.patch";
-  #       url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
-  #       hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
-  #     };
-  #   }
-  # ];
+  # Kernel patch for SteamVR performance issues on AMD GPUs (recompiles the kernel)
+  boot.kernelPatches = [
+    {
+      name = "amdgpu-ignore-ctx-privileges";
+      patch = pkgs.fetchpatch {
+        name = "cap_sys_nice_begone.patch";
+        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
+      };
+    }
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
