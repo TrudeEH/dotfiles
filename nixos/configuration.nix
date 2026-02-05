@@ -4,7 +4,6 @@
 # man configuration.nix
 
 {
-  config,
   pkgs,
   inputs,
   ...
@@ -15,9 +14,15 @@
     inputs.home-manager.nixosModules.default
   ];
 
+  nix.settings.trusted-users = [
+    "root"
+    "trude"
+  ];
+
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
   # Use latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -71,6 +76,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "dialout"
     ];
     packages = with pkgs; [ ];
   };
@@ -80,9 +86,14 @@
     useGlobalPkgs = true;
     backupFileExtension = "~";
     extraSpecialArgs = { inherit inputs; };
-    users = {
-      "trude" = import ./home.nix;
-    };
+    users.trude.imports = [
+      ./home.nix
+    ];
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
   };
 
   # Packages
@@ -111,50 +122,28 @@
     "flakes"
   ];
 
+  services.tailscale.enable = true;
+
   # Steam and VR
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
   };
   services.wivrn = {
     enable = true;
     openFirewall = true;
-    # Write information to /etc/xdg/openxr/1/active_runtime.json, VR applications
-    # will automatically read this and work with WiVRn (Note: This does not currently
-    # apply for games run in Valve's Proton)
     defaultRuntime = true;
-    autoStart = true;
+    autoStart = false;
   };
-  # Kernel patch for SteamVR performance issues on AMD GPUs (recompiles the kernel)
-  boot.kernelPatches = [
-    {
-      name = "amdgpu-ignore-ctx-privileges";
-      patch = pkgs.fetchpatch {
-        name = "cap_sys_nice_begone.patch";
-        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
-        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
-      };
-    }
-  ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  # Set up virtualisation
+  virtualisation.libvirtd.enable = true;
 
   # Open ports in the firewall.
   networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 11434 ]; # LMStudio (must be manually configured)
+  networking.firewall.allowedUDPPorts = [ 6969 ]; # SlimeVR
 
   system.stateVersion = "25.11"; # Don't change after initial installation.
 

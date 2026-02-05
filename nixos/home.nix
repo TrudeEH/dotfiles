@@ -21,14 +21,14 @@
     vesktop
     google-chrome
     localsend
-    tailscale
     #stremio
-    opencode
 
     # VR / Games
     bs-manager
     slimevr
     prismlauncher
+    protonup-qt
+    wayvr
 
     # Gnome Extensions
     gnomeExtensions.caffeine
@@ -48,6 +48,14 @@
     switcheroo
     wordbook
     textpieces
+
+    # Virtualisation
+    gnome-boxes # VM management
+    dnsmasq # VM networking
+
+    # AI
+    lmstudio
+    nodejs
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''
@@ -75,9 +83,8 @@
     '')
     (pkgs.writeShellScriptBin "rebuild" ''
       #! /bin/bash
-      set -e
 
-      # ANSI color codes
+      set -e
       GRAY='\e[90m'
       ORANGE='\e[38;5;214m'
       RESET='\e[0m'
@@ -85,14 +92,24 @@
       pushd ~/dotfiles > /dev/null
       git diff -U0 *.nix
       echo -e "''${ORANGE}NixOS Rebuilding...''${RESET}"
-      if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC | tee ~/.nixos-rebuild.log; then
-        cat ~/.nixos-rebuild.log | grep --color error
+      if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC; then
         exit 1
       fi
       echo
       echo -e "''${ORANGE}Cleaning up old generations...''${RESET}"
-      echo -e "''${GRAY}$(sudo nix-collect-garbage --delete-older-than 15d 2>&1)''${RESET}"
+      sudo nix-collect-garbage --delete-older-than 15d &> /dev/null
       popd > /dev/null
+    '')
+    (pkgs.writeShellScriptBin "update" ''
+      set -e
+      ORANGE='\e[38;5;214m'
+      RESET='\e[0m'
+
+      pushd ~/dotfiles > /dev/null
+      echo -e "''${ORANGE}Updating Flake...''${RESET}"
+      sudo nix flake update --flake ./nixos
+      popd > /dev/null
+      rebuild
     '')
   ];
 
@@ -135,6 +152,16 @@
       "*" = {
         # Use keys from SSH agent instead of identity files
         identitiesOnly = false;
+      };
+      server = {
+        hostname = "192.168.0.2";
+        user = "trude";
+        port = 6022;
+      };
+      work = {
+        hostname = "100.109.38.42"; # Tailscale IP
+        user = "trude";
+        port = 6022;
       };
     };
   };
@@ -410,6 +437,14 @@
     };
   };
 
+  programs.opencode = {
+    enable = true;
+    settings = {
+      autoshare = false; # No telemetry
+    };
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }
