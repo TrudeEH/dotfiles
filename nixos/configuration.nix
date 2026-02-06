@@ -140,6 +140,29 @@
   # Set up virtualisation
   virtualisation.libvirtd.enable = true;
 
+  # UPS (Green Cell 2000VA)
+  power.ups = {
+    enable = true;
+    mode = "standalone";
+    ups.greencell = {
+      driver = "nutdrv_qx";
+      port = "auto";
+      description = "Green Cell UPS 2000VA";
+      directives = [
+        "vendorid = 0001"
+        "productid = 0000"
+      ];
+    };
+    users.upsmon = {
+      passwordFile = "${pkgs.writeText "upsmon-password" "upsmonpass"}";
+      upsmon = "primary";
+      instcmds = [ "ALL" ];
+    };
+    upsmon.monitor.greencell = {
+      user = "upsmon";
+    };
+  };
+
   # Open ports in the firewall.
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 11434 ]; # LMStudio (must be manually configured)

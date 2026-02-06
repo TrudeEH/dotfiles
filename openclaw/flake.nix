@@ -24,27 +24,13 @@
           pkgs.openclaw-gateway
           pkgs.openclaw-tools
           pkgs.trash-cli
-          pkgs.ollama
         ];
 
         shellHook = ''
-          # Start ollama service if not already running
-          if ! pgrep -x "ollama" > /dev/null; then
-            echo "Starting ollama service..."
-            ollama serve &>/dev/null &
-            sleep 2
-          fi
-
-          # Pull model if needed (runs in background)
-          if ! ollama list 2>/dev/null | grep -q "llama3.2:3b"; then
-            echo "Pulling llama3.2:3b model (running in background)..."
-            ollama pull llama3.2:3b &
-          fi
-
           # Start openclaw-gateway if not already running (uses ~/.openclaw config)
           if ! pgrep -f "openclaw-gateway" > /dev/null; then
             echo "Starting openclaw-gateway..."
-            openclaw gateway &>/dev/null &
+            openclaw gateway &
             sleep 1
           fi
 

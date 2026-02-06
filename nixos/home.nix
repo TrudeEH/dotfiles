@@ -48,6 +48,7 @@
     switcheroo
     wordbook
     textpieces
+    gnome-sound-recorder
 
     # Virtualisation
     gnome-boxes # VM management
