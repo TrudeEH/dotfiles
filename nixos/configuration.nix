@@ -98,7 +98,6 @@
 
   # Packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [ inputs.nix-openclaw.overlays.default ];
   environment.systemPackages = with pkgs; [
     git
   ];

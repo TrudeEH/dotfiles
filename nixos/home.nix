@@ -22,6 +22,7 @@
     google-chrome
     localsend
     #stremio
+    element-desktop
 
     # VR / Games
     bs-manager
@@ -56,8 +57,6 @@
 
     # AI
     lmstudio
-    openclaw-gateway
-    openclaw-tools
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''

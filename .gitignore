@@ -7,3 +7,5 @@ BrewFile.lock.json
 /nix-shells/macos-vm/
 
 logs/
+
+openclaw/.npm-global/
