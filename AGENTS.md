@@ -1,8 +1,9 @@
 Use idiomatic nix.
 
-Before making changes, read the appropriate entries of the following manuals:
+If needed, read the appropriate entries of the following manuals:
 - man configuration.nix
 - man home-configuration.nix
+- ... among other resources
 
 Do not read the entire manual at once, instead search only for what you need.
 

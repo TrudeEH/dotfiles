@@ -56,7 +56,8 @@
 
     # AI
     lmstudio
-    nodejs
+    openclaw-gateway
+    openclaw-tools
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''
@@ -413,6 +414,7 @@
           "_processor_usage_"
           "_gpu#1_usage_"
           "_memory_usage_"
+          "_swap_usage_"
           "__temperature_max__"
         ];
         icon-style = 1;

@@ -98,6 +98,7 @@
 
   # Packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [ inputs.nix-openclaw.overlays.default ];
   environment.systemPackages = with pkgs; [
     git
   ];
@@ -161,6 +162,27 @@
     upsmon.monitor.greencell = {
       user = "upsmon";
     };
+  };
+
+  # RAM Optimizations (important for AI workloads)
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    # Total "virtual" swap size. 100% of RAM is safe for zRAM.
+    memoryPercent = 100; # Drop to 50% if 64+GB of RAM
+  };
+  services.earlyoom = {
+    enable = true;
+    # Start killing processes when available RAM drops below 10%
+    freeMemThreshold = 10; # Drop to 5% if 64+GB of RAM, increase if on <16GB RAM.
+    # Start killing processes when available swap drops below 10%
+    freeSwapThreshold = 10;
+  };
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 100;
+    "vm.vfs_cache_pressure" = 50;
+    # Helps prevent the system from "stuttering" when it starts swapping
+    "vm.watermark_boost_factor" = 0;
   };
 
   # Open ports in the firewall.
