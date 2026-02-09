@@ -23,6 +23,7 @@
     localsend
     #stremio
     element-desktop
+    opencode-desktop
 
     # VR / Games
     bs-manager
@@ -436,13 +437,6 @@
       defaultApplications = {
         "text/x-shellscript" = [ "org.gnome.TextEditor.desktop" ];
       };
-    };
-  };
-
-  programs.opencode = {
-    enable = true;
-    settings = {
-      autoshare = false; # No telemetry
     };
   };
 
