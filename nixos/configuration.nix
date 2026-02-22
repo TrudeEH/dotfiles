@@ -91,11 +91,6 @@
     ];
   };
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
   # Packages
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
@@ -138,7 +133,26 @@
   };
 
   # Set up virtualisation
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+
+    # Enable TPM emulation (for Windows 11)
+    qemu = {
+      swtpm.enable = true;
+    };
+  };
+
+  # Enable USB redirection
+  virtualisation.spiceUSBRedirection.enable = true;
+
+  # Allow VM management
+  users.groups.libvirtd.members = [ "trude" ];
+  users.groups.kvm.members = [ "trude" ];
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 
   # UPS (Green Cell 2000VA)
   power.ups = {

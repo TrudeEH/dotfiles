@@ -31,6 +31,7 @@
     prismlauncher
     protonup-qt
     wayvr
+    unityhub
 
     # Gnome Extensions
     gnomeExtensions.caffeine
@@ -53,8 +54,9 @@
     gnome-sound-recorder
 
     # Virtualisation
-    gnome-boxes # VM management
-    dnsmasq # VM networking
+    gnome-boxes
+    dnsmasq
+    phodav
 
     # AI
     lmstudio
@@ -414,7 +416,7 @@
           "_processor_usage_"
           "_gpu#1_usage_"
           "_memory_usage_"
-          "_swap_usage_"
+          "_memory_swap_usage_"
           "__temperature_max__"
         ];
         icon-style = 1;
