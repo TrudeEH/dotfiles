@@ -17,13 +17,19 @@
     nil
     bat
 
-    vscode
     vesktop
     google-chrome
     localsend
     #stremio
     element-desktop
+
+    # Dev tools / AI
+    vscode
+    antigravity
     opencode-desktop
+    nodejs
+    python3
+    lmstudio
 
     # VR / Games
     bs-manager
@@ -57,9 +63,6 @@
     gnome-boxes
     dnsmasq
     phodav
-
-    # AI
-    lmstudio
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''
