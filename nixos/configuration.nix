@@ -154,6 +154,9 @@
     enable32Bit = true;
   };
 
+  # Noise cancellation
+  programs.noisetorch.enable = true;
+
   # UPS (Green Cell 2000VA)
   power.ups = {
     enable = true;

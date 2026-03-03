@@ -25,7 +25,7 @@
 
     # Dev tools / AI
     vscode
-    antigravity
+    codex
     opencode-desktop
     nodejs
     python3
@@ -205,6 +205,7 @@
       raid = "sudo mdadm --detail /dev/md0";
       unp = "unp -U";
       cat = "bat";
+      lmcodex = "codex --oss -m qwen3-coder-30b-a3b-instruct";
     };
     historySize = 10000;
     historyFileSize = 100000;
@@ -442,6 +443,29 @@
       defaultApplications = {
         "text/x-shellscript" = [ "org.gnome.TextEditor.desktop" ];
       };
+    };
+  };
+
+  systemd.user.services.noisetorch = {
+    Unit = {
+      Description = "NoiseTorch Noise Cancelling";
+      After = [
+        "graphical-session.target"
+        "pipewire.service"
+        "wireplumber.service"
+      ];
+      Wants = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.noisetorch}/bin/noisetorch -i";
+      ExecStop = "${pkgs.noisetorch}/bin/noisetorch -u";
+      RemainAfterExit = true;
+      TimeoutStartSec = "30s";
     };
   };
 
