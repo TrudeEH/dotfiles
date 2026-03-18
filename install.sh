@@ -10,7 +10,7 @@ install_trudeserver() {
 
 build_live_iso() {
   echo 'Building LiveISO...'
-  nix build "./nixos#nixosConfigurations.live.config.system.build.isoImage" --extra-experimental-features nix-command --extra-experimental-features flakes
+  nix build "./nixos#nixosConfigurations.live.config.system.build.isoImage" --extra-experimental-features 'nix-command flakes'
   echo 'LiveISO build complete.'
 }
 
