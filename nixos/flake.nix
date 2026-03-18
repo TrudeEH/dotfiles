@@ -22,6 +22,16 @@
           ];
         };
 
+        live = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          system = "x86_64-linux";
+          modules = [
+            (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
+            ./configuration.nix
+            ./hosts/TrudePC
+          ];
+        };
+
         # Add future machines here following the same pattern:
         # MachineName = nixpkgs.lib.nixosSystem {
         #   specialArgs = { inherit inputs; };

@@ -9,3 +9,6 @@ BrewFile.lock.json
 logs/
 
 openclaw/.npm-global/
+
+result
+result/
