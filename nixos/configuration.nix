@@ -119,92 +119,14 @@
 
   services.tailscale.enable = true;
 
-  # Steam and VR
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-  services.wivrn = {
-    enable = true;
-    openFirewall = true;
-    defaultRuntime = true;
-    autoStart = false;
-  };
-
-  # Set up virtualisation
-  virtualisation.libvirtd = {
-    enable = true;
-
-    # Enable TPM emulation (for Windows 11)
-    qemu = {
-      swtpm.enable = true;
-    };
-  };
-
-  # Enable USB redirection
-  virtualisation.spiceUSBRedirection.enable = true;
-
-  # Allow VM management
-  users.groups.libvirtd.members = [ "trude" ];
-  users.groups.kvm.members = [ "trude" ];
-
   hardware.graphics = {
     enable = true;
-    enable32Bit = true;
   };
 
   # Noise cancellation
   programs.noisetorch.enable = true;
 
-  # UPS (Green Cell 2000VA)
-  power.ups = {
-    enable = true;
-    mode = "standalone";
-    ups.greencell = {
-      driver = "nutdrv_qx";
-      port = "auto";
-      description = "Green Cell UPS 2000VA";
-      directives = [
-        "vendorid = 0001"
-        "productid = 0000"
-      ];
-    };
-    users.upsmon = {
-      passwordFile = "${pkgs.writeText "upsmon-password" "upsmonpass"}";
-      upsmon = "primary";
-      instcmds = [ "ALL" ];
-    };
-    upsmon.monitor.greencell = {
-      user = "upsmon";
-    };
-  };
-
-  # RAM Optimizations (important for AI workloads)
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    # Total "virtual" swap size. 100% of RAM is safe for zRAM.
-    memoryPercent = 100; # Drop to 50% if 64+GB of RAM
-  };
-  services.earlyoom = {
-    enable = true;
-    # Start killing processes when available RAM drops below 10%
-    freeMemThreshold = 10; # Drop to 5% if 64+GB of RAM, increase if on <16GB RAM.
-    # Start killing processes when available swap drops below 10%
-    freeSwapThreshold = 10;
-  };
-  boot.kernel.sysctl = {
-    "vm.swappiness" = 100;
-    "vm.vfs_cache_pressure" = 50;
-    # Helps prevent the system from "stuttering" when it starts swapping
-    "vm.watermark_boost_factor" = 0;
-  };
-
-  # Open ports in the firewall.
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 11434 ]; # LMStudio (must be manually configured)
-  networking.firewall.allowedUDPPorts = [ 6969 ]; # SlimeVR
 
   system.stateVersion = "25.11"; # Don't change after initial installation.
 

@@ -8,6 +8,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ai.url = "path:./flakes/ai";
+    gaming.url = "path:./flakes/gaming";
+    memoryOptimization.url = "path:./flakes/memory-optimizations";
+    ups.url = "path:./flakes/ups";
+    virtualisation.url = "path:./flakes/virtualisation";
   };
 
   outputs =

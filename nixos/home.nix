@@ -23,21 +23,10 @@
     #stremio
     element-desktop
 
-    # Dev tools / AI
+    # Dev tools
     vscode
-    codex
-    opencode-desktop
     nodejs
     python3
-    lmstudio
-
-    # VR / Games
-    bs-manager
-    slimevr
-    prismlauncher
-    protonup-qt
-    wayvr
-    unityhub
 
     # Gnome Extensions
     gnomeExtensions.caffeine
@@ -58,11 +47,6 @@
     wordbook
     textpieces
     gnome-sound-recorder
-
-    # Virtualisation
-    gnome-boxes
-    dnsmasq
-    phodav
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''
@@ -205,7 +189,6 @@
       raid = "sudo mdadm --detail /dev/md0";
       unp = "unp -U";
       cat = "bat";
-      lmcodex = "codex --oss -m qwen3-coder-30b-a3b-instruct";
     };
     historySize = 10000;
     historyFileSize = 100000;

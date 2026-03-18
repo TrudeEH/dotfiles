@@ -1,5 +1,27 @@
 {
   "nodes": {
+    "ai": {
+      "locked": {
+        "path": "./flakes/ai",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/ai",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "gaming": {
+      "locked": {
+        "path": "./flakes/gaming",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/gaming",
+        "type": "path"
+      },
+      "parent": []
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -20,6 +42,17 @@
         "type": "github"
       }
     },
+    "memoryOptimization": {
+      "locked": {
+        "path": "./flakes/memory-optimizations",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/memory-optimizations",
+        "type": "path"
+      },
+      "parent": []
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1772198003,
@@ -38,9 +71,36 @@
     },
     "root": {
       "inputs": {
+        "ai": "ai",
+        "gaming": "gaming",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "memoryOptimization": "memoryOptimization",
+        "nixpkgs": "nixpkgs",
+        "ups": "ups",
+        "virtualisation": "virtualisation"
       }
+    },
+    "ups": {
+      "locked": {
+        "path": "./flakes/ups",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/ups",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "virtualisation": {
+      "locked": {
+        "path": "./flakes/virtualisation",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/virtualisation",
+        "type": "path"
+      },
+      "parent": []
     }
   },
   "root": "root",

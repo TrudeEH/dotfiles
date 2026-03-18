@@ -1,10 +1,12 @@
-{ lib, ... }:
+{ inputs, lib, ... }:
 
 {
+  imports = [
+    inputs.memoryOptimization.nixosModules.low
+  ];
+
   users.users.trude.initialHashedPassword = lib.mkForce "";
-
   services.getty.autologinUser = lib.mkForce "trude";
-
   services.displayManager.autoLogin = {
     enable = true;
     user = "trude";
