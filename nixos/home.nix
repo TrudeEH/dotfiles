@@ -47,6 +47,7 @@
     wordbook
     textpieces
     gnome-sound-recorder
+    eyedropper
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''

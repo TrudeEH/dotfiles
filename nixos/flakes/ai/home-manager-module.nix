@@ -3,8 +3,11 @@
 {
   home.packages = with pkgs; [
     codex
+    gemini-cli
+    antigravity
     opencode-desktop
     lmstudio
+    openclaw
   ];
 
   programs.bash.shellAliases = {
