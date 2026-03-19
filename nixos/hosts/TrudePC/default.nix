@@ -1,14 +1,21 @@
 # TrudePC-specific configuration
-{ inputs, ... }:
+{ ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    inputs.ai.nixosModules.trude
-    inputs.memoryOptimization.nixosModules.medium
-    inputs.ups.nixosModules.default
-    inputs.virtualisation.nixosModules.trude
-    inputs.gaming.nixosModules.trude
+    ../../flakes/ai/nixos-module.nix
+    ../../flakes/memory-optimizations/profiles/medium.nix
+    ../../flakes/ups/nixos-module.nix
+    ../../flakes/virtualisation/nixos-module.nix
+    ../../flakes/gaming/nixos-module.nix
+    {
+      home-manager.users.trude.imports = [
+        ../../flakes/ai/home-manager-module.nix
+        ../../flakes/virtualisation/home-manager-module.nix
+        ../../flakes/gaming/home-manager-module.nix
+      ];
+    }
   ];
 
   # Machine-specific settings

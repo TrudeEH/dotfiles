@@ -1,8 +1,8 @@
-{ inputs, lib, ... }:
+{ lib, ... }:
 
 {
   imports = [
-    inputs.memoryOptimization.nixosModules.low
+    ../../flakes/memory-optimizations/profiles/low.nix
   ];
 
   users.users.trude.initialHashedPassword = lib.mkForce "";
