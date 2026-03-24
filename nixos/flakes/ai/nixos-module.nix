@@ -58,7 +58,7 @@
     serviceConfig = {
       Type = "simple";
       User = "trude";
-      Group = "trude";
+      Group = "users";
       WorkingDirectory = "/home/trude";
       ExecStart = "${pkgs.openclaw}/bin/openclaw gateway run";
       Restart = "on-failure";
