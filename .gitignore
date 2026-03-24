@@ -3,6 +3,7 @@
 .Trash
 BrewFile.lock.json
 .vscode
+.vscode-oss
 
 /nix-shells/macos-vm/
 
