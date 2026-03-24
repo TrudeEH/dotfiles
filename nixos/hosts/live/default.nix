@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../flakes/memory-optimizations/profiles/low.nix
+    ../../flakes/memory-optimizations/low.nix
   ];
 
   users.users.trude.initialHashedPassword = lib.mkForce "";
