@@ -8,12 +8,12 @@
     # VR
     bs-manager
     slimevr
-    protonup-qt
     wayvr
     vrcx
 
     # Avatar Creation
-    alcom
+    p7zip # UnityHub dependency
     unityhub
+    alcom
   ];
 }

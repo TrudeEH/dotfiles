@@ -17,7 +17,6 @@
     nil
     bat
 
-    vesktop
     google-chrome
     localsend
     #stremio
