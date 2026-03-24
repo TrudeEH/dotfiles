@@ -19,8 +19,7 @@ jobs:
           fetch-depth: 0
 
       - name: Gitleaks Scan
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
-          GITLEAKS_ENABLE_SUMMARY: false
+        run: |
+          wget -q https://github.com/gitleaks/gitleaks/releases/download/v8.18.2/gitleaks_8.18.2_linux_x64.tar.gz
+          tar -xzf gitleaks_8.18.2_linux_x64.tar.gz
+          ./gitleaks detect -v
