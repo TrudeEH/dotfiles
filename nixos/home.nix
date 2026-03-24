@@ -433,23 +433,36 @@
   systemd.user.services.noisetorch = {
     Unit = {
       Description = "NoiseTorch Noise Cancelling";
-      After = [
-        "graphical-session.target"
-        "pipewire.service"
-        "wireplumber.service"
-      ];
-      Wants = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
+      After = [ "pipewire.service" "wireplumber.service" ];
+      Wants = [ "pipewire.service" "wireplumber.service" ];
     };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
+
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.noisetorch}/bin/noisetorch -i";
-      ExecStop = "${pkgs.noisetorch}/bin/noisetorch -u";
       RemainAfterExit = true;
       TimeoutStartSec = "30s";
+
+      ExecStart = toString (pkgs.writeShellScript "start-noisetorch" ''
+        set -eu
+
+        # Give PipeWire/WirePlumber a moment to settle
+        sleep 5
+
+        source="$(${pkgs.pulseaudio}/bin/pactl get-default-source)"
+
+        if [ -z "$source" ]; then
+          echo "No default source found" >&2
+          exit 1
+        fi
+
+        exec ${pkgs.noisetorch}/bin/noisetorch -i -s "$source"
+      '');
+
+      ExecStop = "${pkgs.noisetorch}/bin/noisetorch -u";
+    };
+
+    Install = {
+      WantedBy = [ "default.target" ];
     };
   };
 
