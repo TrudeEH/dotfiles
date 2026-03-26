@@ -47,6 +47,7 @@
     textpieces
     gnome-sound-recorder
     eyedropper
+    icon-library
 
     # Scripts
     (pkgs.writeShellScriptBin "colors" ''

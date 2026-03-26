@@ -1,5 +1,56 @@
 {
   "nodes": {
+    "agent-skills-nix": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1774030553,
+        "narHash": "sha256-JV6PFjMEew1Owx4ihhdvhuIJ2Ztlz2nDdypuHH7UMRk=",
+        "owner": "Kyure-A",
+        "repo": "agent-skills-nix",
+        "rev": "bf08d4153f03d6a3c7421332483f1e3d25cd6d4c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Kyure-A",
+        "repo": "agent-skills-nix",
+        "type": "github"
+      }
+    },
+    "anthropics-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774451446,
+        "narHash": "sha256-w//9LB1OVG9jlllY+VDse7Js0dn5x6Ys2vPuQACKsTM=",
+        "owner": "anthropics",
+        "repo": "skills",
+        "rev": "98669c11ca63e9c81c11501e1437e5c47b556621",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
+    "bigboss-claude": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774380353,
+        "narHash": "sha256-1uH4baqC8ZQP2GHmsSg+9I4XF52t3qVUyB4jg6wbye8=",
+        "owner": "0xbigboss",
+        "repo": "claude-code",
+        "rev": "8ac13669ad79b94e6236361ccfd18a3789d7b6df",
+        "type": "github"
+      },
+      "original": {
+        "owner": "0xbigboss",
+        "repo": "claude-code",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "locked": {
         "lastModified": 1733328505,
@@ -38,6 +89,27 @@
     "home-manager": {
       "inputs": {
         "nixpkgs": [
+          "agent-skills-nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773608492,
+        "narHash": "sha256-QZteyExJYSQzgxqdsesDPbQgjctGG7iKV/6ooyQPITk=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "9a40ec3b78fc688d0908485887d355caa5666d18",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "home-manager_2": {
+      "inputs": {
+        "nixpkgs": [
           "nixpkgs"
         ]
       },
@@ -55,17 +127,33 @@
         "type": "github"
       }
     },
-    "nixpkgs": {
+    "lihaoze-skills": {
+      "flake": false,
       "locked": {
-        "lastModified": 1774106199,
-        "narHash": "sha256-US5Tda2sKmjrg2lNHQL3jRQ6p96cgfWh3J1QBliQ8Ws=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "6c9a78c09ff4d6c21d0319114873508a6ec01655",
+        "lastModified": 1772846587,
+        "narHash": "sha256-jKdSnasUZcX1LBYBXu2bM3Cv6F/McgkByxvzwVire8w=",
+        "owner": "lihaoze123",
+        "repo": "my-skills",
+        "rev": "03a65e39a21137a5091738b79d3731ee83bda13a",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "owner": "lihaoze123",
+        "repo": "my-skills",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1773520392,
+        "narHash": "sha256-Ra3l8zI7AYwaCxXcU4An8jAC1hhz/TEleXboJhWaBwY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "f59e980846fe86cd831899cd032fdbd1d6054086",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
@@ -75,7 +163,7 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "nvfetcher": "nvfetcher",
         "systems": "systems",
         "treefmt-nix": "treefmt-nix"
@@ -95,6 +183,22 @@
       }
     },
     "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1774106199,
+        "narHash": "sha256-US5Tda2sKmjrg2lNHQL3jRQ6p96cgfWh3J1QBliQ8Ws=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "6c9a78c09ff4d6c21d0319114873508a6ec01655",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1773821835,
         "narHash": "sha256-TJ3lSQtW0E2JrznGVm8hOQGVpXjJyXY2guAxku2O9A4=",
@@ -142,9 +246,14 @@
     },
     "root": {
       "inputs": {
-        "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs",
-        "nixpkgs-xr": "nixpkgs-xr"
+        "agent-skills-nix": "agent-skills-nix",
+        "anthropics-skills": "anthropics-skills",
+        "bigboss-claude": "bigboss-claude",
+        "home-manager": "home-manager_2",
+        "lihaoze-skills": "lihaoze-skills",
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-xr": "nixpkgs-xr",
+        "vercel-skills": "vercel-skills"
       }
     },
     "systems": {
@@ -180,6 +289,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "vercel-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774290520,
+        "narHash": "sha256-H2ZUOjYbG2I2OBV4J8dil84cAhSh+j9ovJFbT88JVEo=",
+        "owner": "vercel-labs",
+        "repo": "skills",
+        "rev": "5c19f0f1965cafeeadd31528a0a579739bad5be2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vercel-labs",
+        "repo": "skills",
         "type": "github"
       }
     }

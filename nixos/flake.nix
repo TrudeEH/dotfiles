@@ -9,6 +9,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
+
+    agent-skills-nix.url = "github:Kyure-A/agent-skills-nix";
+    anthropics-skills = {
+      url = "github:anthropics/skills";
+      flake = false;
+    };
+    vercel-skills = {
+      url = "github:vercel-labs/skills";
+      flake = false;
+    };
+    bigboss-claude = {
+      url = "github:0xbigboss/claude-code";
+      flake = false;
+    };
+    lihaoze-skills = {
+      url = "github:lihaoze123/my-skills";
+      flake = false;
+    };
   };
 
   outputs =
