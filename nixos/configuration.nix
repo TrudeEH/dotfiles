@@ -96,17 +96,17 @@
   environment.systemPackages = with pkgs; [
     git
   ];
-  system.autoUpgrade = {
-    enable = true;
-    flake = inputs.self.outPath;
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "-L"
-    ];
-    dates = "09:00";
-    randomizedDelaySec = "45min";
-  };
+  # system.autoUpgrade = {
+  #   enable = true;
+  #   flake = inputs.self.outPath;
+  #   flags = [
+  #     "--update-input"
+  #     "nixpkgs"
+  #     "-L"
+  #   ];
+  #   dates = "09:00";
+  #   randomizedDelaySec = "45min";
+  # };
   # Allow running executables
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
@@ -129,5 +129,20 @@
   networking.firewall.enable = true;
 
   system.stateVersion = "25.11"; # Don't change after initial installation.
+
+  # Fonts
+  fonts = {
+    fontconfig = {
+      enable = true;
+      allowBitmaps = true;
+      useEmbeddedBitmaps = true; # Ensures bitmap fonts are used when available
+    };
+    # Install specific bitmap fonts
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+      scientifica
+      cozette
+    ];
+  };
 
 }

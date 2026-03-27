@@ -12,7 +12,6 @@
   home.stateVersion = "25.11"; # Do not change after initial installation.
 
   home.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
     nixfmt
     nil
     bat
@@ -433,8 +432,14 @@
   systemd.user.services.noisetorch = {
     Unit = {
       Description = "NoiseTorch Noise Cancelling";
-      After = [ "pipewire.service" "wireplumber.service" ];
-      Wants = [ "pipewire.service" "wireplumber.service" ];
+      After = [
+        "pipewire.service"
+        "wireplumber.service"
+      ];
+      Wants = [
+        "pipewire.service"
+        "wireplumber.service"
+      ];
     };
 
     Service = {
@@ -442,21 +447,23 @@
       RemainAfterExit = true;
       TimeoutStartSec = "30s";
 
-      ExecStart = toString (pkgs.writeShellScript "start-noisetorch" ''
-        set -eu
+      ExecStart = toString (
+        pkgs.writeShellScript "start-noisetorch" ''
+          set -eu
 
-        # Give PipeWire/WirePlumber a moment to settle
-        sleep 5
+          # Give PipeWire/WirePlumber a moment to settle
+          sleep 5
 
-        source="$(${pkgs.pulseaudio}/bin/pactl get-default-source)"
+          source="$(${pkgs.pulseaudio}/bin/pactl get-default-source)"
 
-        if [ -z "$source" ]; then
-          echo "No default source found" >&2
-          exit 1
-        fi
+          if [ -z "$source" ]; then
+            echo "No default source found" >&2
+            exit 1
+          fi
 
-        exec ${pkgs.noisetorch}/bin/noisetorch -i -s "$source"
-      '');
+          exec ${pkgs.noisetorch}/bin/noisetorch -i -s "$source"
+        ''
+      );
 
       ExecStop = "${pkgs.noisetorch}/bin/noisetorch -u";
     };
