@@ -127,6 +127,8 @@
   programs.noisetorch.enable = true;
 
   networking.firewall.enable = true;
+  networking.firewall.allowedUDPPorts = [ 53317 ]; # localsend
+  networking.firewall.allowedTCPPorts = [ 53317 ]; # localsend
 
   system.stateVersion = "25.11"; # Don't change after initial installation.
 

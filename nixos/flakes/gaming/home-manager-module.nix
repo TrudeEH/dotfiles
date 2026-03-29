@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     # Flatscreen
     prismlauncher
+    hydralauncher
 
     # VR
     bs-manager
