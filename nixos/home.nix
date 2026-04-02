@@ -18,7 +18,35 @@
 
     google-chrome
     localsend
-    #stremio
+    # Stremio
+    (pkgs.stremio-linux-shell.overrideAttrs (old: rec {
+      postPatch = ''
+        substituteInPlace src/config.rs \
+          --replace-fail "@serverjs@" "${placeholder "out"}/share/stremio/server.js"
+
+        for f in \
+          "$cargoDepsCopy"/libappindicator-sys-*/src/lib.rs \
+          "$cargoDepsCopy"/xkbcommon-dl-*/src/lib.rs \
+          "$cargoDepsCopy"/xkbcommon-dl-*/src/x11.rs; do
+          if [ -e "$f" ]; then
+            case "$f" in
+              *libappindicator-sys-*/src/lib.rs)
+                substituteInPlace "$f" \
+                  --replace-fail "libayatana-appindicator3.so.1" "${libayatana-appindicator}/lib/libayatana-appindicator3.so.1"
+                ;;
+              *xkbcommon-dl-*/src/lib.rs)
+                substituteInPlace "$f" \
+                  --replace-fail "libxkbcommon.so.0" "${libxkbcommon}/lib/libxkbcommon.so.0"
+                ;;
+              *xkbcommon-dl-*/src/x11.rs)
+                substituteInPlace "$f" \
+                  --replace-fail "libxkbcommon-x11.so.0" "${libxkbcommon}/lib/libxkbcommon-x11.so.0"
+                ;;
+            esac
+          fi
+        done
+      '';
+    }))
     element-desktop
 
     # Dev tools

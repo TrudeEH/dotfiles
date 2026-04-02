@@ -11,10 +11,5 @@
     slimevr
     wayvr
     vrcx
-
-    # Avatar Creation
-    p7zip # UnityHub dependency
-    unityhub
-    alcom
   ];
 }
