@@ -7,7 +7,6 @@
     dedicatedServer.openFirewall = true;
     extraCompatPackages = [
       inputs.nixpkgs-xr.packages.${pkgs.system}.proton-ge-rtsp-bin
-      inputs.nixpkgs-xr.packages.${pkgs.system}.proton-ge-bin
     ];
   };
 
