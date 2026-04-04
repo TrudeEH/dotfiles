@@ -16,6 +16,7 @@
     nil
     bat
 
+    easyeffects
     google-chrome
     localsend
     # Stremio
@@ -454,50 +455,6 @@
       defaultApplications = {
         "text/x-shellscript" = [ "org.gnome.TextEditor.desktop" ];
       };
-    };
-  };
-
-  systemd.user.services.noisetorch = {
-    Unit = {
-      Description = "NoiseTorch Noise Cancelling";
-      After = [
-        "pipewire.service"
-        "wireplumber.service"
-      ];
-      Wants = [
-        "pipewire.service"
-        "wireplumber.service"
-      ];
-    };
-
-    Service = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      TimeoutStartSec = "30s";
-
-      ExecStart = toString (
-        pkgs.writeShellScript "start-noisetorch" ''
-          set -eu
-
-          # Give PipeWire/WirePlumber a moment to settle
-          sleep 5
-
-          source="$(${pkgs.pulseaudio}/bin/pactl get-default-source)"
-
-          if [ -z "$source" ]; then
-            echo "No default source found" >&2
-            exit 1
-          fi
-
-          exec ${pkgs.noisetorch}/bin/noisetorch -i -s "$source"
-        ''
-      );
-
-      ExecStop = "${pkgs.noisetorch}/bin/noisetorch -u";
-    };
-
-    Install = {
-      WantedBy = [ "default.target" ];
     };
   };
 

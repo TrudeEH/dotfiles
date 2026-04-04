@@ -123,9 +123,6 @@
     enable = true;
   };
 
-  # Noise cancellation
-  programs.noisetorch.enable = true;
-
   networking.firewall.enable = true;
   networking.firewall.allowedUDPPorts = [ 53317 ]; # localsend
   networking.firewall.allowedTCPPorts = [ 53317 ]; # localsend
