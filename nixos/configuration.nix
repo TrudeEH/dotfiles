@@ -43,11 +43,6 @@
     LC_TIME = "pt_PT.UTF-8";
   };
 
-  # Enable Wayland
-  services.xserver.enable = true;
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-
   # Keymap
   services.xserver.xkb = {
     layout = "us";

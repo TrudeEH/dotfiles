@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    gnome-boxes
+    virt-manager
     dnsmasq
     phodav
   ];

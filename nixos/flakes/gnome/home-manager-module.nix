@@ -1,0 +1,211 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+{
+  home.packages = with pkgs; [
+    gnomeExtensions.caffeine
+    gnomeExtensions.vitals
+    gnomeExtensions.appindicator
+
+    file-roller
+    commit
+    binary
+    resources
+    raider
+    gnome-podcasts
+    gnome-obfuscate
+    collision
+    switcheroo
+    wordbook
+    textpieces
+    gnome-sound-recorder
+    eyedropper
+    icon-library
+  ];
+
+  home.sessionVariables = {
+    EDITOR = "gnome-text-editor";
+  };
+
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/background" = {
+        color-shading-type = "solid";
+        picture-options = "zoom";
+        picture-uri = "file://${config.home.homeDirectory}/dotfiles/wallpapers/bg.png";
+        picture-uri-dark = "file://${config.home.homeDirectory}/dotfiles/wallpapers/dragon.png";
+        primary-color = "#000000";
+        secondary-color = "#000000";
+      };
+      "org/gnome/desktop/input-sources" = {
+        show-all-sources = true;
+        sources = [
+          (lib.hm.gvariant.mkTuple [
+            "xkb"
+            "us+altgr-intl"
+          ])
+        ];
+        xkb-options = [ "terminate:ctrl_alt_bksp" ];
+      };
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        cursor-size = 22;
+        cursor-theme = "Adwaita";
+        enable-hot-corners = false;
+        font-name = "Adwaita Sans 11";
+        gtk-theme = "Adwaita";
+        document-font-name = "Adwaita Sans 11";
+        icon-theme = "Adwaita";
+        monospace-font-name = "JetBrainsMono NF 13";
+        clock-format = "12h";
+        accent-color = "teal";
+        show-battery-percentage = true;
+      };
+      "org/gnome/desktop/screensaver" = {
+        color-shading-type = "solid";
+        picture-options = "zoom";
+        picture-uri = "file://${config.home.homeDirectory}/dotfiles/wallpapers/bg.png";
+        primary-color = "#000000";
+        secondary-color = "#000000";
+      };
+      "org/gnome/desktop/wm/preferences" = {
+        button-layout = ":minimize,close";
+        resize-with-right-button = true;
+      };
+      "org/gnome/mutter" = {
+        edge-tiling = true;
+        dynamic-workspaces = true;
+      };
+      "org/gnome/shell" = {
+        disable-user-extensions = false;
+        disabled-extensions = [
+          "tiling-assistant@ubuntu.com"
+          "ubuntu-dock@ubuntu.com"
+          "ding@rastersoft.com"
+        ];
+        enabled-extensions = [
+          "blur-my-shell@aunetx"
+          "gsconnect@andyholmes.github.io"
+          "appindicatorsupport@rgcjonas.gmail.com"
+          "caffeine@patapon.info"
+          "Vitals@CoreCoding.com"
+        ];
+      };
+      "org/gnome/shell/extensions/dash-to-dock" = {
+        dash-max-icon-size = 32;
+        dock-fixed = false;
+        dock-position = "BOTTOM";
+        extend-height = false;
+      };
+      "org/gnome/shell/extensions/ding" = {
+        check-x11wayland = true;
+        icon-size = "small";
+        show-home = false;
+      };
+      "org/gnome/shell/world-clocks" = {
+        locations = [ ];
+      };
+      "org/gnome/Console" = {
+        use-system-font = false;
+        custom-font = "JetBrainsMono Nerd Font 10";
+      };
+      "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
+        background-color = "rgb(29,29,29)";
+        cell-width-scale = 1.0;
+        font = "JetBrainsMono NF 10";
+        foreground-color = "rgb(208,207,204)";
+        palette = [
+          "rgb(36,31,49)"
+          "rgb(192,28,40)"
+          "rgb(46,194,126)"
+          "rgb(245,194,17)"
+          "rgb(30,120,228)"
+          "rgb(152,65,187)"
+          "rgb(10,185,220)"
+          "rgb(192,191,188)"
+          "rgb(94,92,100)"
+          "rgb(237,51,59)"
+          "rgb(87,227,137)"
+          "rgb(248,228,92)"
+          "rgb(81,161,255)"
+          "rgb(192,97,203)"
+          "rgb(79,210,253)"
+          "rgb(246,245,244)"
+        ];
+        use-system-font = false;
+        use-theme-colors = false;
+      };
+      "org/gnome/Ptyxis" = {
+        cursor-shape = "block";
+        default-profile-uuid = "e2f22120c44e38d269767ed967d0430c";
+        font-name = "JetBrainsMono Nerd Font 10";
+        profile-uuids = [ "e2f22120c44e38d269767ed967d0430c" ];
+        use-system-font = false;
+      };
+      "org/gnome/Ptyxis/Profiles/e2f22120c44e38d269767ed967d0430c" = {
+        bold-is-bright = false;
+        label = "Trude";
+        palette = "Vs Code";
+      };
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        mic-mute = [ "<Super>F9" ];
+        next = [ "<Super>F8" ];
+        play = [ "<Super>F7" ];
+        previous = [ "<Super>F6" ];
+        volume-down = [ "<Super>F10" ];
+        volume-mute = [ "<Super>F11" ];
+        volume-up = [ "<Super>F12" ];
+      };
+      "org/gnome/settings-daemon/plugins/color" = {
+        night-light-enabled = true;
+        night-light-temperature = 2700;
+      };
+      "org/gnome/TextEditor" = {
+        highlight-current-line = true;
+        show-map = true;
+      };
+      "org/gnome/desktop/sound" = {
+        event-sounds = true;
+      };
+      "org/gnome/epiphany" = {
+        use-google-search-suggestions = true;
+        default-search-engine = "Google";
+      };
+      "org/gnome/epiphany/web" = {
+        show-developer-actions = true;
+        remember-passwords = false;
+      };
+      "org/gnome/shell/extensions/vitals" = {
+        fixed-widths = false;
+        hot-sensors = [
+          "_processor_usage_"
+          "_gpu#1_usage_"
+          "_memory_usage_"
+          "_memory_swap_usage_"
+          "__temperature_max__"
+        ];
+        icon-style = 1;
+        menu-centered = false;
+        position-in-panel = 0;
+        show-battery = false;
+        show-gpu = true;
+        show-system = true;
+        use-higher-precision = false;
+      };
+    };
+  };
+
+  xdg.mimeApps = {
+    associations.added = {
+      "text/x-shellscript" = [ "org.gnome.TextEditor.desktop" ];
+    };
+    defaultApplications = {
+      "text/x-shellscript" = [ "org.gnome.TextEditor.desktop" ];
+    };
+  };
+}
