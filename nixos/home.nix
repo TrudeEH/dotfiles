@@ -17,6 +17,7 @@
     easyeffects
     google-chrome
     localsend
+    nextcloud-client
     # Stremio
     (pkgs.stremio-linux-shell.overrideAttrs (old: rec {
       postPatch = ''
@@ -128,7 +129,8 @@
       user = {
         email = "ehtrude@gmail.com";
         name = "TrudeEH";
-        # signingKey will be provided by SSH agent (KeePassXC)
+        # Public key corresponding to the SSH key exposed through the agent.
+        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAHbrKen3nEQGRJidjGwLUDCo+dLGaKIaLzS/RTZDjPZ trude";
       };
       gpg.format = "ssh";
       gpg.ssh.defaultKeyCommand = "ssh-add -L";

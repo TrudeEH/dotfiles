@@ -33,6 +33,14 @@
 
   home.sessionVariables = {
     EDITOR = "kate";
+    # GNOME gets an SSH agent from gcr. Plasma needs an explicit one.
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
+  };
+
+  services.ssh-agent.enable = true;
+
+  systemd.user.sessionVariables = {
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
   };
 
   xdg.mimeApps = {
