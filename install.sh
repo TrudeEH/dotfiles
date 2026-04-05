@@ -2,27 +2,33 @@
 
 set -euo pipefail
 
-install_trudeserver() {
-  echo 'Installing TrudeServer Config...'
-  sudo nixos-rebuild switch --flake "${FLAKE_PATH}#${TRUDESERVER_TARGET}"
-  echo 'TrudeServer config restored.'
+SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FLAKE_PATH="${SCRIPT_DIR}/nixos"
+
+install_host() {
+  local host_name="$1"
+
+  printf 'Installing %s config...\n' "${host_name}"
+  sudo nixos-rebuild switch --flake "${FLAKE_PATH}#${host_name}"
+  printf '%s config restored.\n' "${host_name}"
 }
 
 build_live_iso() {
-  echo 'Building LiveISO...'
-  nix build "./nixos#nixosConfigurations.live.config.system.build.isoImage" --extra-experimental-features 'nix-command flakes'
-  echo 'LiveISO build complete.'
+  printf 'Building LiveISO...\n'
+  nix build "${FLAKE_PATH}#nixosConfigurations.live.config.system.build.isoImage" \
+    --extra-experimental-features 'nix-command flakes'
+  printf 'LiveISO build complete.\n'
 }
 
 show_main_menu() {
-  local options=("TrudeServer" "LiveISO" "Quit")
+  local options=("TrudePC" "TrudeLaptop" "LiveISO" "Quit")
 
   printf 'Select an installation target:\n'
   PS3='Choice: '
   select option in "${options[@]}"; do
     case "${option}" in
-      TrudeServer)
-        install_trudeserver
+      TrudePC|TrudeLaptop)
+        install_host "${option}"
         break
         ;;
       LiveISO)
@@ -34,7 +40,7 @@ show_main_menu() {
         exit 0
         ;;
       *)
-        printf 'Invalid selection. Please choose 1, 2, or 3.\n'
+        printf 'Invalid selection. Please choose 1, 2, 3, or 4.\n'
         ;;
     esac
   done

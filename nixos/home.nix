@@ -105,14 +105,14 @@
       #! /bin/bash
 
       set -e
-      GRAY='\e[90m'
       ORANGE='\e[38;5;214m'
       RESET='\e[0m'
+      host_name="$(hostnamectl --static 2>/dev/null || hostname)"
 
       pushd ~/dotfiles > /dev/null
       git diff -U0 *.nix
-      echo -e "''${ORANGE}NixOS Rebuilding...''${RESET}"
-      if ! sudo nixos-rebuild switch --flake ./nixos#TrudePC; then
+      echo -e "''${ORANGE}NixOS Rebuilding ''${host_name}...''${RESET}"
+      if ! sudo nixos-rebuild switch --flake "./nixos#''${host_name}"; then
         exit 1
       fi
       echo

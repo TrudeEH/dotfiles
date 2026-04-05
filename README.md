@@ -11,10 +11,7 @@ These repository can be used as a base for your own dotfiles.
 
 The 'main' branch is my current configuration, while others serve as an archive of previous setups.
 
-To install my current configuration, run:
-```sh
-sudo nixos-rebuild switch --flake ./nixos#TrudePC
-```
+To install my current configuration, run `install.sh`.
 
 Update NixOS:
 ```sh
