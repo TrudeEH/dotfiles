@@ -179,6 +179,17 @@
     };
   };
 
+  programs.ghostty = {
+    enable = true;
+    enableBashIntegration = true;
+    installBatSyntax = true;
+    settings = {
+      theme = "Adventure";
+      font-family = "JetBrainsMono Nerd Font";
+      font-size = 12;
+    };
+  };
+
   programs.bash = {
     enable = true;
     shellAliases = {
