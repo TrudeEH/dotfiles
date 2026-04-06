@@ -121,6 +121,7 @@
       source = ../vencord/trude.theme.css;
       force = true;
     };
+    ".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
   };
 
   programs.git = {
