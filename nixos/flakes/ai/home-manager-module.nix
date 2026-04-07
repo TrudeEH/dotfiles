@@ -64,9 +64,8 @@
     codex
     gemini-cli
     antigravity
-    opencode-desktop
     lmstudio
-    openclaw
+    # openclaw
   ];
 
   home.file.".config/opencode/config.json".text = builtins.toJSON {
