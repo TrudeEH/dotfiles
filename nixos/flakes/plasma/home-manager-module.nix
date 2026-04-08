@@ -15,7 +15,6 @@
     kdePackages.kcalc
     kdePackages.kasts
     kdePackages.kcolorchooser
-    kdePackages.kdeconnect-kde
     kdePackages.okular
     kdePackages.partitionmanager
     kdePackages.plasma-browser-integration

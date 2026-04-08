@@ -16,7 +16,6 @@
 
     easyeffects
     google-chrome
-    localsend
     nextcloud-client
     # Stremio
     (pkgs.stremio-linux-shell.overrideAttrs (old: rec {
@@ -172,10 +171,10 @@
         Enabled = true;
       };
       Security = {
-        LockDatabaseIdle = false;
-        LockDatabaseIdleSeconds = 0;
-        LockDatabaseMinimize = false;
-        LockDatabaseScreenLock = false;
+        LockDatabaseIdle = true;
+        LockDatabaseIdleSeconds = 300;
+        LockDatabaseMinimize = true;
+        LockDatabaseScreenLock = true;
       };
     };
   };

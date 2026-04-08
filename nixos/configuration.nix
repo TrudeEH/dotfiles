@@ -14,10 +14,26 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  nix.settings.trusted-users = [
-    "root"
-    "trude"
-  ];
+  nix.settings = {
+    trusted-users = [ "root" ];
+    allowed-users = [ "@wheel" ];
+    sandbox = true;
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
+  boot.kernel.sysctl = {
+    "fs.protected_fifos" = 2;
+    "fs.protected_hardlinks" = 1;
+    "fs.protected_regular" = 2;
+    "fs.protected_symlinks" = 1;
+    "kernel.dmesg_restrict" = 1;
+    "kernel.kptr_restrict" = 2;
+  };
+
+  security.sudo.execWheelOnly = true;
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -49,9 +65,6 @@
     variant = "altgr-intl";
     options = "terminate:ctrl_alt_bksp";
   };
-
-  # Enable CUPS to print documents
-  services.printing.enable = true;
 
   # Enable sound with pipewire
   services.pulseaudio.enable = false;
@@ -107,11 +120,6 @@
   programs.nix-ld.libraries = with pkgs; [
     # Add missing dynamic libraries for unpackaged executables here.
   ];
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
   services.tailscale.enable = true;
 
   hardware.graphics = {
@@ -119,8 +127,6 @@
   };
 
   networking.firewall.enable = true;
-  networking.firewall.allowedUDPPorts = [ 53317 ]; # localsend
-  networking.firewall.allowedTCPPorts = [ 53317 ]; # localsend
 
   system.stateVersion = "25.11"; # Don't change after initial installation.
 
