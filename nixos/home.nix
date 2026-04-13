@@ -17,6 +17,9 @@
     easyeffects
     google-chrome
     nextcloud-client
+    qbittorrent
+    rpi-imager
+    vencord
     # Stremio
     (pkgs.stremio-linux-shell.overrideAttrs (old: rec {
       postPatch = ''
@@ -110,8 +113,6 @@
   ];
 
   home.file = {
-    "Templates/markdown.md".text = "";
-    "Templates/text.txt".text = "";
     ".config/vesktop/settings/settings.json" = {
       source = ../vencord/settings.json;
       force = true;

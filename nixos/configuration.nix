@@ -24,16 +24,9 @@
     ];
   };
 
-  boot.kernel.sysctl = {
-    "fs.protected_fifos" = 2;
-    "fs.protected_hardlinks" = 1;
-    "fs.protected_regular" = 2;
-    "fs.protected_symlinks" = 1;
-    "kernel.dmesg_restrict" = 1;
-    "kernel.kptr_restrict" = 2;
-  };
-
   security.sudo.execWheelOnly = true;
+
+  hardware.bluetooth.enable = true;
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -100,6 +93,28 @@
   };
 
   # Packages
+  nixpkgs.overlays = [
+    (_final: prev: {
+      rpi-imager = prev.rpi-imager.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [
+          (builtins.toFile "rpi-imager-fix-material-import.patch" ''
+            diff --git a/src/wizard/WritingStep.qml b/src/wizard/WritingStep.qml
+            index ad729ce..8ebf942 100644
+            --- a/src/wizard/WritingStep.qml
+            +++ b/src/wizard/WritingStep.qml
+            @@ -5,6 +5,7 @@
+             
+             import QtQuick
+             import QtQuick.Controls
+            +import QtQuick.Controls.Material
+             import QtQuick.Layouts
+             import "../qmlcomponents"
+          '')
+        ];
+      });
+    })
+  ];
+
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     git
