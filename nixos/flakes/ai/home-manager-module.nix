@@ -45,25 +45,12 @@
     targets = {
       claude.enable = true;
       codex.enable = true;
-      opencode = {
-        enable = true;
-        dest = "$HOME/.opencode/skills";
-      };
-      gemini-cli = {
-        enable = true;
-        dest = "$HOME/.gemini-cli/skills";
-      };
-      antigravity = {
-        enable = true;
-        dest = "$HOME/.gemini/antigravity/skills";
-      };
     };
   };
 
   home.packages = with pkgs; [
     codex
     gemini-cli
-    antigravity
     lmstudio
     # openclaw
   ];

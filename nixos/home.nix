@@ -18,7 +18,6 @@
     google-chrome
     nextcloud-client
     qbittorrent
-    rpi-imager
     vencord
     # Stremio
     (pkgs.stremio-linux-shell.overrideAttrs (old: rec {
@@ -172,9 +171,9 @@
         Enabled = true;
       };
       Security = {
-        LockDatabaseIdle = true;
+        LockDatabaseIdle = false;
         LockDatabaseIdleSeconds = 300;
-        LockDatabaseMinimize = true;
+        LockDatabaseMinimize = false;
         LockDatabaseScreenLock = true;
       };
     };
