@@ -187,33 +187,113 @@
       theme = "Adventure";
       font-family = "JetBrainsMono Nerd Font";
       font-size = 12;
+      term = "ghostty";
     };
   };
 
   programs.bash = {
     enable = true;
+    enableCompletion = true;
+
     shellAliases = {
       l = "ls -alh";
       ls = "ls --color=auto";
       grep = "grep --color=auto";
       ll = "ls -lhi";
+      la = "ls -A";
+      lt = "ls --tree";
       ta = "tmux attach";
       t = "tmux";
       v = "nvim";
       raid = "sudo mdadm --detail /dev/md0";
       unp = "unp -U";
       cat = "bat";
+      df = "df -h";
+      du = "du -h";
+      free = "free -h";
+      ip = "ip -color=auto";
+      diff = "diff --color=auto";
+      mkdir = "mkdir -pv";
     };
-    historySize = 10000;
-    historyFileSize = 100000;
+
+    historySize = 50000;
+    historyFileSize = 200000;
+
+    historyControl = [
+      "ignoredups"
+      "erasedups"
+    ];
+    historyIgnore = [
+      "ls"
+      "ll"
+      "la"
+      "l"
+      "cd"
+      "pwd"
+      "exit"
+      "clear"
+      "history"
+    ];
+
+    # Prefer this over repeating shopt lines manually.
+    shellOptions = [
+      "histappend"
+      "checkwinsize"
+      "extglob"
+      "globstar"
+      "cdspell"
+      "dirspell"
+      "autocd"
+      "cmdhist"
+      "checkjobs"
+      "no_empty_cmd_completion"
+    ];
+
+    # Useful in many terminal emulators so cwd tracking works properly.
+    enableVteIntegration = true;
+
     initExtra = ''
-      shopt -s histappend
-      shopt -s checkwinsize
-      shopt -s extglob
-      set completion-ignore-case On
-      export PS1="\n[\[\e[37m\]\u\[\e[0m\]@\[\e[37;2m\]\h\[\e[0m\]] \[\e[1m\]\w \[\e[0;2m\]J:\[\e[0m\]\j\n\$ "
+      # Readline / completion niceties
+      bind 'set show-all-if-ambiguous on'
+      bind 'set completion-ignore-case on'
+      bind 'set completion-map-case on'
+      bind 'set mark-symlinked-directories on'
+      bind 'TAB:menu-complete'
+      bind '"\e[Z": menu-complete-backward'
+
+      # Better history search with arrow keys
+      bind '"\e[A": history-search-backward'
+      bind '"\e[B": history-search-forward'
+
+      # Append and reload history across multiple shells
+      PROMPT_COMMAND='history -a; history -n; '"$PROMPT_COMMAND"
+
+      # Less behavior
+      export LESS='-FRiMX'
+      export MANPAGER='less -R'
+
+      # Prefer bat for paging if present
+      export BAT_PAGER="less -FR"
+
+      # Prompt with exit code on failure and job count
+      __bash_prompt() {
+        local ec=$?
+        local reset='\[\e[0m\]'
+        local bold='\[\e[1m\]'
+        local dim='\[\e[2m\]'
+        local white='\[\e[37m\]'
+        local red='\[\e[31m\]'
+        local blue='\[\e[34m\]'
+
+        local status=""
+        if [ "$ec" -ne 0 ]; then
+          status=" ''${red}x:$ec''${reset}"
+        fi
+
+        PS1="\n[''${white}\u''${reset}@''${dim}\h''${reset}] ''${bold}''${blue}\w''${reset}''${status} ''${dim}J:''${reset}\j\n\\$ "
+      }
+      PROMPT_COMMAND="__bash_prompt; $PROMPT_COMMAND"
     '';
-    enableCompletion = true;
   };
 
   programs.tmux = {
