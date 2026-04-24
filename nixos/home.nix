@@ -13,12 +13,15 @@
     nixfmt
     nil
     bat
+    procps # Provides vmrss (process memory usage) and other devtools.
 
     easyeffects
-    google-chrome
+    brave
     nextcloud-client
     qbittorrent
     vencord
+    onlyoffice-desktopeditors
+    planify
     # Stremio
     (pkgs.stremio-linux-shell.overrideAttrs (old: rec {
       postPatch = ''
