@@ -94,7 +94,10 @@
 
   # Packages
   nixpkgs.overlays = [
-    (_final: prev: {
+    (final: prev: {
+      trude = final.callPackage ./pkgs/trude { };
+      universal-stickers = final.trude.universalStickers;
+
       rpi-imager = prev.rpi-imager.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [
           (builtins.toFile "rpi-imager-fix-material-import.patch" ''

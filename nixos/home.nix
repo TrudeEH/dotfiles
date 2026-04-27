@@ -13,12 +13,12 @@
     nixfmt
     nil
     bat
-    procps # Provides vmrss (process memory usage) and other devtools.
 
     easyeffects
     brave
     nextcloud-client
     qbittorrent
+    trude.universalStickers
     vencord
     onlyoffice-desktopeditors
     planify
