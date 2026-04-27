@@ -15,6 +15,7 @@
     bat
 
     easyeffects
+    keepassxc
     brave
     nextcloud-client
     qbittorrent
@@ -159,25 +160,6 @@
         hostname = "100.109.38.42"; # Tailscale IP
         user = "trude";
         port = 6022;
-      };
-    };
-  };
-
-  programs.keepassxc = {
-    enable = true;
-    settings = {
-      Browser = {
-        Enabled = true;
-        UpdateBinaryPath = false; # Prevent conflicts with home-manager managed manifest
-      };
-      SSHAgent = {
-        Enabled = true;
-      };
-      Security = {
-        LockDatabaseIdle = false;
-        LockDatabaseIdleSeconds = 300;
-        LockDatabaseMinimize = false;
-        LockDatabaseScreenLock = true;
       };
     };
   };
