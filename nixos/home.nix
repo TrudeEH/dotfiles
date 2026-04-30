@@ -55,7 +55,7 @@
     element-desktop
 
     # Dev tools
-    vscode
+    zed-editor
     nodejs
     python3
 
